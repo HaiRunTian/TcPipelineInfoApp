@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grey07"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@mipmap/login_bg"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_margin="10dp"
+                >
+
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        style="@style/TextViewStyle02"
+                        android:text="@string/account_name"/>
+
+                    <EditText
+                        android:id="@+id/edtAccountName"
+                        android:background="@null"
+                        style="@style/EdtStyle02_disable"
+                        android:theme="@style/CustomEdittext02"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        style="@style/TextViewStyle02"
+                        android:text="@string/account_phone"/>
+
+                    <EditText
+                        android:id="@+id/edtAccountPhone"
+                        android:background="@null"
+                        style="@style/EdtStyle02_disable"
+                        android:digits="0123456789"
+                        android:theme="@style/CustomEdittext02"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        style="@style/TextViewStyle02"
+                        android:text="@string/account_company"/>
+
+                    <EditText
+                        android:id="@+id/edtCompany"
+                        android:background="@null"
+                        style="@style/EdtStyle02_disable"
+                        android:theme="@style/CustomEdittext02"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        style="@style/TextViewStyle02"
+                        android:text="@string/account_department"/>
+
+                    <EditText
+                        android:id="@+id/edtDepartment"
+                        style="@style/EdtStyle02_disable"
+                        android:background="@null"
+                        android:theme="@style/CustomEdittext02"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        style="@style/TextViewStyle02"
+                        android:text="@string/account_work_group"/>
+
+                    <EditText
+                        android:id="@+id/edtWorkGroup"
+                        android:background="@null"
+                        style="@style/EdtStyle02_disable"
+                        android:theme="@style/CustomEdittext02"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_margin="10dp"
+                >
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical"
+                    >
+                    <TextView
+                        android:layout_weight="1"
+                        style="@style/TextViewStyle02"
+                        android:text="关于我们"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:padding="5dp"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        android:layout_weight="1"
+                        style="@style/TextViewStyle02"
+                        android:text="退出账号"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/ic_map_tv_right_nor_32px"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

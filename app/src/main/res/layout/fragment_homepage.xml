@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:autoStart="true"
+        android:background="@android:color/white"
+        android:flipInterval="3000"
+        android:inAnimation="@anim/push_up_in"
+        android:outAnimation="@anim/push_up_out" />
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:image_scale_type="center_inside"
+        app:indicator_drawable_selected="@drawable/shape_banner_itme_press"
+        app:indicator_drawable_unselected="@drawable/shape_banner_itme_nor"
+        app:indicator_margin="5dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_gradient_bg2"
+        android:padding="2dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnPrjList"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/ic_prjlist2_72px"
+                        android:text="@string/prj_list_1" />
+
+                    <Button
+                        android:id="@+id/btnSetting"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/ic_setting1_72px"
+                        android:text="@string/setting" />
+
+                    <Button
+                        android:id="@+id/btnNewSymbolic"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/symbolic_72"
+                        android:text="@string/new_symbolic" />
+
+
+                    <Button
+                        android:id="@+id/btnBasics"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/ic_setting2__72px"
+                        android:text="@string/new_base" />
+
+                    <Button
+                        android:id="@+id/btnAbout"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/ic_about_72px"
+                        android:text="@string/about" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btnHelp"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/help_72"
+                        android:text="@string/new_help" />
+                    <Button
+                       android:visibility="invisible"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/help_72"
+                        android:text="@string/new_help" />
+                    <Button
+                        android:visibility="invisible"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/help_72"
+                        android:text="@string/new_help" />
+                    <Button
+                        android:visibility="invisible"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/help_72"
+                        android:text="@string/new_help" />
+                    <Button
+                        android:visibility="invisible"
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/help_72"
+                        android:text="@string/new_help" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</LinearLayout>

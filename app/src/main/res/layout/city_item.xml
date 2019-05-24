@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:background="@drawable/symbolic_item"
+    >
+    <RelativeLayout
+        android:id="@+id/tv_city"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/symbolic"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv"
+            android:layout_marginLeft="15dp"
+            android:text="标准配置"
+            android:textSize="@dimen/big_p3"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/lift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@mipmap/ic_map_tv_right"
+            />
+        <TextView
+            android:id="@+id/okImg"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/undone"
+            android:layout_toLeftOf="@+id/lift"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/unImg"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/ok"
+            android:layout_toLeftOf="@+id/lift"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

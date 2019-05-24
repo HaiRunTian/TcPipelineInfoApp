@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cities">
+        <item>广州</item>
+        <item>深圳</item>
+        <item>惠州</item>
+    </string-array>
+
+    <string-array name="layers">
+        <item>图层1</item>
+        <item>图层2</item>
+        <item>图层3</item>
+        <item>图层4</item>
+        <item>选择图层</item>
+    </string-array>
+
+    <string-array name="ownershipUnit">
+        <item>电信</item>
+        <item>移动</item>
+        <item>联通</item>
+        <item>有线电视</item>
+        <item>珠江数码</item>
+        <item>网通</item>
+        <item>铁通</item>
+        <item>盈通</item>
+        <item>长城宽带</item>
+        <item>公安监控</item>
+        <item>公安交通</item>
+        <item>电力通信</item>
+        <item>军用</item>
+        <item>航空</item>
+        <item>合建</item>
+    </string-array>
+
+    <string-array name="funtionlists">
+        <item>地图</item>
+        <item>新建工程</item>
+        <item>工程列表</item>
+        <item>设置</item>
+        <item>关于软件</item>
+    </string-array>
+
+    <string-array name="ownershipUnit_rq_mq">
+        <item>广州市燃气公司</item>
+        <item>蓝天航油</item>
+        <item>番禺煤气</item>
+        <item>华润燃气</item>
+        <item>大鹏燃气</item>
+        <item>港华燃气</item>
+        <item>新奥燃气</item>
+    </string-array>
+
+    <!--井盖材质-->
+    <string-array name="wellLidTexture">
+        <item>铸铁</item>
+        <item>砼</item>
+        <item>塑料</item>
+    </string-array>
+    <!--管类-->
+    <string-array name="pipeType">
+        <item>给水-J</item>
+        <item>污水-W</item>
+        <item>雨水-Y</item>
+        <item>排水-P</item>
+        <item>煤气-M</item>
+        <item>燃气-R</item>
+        <item>电力-L</item>
+        <item>路灯-S</item>
+        <item>电信-D</item>
+        <item>有视-T</item>
+        <item>军队-B</item>
+        <item>交通-X</item>
+        <item>工业-G</item>
+        <item>不明-N</item>
+        <item>其它-Q</item>
+        <item>选择管类</item>
+    </string-array>
+
+    <!--管类-->
+    <string-array name="pipeTypeModel">
+        <item>给水-J</item>
+        <item>污水-W</item>
+        <item>雨水-Y</item>
+        <item>排水-P</item>
+        <item>煤气-M</item>
+        <item>燃气-R</item>
+        <item>电力-L</item>
+        <item>路灯-S</item>
+        <item>电信-D</item>
+        <item>有视-T</item>
+        <item>军队-B</item>
+        <item>交通-X</item>
+        <item>工业-G</item>
+        <item>不明-N</item>
+        <item>其它-Q</item>
+    </string-array>
+
+
+
+    <!--管线材料-给水-->
+    <string-array name="lineTexture_js">
+        <item>钢</item>
+        <item>砼</item>
+        <item>铸铁</item>
+        <item>塑料</item>
+        <item></item>
+    </string-array>
+
+    <!--管线材料-污水雨水-->
+    <string-array name="lineTexture_ws_ys">
+        <item>钢</item>
+        <item>砼</item>
+        <item>铸铁</item>
+        <item>塑料</item>
+        <item>陶瓷</item>
+        <item>玻璃钢</item>
+    </string-array>
+
+    <!--管线材料-排水-->
+    <string-array name="lineTexture_ps">
+        <item>钢</item>
+        <item>砼</item>
+        <item>铸铁</item>
+        <item>塑料</item>
+        <item>陶瓷</item>
+    </string-array>
+
+    <!--管线材料-煤气燃气-->
+    <string-array name="lineTexture_mq_rq">
+        <item>钢</item>
+        <item>塑料</item>
+    </string-array>
+
+    <!--管线材料-路灯电力-->
+    <string-array name="lineTexture_ld_dl">
+        <item>铜</item>
+        <item>铝</item>
+        <item>空管</item>
+        <item>空沟</item>
+    </string-array>
+
+    <!--管线材料-电信有视军队交通-->
+    <string-array name="lineTexture_dx_ys_jd_jt">
+        <item>光纤</item>
+        <item>铜/光</item>
+        <item>铜</item>
+        <item>空管</item>
+        <item>空沟</item>
+    </string-array>
+
+    <!--管线材料-工业-->
+    <string-array name="lineTexture_gy">
+        <item>钢</item>
+        <item>砼</item>
+        <item>塑料</item>
+    </string-array>
+
+    <!--管线材料-默认-->
+    <string-array name="lineTexture_default">
+        <item>钢</item>
+    </string-array>
+
+    <!--电力-->
+    <string-array name="voltage">
+        <item>0.22</item>
+        <item>0.38</item>
+        <item>10</item>
+        <item>110</item>
+        <item>220</item>
+        <item>3</item>
+        <item>6</item>
+        <item>35</item>
+        <item>60</item>
+        <item>330</item>
+        <item></item>
+    </string-array>
+
+    <!--管径标准-->
+    <string-array name="pipesizeStandard">
+        <item>32</item>
+        <item>45</item>
+        <item>57</item>
+        <item>76</item>
+        <item>89</item>
+        <item>108</item>
+        <item>133</item>
+        <item>159</item>
+        <item>219</item>
+        <item>273</item>
+        <item>325</item>
+        <item>426</item>
+        <item>529</item>
+        <item>630</item>
+    </string-array>
+    <!--压力-->
+    <string-array name="pressure">
+        <item>低压</item>
+        <item>中压</item>
+        <item>次高压</item>
+        <item>高压</item>
+        <item></item>
+    </string-array>
+
+    <!--点状况-->
+    <string-array name="situation">
+        <item>T-正常</item>
+        <item>S-满水</item>
+        <item>S-满泥</item>
+        <item>Y-信号不良</item>
+        <item>Z-推测</item>
+        <item>X-井埋</item>
+        <item>X-打不开</item>
+    </string-array>
+
+    <!--状态-->
+    <string-array name="state">
+        <item>新测</item>
+        <item>旧管</item>
+        <item>接旧管</item>
+        <item>拆除</item>
+        <item>废弃</item>
+        <item>新建</item>
+        <item>修正</item>
+        <item>删除</item>
+    </string-array>
+
+    <!--埋设方式-->
+    <string-array name="embeddedway">
+        <!--默认管埋-->
+        <item>管埋</item>
+        <item>直埋</item>
+        <item>架空</item>
+        <!--决定宽X高，其他是管径-->
+        <item>管块</item>
+        <item>方沟</item>
+    </string-array>
+
+    <!--特征点-->
+    <string-array name="featurePoints">
+        <item>一般管线点</item>
+        <item>预留口</item>
+        <item>井边点</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-默认-->
+    <string-array name="featurePoints_default">
+        <item>弯头</item>
+        <item>三通</item>
+        <item>四通</item>
+        <item>五通</item>
+        <item>变径</item>
+        <item>变坡</item>
+        <item>变深</item>
+        <item>变材</item>
+        <item>出地</item>
+        <item>入户</item>
+        <item>直线点</item>
+        <item>终止点</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-给水-->
+    <string-array name="featurePoints_js">
+        <item>弯头</item>
+        <item>三通</item>
+        <item>四通</item>
+        <item>五通</item>
+        <item>变径</item>
+        <item>出地</item>
+        <item>变坡</item>
+        <item>变深</item>
+        <item>变材</item>
+        <item>入户</item>
+        <item>直线点</item>
+        <item>终止点</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-雨水，污水，排水-->
+    <string-array name="featurePoints_ys_ws_ps">
+        <item>三通</item>
+        <item>四通</item>
+        <item>五通</item>
+        <item>六通</item>
+        <item>七通</item>
+        <item>八通</item>
+        <item>九通</item>
+        <item>十通</item>
+        <item>变坡</item>
+        <item>入户</item>
+        <item>户出</item>
+        <item>起始点</item>
+        <item>直线点</item>
+        <item>转折点</item>
+        <item>进水口</item>
+        <item>出水口</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-煤气，燃气-->
+    <string-array name="featurePoints_mq_rq">
+        <item>弯头</item>
+        <item>三通</item>
+        <item>四通</item>
+        <item>五通</item>
+        <item>变径</item>
+        <item>变坡</item>
+        <item>变深</item>
+        <item>变材</item>
+        <item>出地</item>
+        <item>入户</item>
+        <item>直线点</item>
+        <item>终止点</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-电力 路灯-->
+    <string-array name="featurePoints_dl">
+        <item>弯头</item>
+        <item>变深</item>
+        <item>变坡</item>
+        <item>出地</item>
+        <item>上杆</item>
+        <item>入户</item>
+        <item>直线点</item>
+        <item>分支点</item>
+        <item>终止点</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-电信，有视，军队，交通 -->
+    <string-array name="featurePoints_dx_ys_jd_jt">
+        <item>弯头</item>
+        <item>变深</item>
+        <item>变坡</item>
+        <item>出地</item>
+        <item>上杆</item>
+        <item>入户</item>
+        <item>直线点</item>
+        <item>分支点</item>
+        <item>终止点</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--特征点列表-工业-->
+    <string-array name="featurePoints_gy">
+        <item>弯头</item>
+        <item>三通</item>
+        <item>四通</item>
+        <item>五通</item>
+        <item>变径</item>
+        <item>变坡</item>
+        <item>变深</item>
+        <item>变材</item>
+        <item>出地</item>
+        <item>入户</item>
+        <item>直线点</item>
+        <item>终止点</item>
+        <item>预留口</item>
+        <item>出测区</item>
+        <item></item>
+    </string-array>
+
+    <!--附属物列表-默认-->
+    <string-array name="appendant_default">
+        <item>探测点</item>
+        <item>窨井</item>
+    </string-array>
+
+    <!--附属物列表-给水-->
+    <string-array name="appendant_js">
+        <item>探测点</item>
+        <item>水表</item>
+        <item>阀门</item>
+        <item>窨井</item>
+        <item>阀门井</item>
+        <item>消防栓</item>
+        <item>放水口</item>
+    </string-array>
+
+    <!--附属物列表-污水-->
+    <string-array name="appendant_ws">
+        <item>探测点</item>
+        <item>窨井</item>
+        <item>检查井</item>
+        <item>沉沙井</item>
+        <item>接户井</item>
+        <item>污水篦</item>
+        <item>化粪池</item>
+        <item>立管点</item>
+    </string-array>
+
+    <!--附属物列表-雨水，排水-->
+    <string-array name="appendant_ys_ps">
+        <item>探测点</item>
+        <item>窨井</item>
+        <item>检查井</item>
+        <item>沉沙井</item>
+        <item>接户井</item>
+        <item>雨水篦</item>
+        <item>污水篦</item>
+        <item>化粪池</item>
+        <item>立管点</item>
+    </string-array>
+
+    <!--附属物列表-煤气，燃气-->
+    <string-array name="appendant_mq_rq">
+        <item>探测点</item>
+        <item>窨井</item>
+        <item>阀门</item>
+        <item>阀门井</item>
+        <item>凝水缸</item>
+        <item>调压箱</item>
+    </string-array>
+
+    <!--附属物列表-路灯-->
+    <string-array name="appendant_ld">
+        <item>探测点</item>
+        <item>电杆</item>
+        <item>人孔井</item>
+        <item>手孔井</item>
+        <item>路灯杆</item>
+        <item>水泥杆</item>
+        <item>铁塔</item>
+        <item>地灯</item>
+    </string-array>
+
+    <!--附属物列表-电力-->
+    <string-array name="appendant_dl">
+        <item>探测点</item>
+        <item>电杆</item>
+        <item>窨井</item>
+        <item>接线箱</item>
+        <item>变电箱</item>
+        <item>路灯杆</item>
+        <item>水泥杆</item>
+        <item>铁塔</item>
+    </string-array>
+
+    <!--附属物列表-电信-->
+    <string-array name="appendant_dx">
+        <item>探测点</item>
+        <item>电杆</item>
+        <item>人孔井</item>
+        <item>手孔井</item>
+        <item>接线箱</item>
+        <item>电话亭</item>
+        <item>摄像头</item>
+        <item>红绿灯</item>
+        <item>信号灯</item>
+        <item>水泥杆</item>
+        <item>铁塔</item>
+    </string-array>
+
+    <!--附属物列表-有视，军队，交通-->
+    <string-array name="appendant_ys_jd_jt">
+        <item>探测点</item>
+        <item>电杆</item>
+        <item>人孔井</item>
+        <item>手孔井</item>
+        <item>接线箱</item>
+        <item>摄像头</item>
+        <item>红绿灯</item>
+        <item>信号灯</item>
+        <item>水泥杆</item>
+        <item>铁塔</item>
+    </string-array>
+
+    <!--附属物列表-工业-->
+    <string-array name="appendant_gy">
+        <item>探测点</item>
+        <item>窨井</item>
+        <item>阀门</item>
+        <item>阀门井</item>
+        <item>凝水缸</item>
+        <item>调压箱</item>
+        <item>水泥杆</item>
+        <item>铁塔</item>
+    </string-array>
+
+    <!--管点备注表-默认-->
+    <string-array name="pipepoint_default">
+        <item>变径</item>
+        <item>出露</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表-给水-->
+    <string-array name="pipepoint_remark_js">
+        <item>变径</item>
+        <item>出露</item>
+        <item>井埋</item>
+        <item>偏心井</item>
+        <item>地物井</item>
+        <item>打不开</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表-污水，雨水-->
+    <string-array name="pipepoint_remark_ws_ys">
+        <item>变径</item>
+        <item>井埋</item>
+        <item>打不开</item>
+        <item>偏心井</item>
+        <item>地物井</item>
+        <item>井内逆差</item>
+        <item>大管流小管</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表，煤气，燃气-->
+    <string-array name="pipepoint_remark_mq_rq">
+        <item>变径</item>
+        <item>出露</item>
+        <item>井埋</item>
+        <item>偏心井</item>
+        <item>地物井</item>
+        <item>打不开</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表，路灯-->
+    <string-array name="pipepoint_remark_ld">
+        <item>出露</item>
+        <item>井埋</item>
+        <item>打不开</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表，电力-->
+    <string-array name="pipepoint_remark_dl">
+        <item>变径</item>
+        <item>出露</item>
+        <item>井埋</item>
+        <item>打不开</item>
+        <item>顶管</item>
+        <item>偏心井</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表，电信，有视，军队，交通-->
+    <string-array name="pipepoint_remark_dx_ys_jd_jt">
+        <item>变径</item>
+        <item>出露</item>
+        <item>井埋</item>
+        <item>打不开</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点备注表，工业-->
+    <string-array name="pipepoint_remark_gy">
+        <item>变径</item>
+        <item>出露</item>
+        <item>井埋</item>
+        <item>偏心井</item>
+        <item>地物井</item>
+        <item>打不开</item>
+        <item>顶管</item>
+        <item></item>
+    </string-array>
+
+    <!--管线备注表-默认-->
+    <string-array name="pipeline_remark_default">
+        <item>废管</item>
+        <item></item>
+    </string-array>
+
+    <!--管线备注表-给水-->
+    <string-array name="pipeline_remark_js">
+        <item>废管</item>
+        <item></item>
+    </string-array>
+
+    <!--管线备注表-污水雨水排水-->
+    <string-array name="pipeline_remark_ws_ys_ps">
+        <item>明沟</item>
+        <item>废管</item>
+        <item>排水逆差</item>
+        <item></item>
+    </string-array>
+
+    <!--管线备注表-煤气燃气-->
+    <string-array name="pipeline_remark_mq_rq">
+        <item>废管</item>
+        <item></item>
+    </string-array>
+
+    <!--管线备注表-路灯电力电信有视军队-->
+    <string-array name="pipeline_remark_ld_dx_ys_jd">
+        <item>架空</item>
+        <item>废管</item>
+        <item></item>
+    </string-array>
+
+    <!--管线备注表-工业-->
+    <string-array name="pipeline_remark_gy">
+        <item>废管</item>
+        <item></item>
+    </string-array>
+
+    <!--管点位数-->
+    <string-array name="seriNum">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <!--物探点号编码格式-->
+    <string-array name="exp_num_type">
+        <item>组号+管类代码+流水号</item>
+        <item>管类代码+组号+流水号</item>
+        <item>管类代码+流水号+组号</item>
+    </string-array>
+
+
+</resources>

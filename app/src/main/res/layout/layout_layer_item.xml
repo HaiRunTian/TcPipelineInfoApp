@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/linearLayersItem"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvLayersItemText"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="@dimen/big"
+        android:textColor="@color/black01"
+        android:layout_margin="5dp"
+        android:text="图层"/>
+    <CheckBox
+        android:id="@+id/cbLayersItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:clickable="false"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

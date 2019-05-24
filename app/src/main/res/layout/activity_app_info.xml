@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        style="@style/DefaultTitleBarStyle">
+
+        <LinearLayout
+            android:id="@+id/linearReturn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvReturn"
+                style="@style/TitleBarLeftIconStyle"
+                android:background="@mipmap/ic_arrow_left_32x54"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/TitleBarTextStyle"
+                android:layout_marginLeft="5dp"
+                android:text="@string/about"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layoutLogo"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="80dp"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/imgvLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/ic_pipe_logo"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAppName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/big"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/app_name"/>
+
+                <TextView
+                    android:id="@+id/tvVersionName"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:padding="1dp"
+                    android:layout_marginLeft="2dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toRightOf="@id/tvAppName"
+                    android:background="@drawable/shape_rectangle_light_black"
+                    android:text="@string/version_num"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_date"
+                    android:textSize="@dimen/small"/>
+                <TextView
+                    android:id="@+id/tvLastUpdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="2018-06-22 16:16:32"
+                    android:textColor="@color/black02"
+                    android:textSize="@dimen/small"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"
+            android:layout_below="@id/layoutLogo"/>
+
+        <TextView
+            android:id="@+id/tvGetUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/small"
+            android:textColor="@color/green03"
+            android:text="获取最新"
+            android:background="@drawable/selector_btn_exchange"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="版权所有：广州市天驰测绘技术有限公司"
+                android:textColor="@color/black02"
+                android:textSize="@dimen/small"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="开发单位：广州市天驰测绘技术有限公司"
+                android:textColor="@color/black02"
+                android:textSize="@dimen/small"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/point_size"/>
+
+        <include layout="@layout/layout_seperate_line_h"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+
+            android:background="@drawable/selector_btn_sub"
+            android:id="@+id/btnsub"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            />
+
+        <EditText
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:id="@+id/edtPointSize"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:background="@drawable/selector_btn_add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/btnAdd"/>
+    </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="确定"
+        android:id="@+id/btnconfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

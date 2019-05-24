@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants"
+              android:layout_marginRight="5dp"
+              android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_add_3"/>
+
+        <TextView
+            android:textSize="@dimen/tiny"
+            android:text="照片名字"
+            android:layout_below="@+id/imageView1"
+            android:id="@+id/tvPicName"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+    </RelativeLayout>
+    
+</LinearLayout>

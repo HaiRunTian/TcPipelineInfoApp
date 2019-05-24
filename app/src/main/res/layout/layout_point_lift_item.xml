@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    >
+    <TextView
+        android:id="@+id/pointLift"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:text="广州"
+        android:textSize="@dimen/big_p2"
+        />
+    <TextView
+        android:id="@+id/okImg"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ok"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/unImg"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/undone"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        />
+ </RelativeLayout>

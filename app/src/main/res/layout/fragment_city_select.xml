@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layoutCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/city"/>
+
+        <Spinner
+            android:id="@+id/spCity"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_btn_shadow_bg"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/grey05"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/custom"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnAddCity"
+        style="@style/ButtonStyle02"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@mipmap/ic_add2_32px"
+        android:drawablePadding="2dp"
+        android:padding="5dp"
+        android:text="@string/add_city"/>
+
+    <Button
+        android:id="@+id/btnDeleteCity"
+        style="@style/ButtonStyle02"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@mipmap/ic_delete2_32px"
+        android:drawablePadding="2dp"
+        android:padding="5dp"
+        android:text="@string/delete_city"/>
+
+    <LinearLayout
+        android:id="@+id/layoutPipeTypeConfig"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/grey05"
+            android:layout_marginBottom="10dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/pipe_type_config"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearCenterVertical"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                style="@style/TextViewStyle02"
+                android:text="@string/city"/>
+
+            <EditText
+                android:id="@+id/edtCityName"
+                style="@style/EdtStyle02"
+                android:hint="@string/city_name_hint"/>
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextViewStyle02"
+            android:text="@string/pipe_type"/>
+
+        <LinearLayout
+            style="@style/LinearCenterVertical"
+            android:layout_marginTop="5dp">
+            <EditText
+                android:id="@+id/edtPipeTypes"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="@string/pipe_type_hint"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearCenterVertical"
+            android:gravity="right|center_vertical">
+            <Button
+                android:id="@+id/btnSubmit"
+                style="@style/ButtonStyle02"
+                android:padding="5dp"
+                android:drawableLeft="@mipmap/ic_submit2_32px"
+                android:layout_marginRight="5dp"
+                android:text="@string/submit"/>
+            <Button
+                android:id="@+id/btnSelectPipeTypes"
+                style="@style/ButtonStyle02"
+                android:layout_margin="5dp"
+                android:text="@string/pipe_type_select"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <!--<RadioGroup-->
+    <!--android:id="@+id/radioGroup"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:orientation="horizontal">-->
+    <!--<RadioButton-->
+    <!--android:id="@+id/rdbtnGuangZhou"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:checked="true"-->
+    <!--android:text="广州"/>-->
+    <!--<RadioButton-->
+    <!--android:id="@+id/rdbtnHuiZhou"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="惠州"/>-->
+
+    <!--</RadioGroup>-->
+
+</LinearLayout>

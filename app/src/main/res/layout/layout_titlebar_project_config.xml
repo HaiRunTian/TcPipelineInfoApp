@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultTitleBarStyle">
+
+    <TextView
+        android:id="@+id/tvReturn"
+        style="@style/TitleBarLeftIconStyle"
+        android:text="返回"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:drawableLeft="@mipmap/ic_arrow_left_32x54" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/TitleBarTextStyle"
+        android:layout_centerInParent="true"
+        android:text="@string/config_titlebar_text" />
+
+    <TextView
+        android:id="@+id/tvConfig"
+        style="@style/TitleBarRightTextStyle"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:text="@string/config"
+        android:textColor="@drawable/selector_text_color__submit"
+        android:visibility="gone" />
+</RelativeLayout>

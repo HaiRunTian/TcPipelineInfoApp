@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+               android:orientation="vertical">
+
+
+
+    <include
+        android:id="@+id/layout1"
+        layout="@layout/layout_titlebar_project_basemap" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical">
+        <TextView
+            android:gravity="center_vertical"
+            android:drawableLeft="@mipmap/ic_btn_return_press_32px"
+            android:id="@+id/tvTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="/SD"
+            android:padding="10dp"
+            android:textSize="@dimen/small"
+            android:background="@color/grey06"/>
+
+
+
+    </RelativeLayout>
+
+
+    <include layout="@layout/layout_seperate_line_h"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </ListView>
+
+
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            style="@style/fragment_btn_style"
+            android:text="返回"
+            android:id="@+id/btnReturn2"
+            android:visibility="gone"/>
+
+        <Button
+            style="@style/fragment_btn_style"
+            android:text="解压"
+            android:id="@+id/btnUnZip"
+
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 第一层  上部和左部偏移一定距离-->
+    <item
+        android:top="2dp">
+        <shape android:shape="oval" >
+            <solid android:color="@color/grey05" />
+            <size android:width="5dp" android:height="5dp"/>
+        </shape>
+    </item>
+    <!-- 第二层 下部和右部偏移一定距离-->
+    <item
+        android:bottom="2dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/white" />
+            <size android:width="5dp" android:height="5dp"/>
+        </shape>
+    </item>
+</layer-list>

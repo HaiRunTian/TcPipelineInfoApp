@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_titlebar_pipe_table"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/account_name"/>
+
+                <EditText
+                    android:id="@+id/edtAccountName"
+                    style="@style/EdtStyle02_disable"
+                    android:theme="@style/CustomEdittext02"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/account_sex"/>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioSexMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:enabled="false"
+                        android:checked="true"
+                        android:text="@string/male"/>
+
+                    <RadioButton
+                        android:id="@+id/radioSexFeMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:text="@string/female"/>
+
+                    <RadioButton
+                        android:id="@+id/radioSexUnknow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:text="@string/unknow"/>
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/account_phone"/>
+
+                <EditText
+                    android:id="@+id/edtAccountPhone"
+                    style="@style/EdtStyle02_disable"
+                    android:digits="0123456789"
+                    android:theme="@style/CustomEdittext02"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/account_company"/>
+
+                <EditText
+                    android:id="@+id/edtCompany"
+                    style="@style/EdtStyle02_disable"
+                    android:theme="@style/CustomEdittext02"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/account_department"/>
+
+                <EditText
+                    android:id="@+id/edtDepartment"
+                    style="@style/EdtStyle02_disable"
+                    android:theme="@style/CustomEdittext02"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/account_work_group"/>
+
+                <EditText
+                    android:id="@+id/edtWorkGroup"
+                    style="@style/EdtStyle02_disable"
+                    android:theme="@style/CustomEdittext02"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

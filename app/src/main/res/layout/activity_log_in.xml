@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/login_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_weight="5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/imgvLogo"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_pipe_logo" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_centerInParent="true">
+        <EditText
+            android:id="@+id/edtLogInId"
+            style="@style/EdtStyle01"
+            android:background="@drawable/login"
+            android:padding="10dp"
+            android:drawableLeft="@mipmap/ic_user"
+            android:drawablePadding="10dp"
+            android:hint="@string/loginid_hint"
+            android:theme="@style/CustomEdittext"/>
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_below="@id/edtLogInId"
+            android:background="@drawable/login"
+            android:padding="10dp"
+            android:hint="@string/password_hint"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@mipmap/ic_password"
+            android:layout_marginTop="20dp"
+            style="@style/EdtStyle01"
+            android:inputType="textPassword"
+            android:theme="@style/CustomEdittext"/>
+
+        <LinearLayout
+            android:id="@+id/layoutRememberPas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_below="@id/edtPassword"
+            android:layout_marginTop="10dp">
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <CheckBox
+                android:id="@+id/cbRememberPassword"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/selector_checkbox_1"
+                android:button="@null"
+                android:layout_below="@id/edtPassword"/>
+
+            <TextView
+                android:id="@+id/tvRememberPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white01"
+                android:textSize="@dimen/text"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/cbRememberPassword"
+                android:layout_below="@id/edtPassword"
+                android:text="记住密码"/>
+
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/layoutRememberPas"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvLogIn"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:gravity="center"
+                android:text="@string/login"
+                android:textSize="@dimen/big"
+                android:textColor="@drawable/selector_text_color_1"
+                android:background="@drawable/login"
+                />
+
+            <TextView
+                android:id="@+id/tvReset"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/reset"
+                android:textSize="@dimen/big"
+                android:layout_alignParentRight="true"
+                android:textColor="@drawable/selector_text_color_2"
+                android:background="@mipmap/ic_btn_reset_bg"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <!--<View-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"/>-->
+</LinearLayout>

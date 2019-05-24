@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_titlebar_pipe_table" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <!--属性外层-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!--自动编号-->
+            <!--<LinearLayout-->
+            <!--style="@style/LinearCenterVertical">-->
+
+            <!--<TextView-->
+            <!--style="@style/TextViewStyle02"-->
+            <!--android:text="@string/id"/>-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/edtId"-->
+            <!--style="@style/EdtStyl e02"-->
+            <!--android:theme="@style/CustomEdittext02"/>-->
+            <!--</LinearLayout>-->
+
+            <!--物探点号-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:drawableRight="@mipmap/ic_must_fill_16"
+                    android:text="@string/gpid"/>
+
+                <EditText
+                    android:id="@+id/edtGpId"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+                <Spinner
+                    android:id="@+id/spSituation"
+                    style="@style/sp_style"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+
+            <!--点特征，附属物-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <!--平分左侧-->
+                <LinearLayout style="@style/LinearWidthWeight1">
+
+                    <TextView
+                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvFeaturePoints"
+                        style="@style/TextViewStyle02_3"
+                        android:text="@string/feature_points" />
+
+                    <Spinner
+                        android:id="@+id/spFeaturePoints"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <!--平分右侧-->
+                <LinearLayout style="@style/LinearWidthWeight1">
+
+                    <TextView
+                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        style="@style/TextViewStyle02"
+                        android:text="@string/appendant" />
+
+                    <Spinner
+                        android:id="@+id/spAppendant"
+                        style="@style/sp_style"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--android:visibility="gone"-->
+            <!--与附属物关联的属性列表-->
+            <LinearLayout
+                android:id="@+id/linearAppendantPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/shape_gradient_bg2"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <!--窨井规格，深度-->
+                <LinearLayout style="@style/LinearCenterVertical">
+
+                    <LinearLayout style="@style/LinearWidthWeight1">
+
+                        <TextView
+                            android:id="@+id/tvWellSize"
+                            style="@style/TextViewStyle02"
+                            android:text="@string/well_size" />
+
+                        <EditText
+
+                            android:id="@+id/edtWellSize"
+                            style="@style/EdtStyle02"
+                            android:inputType="numberSigned"
+                            android:theme="@style/CustomEdittext02" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/LinearWidthWeight1">
+
+                        <TextView
+                            style="@style/TextViewStyle02"
+                            android:text="@string/well_depth" />
+
+                        <EditText
+                            android:id="@+id/edtWellDepth"
+                            style="@style/EdtStyle02"
+                            android:inputType="numberDecimal"
+                            android:theme="@style/CustomEdittext02" />
+
+                        <TextView
+                            android:id="@+id/tvUnitWellDepth"
+                            style="@style/TextViewStyle02_2"
+                            android:text="@string/unit_cm" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--水深，淤泥-->
+                <LinearLayout style="@style/LinearCenterVertical">
+                    <!--平分左侧-->
+                    <LinearLayout style="@style/LinearWidthWeight1">
+
+                        <TextView
+                            android:id="@+id/tvWellWater"
+                            style="@style/TextViewStyle02"
+                            android:text="@string/well_water" />
+
+                        <EditText
+
+                            android:id="@+id/edtWellWater"
+                            style="@style/EdtStyle02"
+                            android:inputType="numberDecimal"
+                            android:theme="@style/CustomEdittext02" />
+
+                        <TextView
+                            android:id="@+id/tvUnitWellWater"
+                            style="@style/TextViewStyle02_2"
+                            android:text="@string/unit_cm" />
+                    </LinearLayout>
+
+                    <!--平分右侧-->
+                    <LinearLayout style="@style/LinearWidthWeight1">
+
+                        <TextView
+                            style="@style/TextViewStyle02"
+                            android:text="@string/well_mud" />
+
+                        <EditText
+
+                            android:id="@+id/edtWellMud"
+                            style="@style/EdtStyle02"
+                            android:inputType="numberDecimal"
+                            android:theme="@style/CustomEdittext02" />
+
+                        <TextView
+                            android:id="@+id/tvUnitWellMud"
+                            style="@style/TextViewStyle02_2"
+                            android:text="@string/unit_cm" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--井盖材质，规格-->
+                <LinearLayout style="@style/LinearCenterVertical">
+                    <!--平分左侧-->
+                    <LinearLayout style="@style/LinearWidthWeight1">
+
+                        <TextView
+                            android:id="@+id/tvWellLidTexture"
+                            style="@style/TextViewStyle02"
+                            android:text="@string/well_lid_texture" />
+
+                        <Spinner
+                            android:id="@+id/spWellLidTexture"
+                            style="@style/sp_style"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:entries="@array/wellLidTexture" />
+                    </LinearLayout>
+                    <!--平分右侧-->
+                    <LinearLayout
+                        style="@style/LinearWidthWeight1"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/TextViewStyle02"
+                            android:text="@string/well_lid_size" />
+
+                        <EditText
+
+                            android:id="@+id/edtWellLidSize"
+                            style="@style/EdtStyle02"
+                            android:inputType="numberSigned"
+                            android:theme="@style/CustomEdittext02" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--状态，高程-->
+            <LinearLayout style="@style/LinearCenterVertical">
+                <!--平分左侧-->
+                <LinearLayout style="@style/LinearWidthWeight1">
+
+                    <TextView
+                        android:id="@+id/tvState"
+                        style="@style/TextViewStyle02_3"
+                        android:text="@string/point_state" />
+
+                    <Spinner
+                        android:id="@+id/spState"
+                        style="@style/sp_style"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+                <!--平分右侧-->
+                <LinearLayout style="@style/LinearWidthWeight1">
+
+                    <TextView
+                        style="@style/TextViewStyle02"
+                        android:text="@string/elevation" />
+
+                    <EditText
+
+                        android:id="@+id/edtElevation"
+                        style="@style/EdtStyle02"
+                        android:inputType="numberDecimal"
+                        android:theme="@style/CustomEdittext02" />
+
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/small"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="3dp"
+                        android:text="@string/unit_m" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--起点方向埋深-->
+            <LinearLayout
+                android:id="@+id/layoutStartDirDepth"
+                style="@style/LinearCenterVertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/start_dir_depth" />
+
+                <EditText
+                    android:id="@+id/edtStartDirDepth"
+                    style="@style/EdtStyle02"
+                    android:hint="@string/start_dir_depth_hint"
+                    android:theme="@style/CustomEdittext02" />
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/unit_cm" />
+            </LinearLayout>
+
+            <!--终点方向埋深-->
+            <LinearLayout
+                android:id="@+id/layoutEndDirDepth"
+                style="@style/LinearCenterVertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/end_dir_depth" />
+
+                <EditText
+                    android:id="@+id/edtEndDirDepth"
+                    style="@style/EdtStyle02"
+                    android:hint="@string/end_dir_depth_hint"
+                    android:theme="@style/CustomEdittext02" />
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/unit_cm" />
+            </LinearLayout>
+
+            <!--深度-->
+            <LinearLayout
+                style="@style/LinearCenterVertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/depth" />
+
+                <EditText
+
+                    android:id="@+id/edtDepth"
+                    style="@style/EdtStyle02"
+                    android:inputType="numberDecimal"
+                    android:theme="@style/CustomEdittext02" />
+
+                <TextView
+                    style="@style/TextViewStyle02"
+                    android:text="@string/unit_cm" />
+            </LinearLayout>
+
+            <!--管偏-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:text="@string/offset" />
+
+                <EditText
+                    android:id="@+id/edtOffset"
+                    style="@style/EdtStyle02"
+                    android:inputType="numberDecimal"
+                    android:theme="@style/CustomEdittext02" />
+            </LinearLayout>
+
+
+            <!--建构筑物-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:text="@string/building_structures" />
+
+                <EditText
+                    android:id="@+id/edtBuildingStructures"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+            </LinearLayout>
+
+            <!--道路名称-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:text="@string/road_name" />
+
+                <EditText
+
+                    android:id="@+id/edtRoadName"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+            </LinearLayout>
+
+            <!--管点备注-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:text="@string/point_remark" />
+
+                <LinearLayout
+                    android:id="@+id/layoutPointMark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_btn_shadow_bg"
+                    android:padding="5dp">
+
+                    <EditText
+
+                        android:id="@+id/edtPointRemark"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:theme="@style/CustomEdittext02" />
+
+                    <ImageView
+                        android:id="@+id/imgvPointRemark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_down" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--疑难问题-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:text="@string/puzzle" />
+
+                <EditText
+                    android:id="@+id/edtPuzzle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:theme="@style/CustomEdittext02" />
+            </LinearLayout>
+
+            <include layout="@layout/layout_takepic" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/layout_seperate_line_h" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnPreviousOne"
+            style="@style/fragment_btn_style"
+            android:text="@string/previous_one" />
+
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/btnMove"
+            style="@style/fragment_btn_style"
+            android:text="@string/move" />
+
+        <Button
+            android:id="@+id/btnRemove"
+            style="@style/fragment_btn_style"
+            android:text="@string/save" />
+    </LinearLayout>
+
+</LinearLayout>

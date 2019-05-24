@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--spiner箭头样式-->
+    <style name="SpinerStyle">
+        <!--设置为白色-->
+        <item name="android:colorControlNormal">@color/white</item>
+    </style>
+
+</resources>

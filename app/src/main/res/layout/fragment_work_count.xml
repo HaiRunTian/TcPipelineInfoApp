@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:text="@string/work_count" />
+
+        <include layout="@layout/layout_seperate_line_h" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="当天工作量：" />
+
+        <TextView
+            android:id="@+id/tvDate2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tvDate"
+            android:drawableRight="@drawable/selector_tv_right"
+            android:gravity="end"
+            android:textColor="@color/text1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/tvDate2"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:alpha="0.5"
+            android:background="@color/grey01" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:gravity="center"
+        android:id="@+id/layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2">
+
+        <TextView
+            android:id="@+id/tvPointCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="管点: " />
+
+        <TextView
+            android:id="@+id/tvPointSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPointCount"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvGe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPointSum"
+            android:text=" 个" />
+
+        <TextView
+            android:id="@+id/tvPipeLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/tvGe"
+            android:text="管线: " />
+
+        <TextView
+            android:id="@+id/tvPipeSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPipeLength"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPipeSum"
+            android:text=" 米" />
+
+        <TextView
+            android:id="@+id/tvEmptyLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/tvM"
+            android:text="架空: " />
+
+        <TextView
+            android:id="@+id/tvEmptySum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvEmptyLength"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvEmptyM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvEmptySum"
+            android:text=" 米" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout3"
+        android:layout_marginLeft="5dp"
+        android:text="总工作量" />
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCount"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvAllPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="管点: " />
+
+        <TextView
+            android:id="@+id/tvPointSum2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvAllPoint"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvGe2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPointSum2"
+            android:text=" 个" />
+
+        <TextView
+            android:id="@+id/tvAllPipeLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/tvGe2"
+            android:text="管线: " />
+
+        <TextView
+            android:id="@+id/tvPipeSum2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvAllPipeLength"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvM2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPipeSum2"
+            android:text=" 米" />
+
+        <TextView
+            android:id="@+id/tvAllEmptyLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/tvM2"
+            android:text="架空: " />
+
+        <TextView
+            android:id="@+id/tvAllEmptySum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvAllEmptyLength"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvAllEmptyM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvAllEmptySum"
+            android:text=" 米" />
+    </RelativeLayout>
+</RelativeLayout>

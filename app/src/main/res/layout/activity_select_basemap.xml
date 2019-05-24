@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <include
+        android:id="@+id/layout1"
+        layout="@layout/layout_titlebar_project_basemap" />
+
+    <TextView
+        android:id="@+id/tvTitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:background="@color/grey06"
+        android:drawableLeft="@mipmap/ic_btn_return_press_32px"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="/SD" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitle2"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btnReturn"
+        style="@style/activity_btn_style"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/selector_btn_all"
+        android:text="返回" />
+
+
+</RelativeLayout>

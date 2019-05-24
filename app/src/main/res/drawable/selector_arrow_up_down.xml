@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/ic_arrow_down_32px" android:state_activated="false"></item>
+    <item android:drawable="@mipmap/ic_arrow_down_32px" ></item>
+    <item android:drawable="@mipmap/ic_arrow_up_32px" android:state_activated="true"></item>
+</selector>

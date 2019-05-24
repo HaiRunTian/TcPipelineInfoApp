@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    android:layout_marginLeft="10dp">
+
+    <TextView
+        android:id="@+id/tvGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="组号设置："/>
+
+    <EditText
+        android:id="@+id/edtGroup"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/tvGroup"
+        android:gravity="center"/>
+    <TextView
+        android:layout_below="@+id/edtGroup"
+        android:text="组号位置："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvGroupLocal"/>
+
+    <RadioGroup
+        android:layout_marginLeft="50dp"
+        android:layout_below="@+id/tvGroupLocal"
+        android:id="@+id/rgbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbtn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在管类代码前"/>
+
+        <RadioButton
+            android:id="@+id/rbtn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在管类代码后"/>
+
+        <RadioButton
+            android:id="@+id/rbtn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="在最后"/>
+        <RadioButton
+            android:id="@+id/rbtn4"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_below="@+id/rgbtn"
+        android:text="管点位数："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvPipeNum"/>
+
+    <EditText
+        android:gravity="center"
+        android:layout_toRightOf="@+id/tvPipeNum"
+        android:layout_below="@+id/rgbtn"
+        android:id="@+id/edtPipeNum"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:textColor="@color/grey01"
+        android:layout_toRightOf="@+id/tvPipeNum"
+        android:layout_below="@+id/edtPipeNum"
+        android:id="@+id/tvSample"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="111111111"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_below="@+id/tvSample"
+        android:id="@+id/tvPipeLength"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="管线长度："/>
+
+
+    <EditText
+
+        android:inputType="number"
+        android:layout_marginTop="0dp"
+        android:layout_below="@id/tvSample"
+        android:id="@+id/edtPipeLength"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/tvPipeLength"
+        android:gravity="center"/>
+    <TextView
+        android:gravity="center"
+        android:layout_toRightOf="@id/edtPipeLength"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/tvSample"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="m"/>
+
+    <Button
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tvPipeLength"
+        android:id="@+id/btnSubmit2"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/shape_btn_shadow_bg"
+        android:text="确定"/>
+
+</RelativeLayout>

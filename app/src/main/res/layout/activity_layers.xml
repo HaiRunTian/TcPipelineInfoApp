@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <RelativeLayout
+        style="@style/DefaultTitleBarStyle">
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TitleBarTextStyle"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="2dp"
+            android:text="@string/layers_title"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/lvLayers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/LinearCenterVertical"
+        android:layout_marginTop="5dp">
+        <Button
+            android:id="@+id/btnSelectAll"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/select_not"
+            style="@style/ButtonStyle01"/>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btnDesSelect"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/desselect"
+            style="@style/ButtonStyle01"/>
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/confirm"
+            style="@style/ButtonStyle01"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/btnCancel"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginBottom="3dp"-->
+            <!--android:text="@string/cancel"-->
+            <!--style="@style/ButtonStyle01"/>-->
+    </LinearLayout>
+
+</LinearLayout>

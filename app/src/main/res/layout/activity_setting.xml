@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_titlebar_pipe_table"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--左侧列表-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lvConfigItems"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0.5dp"
+            android:alpha="0.5"
+            android:layout_height="match_parent"
+            android:background="@color/grey01"/>
+
+        <!--右侧内容-->
+        <FrameLayout
+            android:id="@+id/layoutContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

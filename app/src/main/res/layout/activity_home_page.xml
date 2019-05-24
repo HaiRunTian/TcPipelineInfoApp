@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layoutTitleBar"
+        style="@style/DefaultTitleBarStyle">
+
+        <!--<TextView-->
+            <!--android:id="@+id/tvQuickSerch"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:clickable="true"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:background="@mipmap/ic_search_48px"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tvLoginNameLabel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:textSize="@dimen/small"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/current_user"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tvLoginName"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:ellipsize="end"-->
+            <!--android:maxLines="1"-->
+            <!--android:textSize="@dimen/small"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:text="XX"/>-->
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TitleBarTextStyle"
+            android:layout_centerInParent="true"
+            android:text="@string/homepage_titlebar_text"/>
+
+
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/layoutSearchBar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:visibility="invisible"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_toRightOf="@id/tvQuickSerch">-->
+
+            <!--<AutoCompleteTextView-->
+                <!--android:id="@+id/autoTvQuickSearch"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/shape_search_bar"-->
+                <!--android:popupBackground="@drawable/shape_search_bar"-->
+                <!--android:textSize="@dimen/title"-->
+                <!--android:textStyle="bold"-->
+                <!--android:hint="@string/homepage_searchbar_hint"-->
+                <!--android:paddingLeft="5dp"-->
+                <!--android:completionThreshold="1"-->
+                <!--android:singleLine="true"-->
+                <!--android:alpha="0.7"/>-->
+            <!--<TextView-->
+                <!--android:id="@+id/tvSubmit"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_toRightOf="@id/autoTvQuickSearch"-->
+                <!--android:textColor="@drawable/selector_text_color"-->
+                <!--android:textStyle="bold"-->
+                <!--android:text="@string/cancel"/>-->
+
+        <!--</LinearLayout>-->
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/layoutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <RadioButton
+            android:id="@+id/rdbtHome"
+            style="@style/RadiobuttonStyle"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/selector_btn_home"
+            android:text="@string/homepage"
+            android:textColor="@drawable/selector_radio_text_color" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white">
+        <RadioGroup
+            android:id="@+id/radioGroupBottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+            <RadioButton
+                android:id="@+id/rb_home"
+                style="@style/RadiobuttonStyle"
+                android:drawableTop="@drawable/selector_btn_home"
+                android:textColor="@drawable/selector_radio_text_color"
+                android:text="@string/homepage"/>
+            <RadioButton
+                android:id="@+id/rb_personal"
+                style="@style/RadiobuttonStyle"
+                android:drawableTop="@drawable/selector_btn_user"
+                android:textColor="@drawable/selector_radio_text_color"
+                android:text="@string/switch_user"/>
+            <RadioButton
+                android:visibility="gone"
+                android:id="@+id/rdbtMap"
+                style="@style/RadiobuttonStyle"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/selector_btn_map"
+                android:textColor="@drawable/selector_radio_text_color"
+                android:text="@string/map"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

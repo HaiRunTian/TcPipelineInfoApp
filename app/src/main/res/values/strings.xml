@@ -1,0 +1,274 @@
+<resources>
+    <string name="app_name">天驰管调通</string>
+    <string name="app_full_name">天驰管调通</string>
+    <string name="guide_text">天驰科技 管通天下</string>
+    <string name="version">V1.0</string>
+    <string name="version_num">1.0</string>
+    <string name="homepage_titlebar_text">天驰管调通</string>
+    <string name="homepage_searchbar_hint">键入内容快速搜索</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="submit">提交</string>
+    <string name="homepage">主页</string>
+    <string name="map">地图</string>
+    <string name="config_titlebar_text">项目参数</string>
+    <string name="config_basemap">选择底图</string>
+    <string name="config">设置</string>
+    <string name="prj_name">项目名称:</string>
+    <string name="group_name">组&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;名:</string>
+    <string name="prj_create_time">项目创建时间:</string>
+    <string name="prj_last_time">最后更新时间:</string>
+    <string name="map_data">新建项目点击右边按钮选择添加底图数据</string>
+    <string name="importt">导入</string>
+    <string name="export">导出</string>
+    <string name="delete">删除</string>
+    <string name="open">打开</string>
+    <string name="prj_list">项目列表</string>
+    <string name="dis_measur">距离测量</string>
+    <string name="choose_template">选择模板</string>
+    <string name="enter">进入</string>
+    <string name="current_dis">当前测量距离：</string>
+    <string name="reset">重置</string>
+    <string name="new_help">帮助文档</string>
+    <string name="withdraw">回退</string>
+    <string name="hide_panel">隐藏该面板</string>
+    <string name="draw_line_hint">   坐标(x,y): </string>
+    <string name="draw_point_hint">选择添加管点的物探编号</string>
+    <string name="gp_id">管点编号：</string>
+    <string name="point_start_id">起点编号：</string>
+    <string name="setting">解压切片</string>
+    <string name="new_symbolic">符号化</string>
+    <string name="point_in_line">线中加点</string>
+    <string name="point_in_line_hint">在已有管线上添加管点</string>
+    <string name="draw_point_hint_2">在地图上点击以添加管点</string>
+    <string name="cancel_draw_point">取消加点</string>
+    <string name="new_prj">新建工程</string>
+    <string name="prj_list_1">工程列表</string>
+    <string name="function">功能</string>
+    <string name="current_function">当前操作：</string>
+    <string name="about">关于软件</string>
+    <string name="symbol">标准设置</string>
+    <string name="update_date">更新日期：</string>
+    <string name="drag">漫游</string>
+    <string name="layers">图层</string>
+    <string name="draw_point">点</string>
+    <string name="move_point">移动管点</string>
+    <string name="pipe_point_title">管点属性表</string>
+    <string name="draw_line">线</string>
+    <string name="draw_point_in_line">管线加点</string>
+    <string name="measure_point">测量收点</string>
+    <string name="count">统计</string>
+    <string name="pointSize">地图切换</string>
+    <string name="unmeasure_point">未测点数：</string>
+    <string name="measureed_point">已测点数：</string>
+    <string name="show_unmeasure_point">显示未测点</string>
+    <string name="hide_measured_point">隐藏已测标识</string>
+    <string name="query_point">管点查询</string>
+    <string name="local_point">管点定位</string>
+    <string name="work_count">工作量统计</string>
+    <string name="point_size">查询范围</string>
+    <string name="query_line">编辑管线</string>
+    <string name="measure_distance">距离测量</string>
+    <string name="query">查询</string>
+    <string name="local">定位</string>
+    <string name="login">登录</string>
+    <string name="loginid_hint">键入账号</string>
+    <string name="password_hint">键入密码</string>
+    <string name="gpid">物探点号</string>
+    <string name="pipe_type">管线种类</string>
+    <string name="appendant_yes_not">是否存在:</string>
+
+    <string name="point_setting_name">符号名称</string>
+    <string name="point_setting_color">符号颜色</string>
+    <string name="point_setting_scaleX">符号大小Y</string>
+    <string name="point_setting_scaleY">符号大小X</string>
+    <string name="point_setting_angle">旋转角度</string>
+    <string name="point_setting_symbolID">符 &#160;号 &#160;ID</string>
+    <string name="point_setting_standard">标准名称</string>
+    <string name="point_setting_mixScaleVisible">最小可见</string>
+    <string name="point_setting_minScaleVisible">最大可见</string>
+    <string name="point_setting_lineWidt">符号线宽</string>
+    <string name="point_setting_pipe_type">所属管类</string>
+    <string name="point_setting_city">适用城市</string>
+
+    <string name="line_setting_name">管类名称</string>
+    <string name="line_setting_width">管线宽度</string>
+    <string name="line_setting_colorName">颜色名称</string>
+    <string name="line_setting_color">管线颜色</string>
+    <string name="line_setting_type">管类类型</string>
+    <string name="line_setting_typeCode">管类代码</string>
+    <string name="line_setting_remark">备 &#160; &#160; &#160; &#160;注</string>
+    <string name="line_setting_LineTextColor">线标签专题图的文字颜色</string>
+    <string name="line_setting_PointTextColor">点标签专题图的文字颜色</string>
+
+    <string name="pipe_type_hint">可手动编辑管类，以+号隔开</string>
+    <string name="pipe_type_select">点击选取</string>
+    <string name="feature_points">点 &#160;特 &#160;征</string>
+    <string name="appendant">附属物</string>
+    <string name="offset">管 &#160; &#160; &#160; &#160;偏</string>
+    <string name="depth">深 &#160; &#160;&#160; 度</string>
+    <string name="start_dir_depth">起点埋深</string>
+    <string name="end_dir_depth">终点埋深</string>
+    <string name="start_dir_depth_hint">起点方向埋深</string>
+    <string name="end_dir_depth_hint">终点方向埋深</string>
+    <string name="well_size">窨井规格</string>
+    <string name="well_depth">窨井深度</string>
+    <string name="well_water">窨井水深</string>
+    <string name="well_mud">窨井淤泥</string>
+    <string name="road_name">道路名称</string>
+    <string name="well_lid_texture">井盖材质</string>
+    <string name="well_lid_size">井盖规格</string>
+    <string name="building_structures">建构筑物</string>
+    <string name="longitude">经度</string>
+    <string name="latitude">纬度</string>
+    <string name="elevation">高 &#160; &#160;程</string>
+    <string name="exp_group">物探组长</string>
+    <string name="point_remark">管点备注</string>
+    <string name="puzzle">疑难问题</string>
+    <string name="editaction">编辑开关</string>
+    <string name="picture">照片</string>
+    <string name="id">自动编号</string>
+    <string name="state">管线状态</string>
+    <string name="point_state">管点状态</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_mm">mm</string>
+    <string name="unit_m">m</string>
+    <string name="unit_kv">KV</string>
+    <string name="unit_pa">Pa</string>
+    <string name="layers_title">图层选择</string>
+    <string name="move">移动</string>
+    <string name="edit">编辑</string>
+    <string name="select_all">全选</string>
+    <string name="select_not">全不选</string>
+    <string name="previous_one">导入上一个</string>
+    <string name="desselect">反选</string>
+    <string name="start_pointid">管线点号</string>
+    <string name="end_pointid">连接点号</string>
+    <string name="start_burial_depth">起点埋深</string>
+    <string name="end_burial_depth">终点埋深</string>
+    <string name="burial_difference">埋深差值</string>
+    <string name="pipe_length">管段长度</string>
+    <string name="embedded_way">埋设方式</string>
+    <string name="pipe_size">管 &#160; &#160; &#160; &#160;径</string>
+    <string name="section">断 &#160; &#160; &#160; &#160;面</string>
+    <string name="section_width_hint">宽</string>
+    <string name="section_height_hint">高</string>
+    <string name="row_x_col">行 &#160;X &#160; 列</string>
+    <string name="row_x_col_hint">列</string>
+    <string name="row_x_row_hint">行</string>
+    <string name="amount">电缆根数</string>
+    <string name="voltage">电缆电压</string>
+    <string name="pressure">管道压力</string>
+    <string name="textrure">管线材料</string>
+    <string name="ownership_unit">权属单位</string>
+    <string name="hole_count">总 &#160;孔 &#160;数</string>
+    <string name="used_hole_count">已用孔数</string>
+    <string name="aperture">套管孔径</string>
+    <string name="remark_line">管线备注</string>
+    <string name="current_user">当前：</string>
+    <string name="log_out">注销</string>
+    <string name="reminder">温馨提示</string>
+    <string name="get_start_point">获取起点</string>
+    <string name="get_end_point">获取终点</string>
+    <string name="account_name">姓 &#160; &#160; &#160; &#160;名</string>
+    <string name="account_sex">性 &#160; &#160; &#160; &#160;别</string>
+    <string name="account_phone">联系方式</string>
+    <string name="account_company">所在公司</string>
+    <string name="account_department">所在部门</string>
+    <string name="account_work_group">工 &#160;作 &#160;组</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="unknow">不公开</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="scale">比例尺:</string>
+    <string name="save">保存</string>
+    <string name="color">符号颜色</string>
+    <string name="city">城市</string>
+    <string name="city_name_hint">输入城市名称</string>
+    <string name="custom">自定义</string>
+    <string name="base_new">基础配置</string>
+    <string name="add_city">添加城市</string>
+    <string name="delete_city">删除城市</string>
+    <string name="add_point_attr">添加点属性</string>
+    <string name="pipe_type_config">管类配置</string>
+    <string name="switch_user">个人中心</string>
+    <string name="input_realname_hint">请输入您的真实姓名</string>
+    <string name="new_base">基础配置</string>
+
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value"/>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="cancle">取消</string>
+    <string name="title">请选择时间</string>
+    <string name="commit">确定</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+
+</resources>

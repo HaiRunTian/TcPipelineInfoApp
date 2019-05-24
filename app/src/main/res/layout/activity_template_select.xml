@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_gradient_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/big_p3"
+            android:textColor="@color/white"
+            android:text="@string/choose_template"/>
+
+        <Spinner
+            android:id="@+id/spModel"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:entries="@array/cities"
+            style="@style/DefaultSpinnerStyle"/>
+
+        <TextView
+            android:id="@+id/tvEnter"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:clickable="true"
+            android:textSize="@dimen/big"
+            android:textColor="@color/grey04"
+            android:background="@drawable/selector_btn_default"
+            android:text="@string/enter"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
