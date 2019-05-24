@@ -1,19 +1,21 @@
 package com.app.pipelinesurvey.view.activity.linepoint;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.adapter.BasicsDapter;
-import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.SQLUtils;
+import com.app.pipelinesurvey.view.fragment.LinePoint.AppendantFragment;
+import com.app.pipelinesurvey.view.fragment.LinePoint.BasicsPointFragment;
+import com.app.pipelinesurvey.view.fragment.LinePoint.FeaturePointFragment;
 
-import java.util.ArrayList;
+
+//基础配置替换布局
 
 public class BasicsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,38 +23,25 @@ public class BasicsActivity extends AppCompatActivity implements View.OnClickLis
     private RadioButton tv_point;
     private RadioButton tv_adjunct;
     private RadioButton tv_feature;
-    private GridView gridView;
-    private TextView btnAdd;
-    private ArrayList<String> list;
-    private String table;
-    private BasicsDapter dapter;
+    private FrameLayout fl;
+    private FragmentManager m_manager;
+    private FragmentTransaction m_transaction;
+    private AppendantFragment appendantFragment;
+    private BasicsPointFragment basicsPointFragment;
+    private FeaturePointFragment featurePointFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basics);
         initView();
-        table = SQLConfig.TABLE_NAME_PIPE_INFO;
-        initSql(table);
-        initData(table);
+        tv_point.setChecked(true);
+        switchFragment(0,"");
     }
-
-    private void initSql(String table) {
-        //管點
-        list = SQLUtils.getAll(table);
-        initData(table);
-    }
-
-    private void initData(String table) {
-        //设置进来就显示的第一个管类
-        dapter = new BasicsDapter(this,list,table);
-        gridView.setAdapter(dapter);
-        dapter.notifyDataSetInvalidated();
-    }
-
     private void initView() {
-        list = new ArrayList<>();
         tv_return = ((TextView) findViewById(R.id.tv_return));
         tv_return.setOnClickListener(this);
+        fl = ((FrameLayout) findViewById(R.id.fl));
         tv_point = ((RadioButton) findViewById(R.id.tv_point));
         tv_point.setChecked(true);
         tv_point.setOnClickListener(this);
@@ -60,9 +49,6 @@ public class BasicsActivity extends AppCompatActivity implements View.OnClickLis
         tv_adjunct.setOnClickListener(this);
         tv_feature = ((RadioButton) findViewById(R.id.tv_feature));
         tv_feature.setOnClickListener(this);
-        btnAdd = ((TextView) findViewById(R.id.btnAdd));
-        btnAdd.setOnClickListener(this);
-        gridView = ((GridView) findViewById(R.id.gridView));
     }
 
     @Override
@@ -72,41 +58,92 @@ public class BasicsActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tv_point:
-                list.clear();
-                table= SQLConfig.TABLE_NAME_PIPE_INFO;
-                initSql(table);
-                dapter.notifyDataSetChanged();
+                switchFragment(0,"");
                 break;
             case R.id.tv_adjunct:
-                list.clear();
-                table= SQLConfig.TABLE_NAME_APPENDANT_INFO;
-                initSql(table);
-                dapter.notifyDataSetChanged();
+                switchFragment(1,"");
                 break;
             case R.id.tv_feature:
-                list.clear();
-                table= SQLConfig.TABLE_NAME_FEATURE_INFO;
-                initSql(table);
-                dapter.notifyDataSetChanged();
+                switchFragment(2,"");
                 break;
-            case R.id.btnAdd:
-                Intent intent = new Intent(this, AddBasicsActivity.class);
-                intent.putExtra("table",table);
-                startActivity(intent);
+            default:break;
+        }
+    }
+    /**
+     * 切换fragment
+     *
+     * @param id fragment名
+     * @return null
+     * @datetime 2018-05-16  15:24.
+     */
+    public void switchFragment(int id,String str) {
+        //开启事务
+        if (m_manager == null) {
+            m_manager = getSupportFragmentManager();
+        }
+        m_transaction = m_manager.beginTransaction();
+        hideFragment(m_transaction);
+        showFragment(id,str);
+        m_transaction.commit();
+    }
+    /**
+     * 显示对应的fragment
+     *
+     * @param id fragment名
+     * @return null
+     * @datetime 2018-05-16  15:25.
+     */
+    private void showFragment(int id,String prjName) {
+        switch (id) {
+            case 0:
+                if (basicsPointFragment == null) {
+
+                    basicsPointFragment = new BasicsPointFragment();
+                    m_transaction.add(R.id.fl, basicsPointFragment);
+                } else {
+                    hideFragment(m_transaction);
+                    m_transaction.show(basicsPointFragment);
+                }
                 break;
-                default:break;
+            case 1:
+                if (appendantFragment == null) {
+                    appendantFragment = new AppendantFragment();
+                    m_transaction.add(R.id.fl, appendantFragment);
+                } else {
+                    hideFragment(m_transaction);
+                    m_transaction.show(appendantFragment);
+                }
+                break;
+            case 2:
+                if (featurePointFragment == null) {
+                    featurePointFragment = new FeaturePointFragment();
+                    m_transaction.add(R.id.fl, featurePointFragment);
+                } else {
+                    hideFragment(m_transaction);
+                    m_transaction.show(appendantFragment);
+                }
+                break;
+            default:
+                break;
         }
     }
 
-    @Override
-    protected void onResume() {
-        dapter.notifyDataSetChanged();
-        super.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        dapter.notifyDataSetChanged();
-        super.onStart();
+    /**
+     * 隐藏所有fragment
+     *
+     * @param transaction fragment事务
+     * @return null
+     * @datetime 2018-05-16  15:25.
+     */
+    private void hideFragment(FragmentTransaction transaction) {
+        if (appendantFragment != null) {
+            transaction.hide(appendantFragment);
+        }
+        if (basicsPointFragment != null){
+            transaction.hide(basicsPointFragment);
+        }
+        if (featurePointFragment != null){
+            transaction.hide(featurePointFragment);
+        }
     }
 }

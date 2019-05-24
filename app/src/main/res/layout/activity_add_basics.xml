@@ -108,7 +108,7 @@
 
             <LinearLayout
                 style="@style/LinearCenterVertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="0dp"

@@ -12,6 +12,8 @@
     <style name="NoTitleBarActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textViewStyle">@style/DefaultTextViewStyle</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="colorPrimary">@color/blue14</item>
+        <item name="colorPrimaryDark">@color/blue14</item>
     </style>
 
     <!--系统默认textview样式-->
@@ -234,7 +236,7 @@
     </style>
 
     <style name="TextViewStyle02_3">
-        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_width">65dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
         <item name="android:textSize">@dimen/small</item>

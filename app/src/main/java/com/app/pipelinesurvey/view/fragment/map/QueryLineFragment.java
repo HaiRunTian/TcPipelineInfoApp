@@ -1,20 +1,15 @@
 package com.app.pipelinesurvey.view.fragment.map;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,33 +21,25 @@ import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.LineFieldFactory;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
+import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
-import com.app.pipelinesurvey.view.activity.QueryPipeLineActivity;
 import com.app.pipelinesurvey.view.iview.IDrawPipeLineView;
 import com.app.pipelinesurvey.view.iview.IQueryPipeLineView;
 import com.app.utills.LogUtills;
-import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
 import com.supermap.data.GeoLine;
 import com.supermap.data.Point2D;
 import com.supermap.data.Point2Ds;
-import com.supermap.data.QueryParameter;
 import com.supermap.data.Recordset;
-import com.supermap.mapping.Layer;
-import com.supermap.mapping.Map;
-import com.supermap.mapping.MapControl;
-
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -468,15 +455,18 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 break;
 
             case R.id.btnRemove:
-                if (m_reSet.getRecordCount() > 0 && !m_reSet.isEmpty()) {
-                    if (m_reSet.delete()) {
-//                        ToastUtil.show(getActivity(), "删除线成功", Toast.LENGTH_SHORT);
-                        getDialog().dismiss();
-                    } else {
-                        ToastUtil.show(getActivity(), "删除线失败", Toast.LENGTH_SHORT);
+                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "确定删除？", true, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (m_reSet.getRecordCount() > 0 && !m_reSet.isEmpty()) {
+                            if (m_reSet.delete()) {
+                                getDialog().dismiss();
+                            } else {
+                                ToastUtil.show(getActivity(), "删除线失败", Toast.LENGTH_SHORT);
+                            }
+                        }
                     }
-                }
-
+                });
                 break;
             //起点与终点交换
             case R.id.imgbtnExchange:

@@ -1,6 +1,7 @@
 package com.app.pipelinesurvey.view.fragment.map;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -36,6 +37,7 @@ import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.CameraUtils;
 import com.app.pipelinesurvey.utils.ComTool;
 import com.app.pipelinesurvey.utils.FileUtils;
@@ -176,6 +178,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     private View m_view;
     File m_pictureName;
     private String initPointExp = "";
+    private int _smId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -379,40 +382,46 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
             //删除点 删除线
             case R.id.btnRemove:
-                int _smId = m_bundle.getInt("smId", 0);
-                //点
-                Recordset _reSet = DataHandlerObserver.ins().queryRecordsetBySmid(_smId, true, true);
-                if (_reSet.isEmpty()) {
-                    LogUtills.i("Delete Point Faild, ID=" + _smId);
-                    return;
-                }
-                _reSet.edit();
-                if (_reSet.delete()) {
-                    _reSet.update();
-//                    ToastUtil.showShort(getActivity(), "删除点成功");
-                    getDialog().dismiss();
-                } else {
-                    ToastUtil.showShort(getActivity(), "删除点失败");
-                }
+                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "确定删除？", true, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        _smId = m_bundle.getInt("smId", 0);
+                        //点
+                        Recordset _reSet = DataHandlerObserver.ins().queryRecordsetBySmid(_smId, true, true);
+                        if (_reSet.isEmpty()) {
+                            LogUtills.i("Delete Point Faild, ID=" + _smId);
+                            return;
+                        }
+                        _reSet.edit();
+                        if (_reSet.delete()) {
+                            _reSet.update();
+                            ToastUtil.showShort(getActivity(), "删除点成功");
+                            getDialog().dismiss();
 
-                //线 此点作为终点
-                Recordset _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + getGPId() + "'", false, true);
-                if (!_resetL.isEmpty()) {
-                    _resetL.deleteAll();
-                    _resetL.update();
-                }
+                        } else {
+                            ToastUtil.showShort(getActivity(), "删除点失败");
+                        }
 
-                // 线 此点作为起点
-                _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + getGPId() + "'", false, true);
-                if (!_resetL.isEmpty()) {
-                    _resetL.deleteAll();
-                    _resetL.update();
-                }
+                        //线 此点作为终点
+                        Recordset _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + getGPId() + "'", false, true);
+                        if (!_resetL.isEmpty()) {
+                            _resetL.deleteAll();
+                            _resetL.update();
+                        }
 
-                _reSet.close();
-                _reSet.dispose();
-                _resetL.close();
-                _resetL.dispose();
+                        // 线 此点作为起点
+                        _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + getGPId() + "'", false, true);
+                        if (!_resetL.isEmpty()) {
+                            _resetL.deleteAll();
+                            _resetL.update();
+                        }
+
+                        _reSet.close();
+                        _reSet.dispose();
+                        _resetL.close();
+                        _resetL.dispose();
+                    }
+                });
                 break;
             //导入上一个
             case R.id.btnPreviousOne:
@@ -477,6 +486,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         }
         WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
     }
+
 
     /**
      * 更新线的起点和终点

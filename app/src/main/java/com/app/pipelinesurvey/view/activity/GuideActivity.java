@@ -3,6 +3,7 @@ package com.app.pipelinesurvey.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -31,6 +32,9 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_guide);
         initView();
     }
@@ -62,6 +66,9 @@ public class GuideActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                //在动画结束前关闭全屏
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 m_handler.post(new Runnable() {
                     @Override
                     public void run() {

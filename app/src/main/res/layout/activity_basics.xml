@@ -84,39 +84,9 @@
                 />
         </RadioGroup>
     </LinearLayout>
-
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fl"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
-        <GridView
-            android:id="@+id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="4"
-            />
+        android:layout_height="match_parent"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/btnAdd"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/symbolic"
-            android:gravity="center"
-            android:text="+"
-            android:textStyle="normal"
-            android:textColor="@color/grey01"
-            android:textSize="50dp"
-            />
-
-    </LinearLayout>
 </LinearLayout>
