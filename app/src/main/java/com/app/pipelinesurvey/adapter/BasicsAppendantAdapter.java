@@ -90,6 +90,7 @@ public class BasicsAppendantAdapter extends BaseAdapter {
                         })
                         .create();
                 _dialog.show();
+
                 return true;
             }
         });

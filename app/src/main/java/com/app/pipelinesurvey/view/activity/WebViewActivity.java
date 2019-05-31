@@ -92,6 +92,8 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 return true;
             }
         });
+
+
     }
 
     private void initView() {
@@ -115,11 +117,13 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                //WebView开始加载调用的方法
                 // TODO Auto-generated method stub
                 super.onPageStarted(view, url, favicon);
 
                 LogUtills.i("Page开始  " + url  + "   " + favicon);
             }
+            //WebView加载完成会调用的方法
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO Auto-generated method stub

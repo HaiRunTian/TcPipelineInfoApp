@@ -55,6 +55,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
                 listSql(pointname);
                 adjubct(pointname);
             }
+            btnAdd.setOnClickListener(this);
         }
         return view;
     }
@@ -115,7 +116,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         appendantt = ((ListView) view.findViewById(R.id.lv_appendantt));
         point = ((ListView) view.findViewById(R.id.lv_point));
         btnAdd = ((TextView) view.findViewById(R.id.btnAdd));
-        btnAdd.setOnClickListener(this);
+
     }
 
 
@@ -126,7 +127,6 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
                 Intent intent = new Intent(getActivity(), AddBasicsActivity.class);
                 intent.putExtra("table",appendantTable);
                 intent.putExtra("pointname",pointname);
-                intent.putExtra("code",code);
                 startActivity(intent);
                 break;
         }
