@@ -96,47 +96,15 @@ public class OperNotifyer {
      */
     public static void AddSystemLayers(Datasource ds) {
         List<BaseFieldInfos> _infos = new ArrayList();
-      /*  _infos.add(new WaterSupplyFieldPoint());
-        _infos.add(new SewageFieldPoint());
-        _infos.add(new RainFieldPoint());
-        _infos.add(new DrainageFieldPoint());
-        _infos.add(new CoalGasFieldPoint());
-        _infos.add(new GasFieldPoint());
-        _infos.add(new ElectricPowerFieldPoint());
-        _infos.add(new StreetLampFieldPoint());
-        _infos.add(new TelecomFieldPoint());
-        _infos.add(new CableTVFieldPoint());
-        _infos.add(new ArmyFieldPoint());
-        _infos.add(new TrafficFieldPoint());
-        _infos.add(new IndustryFieldPoint());
-        _infos.add(new OtherFieldPoint());
-        _infos.add(new UnknownFieldPoint());
-        _infos.add(new WaterSupplyFieldLine());
-        _infos.add(new SewageFieldLine());
-        _infos.add(new RainFieldLine());*/
-        /*_infos.add(new DrainageFieldLine());
-        _infos.add(new CoalGasFieldLine());
-        _infos.add(new GasFieldLine());
-        _infos.add(new ElectricPowerFieldLine());
-        _infos.add(new StreetLampFieldLine());
-        _infos.add(new TelecomFieldLine());
-        _infos.add(new CableTVFieldLine());
-        _infos.add(new ArmyFieldLine());
-        _infos.add(new TrafficFieldLine());
-        _infos.add(new IndustryFieldLine());
-        _infos.add(new OtherFieldLine());
-        _infos.add(new UnknownFieldLine());
-        _infos.add(new TempPoint()); */
         _infos.add(new TheTotalPoint());
         _infos.add(new TheTotalLine());
         _infos.add(new MeasurePoint());
-//        _infos.add(new PipePoint());
-//        _infos.add(new PipeLine());
 
         for (int i = 0; i < _infos.size(); ++i) {
             DatasetVector _resultDv = CreateDataset(ds, _infos.get(i));
             //设置数据集的投影坐标系
             _resultDv.setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
+            //数据集添加到地图中
             AddAndSetLayerType(_resultDv, _infos.get(i));
 
         }
@@ -245,13 +213,16 @@ public class OperNotifyer {
     }
 
 
+    /**
+     * 把适量数据集添加到地图图层
+     * @param dv
+     * @param info
+     */
     private static void AddAndSetLayerType(DatasetVector dv, BaseFieldInfos info) {
 
         Map map = WorkSpaceUtils.getInstance().getMapControl().getMap();
         Layer _temp = map.getLayers().add(dv, true);
         _temp.setVisible(true);
-        //图层符号随地图缩放
-//        _temp.setSymbolScalable(true);
 
         //点图层
         if (info instanceof BaseFieldPInfos) {
@@ -270,7 +241,6 @@ public class OperNotifyer {
             ThemeLabel _theme = _temp_info.createThemeLabel();
             //设置该图层标签专题图
             Layer _resultLayer = map.getLayers().add(dv, _theme, true);
-//            _resultLayer.setSymbolScalable(true);
             _resultLayer.setVisible(true);
             //设置该图层单值专题图 符号库
             ThemeUnique _uniqueTheme = _temp_info.createDefaultThemeUnique();
@@ -283,7 +253,6 @@ public class OperNotifyer {
             _style.setMarkerSize(new Size2D(((BaseFieldPInfos) info).symbolSizeX, ((BaseFieldPInfos) info).symbolSizeY));
             _style.setMarkerSymbolID(((BaseFieldPInfos) info).symbolID);
             _selection.setStyle(_style);
-//            _resultLayer.setSymbolScalable(true);
             _resultLayer.setVisible(true);
             map.refresh();
         }
@@ -291,7 +260,6 @@ public class OperNotifyer {
         if (info instanceof BaseFieldLInfos) {
             LayerSettingVector _vector = new LayerSettingVector();
             GeoStyle geoStyle_P = new GeoStyle();
-//            geoStyle_P.setMarkerSize(new Size2D(2.5, 2.5));
             geoStyle_P.setLineSymbolID(0);
             geoStyle_P.setLineWidth(0.1);
             geoStyle_P.setLineColor(new Color(255, 0, 0));
@@ -304,11 +272,9 @@ public class OperNotifyer {
             if (_resultLayer == null) {
                 LogUtills.w("Add ThemeLable Layer Faild...");
             }
-//            _resultLayer.setSymbolScalable(true);
             _resultLayer.setVisible(true);
             //单值专题图
             ThemeUnique _uniqueTheme = _temp_info.createDefaultThemeUnique();
-//            _resultLayer.setSymbolScalable(true);
             _resultLayer = map.getLayers().add(dv, _uniqueTheme, true);
             Selection _selection = _resultLayer.getSelection();
             GeoStyle _style = new GeoStyle();
@@ -320,9 +286,6 @@ public class OperNotifyer {
         }
     }
 
-
-    public static void AddAndSetLayerType(List<DatasetVector> dvs, List<BaseFieldInfos> infos) {
-    }
 
 
     public static java.util.Map<java.lang.String, java.lang.Object> getFieldMaps(BaseFieldInfos info) {

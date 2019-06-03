@@ -71,7 +71,7 @@ public class TheTotalPoint extends BaseFieldPInfos {
                 String _color = _cursor.getString(_cursor.getColumnIndex("color"));
                 _keys[_index] = _name;
                 _symbolIds[_index] = _symbolId;
-                _size2ds[_index] = new Size2D(_scaleX, _scaleY);
+                _size2ds[_index] = new Size2D(_scaleX , _scaleY);
                 _colors[_index] = _color;
                 _index++;
 
@@ -120,6 +120,7 @@ public class TheTotalPoint extends BaseFieldPInfos {
         super.createThemeLabel();
 
         try {
+            //查询数据库表，设置点线有颜色
             Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_THEME);
             int _num = _cursor.getCount();
             String[] _keys = new String[_num];

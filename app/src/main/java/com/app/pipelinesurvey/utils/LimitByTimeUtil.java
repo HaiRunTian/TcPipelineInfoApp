@@ -42,7 +42,6 @@ public class LimitByTimeUtil {
         Date startTime = null;
         Date endTime = null;
         try {
-//            nowTime = new SimpleDateFormat(format).parse(currTime);
             nowTime = new SimpleDateFormat(format).parse(currTime);
             startTime = new SimpleDateFormat(format).parse("2019-01-01 00:00:00");
             endTime = new SimpleDateFormat(format).parse("2020-01-01 00:00:00");
@@ -101,6 +100,7 @@ public class LimitByTimeUtil {
 //                    setTime(currentTime);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LogUtills.e(e.toString());
                 }
             }
         }).start();

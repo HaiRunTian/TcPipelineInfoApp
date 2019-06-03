@@ -86,14 +86,16 @@ public class ExportDataUtils {
                     //点数据集
                     DatasetVector _dsVectorP = (DatasetVector) DataHandlerObserver.ins().getTotalPtLayer().getDataset();
                     //去掉临时点
-                    Recordset _reSetP = _dsVectorP.query("exp_Num Not like 'T_%'", CursorType.STATIC);
+//                    Recordset _reSetP = _dsVectorP.query("exp_Num Not like 'T_%'", CursorType.STATIC);
+                    Recordset _reSetP = _dsVectorP.getRecordset(false,CursorType.STATIC);
 
                     LogUtills.i("_reSep count = " + _reSetP.getRecordCount());
                     //线数据集
                     DatasetVector _dsVectorL = (DatasetVector) DataHandlerObserver.ins().getTotalLrLayer().getDataset();
 
                     //去掉临时线
-                    Recordset _reSetL = _dsVectorL.query("endExpNum Not like 'T_%'", CursorType.STATIC);
+//                    Recordset _reSetL = _dsVectorL.query("endExpNum Not like 'T_%'", CursorType.STATIC);
+                    Recordset _reSetL = _dsVectorL.getRecordset(false,CursorType.STATIC);
                     LogUtills.i("_reSep count = " + _reSetL.getRecordCount());
                     //创建工程文件夹
                     String _prjFolder = SuperMapConfig.DEFAULT_DATA_PATH + m_prjId;
@@ -268,7 +270,6 @@ public class ExportDataUtils {
 
     /**
      * 导入数据
-     *
      * @Author HaiRun
      * @Time 2019/3/7 . 10:26
      * 1.读取手机中的excel表 获取里面的数据
@@ -293,6 +294,6 @@ public class ExportDataUtils {
             }
         }
 
-        ToastUtil.showShort(m_context, "数据导入成功");
+//        ToastUtil.showShort(m_context, "数据导入成功");
     }
 }

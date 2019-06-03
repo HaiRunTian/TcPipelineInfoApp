@@ -242,7 +242,7 @@ public class MapFragment extends Fragment  {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         LogUtills.i("init onActivityCreated");
         super.onActivityCreated(savedInstanceState);
-        initData();
+        initAllData();
         try {
             LogUtills.i("init onCreate...");
             if (!licenseStatus()) {
@@ -457,7 +457,7 @@ public class MapFragment extends Fragment  {
         return m_mapScale;
     }
 
-    private void initData() {
+    private void initAllData() {
         String[] layers = getResources().getStringArray(R.array.pipeType);
         for (String _layer : layers) {
             m_data_list.add(_layer);

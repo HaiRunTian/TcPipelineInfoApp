@@ -87,6 +87,16 @@
         <item name="android:textSize">@dimen/tiny2</item>
     </style>
 
+    <!--自定义按钮样式测量收点界面隐藏已测标识2-1-->
+    <style name="ButtonStyle02_1">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:textColor">@color/grey04</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@drawable/selector_btn_default</item>
+        <item name="android:textSize">@dimen/tiny2</item>
+    </style>
+
     <!--标题栏左侧图标样式-->
     <style name="TitleBarLeftIconStyle">
         <item name="android:layout_width">wrap_content</item>
@@ -355,6 +365,22 @@
         <item name="android:layout_margin">7dp</item>
     </style>
 
+    <!--管点管线配置表左边图标-->
+    <style name="activity_point_all_icon_left">
+        <item name="android:layout_width">14dp</item>
+        <item name="android:layout_height">14dp</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <!--管点管线配置表左边标题textview-->
+    <style name="activity_point_all_itme_tv_style">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textColor">@color/black01</item>
+    </style>
 
 
 </resources>

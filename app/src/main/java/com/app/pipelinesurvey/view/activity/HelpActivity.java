@@ -30,7 +30,7 @@ public class HelpActivity extends AppCompatActivity implements OnPageChangeListe
                 finish();
             }
         });
-        displayFromAssets("简单使用教程.pdf");
+        displayFromAssets("app.pdf");
     }
 
     private void displayFromAssets(String assetFileName) {

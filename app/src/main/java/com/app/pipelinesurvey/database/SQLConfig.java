@@ -30,30 +30,12 @@ public class SQLConfig {
      *   管线类型
      */
     public static final String TABLE_NAME_PIPE_TYPE = "pipe_type";
-    //    public static final String TABLE_NAME_PIPE_TYPE_HZ = "pipe_type_hz";
-//    public static final String TABLE_NAME_PIPE_TYPE_GZ = "pipe_type_gz";
-    /**
-     *   管材
-     */
-    public static final String TABLE_NAME_FEATURE_POINT = "feature_point";
-    /**
-     *   点特征
-     */
-    public static final String TABLE_NAME_APPENDANT = "subsid";
+
     /**
      *   点备注
      */
     public static final String TABLE_NAME_POINT_REMARK = "point_remark";
-    /**
-     *   点配置
-     */
-    public static final String TABLE_NAME_POINT_CONFIG = "point_config";
-    /**
-     *   线配置
-     */
-    public static final String TABLE_NAME_LINE_CONFIG = "line_config";
-    //    public static final String TABLE_NAME_POINT_CONFIG_GZ = "point_config_gz";
-    //    public static final String TABLE_NAME_POINT_CONFIG_HZ = "point_config_hz";
+
     /**
      *   线备注
      */
@@ -120,14 +102,6 @@ public class SQLConfig {
      *  标签分段专题图
      */
     public static final String TABLE_NAME_PIPE_THEME = "pipe_themelabel";
-    /**
-     *   线
-     */
-    public static final String TABLE_NAME_LINE_LIST = "line_list";
-    /**
-     *   点
-     */
-    public static final String TABLE_NAME_POINT_LIST = "point_ list";
 
 
 

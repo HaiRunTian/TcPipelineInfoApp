@@ -25,13 +25,19 @@ import java.util.Map;
  */
 
 public class DatabaseHelpler extends SQLiteOpenHelper {
-    //当前数据库
+    /**
+     * 当前数据库
+     */
     public static String currentDB;
     //版本号
     private static final int VERSION = 3;
-    //建表语句
+    /**
+     * 建表语句
+     */
     private List<String> createTableSQLList;
-    //数据库实例映像表
+    /**
+     * 数据库实例映像表
+     */
     private static Map<String, DatabaseHelpler> dbMaps = new HashMap<>();
     private static DatabaseHelpler s_currentInstance;
     private Context m_context;
@@ -39,7 +45,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
     /**
      * @param context   上下文
      * @param dbName    数据库名称
-     * @param  tableSQLs  数据库表集合
+     * @param tableSQLs 数据库表集合
      * @author HaiRun
      * created at 2018/12/6 13:25
      */
@@ -49,7 +55,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         m_context = context;
         currentDB = dbName;
         createTableSQLList = new ArrayList<>();
-        createTableSQLList.addAll(tableSQLs); //数据库建表语句列表
+        //数据库建表语句列表
+        createTableSQLList.addAll(tableSQLs);
     }
 
     public static DatabaseHelpler getInstance() {
@@ -61,6 +68,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 获取实例
+     *
      * @param context   上下文
      * @param dbName    数据库名
      * @param tableSQLs 建表语句列表
@@ -81,29 +89,52 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         return databaseHelpler;
     }
 
-    //创建数据库表格
+    /**
+     * 创建数据库表格
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //创建数据库
         for (String sql : createTableSQLList) {
-            LogUtills.i(" Sql cteate=",sql);
+            LogUtills.i(" Sql cteate=", sql);
             try {
                 db.execSQL(sql);
-            }catch (Exception e){
-                LogUtills.e(" Sql create error ",e.getMessage());
+            } catch (Exception e) {
+                LogUtills.e(" Sql create error ", e.getMessage());
             }
-
         }
+        List<String> sqls = InitDatabase.init(m_context);
+        //插入数据语句
+        for (String sql : sqls) {
+            LogUtills.i(" Sql inner =", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql inner error ", e.getMessage());
+            }
+        }
+
     }
 
-    //数据库升级版本
+    /**
+     * 数据库升级版本
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        switch (newVersion) {
+        switch (oldVersion) {
             case 1:
 
-                break;
+
             case 2:
 
+
+            case 3:
+
+
+            case 4:
+
+
+            default:
                 break;
         }
     }
@@ -135,7 +166,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
             SQLiteDatabase db = databaseHelpler.getWritableDatabase();
-            LogUtills.i("SQL",sql);
+            LogUtills.i("SQL", sql);
             db.execSQL(sql);
         }
     }
@@ -220,8 +251,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return cursor Cursor对象
      * @datetime 2018-06-13  14:58.
      */
-    public Cursor queryPoint( String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
-                        String orderBy) {
+    public Cursor queryPoint(String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
+                             String orderBy) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
             SQLiteDatabase database = databaseHelpler.getReadableDatabase();
@@ -242,8 +273,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return cursor Cursor对象
      * @datetime 2018-06-13  14:58.
      */
-    public Cursor queryLine( String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
-                              String orderBy) {
+    public Cursor queryLine(String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
+                            String orderBy) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
             SQLiteDatabase database = databaseHelpler.getReadableDatabase();
@@ -251,6 +282,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             return cursor;
         }
     }
+
     /**
      * 查询操作
      *
@@ -315,6 +347,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             return cursor;
         }
     }
+
     /**
      * 原生查询 查询表格全部内容
      *
@@ -354,7 +387,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static boolean exportDBFile2External(Context context, String dbName) {
         //找到文件的路径  /data/data/包名/databases/数据库名称
-        LogUtills.i("程序数据路径 = ",context.getFilesDir().toString());
+        LogUtills.i("程序数据路径 = ", context.getFilesDir().toString());
         File dbFile = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/" +
                 context.getPackageName() + "/databases/" + dbName);
         File dbSaveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "PipeLineDB/");

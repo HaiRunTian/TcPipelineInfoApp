@@ -2,17 +2,14 @@ package com.app.pipelinesurvey.base;
 
 import android.app.Application;
 import android.content.Context;
-import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
-import com.app.pipelinesurvey.database.InitDatabase;
 import com.app.pipelinesurvey.location.BaseGPS;
 import com.app.pipelinesurvey.utils.AssetsUtils;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.PullXMLUtil;
 import com.app.utills.LogUtills;
 import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
-import com.supermap.data.Environment;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.File;
 import java.io.IOException;
@@ -107,13 +104,13 @@ public class MyApplication extends Application {
             DatabaseHelpler.getInstance(getApplicationContext(),
                     "PipeLineInfo.db", _listSQL).getWritableDatabase();
 
-            SharedPrefManager _manager = new SharedPrefManager(getApplicationContext(),
-                    SharedPrefManager.FILE_CONFIG);
-            boolean isInited = (boolean) _manager.getSharedPreference(SharedPrefManager.KEY_IS_DB_INITED, false);
-           if (!isInited) {
-                    InitDatabase.init(getApplicationContext());
-                    _manager.put(SharedPrefManager.KEY_IS_DB_INITED, true);
-            }
+//            SharedPrefManager _manager = new SharedPrefManager(getApplicationContext(),
+//                    SharedPrefManager.FILE_CONFIG);
+//            boolean isInited = (boolean) _manager.getSharedPreference(SharedPrefManager.KEY_IS_DB_INITED, false);
+//           if (!isInited) {
+//                    InitDatabase.init(getApplicationContext());
+//                    _manager.put(SharedPrefManager.KEY_IS_DB_INITED, true);
+//            }
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

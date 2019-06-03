@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -21,16 +20,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
@@ -49,7 +45,6 @@ import com.app.pipelinesurvey.utils.AssetsUtils;
 import com.app.pipelinesurvey.utils.ExportDataUtils;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.LicenseUtils;
-import com.app.pipelinesurvey.utils.PermissionUtils;
 import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.fragment.map.DistanceMeasureFragment;
@@ -70,7 +65,6 @@ import com.supermap.data.Point2D;
 import com.supermap.data.PrjCoordSys;
 import com.supermap.data.PrjCoordSysType;
 import com.supermap.data.Recordset;
-import com.supermap.data.Size2D;
 import com.supermap.data.SymbolLineLibrary;
 import com.supermap.data.SymbolMarkerLibrary;
 import com.supermap.data.Workspace;
@@ -86,8 +80,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -430,9 +422,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     //设置工作空间名字
                     SuperMapConfig.setWorkspaceName(m_prjId);
                     if (DataHandlerObserver.ins() != null) {
-                        DataHandlerObserver.ins("type").SetContext(MapActivity.this);
+                        DataHandlerObserver.ins("type").setContext(MapActivity.this);
                     } else {
-                        DataHandlerObserver.ins().SetContext(MapActivity.this);
+                        DataHandlerObserver.ins().setContext(MapActivity.this);
                     }
                     m_mapControl.setAction(Action.PAN);
                     //保存工作空间

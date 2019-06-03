@@ -356,7 +356,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
 
     private void initID() {
         m_gpType = getArguments().getString("gpType");
-        m_code = m_gpType.substring(m_gpType.length() - 1);
+        m_code = m_gpType.substring(3);
         m_num = ComTool.Ins().getPointNumber(m_code, false, "");
         edtGpId.setText(m_num[0]);
     }
@@ -468,23 +468,12 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                 animSwitch = true;
                 break;
 
+            //管点编号状态
             case R.id.spSituation:
-//                edtPointRemark.setText(spSituation.getSelectedItem().toString().substring(2));
-                String _situation = spSituation.getSelectedItem().toString();
-                if (!_situation.contains("正常")) {
-                    edtPointRemark.setText(spSituation.getSelectedItem().toString().substring(2));
-                    //判断最后一位是否是字母结尾
-                    Pattern _pattern = Pattern.compile("[a-zA-Z]");
-                    if (_pattern.matcher(getGPId().substring(getGPId().length() - 1)).find()) {
-                        edtGpId.setText(getGPId().substring(0, getGPId().length() - 1) + spSituation.getSelectedItem().toString().substring(0, 1));
-                    } else {
-                        edtGpId.setText(getGPId() + spSituation.getSelectedItem().toString().substring(0, 1));
-                    }
-                }
+                updateIdAndPointRemark();
+
                 break;
-            //            case R.id.spPointRemark:
-            //                edtPointRemark.setText(spPointRemark.getSelectedItem().toString());
-            //                break;
+
             default:
                 break;
         }
@@ -494,6 +483,95 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    /**
+     * 根据用户点击管点编号状态修改管点编号和管点备注
+     */
+    private void updateIdAndPointRemark() {
+        String _situation = spSituation.getSelectedItem().toString();
+        String pointRemark = edtPointRemark.getText().toString();
+        if (!_situation.contains("正常")) {
+            //查询管点备注字符 ，如果之前管点备注已经有这种状态，则替换掉
+            if (pointRemark.length() > 0) {
+                //多层判断最后一位字母是不是跟状态字母有关系 去掉最后一个字母
+                if (pointRemark.contains("满水") || pointRemark.contains("满泥") || pointRemark.contains("信号不良")
+                        || pointRemark.contains("推测") || pointRemark.contains("井埋") || pointRemark.contains("打不开")) {
+                    edtGpId.setText(getGPId().substring(0, getGPId().length() - 1));
+                    String remark = "";
+                    if (pointRemark.contains("满水")) {
+                        remark = pointRemark.replace("满水", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("满泥")) {
+                        remark = pointRemark.replace("满泥", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("信号不良")) {
+                        remark = pointRemark.replace("信号不良", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("推测")) {
+                        remark = pointRemark.replace("推测", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("井埋")) {
+                        remark = pointRemark.replace("井埋", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("打不开")) {
+                        remark = pointRemark.replace("打不开", _situation.substring(2));
+                    }
+                    edtPointRemark.setText(remark);
+                }else {
+                    edtPointRemark.setText(_situation.substring(2) + pointRemark);
+                }
+
+            } else {
+                edtPointRemark.setText(_situation.substring(2));
+            }
+            //判断最后一位是否是字母结尾
+            Pattern _pattern = Pattern.compile("[a-zA-Z]");
+            if (_pattern.matcher(getGPId().substring(getGPId().length() - 1)).find()) {
+                edtGpId.setText(getGPId().substring(0, getGPId().length() - 1) + spSituation.getSelectedItem().toString().substring(0, 1));
+            } else {
+                edtGpId.setText(getGPId() + spSituation.getSelectedItem().toString().substring(0, 1));
+            }
+        } else {
+            //  修改管点代码字母  判断最后一位是否是字母结尾
+            Pattern _pattern = Pattern.compile("[a-zA-Z]");
+            if (_pattern.matcher(getGPId().substring(getGPId().length() - 1)).find()) {
+                //再判断这个字母是不是状态类型的字母   T S Y Z X
+                String code = getGPId().substring(getGPId().length() - 1);
+                if (code.equals("S") || code.equals("Y") || code.equals("Z") || code.equals("X")) {
+                    //多层判断最后一位字母是不是跟状态字母有关系 去掉最后一个字母
+                    if (pointRemark.contains("满水") || pointRemark.contains("满泥") || pointRemark.contains("信号不良")
+                            || pointRemark.contains("推测") || pointRemark.contains("井埋") || pointRemark.contains("打不开")) {
+                        edtGpId.setText(getGPId().substring(0, getGPId().length() - 1));
+                    }
+                }
+            }
+            //修改管线备注  如果之前是不正常状态转为正常状态
+            if (pointRemark.length() > 0) {
+                String remark = "";
+                if (pointRemark.contains("满水")) {
+                    remark = pointRemark.replace("满水", " ");
+                }
+                if (pointRemark.contains("满泥")) {
+                    remark = pointRemark.replace("满泥", " ");
+                }
+                if (pointRemark.contains("信号不良")) {
+                    remark = pointRemark.replace("信号不良", " ");
+                }
+                if (pointRemark.contains("推测")) {
+                    remark = pointRemark.replace("推测", " ");
+                }
+                if (pointRemark.contains("井埋")) {
+                    remark = pointRemark.replace("井埋", " ");
+                }
+                if (pointRemark.contains("打不开")) {
+                    remark = pointRemark.replace("打不开", " ");
+                }
+                remark = remark.trim();
+                edtPointRemark.setText(remark);
+            }
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -664,7 +742,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         String _layerType = gpType.trim().substring(gpType.length() - 1);
         _info = PointFieldFactory.CreateInfo(gpType.substring(0, 2));
         if (_info == null){ return null;}
-
         _info.pipeType = gpType;
         _info.shortCode = _layerType;
         _info.exp_Num = getGPId();
@@ -677,18 +754,11 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         _info.wellMud = getWellMud();
         _info.road = getRoadName();
         _info.state = getState();
-        // _info.latitude
-//        Date _currentTime = new Date();
         String date = DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT);
-//        SimpleDateFormat _formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        android.icu.text.SimpleDateFormat _formatter = new android.icu.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String _dateString = _formatter.format(_currentTime);
-        _info.exp_Date = date;//format1.format(new Date()).toString();
+        _info.exp_Date = date;
         _info.wellCoverMaterial = getWellLidTexture();
         _info.wellCoverSize = getWellLidSize();
         _info.buildingStructures = getBuildingStructures();
-        //
-        // GeoPoint _target = (GeoPoint) MyApplication.Ins().getMapControl().getCurrentGeometry();
         _info.longitude = m_pointX;
         _info.latitude = m_pointY;
         _info.surf_H = getElevation();
@@ -701,9 +771,13 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         _info.id = getGPId();
         _info.puzzle = getPuzzle();
         _info.situation = getSituation();
-        _info.sysId = m_lastReSetSmid; //系统smid
+        //系统smid
+        _info.sysId = m_lastReSetSmid;
         _info.picture = getPictureName();
         _info.symbol = SymbolInfo.Ins().getSymbol(gpType,getAppendant(),getFeaturePoints());
+        if (_layerType.length() == 2){
+            _layerType = _layerType.substring(0,1);
+        }
         _info.symbolExpression = _layerType + "-" + _info.symbol;
         //判断用户是否修改了管点编号
         if (!m_num[0].equals(getGPId())) {
@@ -711,7 +785,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         } else {
             _info.serialNum = Integer.parseInt(m_num[1]);
         }
-        //LogUtills.i("Query symbolID..."+_info.symbolExpression);
+
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
                 new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
         LogUtills.i("Sql:" + _cursor.getCount());
@@ -721,10 +795,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
             _info.symbolSizeY = _cursor.getDouble(_cursor.getColumnIndex("scaleY"));
         }
 
-//        _info.depth = getDepth();
-     /*   _info.startDirDepth = a;
-        _info.endDirDepth = a;*/
-//        LogUtills.i("point complete generateBaseFieldInfo.....");
         return _info;
     }
 

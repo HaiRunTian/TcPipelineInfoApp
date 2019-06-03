@@ -455,11 +455,12 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 break;
 
             case R.id.btnRemove:
-                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "确定删除？", true, new DialogInterface.OnClickListener() {
+                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "是否确定删除管线？", true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (m_reSet.getRecordCount() > 0 && !m_reSet.isEmpty()) {
                             if (m_reSet.delete()) {
+                                WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
                                 getDialog().dismiss();
                             } else {
                                 ToastUtil.show(getActivity(), "删除线失败", Toast.LENGTH_SHORT);
@@ -742,6 +743,10 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             case R.id.spEmbeddedWay:
                 switch (spEmbeddedWay.getSelectedItem().toString()) {
                     case "管埋":
+                       
+                        layoutPipeSize.setVisibility(View.VISIBLE);
+                        layoutSection.setVisibility(View.GONE);
+                        break;
                     case "直埋":
                     case "架空":
                         layoutPipeSize.setVisibility(View.VISIBLE);

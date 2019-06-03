@@ -51,16 +51,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/point_name"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_name"
                         />
                 </LinearLayout>
@@ -79,16 +74,12 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/color"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        android:drawableRight="@mipmap/ic_must_fill_16"
+                       style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_color"
                         />
                 </LinearLayout>
@@ -111,16 +102,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/width"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_scaleX"
                         />
                 </LinearLayout>
@@ -142,16 +128,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/height"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_scaleY"
                         />
                 </LinearLayout>
@@ -173,16 +154,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/rotate"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_angle"
                         />
                 </LinearLayout>
@@ -201,16 +177,13 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/id"
-                        android:layout_margin="5dp"
+
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="符号ID:"
                         />
                 </LinearLayout>
@@ -230,16 +203,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/standard_name"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_standard"
                         />
                 </LinearLayout>
@@ -259,16 +227,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/maximum_scale"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_minScaleVisible"
                         />
                 </LinearLayout>
@@ -287,16 +250,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/minimum_scale"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_mixScaleVisible"
                         />
                 </LinearLayout>
@@ -315,16 +273,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/size"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_lineWidt"
                         />
                 </LinearLayout>
@@ -349,16 +302,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/subordinate"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_pipe_type"
                         />
                 </LinearLayout>
@@ -380,16 +328,11 @@
                     android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/city"
-                        android:layout_margin="5dp"
                         />
                     <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:textSize="15dp"
+                        style="@style/activity_point_all_itme_tv_style"
                         android:text="@string/point_setting_city"
                         />
                 </LinearLayout>

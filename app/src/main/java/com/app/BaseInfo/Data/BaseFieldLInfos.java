@@ -102,7 +102,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
      */
     public String cabNum;
     /**
-     *  权属单位
+     * 权属单位
      */
     public String belong;
     /**
@@ -126,11 +126,11 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
      */
     public String usedHole;
     /**
-     *  孔径
+     * 孔径
      */
     public String holeDiameter;
     /**
-     *  状态
+     * 状态
      */
     public String state;
     /**
@@ -157,18 +157,18 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
      * 埋深差值
      */
     public String burialDifference;
-//    /**
-//     * 起点是否测量
-//     */
-//    public boolean measureStart = false;
-//    /**
-//     * 终点点是否测量
-//     */
-//    public boolean measureEnd = false;
-//    /**
-//     * 测量的时间
-//     */
-//    public String measureDate = "";
+    /**
+     * 起点是否测量 0未测量 1测量
+     */
+    public String measureStart;
+    /**
+     * 终点点是否测量 0未测量 1测量
+     */
+    public String measureEnd;
+    /**
+     * 测量的时间
+     */
+    public String measureDate = "";
 
 //
 //    protected BaseFieldLInfos(Parcel in) {
@@ -230,7 +230,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
         themeLabelItem1.setVisible(true);
         TextStyle textStyle1 = new TextStyle();
-       /* textStyle1.setForeColor(new Color(193, 210, 240));*/
+        /* textStyle1.setForeColor(new Color(193, 210, 240));*/
         textStyle1.setForeColor(new Color(0, 255, 0));
         textStyle1.setFontName("楷体");
         textStyle1.setFontHeight(16.0);
@@ -251,7 +251,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         return themeLabelMap;
     }
 
-    public ThemeLabel createThemeLabel(String[] pipeType,String[] color ,double[] start,double[] end) {
+    public ThemeLabel createThemeLabel(String[] pipeType, String[] color, double[] start, double[] end) {
         LogUtills.i("Create The Theme Layer...");
         ThemeLabel themeLabelMap = new ThemeLabel();
         themeLabelMap.setLabelExpression("labelTag");
@@ -265,7 +265,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             // 为标签专题图的标签设置统一样式
             ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
             themeLabelItem1.setVisible(true);
-            LogUtills.i("Line themelable","name = " + pipeType[i] + "start  = "  +start[i] +  "end = "+ end[i]);
+            LogUtills.i("Line themelable", "name = " + pipeType[i] + "start  = " + start[i] + "end = " + end[i]);
             themeLabelItem1.setStart(start[i]);
             themeLabelItem1.setEnd(end[i]);
             TextStyle textStyle1 = new TextStyle();
@@ -314,11 +314,11 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     }
 
 
-    private Color ColorByOxString(String value){
-        value=value.substring(1);
-        int colorInt=Integer.valueOf(value,16);
+    private Color ColorByOxString(String value) {
+        value = value.substring(1);
+        int colorInt = Integer.valueOf(value, 16);
         return new Color(colorInt);
-       /* LogUtills.i("r = "+color.getR()+", g = "+color.getG()+", b = "+color.getB());*/
+        /* LogUtills.i("r = "+color.getR()+", g = "+color.getG()+", b = "+color.getB());*/
     }
 
     @Override
@@ -381,11 +381,10 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     }
 
     /**
-     *
      * @return 默认专题图
      */
     @Override
-    public ThemeUnique  createDefaultThemeUnique() {
+    public ThemeUnique createDefaultThemeUnique() {
         // 构造单值专题图并进行相应设置
         ThemeUnique _theme = new ThemeUnique();
 
@@ -401,34 +400,34 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
         }
         Cursor _cursor = DatabaseHelpler.getInstance().query(tabName,
-                new String[]{"typename","symbolID","width","color"}, null, null, null, null, null);
+                new String[]{"typename", "symbolID", "width", "color"}, null, null, null, null, null);
 
-        LogUtills.i("Sql:"+_cursor.toString());
-        int _num  = _cursor.getCount();
-        if(_num==0){
-            LogUtills.e("Query Line Config Table "+SQLConfig.TABLE_DEFAULT_LINE_SETTING+" Faild...");
+        LogUtills.i("Sql:" + _cursor.toString());
+        int _num = _cursor.getCount();
+        if (_num == 0) {
+            LogUtills.e("Query Line Config Table " + SQLConfig.TABLE_DEFAULT_LINE_SETTING + " Faild...");
             return null;
         }
 
-        String[] _keys     = new String[_num];
-        int[] _symbolIds   = new int[_num];
-        double[] _widths   = new double[_num];
-        String[] _colors   = new String[_num];
-        int _index=0;
+        String[] _keys = new String[_num];
+        int[] _symbolIds = new int[_num];
+        double[] _widths = new double[_num];
+        String[] _colors = new String[_num];
+        int _index = 0;
         while (_cursor.moveToNext()) {
-            String _name  = _cursor.getString(_cursor.getColumnIndex("typename"));
+            String _name = _cursor.getString(_cursor.getColumnIndex("typename"));
             int _symbolId = _cursor.getInt(_cursor.getColumnIndex("symbolID"));
             double _width = _cursor.getDouble(_cursor.getColumnIndex("width"));
             String _color = _cursor.getString(_cursor.getColumnIndex("color"));
 
-            _keys[_index]       = _name;
-            _symbolIds[_index]  = _symbolId;
-            _widths[_index]     = _width;
-            _colors[_index]     = _color;
+            _keys[_index] = _name;
+            _symbolIds[_index] = _symbolId;
+            _widths[_index] = _width;
+            _colors[_index] = _color;
 
             _index++;
-            LogUtills.i("Query Line Config Infomation: "+ "Name;"+_name+",Symbolid:"+_symbolId+
-                        ",Width:"+_width+",_color:"+_color);
+            LogUtills.i("Query Line Config Infomation: " + "Name;" + _name + ",Symbolid:" + _symbolId +
+                    ",Width:" + _width + ",_color:" + _color);
         }
         _cursorStand.close();
         _cursor.close();
@@ -455,7 +454,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         _theme.setDefaultStyle(_defaultStyle);
         LogUtills.i("Set Line Symbol Style Successfully...");
         return _theme;
-
 
 
     }
@@ -494,11 +492,12 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     }
 
     /**
-     *  数据导出调用
+     * 数据导出调用
+     *
      * @Author HaiRun
      * @Time 2019/3/10 . 10:52
      */
-    public static BaseFieldLInfos createFieldInfo(Recordset reset,int status) {
+    public static BaseFieldLInfos createFieldInfo(Recordset reset, int status) {
         try {
             if (reset.isEmpty()) {
                 return null;
@@ -529,7 +528,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             return null;
         }
     }
-
 
 
     @Override
@@ -569,9 +567,9 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         parcel.writeString(pipeLength);
         parcel.writeString(burialDifference);
         parcel.writeDouble(rangeExpression);
-//        parcel.writeByte((byte) (measureStart ? 1 : 0));
-//        parcel.writeByte((byte) (measureEnd ? 1 : 0));
-//        parcel.writeString(measureDate);
+        parcel.writeString(measureStart);
+        parcel.writeString(measureEnd);
+        parcel.writeString(measureDate);
 
     }
 
@@ -582,39 +580,39 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         @Override
         public BaseFieldLInfos createFromParcel(Parcel source) {
             BaseFieldLInfos _field = new BaseFieldLInfos();
-            _field.pipeType          = source.readString();
+            _field.pipeType = source.readString();
             _field.benExpNum = source.readString();
             _field.endExpNum = source.readString();
-            _field.startLongitude    = source.readDouble();
-            _field.endLongitude      = source.readDouble();
-            _field.startLatitude     = source.readDouble();
-            _field.endLatitude       = source.readDouble();
+            _field.startLongitude = source.readDouble();
+            _field.endLongitude = source.readDouble();
+            _field.startLatitude = source.readDouble();
+            _field.endLatitude = source.readDouble();
             _field.exp_Date = source.readString();
             _field.benDeep = source.readString();
             _field.endDeep = source.readString();
             _field.buried = source.readString();
-            _field.pipeSize          = source.readString();
+            _field.pipeSize = source.readString();
             _field.d_S = source.readString();
-            _field.rowXCol           = source.readString();
+            _field.rowXCol = source.readString();
             _field.cabNum = source.readString();
-            _field.voltage           = source.readString();
-            _field.pressure          = source.readString();
+            _field.voltage = source.readString();
+            _field.pressure = source.readString();
             _field.material = source.readString();
             _field.belong = source.readString();
             _field.totalHole = source.readString();
             _field.usedHole = source.readString();
-            _field.holeDiameter      = source.readString();
-            _field.state             = source.readString();
-            _field.remark            = source.readString();
-            _field.id                = source.readString();
-            _field.puzzle            = source.readString();
-            _field.labelTag          = source.readString();
-            _field.pipeLength        = source.readString();
-            _field.burialDifference  = source.readString();
-            _field.rangeExpression  = source.readDouble();
-//            _field.measureStart    = source.readByte() != 0;
-//            _field.measureEnd      = source.readByte() != 0;
-//            _field.measureDate     = source.readString();
+            _field.holeDiameter = source.readString();
+            _field.state = source.readString();
+            _field.remark = source.readString();
+            _field.id = source.readString();
+            _field.puzzle = source.readString();
+            _field.labelTag = source.readString();
+            _field.pipeLength = source.readString();
+            _field.burialDifference = source.readString();
+            _field.rangeExpression = source.readDouble();
+            _field.measureStart = source.readString();
+            _field.measureEnd = source.readString();
+            _field.measureDate = source.readString();
 
             return _field;
         }

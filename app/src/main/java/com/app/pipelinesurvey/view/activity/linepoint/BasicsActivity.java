@@ -15,7 +15,10 @@ import com.app.pipelinesurvey.view.fragment.LinePoint.BasicsPointFragment;
 import com.app.pipelinesurvey.view.fragment.LinePoint.FeaturePointFragment;
 
 
-//基础配置替换布局
+/**
+ * 基础配置替换布局
+ * @author
+ */
 
 public class BasicsActivity extends AppCompatActivity implements View.OnClickListener {
 

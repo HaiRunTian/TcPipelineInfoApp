@@ -4,108 +4,227 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_marginTop="6dp">
+
+        <Button
+            android:layout_alignParentLeft="true"
+            android:id="@+id/btnHideMeasuredFlag"
+            style="@style/ButtonStyle02_1"
+            android:layout_marginLeft="10dp"
+            android:text="@string/hide_measured_point"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/measure_point"/>
 
-        <include layout="@layout/layout_seperate_line_h"/>
+        <View
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/btnHideMeasuredFlag"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.5"
+            android:background="@color/grey01" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:text="@string/measureed_point"/>
-
-            <TextView
-                android:id="@+id/tvCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:text="10"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:text="@string/unmeasure_point"/>
-
-            <TextView
-                android:id="@+id/tvWaitCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:text="10"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:visibility="gone"
-                android:id="@+id/btnUnmeasuredPoint"
-                style="@style/ButtonStyle02"
-                android:layout_marginBottom="10dp"
-                android:text="@string/show_unmeasure_point"/>
-
-            <Button
-                android:id="@+id/btnHideMeasuredFlag"
-                style="@style/ButtonStyle02"
-                android:layout_marginLeft="10dp"
-                android:text="@string/hide_measured_point"/>
-
-            <Button
-                android:visibility="gone"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/selector_flush"
-                android:id="@+id/btnFlush"
-                android:layout_width="30dp"
-                android:layout_height="30dp"/>
-
-
-        </LinearLayout>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="3dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="当天测量工作量：" />
+
+        <TextView
+            android:id="@+id/tvDate2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tvDate"
+            android:drawableRight="@drawable/selector_tv_right"
+            android:gravity="end"
+            android:textColor="@color/text1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/tvDate2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="3dp"
+            android:alpha="0.5"
+            android:background="@color/grey01" />
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:id="@+id/layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2">
+
+        <TextView
+            android:id="@+id/tvPointCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="管点: " />
+
+        <TextView
+            android:id="@+id/tvPointSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPointCount"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvGe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPointSum"
+            android:text=" 个" />
+
+        <TextView
+            android:id="@+id/tvPipeLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/tvGe"
+            android:text="管线: " />
+
+        <TextView
+            android:id="@+id/tvPipeSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPipeLength"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPipeSum"
+            android:text=" 米" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout3"
+        android:layout_marginLeft="5dp"
+        android:text="总测量工作量:" />
+
+    <RelativeLayout
+        android:layout_marginLeft="20dp"
+        android:id="@+id/layout4"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCount"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvAllPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="管点: " />
+
+        <TextView
+            android:id="@+id/tvPointSum2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvAllPoint"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvGe2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPointSum2"
+            android:text=" 个" />
+
+        <TextView
+            android:id="@+id/tvAllPipeLength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/tvGe2"
+            android:text="管线: " />
+
+        <TextView
+            android:id="@+id/tvPipeSum2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvAllPipeLength"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/text1" />
+
+        <TextView
+            android:id="@+id/tvM2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvPipeSum2"
+            android:text=" 米" />
+
+        <TextView
+            android:id="@+id/tvMeasure"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/tvM2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/unmeasure_point"/>
+
+        <TextView
+            android:layout_toRightOf="@+id/tvMeasure"
+            android:textColor="@color/text1"
+            android:id="@+id/tvWaitCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="10"/>
+
+
+        <TextView
+            android:layout_toRightOf="@+id/tvWaitCheck"
+            android:id="@+id/tvGe3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 个" />
+
+    </RelativeLayout>
+
+
+
 
 </RelativeLayout>

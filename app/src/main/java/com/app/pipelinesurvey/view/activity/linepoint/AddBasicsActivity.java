@@ -23,6 +23,7 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
     private String table;
     private String user;
     private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,7 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
             edtLineRemark.setText(remark);
         }
     }
+
     private void initView() {
         tvSubmit = ((TextView) findViewById(R.id.tvSubmit));
         tvSubmit.setOnClickListener(this);
@@ -61,7 +63,7 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvSubmit:
                 ContentValues _values = new ContentValues();
                 _values.put("name", edtName.getText().toString());
@@ -69,12 +71,14 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
                 _values.put("code", edtTypeCode.getText().toString());
                 _values.put("remark", edtLineRemark.getText().toString());
                 int i = SQLUtils.setLineInfo(table, id, _values);
-                if (i==1){
+                if (i == 1) {
                     Toast.makeText(this, "保存成功.....", Toast.LENGTH_SHORT).show();
-                }else if (i==0){
+                } else if (i == 0) {
                     Toast.makeText(this, "更新成功.....", Toast.LENGTH_SHORT).show();
                 }
                 finish();
+                break;
+            default:
                 break;
         }
     }

@@ -71,7 +71,7 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
         setContentView(R.layout.activity_home_page);
         initView();
 
-//        initData();
+//        initAllData();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
 //        MyApplication.Ins().fixInputMethodManagerLeak(this);
         ToastUtil.cancelToast();
     }
-    //    private void initData() {
+    //    private void initAllData() {
     //        String[] fnList = getResources().getStringArray(R.array.funtionlists);
     //        for (String fnName : fnList) {
     //            m_datalist.add(fnName);

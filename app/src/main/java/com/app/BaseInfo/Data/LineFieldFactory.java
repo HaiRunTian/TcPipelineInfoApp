@@ -35,7 +35,7 @@ public class LineFieldFactory {
     public static BaseFieldLInfos Create(POINTTYPE type) {
         BaseFieldLInfos _info = null;
         switch (type) {
-            case Type_WaterSupply_J: {
+         /*   case Type_WaterSupply_J: {
                 _info = new WaterSupplyFieldLine();
             }
             break;
@@ -97,7 +97,7 @@ public class LineFieldFactory {
             break;
             case Type_Line:{
                 _info = new PipeLine();
-            }
+            }*/
             default:
                 break;
         }
@@ -107,7 +107,7 @@ public class LineFieldFactory {
 
     public static BaseFieldLInfos Create(String name) {
 
-        if (name.equals(SuperMapConfig.Layer_WaterSupply))    return new WaterSupplyFieldLine();
+       /* if (name.equals(SuperMapConfig.Layer_WaterSupply))    return new WaterSupplyFieldLine();
         if (name.equals(SuperMapConfig.Layer_Sewage))         return new SewageFieldLine();
         if (name.equals(SuperMapConfig.Layer_Rain))           return new RainFieldLine();
         if (name.equals(SuperMapConfig.Layer_Drainage))       return new DrainageFieldLine();
@@ -122,7 +122,7 @@ public class LineFieldFactory {
         if (name.equals(SuperMapConfig.Layer_Industry))       return new IndustryFieldLine();
         if (name.equals(SuperMapConfig.Layer_Unknown))        return new UnknownFieldLine();
         if (name.equals(SuperMapConfig.Layer_Other))          return new OtherFieldLine();
-        if (name.equals(SuperMapConfig.Layer_Line))           return new PipeLine();
+        if (name.equals(SuperMapConfig.Layer_Line))           return new PipeLine();*/
 
         return null;
     }
@@ -149,7 +149,6 @@ public class LineFieldFactory {
     }
 
     public static BaseFieldLInfos createFieldInfo(BaseFieldPInfos startInfo, BaseFieldPInfos endInfo){
-
         BaseFieldLInfos _info = LineFieldFactory.CreateInfo(startInfo.pipeType.substring(0,2));
         if(_info == null){
             LogUtills.e("Create "+_info.pipeType+", BaseFieldLInfos Faild...");

@@ -59,7 +59,7 @@
     <string name="measure_point">测量收点</string>
     <string name="count">统计</string>
     <string name="pointSize">地图切换</string>
-    <string name="unmeasure_point">未测点数：</string>
+    <string name="unmeasure_point">未测：</string>
     <string name="measureed_point">已测点数：</string>
     <string name="show_unmeasure_point">显示未测点</string>
     <string name="hide_measured_point">隐藏已测标识</string>
