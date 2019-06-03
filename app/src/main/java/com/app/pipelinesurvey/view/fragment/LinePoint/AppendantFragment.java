@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.BasicsAppendantAdapter;
 import com.app.pipelinesurvey.adapter.BasicsPointAdapter;
@@ -56,6 +55,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
                 listSql(pointname);
                 adjubct(pointname);
             }
+            btnAdd.setOnClickListener(this);
         }
         return view;
     }
@@ -92,7 +92,6 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         appendantt.setAdapter(basicsAppendantAdapter);
         basicsAppendantAdapter.notifyDataSetChanged();
     }
-
     private void listSql(String pointname) {
         adjunctList.clear();
         //得到点击的管类的附属物和特征点
@@ -121,7 +120,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         appendantt = ((ListView) view.findViewById(R.id.lv_appendantt));
         point = ((ListView) view.findViewById(R.id.lv_point));
         btnAdd = ((TextView) view.findViewById(R.id.btnAdd));
-        btnAdd.setOnClickListener(this);
+
     }
 
 
@@ -130,9 +129,8 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.btnAdd:
                 Intent intent = new Intent(getActivity(), AddBasicsActivity.class);
-                intent.putExtra("table", appendantTable);
-                intent.putExtra("pointname", pointname);
-                intent.putExtra("code", code);
+                intent.putExtra("table",appendantTable);
+                intent.putExtra("pointname",pointname);
                 startActivity(intent);
                 break;
             default:

@@ -62,7 +62,6 @@ android {
 
     }
 
-
     greendao {
         schemaVersion 1 //数据库版本号，数据库升级使用
         daoPackage 'com.app.pipelinesurvey.greendao.gen'
