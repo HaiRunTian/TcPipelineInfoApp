@@ -16,6 +16,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -617,6 +618,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 ///
 //                SymbolDialogFragment _dialogFragment = new SymbolDialogFragment();
 //                _dialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
+
                 startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
                 break;
 
