@@ -212,10 +212,6 @@
                 standard_info(name,creator,createtime,pointsettingtablesymbol,linesettintable,status)
                 values('广州','某某','219年3月29日','default_point_setting','default_line_setting',1)
             </sql>
-            <sql>insert into
-                standard_info(name,creator,createtime,pointsettingtablesymbol,linesettintable,status)
-                values('深圳','某某','219年6月1日','default_point_shenzhan','default_line_shenzhan',1)
-            </sql>
         </sql_init_table_standard_info>
         <!--管类表-->
         <sql_init_table_pipe_info>
@@ -267,16 +263,6 @@
             <sql>insert into pipe_info(name,code,typename,remark)
                 values('临时','O','临时','')
             </sql>
-            <!--深圳-->
-            <sql>insert into pipe_info(name,code,typename,remark)
-                values('合流','H','合流','')
-            </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
-                values('路灯-LD','LD','路灯','')
-            </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
-                values('信号','XH','信号','')
-            </sql>
         </sql_init_table_pipe_info>
         <!--附属物表-->
         <sql_init_table_appendant_info>
@@ -302,26 +288,6 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('放水口','给水','J','0','')
             </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('检修井','给水','J','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','给水','J','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('排泥阀','给水','J','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('水源井','给水','J','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','给水','J','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','给水','J','0','')
-            </sql>
-
             <!--污水-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('探测点','污水','W','1','')
@@ -347,37 +313,7 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('立管点','污水','W','0','')
             </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('跌水井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('渗水井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('沉泥井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('冲洗井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进出水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','污水','W','0','')
-            </sql>
+
             <!--雨水-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('探测点','雨水','Y','1','')
@@ -406,37 +342,7 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('立管点','雨水','Y','0','')
             </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('跌水井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('渗水井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('沉泥井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('冲洗井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进出水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','污水','W','0','')
-            </sql>
+
             <!--排水-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('探测点','排水','P','1','')
@@ -464,87 +370,6 @@
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('立管点','排水','P','0','')
-            </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('跌水井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('渗水井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('沉泥井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('冲洗井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进出水口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','污水','W','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','污水','W','0','')
-            </sql>
-
-            <!--合流深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('探测点','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('检查井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('跌水井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('渗水井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('沉泥井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('冲洗井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进水口','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出水口','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进出水口','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('污水篦','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('雨水篦','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('化粪池','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','合流','H','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('立管点','合流','H','0','')
             </sql>
 
             <!--煤气-->
@@ -586,23 +411,6 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('调压箱','燃气','R','0','')
             </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('盖堵','燃气','R','1','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出入地','燃气','R','1','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('燃气柜','燃气','R','1','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','燃气','R','1','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','燃气','R','1','')
-            </sql>
-
             <!--路灯-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('探测点','路灯','S','1','')
@@ -631,61 +439,6 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('地灯','路灯','S','0','')
             </sql>
-            <!--深圳  路灯-LD-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('探测点','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('检修井','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('控制柜','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('上杆','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出入地','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('配电箱','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('红绿灯','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('信号灯','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('摄像头','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('路灯杆','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('路灯','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('地灯','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('杆上变压器','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('水泥杆','路灯-LD','LD','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('铁塔','路灯-LD','LD','0','')
-            </sql>
 
             <!--电力-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
@@ -711,105 +464,6 @@
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('铁塔','电力','L','0','')
-            </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('检修井','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('控制柜','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('上杆','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出入地','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('配电箱','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('红绿灯','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('信号灯','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('摄像头','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('路灯','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('地灯','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','电力','L','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('杆上变压器','电力','L','0','')
-            </sql>
-            <!--信号XH-->
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('探测点','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('检修井','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('控制柜','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('上杆','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出入地','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('配电箱','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('红绿灯','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('信号灯','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('摄像头','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('路灯杆','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('路灯','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('地灯','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('杆上变压器','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('水泥杆','信号','XH','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('铁塔','信号','XH','0','')
             </sql>
             <!--电信-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
@@ -845,26 +499,6 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('铁塔','电信','D','0','')
             </sql>
-            <!--深圳）有视-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('电信人孔','电信','D','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('电信手孔','电信','D','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出入地','电信','D','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','电信','D','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','电信','D','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','电信','D','0','')
-            </sql>
-
 
             <!--有视-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
@@ -987,31 +621,6 @@
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
                 values('铁塔','工业','G','0','')
             </sql>
-            <!--深圳-->
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('检修井','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('盖堵','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('凝水缸','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出入地','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('燃气柜','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('排气阀','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','工业','G','0','')
-            </sql>
-            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','工业','G','0','')
-            </sql>
 
             <!--不明N-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
@@ -1125,19 +734,6 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','给水','J','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','给水','J','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','给水','J','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','给水','J','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','给水','J','')
-            </sql>
 
             <!--雨水-->
             <sql>insert into feature_info(name,typename,code,remark)
@@ -1197,17 +793,6 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('变径','雨水','Y','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','雨水','Y','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','雨水','Y','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('终止点','雨水','Y','')
-            </sql>
-
             <!--污水-->
             <sql>insert into feature_info(name,typename,code,remark)
                 values('三通','污水','W','')
@@ -1266,16 +851,7 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('变径','污水','W','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','污水','W','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','污水','W','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('终止点','污水','W','')
-            </sql>
+
             <!--排水-->
             <sql>insert into feature_info(name,typename,code,remark)
                 values('三通','排水','P','')
@@ -1334,46 +910,6 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('变径','排水','P','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','排水','P','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','排水','P','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('终止点','排水','P','')
-            </sql>
-
-            <!--深圳  合流  H-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('三通','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('四通','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('五通','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('直线点','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('变坡点','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','合流','H','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('终止点','合流','H','')
-            </sql>
-
             <!--煤气-->
             <sql>insert into feature_info(name,typename,code,remark)
                 values('弯头','煤气','M','')
@@ -1460,19 +996,6 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','燃气','R','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','燃气','R','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','燃气','R','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','燃气','R','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','燃气','R','')
-            </sql>
 
             <!--路灯-->
             <sql>insert into feature_info(name,typename,code,remark)
@@ -1542,68 +1065,6 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','电力','L','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','电力','L','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','电力','L','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','电力','L','')
-            </sql>
-            <!--深圳  路灯 LD-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('分支点','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('直线点','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('变深','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('变坡','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','路灯-LD','LD','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('终止点','路灯-LD','LD','')
-            </sql>
-
-            <!--深圳  信号 XH-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('分支点','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('直线点','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('变深','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('变坡','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','信号','XH','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('终止点','信号','XH','')
-            </sql>
-
             <!--电信-->
             <sql>insert into feature_info(name,typename,code,remark)
                 values('弯头','电信','D','')
@@ -1637,16 +1098,6 @@
             </sql>
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','电信','D','')
-            </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','电信','D','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','电信','D','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','电信','D','')
             </sql>
 
 
@@ -1796,20 +1247,6 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','工业','G','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','工业','G','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','工业','G','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','工业','G','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','工业','G','')
-            </sql>
-
             <!--不明 N-->
             <sql>insert into feature_info(name,typename,code,remark)
                 values('弯头','不明','N','')
@@ -1853,19 +1290,7 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','不明','N','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','不明','N','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','不明','N','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','不明','N','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','不明','N','')
-            </sql>
+
 
             <!--其它 Q-->
             <sql>insert into feature_info(name,typename,code,remark)
@@ -1910,19 +1335,7 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','其它','Q','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','其它','Q','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','其它','Q','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','其它','Q','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','其它','Q','')
-            </sql>
+
             <!--临时点 O-->
             <sql>insert into feature_info(name,typename,code,remark)
                 values('弯头','临时点','O','')
@@ -1966,19 +1379,7 @@
             <sql>insert into feature_info(name,typename,code,remark)
                 values('出测区','临时点','O','')
             </sql>
-            <!--深圳-->
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('拐点','临时点','O','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('裸露点','临时点','O','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('多通','临时点','O','')
-            </sql>
-            <sql>insert into feature_info(name,typename,code,remark)
-                values('起始点','临时点','O','')
-            </sql>
+
         </sql_init_table_feature_info>
         <!--广州-->
         <sql_init_table_default_point_setting>
