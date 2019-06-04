@@ -1381,6 +1381,7 @@
             </sql>
 
         </sql_init_table_feature_info>
+
         <!--广州-->
         <sql_init_table_default_point_setting>
             <!--排水设置-->
