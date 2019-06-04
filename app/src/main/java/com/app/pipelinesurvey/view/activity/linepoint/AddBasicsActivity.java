@@ -68,6 +68,7 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
             }
         }
     }
+
     private void initView() {
         tvSubmit = ((TextView) findViewById(R.id.tvSubmit));
         tvSubmit.setOnClickListener(this);
@@ -93,6 +94,8 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(this, "更新成功.....", Toast.LENGTH_SHORT).show();
                 }
                 finish();
+                break;
+            default:
                 break;
         }
     }

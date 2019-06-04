@@ -343,7 +343,9 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         return _theme;
     }
 
-    //子类调用，单值符号专题图
+    /**
+     *  子类调用，单值符号专题图
+     */
     protected ThemeUnique createThemeUnique(String[] keys, int[] _sids, String color, Size2D[] size2Ds) {
 
         ThemeUnique _theme = new ThemeUnique();

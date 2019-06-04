@@ -52,6 +52,7 @@
 
     <!--井盖材质-->
     <string-array name="wellLidTexture">
+        <item></item>
         <item>铸铁</item>
         <item>砼</item>
         <item>塑料</item>

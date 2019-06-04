@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 第一层  上部和左部偏移一定距离-->
     <item
-        android:left="2.66dp"
-        android:top="2.66dp">
+        android:left="0dp"
+        android:top="0dp">
         <shape>
             <solid android:color="@color/grey05" />
             <!-- 描边 -->

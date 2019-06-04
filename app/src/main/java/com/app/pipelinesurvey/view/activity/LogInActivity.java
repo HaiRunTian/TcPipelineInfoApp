@@ -64,7 +64,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.tvLogIn:
                 //判断软件使用时间
-                if (NetUtils.isNetworkConnected(this)){
+                if (NetUtils.isNetworkConnected(this) && nowTime.length() > 0){
                     //有网情况下用网络时间判断
                     if (!LimitByTimeUtil.ins().isEffectiveDate(nowTime)) {
                         ToastUtil.showShort(this, "软件试用期已经过期，请购买此软件");

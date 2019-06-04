@@ -1,7 +1,6 @@
 package com.app.pipelinesurvey.view.fragment.map;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,6 +29,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Data.PointFieldFactory;
@@ -51,6 +51,7 @@ import com.app.pipelinesurvey.view.iview.IDrawPipePointView;
 import com.app.pipelinesurvey.view.iview.IQueryPipePointView;
 import com.app.utills.LogUtills;
 import com.supermap.data.Recordset;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ import java.util.regex.Pattern;
  * @author
  */
 public class QueryPointFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, IQueryPipePointView, IDrawPipePointView, AdapterView.OnItemClickListener {
+    private static final String TAG = "QueryPointFragment";
     private TextView tvTitle;
     private TextView tvSubmit;
     private Button btnPreviousOne;
@@ -179,6 +181,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     File m_pictureName;
     private String initPointExp = "";
     private int _smId;
+    /**
+     * 第一次进来
+     */
+    private boolean firstInit = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -199,13 +205,15 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         initValue();
     }
 
+
     private void initValue() {
+
         m_bundle = getArguments();
         m_basePInfo = m_bundle.getParcelable("info");
         LogUtills.i("queryActivity " + m_basePInfo.toString());
         int _smId = m_bundle.getInt("smId", 0);
         m_smid = new int[]{_smId};
-        m_code = m_basePInfo.pipeType.substring(m_basePInfo.pipeType.length() - 1);
+        m_code = m_basePInfo.pipeType.substring(3);
         //如果是修改管点信息，则需要获取选中观点的类型来更改属性。考虑下拉框给用户选择管类，则必须考虑管类不同而导致的，附属物、管点类型的不同而做的变化
 //        int _typeIndex = m_basePInfo.pipeType.indexOf("_") + 1;
         m_gpType = m_basePInfo.pipeType.replace("_", "-");
@@ -328,28 +336,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         m_btnAddPic.setOnClickListener(this);
         btnPreviousOne.setOnClickListener(this);
         btnChangeStyle.setOnClickListener(this);
+        spSituation.setOnItemSelectedListener(this);
 
-        spSituation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String _situation = spSituation.getSelectedItem().toString();
-                if (!_situation.contains("正常")) {
-                    edtPointRemark.setText(spSituation.getSelectedItem().toString().substring(2));
-                    //判断最后一位是否是字母结尾
-                    Pattern _pattern = Pattern.compile("[a-zA-Z]");
-                    if (_pattern.matcher(getGPId().substring(getGPId().length() - 1)).find()) {
-                        edtGpId.setText(getGPId().substring(0, getGPId().length() - 1) + spSituation.getSelectedItem().toString().substring(0, 1));
-                    } else {
-                        edtGpId.setText(getGPId() + spSituation.getSelectedItem().toString().substring(0, 1));
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     @Override
@@ -382,7 +370,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
             //删除点 删除线
             case R.id.btnRemove:
-                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "确定删除？", true, new DialogInterface.OnClickListener() {
+                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "是否确定删除管点？", true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         _smId = m_bundle.getInt("smId", 0);
@@ -398,28 +386,29 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                             ToastUtil.showShort(getActivity(), "删除点成功");
                             getDialog().dismiss();
 
+                            //线 此点作为终点
+                            Recordset _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + getGPId() + "'", false, true);
+                            if (!_resetL.isEmpty()) {
+                                _resetL.deleteAll();
+                                _resetL.update();
+                            }
+
+                            // 线 此点作为起点
+                            _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + getGPId() + "'", false, true);
+                            if (!_resetL.isEmpty()) {
+                                _resetL.deleteAll();
+                                _resetL.update();
+                            }
+                            _resetL.close();
+                            _resetL.dispose();
+
                         } else {
                             ToastUtil.showShort(getActivity(), "删除点失败");
                         }
 
-                        //线 此点作为终点
-                        Recordset _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + getGPId() + "'", false, true);
-                        if (!_resetL.isEmpty()) {
-                            _resetL.deleteAll();
-                            _resetL.update();
-                        }
-
-                        // 线 此点作为起点
-                        _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + getGPId() + "'", false, true);
-                        if (!_resetL.isEmpty()) {
-                            _resetL.deleteAll();
-                            _resetL.update();
-                        }
-
                         _reSet.close();
                         _reSet.dispose();
-                        _resetL.close();
-                        _resetL.dispose();
+                        WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
                     }
                 });
                 break;
@@ -464,7 +453,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 //应先保存管点信息；弹出对话框，是否保存属性信息（坐标信息除外）
                 DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_EditPointLocation);
                 _smId = m_bundle.getInt("smId", 0);
-                DataHandlerObserver.ins().AddPointSmID(_smId);
+                DataHandlerObserver.ins().addPointSmID(_smId);
                 getDialog().dismiss();
                 break;
             case R.id.btnAddPic:
@@ -528,7 +517,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         try {
             String gpType = m_bundle.getString("gpType", "");
             //管类更改地方
-            String _layerType = gpType.trim().substring(gpType.length() - 1);
+            String _layerType = gpType.trim().substring(3);
 
             _info = PointFieldFactory.CreateInfo(gpType.substring(0, 2));
             if (_info == null) {
@@ -564,6 +553,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.situation = getSituation();
             _info.sysId = m_smid[0];
             _info.symbol = SymbolInfo.Ins().getSymbol(gpType, getAppendant(), getFeaturePoints());
+            //如果管类代码有两位，截取第一位
+            if (_layerType.length() == 2) {
+                _layerType = _layerType.substring(0, 1);
+            }
             _info.symbolExpression = _layerType + "-" + _info.symbol;
             _info.depth = m_basePInfo.depth;
             //是否是临时点转实点
@@ -638,13 +631,137 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spAppendant:
+                String itemStr = spAppendant.getSelectedItem().toString();
+                //附属物取“孔”“井”时铺开隐藏面板
+                if (itemStr.contains("孔") || itemStr.contains("井") || itemStr.contains("篦")) {
+                    if (linearAppendantPanel.getVisibility() != View.VISIBLE) {
+                        linearAppendantPanel.setVisibility(View.VISIBLE);
+                        if (animSwitch) {
+                            m_animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_autotv_show);
+                            linearAppendantPanel.startAnimation(m_animation);
+                        }
+                    }
+                } else {
+                    linearAppendantPanel.setVisibility(View.GONE);
+                }
+                animSwitch = true;
+                break;
 
+            //管点编号状态
+            case R.id.spSituation:
+                if (firstInit) {
+                    firstInit = false;
+
+                } else {
+                    updateIdAndPointRemark();
+                }
+                break;
+
+
+            default:
+                break;
+        }
     }
 
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    /**
+     * 根据用户点击管点编号状态修改管点编号和管点备注
+     */
+    private void updateIdAndPointRemark() {
+        String _situation = spSituation.getSelectedItem().toString();
+        String pointRemark = edtPointRemark.getText().toString();
+        if (!_situation.contains("正常")) {
+            //查询管点备注字符 ，如果之前管点备注已经有这种状态，则替换掉
+            if (pointRemark.length() > 0) {
+                //多层判断最后一位字母是不是跟状态字母有关系 去掉最后一个字母
+                if (pointRemark.contains("满水") || pointRemark.contains("满泥") || pointRemark.contains("信号不良")
+                        || pointRemark.contains("推测") || pointRemark.contains("井埋") || pointRemark.contains("打不开")) {
+                    edtGpId.setText(getGPId().substring(0, getGPId().length() - 1));
+
+                    String remark = "";
+                    if (pointRemark.contains("满水")) {
+                        remark = pointRemark.replace("满水", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("满泥")) {
+                        remark = pointRemark.replace("满泥", _situation.substring(2));
+                    }
+                    if (pointRemark.contains("信号不良")) {
+                        remark = pointRemark.replace("信号不良", _situation.substring(2));
+                    }
+
+                    if (pointRemark.contains("推测")) {
+                        remark = pointRemark.replace("推测", _situation.substring(2));
+                    }
+
+                    if (pointRemark.contains("井埋")) {
+                        remark = pointRemark.replace("井埋", _situation.substring(2));
+                    }
+
+                    if (pointRemark.contains("打不开")) {
+                        remark = pointRemark.replace("打不开", _situation.substring(2));
+                    }
+                    edtPointRemark.setText(remark);
+                } else {
+                    edtPointRemark.setText(_situation.substring(2) + pointRemark);
+                }
+
+            } else {
+                edtPointRemark.setText(_situation.substring(2));
+            }
+
+            //判断最后一位是否是字母结尾
+            Pattern _pattern = Pattern.compile("[a-zA-Z]");
+            if (_pattern.matcher(getGPId().substring(getGPId().length() - 1)).find()) {
+                edtGpId.setText(getGPId().substring(0, getGPId().length() - 1) + spSituation.getSelectedItem().toString().substring(0, 1));
+            } else {
+                edtGpId.setText(getGPId() + spSituation.getSelectedItem().toString().substring(0, 1));
+            }
+        } else {
+            //  修改管点代码字母  判断最后一位是否是字母结尾
+            Pattern _pattern = Pattern.compile("[a-zA-Z]");
+            if (_pattern.matcher(getGPId().substring(getGPId().length() - 1)).find()) {
+                //再判断这个字母是不是状态类型的字母   T S Y Z X
+                String code = getGPId().substring(getGPId().length() - 1);
+                if (code.equals("S") || code.equals("Y") || code.equals("Z") || code.equals("X")) {
+                    //多层判断最后一位字母是不是跟状态字母有关系 去掉最后一个字母
+                    if (pointRemark.contains("满水") || pointRemark.contains("满泥") || pointRemark.contains("信号不良")
+                            || pointRemark.contains("推测") || pointRemark.contains("井埋") || pointRemark.contains("打不开")) {
+                        edtGpId.setText(getGPId().substring(0, getGPId().length() - 1));
+                    }
+                }
+            }
+            //修改管线备注  如果之前是不正常状态转为正常状态
+            if (pointRemark.length() > 0) {
+                String remark = "";
+                if (pointRemark.contains("满水")) {
+                    remark = pointRemark.replace("满水", " ");
+                }
+                if (pointRemark.contains("满泥")) {
+                    remark = pointRemark.replace("满泥", " ");
+                }
+                if (pointRemark.contains("信号不良")) {
+                    remark = pointRemark.replace("信号不良", " ");
+                }
+                if (pointRemark.contains("推测")) {
+                    remark = pointRemark.replace("推测", " ");
+                }
+                if (pointRemark.contains("井埋")) {
+                    remark = pointRemark.replace("井埋", " ");
+                }
+                if (pointRemark.contains("打不开")) {
+                    remark = pointRemark.replace("打不开", " ");
+                }
+                remark = remark.trim();
+                edtPointRemark.setText(remark);
+            }
+        }
     }
 
 
@@ -886,6 +1003,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void setPointRemark() {
         String _pointRemark = m_basePInfo.remark;
+        LogUtills.i(TAG, "pointRemark =" + _pointRemark);
         if (_pointRemark.length() != 0) {
             edtPointRemark.setText(_pointRemark);
         }
@@ -989,7 +1107,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         return _list;
     }
 
-    //刷新图片区域gridview
+    /**
+     * 刷新图片区域gridview
+     */
     private void refreshGridviewAdapter() {
         simpleAdapter = new SimpleAdapter(getActivity(), imageItem,
                 R.layout.layout_griditem_addpic, new String[]{"itemImage", "picName"}, new int[]{R.id.imageView1, R.id.tvPicName});
@@ -1156,9 +1276,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             intent.setAction(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             Uri _uri;
-            if (Build.VERSION.SDK_INT >= 24){
-                _uri = FileProvider.getUriForFile(getContext().getApplicationContext(),"com.app.pipelinesurvey",file);
-            }else {
+            if (Build.VERSION.SDK_INT >= 24) {
+                _uri = FileProvider.getUriForFile(getContext().getApplicationContext(), "com.app.pipelinesurvey", file);
+            } else {
                 _uri = Uri.fromFile(file);
             }
             intent.setDataAndType(_uri, CameraUtils.IMAGE_UNSPECIFIED);

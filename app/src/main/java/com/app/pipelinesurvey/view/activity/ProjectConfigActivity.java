@@ -109,14 +109,14 @@ public class ProjectConfigActivity extends BaseActivity implements IPointAttrCon
             @Override
             public void onClick(View v) {
                 if (previousAction.equals(PointAttrConfigFragment.ITEM_CLICK)) {
-                    DatabaseHelpler.getInstance().update(SQLConfig.TABLE_NAME_POINT_CONFIG, getCurrentContentValues(),
-                            "id = ?", new String[]{edtID.getText().toString()});
+//                    DatabaseHelpler.getInstance().update(SQLConfig.TABLE_NAME_POINT_CONFIG, getCurrentContentValues(),
+//                            "id = ?", new String[]{edtID.getText().toString()});
                     ToastUtil.showShort(ProjectConfigActivity.this, "已保存");
                     updatePointAttrConfigInfo();
                 } else if (previousAction.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {
                     ContentValues _values = getCurrentContentValues();
                     _values.put("city", city);
-                    DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_POINT_CONFIG,_values);
+//                    DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_POINT_CONFIG,_values);
                     ToastUtil.showShort(ProjectConfigActivity.this,"保存成功");
                     setResult(RESULT_OK);
                     finish();

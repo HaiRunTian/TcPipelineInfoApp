@@ -274,7 +274,7 @@ public class WorkCountFragment extends android.support.v4.app.Fragment implement
         _reset2.close();
         _reset2.dispose();
 
-
+        //显示
         DecimalFormat df = new DecimalFormat("0.00");
         m_tvAllPoint.setText(_pointCount + "");
         if (_pipeLength < 1000) {

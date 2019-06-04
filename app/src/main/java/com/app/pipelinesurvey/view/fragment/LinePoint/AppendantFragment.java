@@ -45,12 +45,12 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view==null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.fragment_appendant_point, container, false);
             initView();
             initData();
             //设置进来就显示的第一个管类
-            if (pointList.size()!=0) {
+            if (pointList.size() != 0) {
                 pointname = pointList.get(0);
                 listSql(pointname);
                 adjubct(pointname);
@@ -59,8 +59,9 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         }
         return view;
     }
+
     private void initData() {
-        pointList= SQLUtils.getAll(pointTable);
+        pointList = SQLUtils.getAll(pointTable);
         basicsPointAdapter = new BasicsPointAdapter(getActivity(), pointList);
         point.setAdapter(basicsPointAdapter);
 
@@ -71,10 +72,10 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         point.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (((ListView)parent).getTag() != null){
-                    ((View)((ListView)parent).getTag()).setBackgroundDrawable(null);
+                if (((ListView) parent).getTag() != null) {
+                    ((View) ((ListView) parent).getTag()).setBackgroundDrawable(null);
                 }
-                ((ListView)parent).setTag(view);
+                ((ListView) parent).setTag(view);
                 view.setBackgroundColor(Color.parseColor("#ededed"));
                 //获取到当前管类类型，然后感觉它来拿到它的附属物
                 pointname = pointList.get(position);
@@ -84,9 +85,10 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
             }
         });
     }
+
     private void adjubct(String pointname) {
         //右边适配器
-        basicsAppendantAdapter = new BasicsAppendantAdapter(getActivity(), adjunctList,appendantTable,pointname);
+        basicsAppendantAdapter = new BasicsAppendantAdapter(getActivity(), adjunctList, appendantTable, pointname);
         appendantt.setAdapter(basicsAppendantAdapter);
         basicsAppendantAdapter.notifyDataSetChanged();
     }
@@ -98,11 +100,12 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
                 "where typename = '" + pointname + "'");
         //把集合的数据先清空，获取到新的数据，然后唤醒适配器更新数据
         while (_cursor1.moveToNext()) {
-            String  name = _cursor1.getString(_cursor1.getColumnIndex("name"));
+            String name = _cursor1.getString(_cursor1.getColumnIndex("name"));
             code = _cursor1.getString(_cursor1.getColumnIndex("code"));
             adjunctList.add(name);
         }
     }
+
     @Override
     public void onResume() {
         listSql(pointname);
@@ -110,6 +113,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
         basicsAppendantAdapter.notifyDataSetChanged();
         super.onResume();
     }
+
     private void initView() {
         pointList = new ArrayList<>();
         adjunctList = new ArrayList<>();
@@ -122,12 +126,14 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnAdd:
                 Intent intent = new Intent(getActivity(), AddBasicsActivity.class);
                 intent.putExtra("table",appendantTable);
                 intent.putExtra("pointname",pointname);
                 startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

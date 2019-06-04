@@ -7,13 +7,13 @@ android {
         applicationId "com.app.pipelinesurvey"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 23
-        versionName "1.3.3"
+        versionCode 25
+        versionName "1.3.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
         ndk { abiFilters "armeabi", "armeabi-v7a", "x86", "mips" }
     }
-
     dexOptions {
         jumboMode true
     }
@@ -33,39 +33,39 @@ android {
 
     buildTypes {
         debug {
-            // 显示Log
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-            versionNameSuffix "-debug"
             minifyEnabled false
-            zipAlignEnabled false
-            shrinkResources false
             signingConfig signingConfigs.debug
         }
 
-        /* release {
-             //不显示Log
-             buildConfigField "boolean", "LOG_DEBUG", "false"
-             minifyEnabled false
-             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-             //签名
-             signingConfig signingConfigs.release
-             applicationVariants.all { variant ->
-                 variant.outputs.each { output ->
-                     def outputFile = output.outputFile
-                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                         // 输出apk名称为app_v1.0_2015-xx-xx_xxxx.apk
-                         //def fileName = "app_v${defaultConfig.versionName}_${releaseTime()}.apk"
-                         def fileName = "天驰管调通_v${defaultConfig.versionName}.apk"
-                         output.outputFile = new File(outputFile.parent, fileName)
-                     }
-                 }
-             }
-         }*/
+        release {
+            //不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            // Zipalign优化
+            zipAlignEnabled true
+            // 混淆
+            minifyEnabled false
+            // 移除无用的resource文件
+//            shrinkResources true
+            // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名
+            signingConfig signingConfigs.release
+            //配置自定义打包名称 applicationVariants.all { variant ->
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "天驰管调通V-${variant.versionName}-${defaultConfig.versionCode}.apk"
+                }
+            }
+
+        }
+
+
     }
 
     greendao {
         schemaVersion 1 //数据库版本号，数据库升级使用
-        daoPackage 'com.app.pipelinesurvey.greendao.gen' //代表GreenDao自动生成的有关数据库操作工具类所要存放的包名
+        daoPackage 'com.app.pipelinesurvey.greendao.gen'
+        //代表GreenDao自动生成的有关数据库操作工具类所要存放的包名
         targetGenDir 'src/main/java' //路径
     }
 
@@ -77,24 +77,19 @@ android {
         }
     }
 
-//    sourceSets {
-//        main {
-//            jniLibs.srcDirs = ['libs']
-//        }
-//    }
-
 }
 
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    //testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     implementation files('libs/jxl.jar')
     implementation files('libs/ant-1.8.2.jar')
@@ -105,11 +100,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.yanzhenjie:permission:2.0.0-rc3'
-    implementation 'com.github.bumptech.glide:glide:4.3.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //图片轮播框架
     implementation 'com.youth.banner:banner:1.4.8'
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.caption:netmonitorlibrary:1.0.0'
     //PDF查看
     implementation 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'

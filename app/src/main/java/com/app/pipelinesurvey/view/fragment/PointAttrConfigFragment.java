@@ -53,7 +53,7 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
 //        currentCity = (String) new SharedPrefManager(getActivity(),
 //                SharedPrefManager.FILE_CONFIG).getSharedPreference(SharedPrefManager.KEY_CITY, "");
 //        if (!currentCity.equals("")) {
-            bundlePipeType(SQLConfig.TABLE_NAME_POINT_LIST);
+//            bundlePipeType(SQLConfig.TABLE_NAME_POINT_LIST);
 //        }
     }
 
@@ -77,7 +77,7 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
 //        if (currentCity.length() == 0) {
 //            ToastUtil.showShort(getActivity(), "请选择城市");
 //        } else {
-            bundlePipeType(SQLConfig.TABLE_NAME_POINT_LIST);
+//            bundlePipeType(SQLConfig.TABLE_NAME_POINT_LIST);
 //        }
     }
 
@@ -132,6 +132,8 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
 //                _intent.putExtra("city", currentCity);
                 startActivityForResult(_intent, REQUEST_ADD_POINT_ATTR);
                 break;
+
+                default:break;
         }
     }
 

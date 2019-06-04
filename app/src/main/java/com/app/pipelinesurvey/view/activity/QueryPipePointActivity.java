@@ -26,13 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.BaseInfo.Data.BaseFieldPInfos;
-import com.app.BaseInfo.Data.MAPACTIONTYPE;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Data.PointFieldFactory;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.BaseActivity;
-import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.CameraUtils;
@@ -41,16 +39,10 @@ import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
 import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
 import com.app.pipelinesurvey.utils.ToastUtil;
-import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.iview.IDrawPipePointView;
 import com.app.pipelinesurvey.view.iview.IQueryPipePointView;
 import com.app.utills.LogUtills;
-import com.supermap.data.CursorType;
-import com.supermap.data.DatasetVector;
-import com.supermap.data.GeoPoint;
-import com.supermap.data.QueryParameter;
 import com.supermap.data.Recordset;
-import com.supermap.mapping.Layer;
 
 import java.io.File;
 import java.net.URI;
@@ -499,7 +491,7 @@ public class QueryPipePointActivity extends BaseActivity implements View.OnClick
                 //应先保存管点信息；弹出对话框，是否保存属性信息（坐标信息除外）
                 DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_EditPointLocation);
                 _smId = m_bundle.getInt("smId", 0);
-                DataHandlerObserver.ins().AddPointSmID(_smId);
+                DataHandlerObserver.ins().addPointSmID(_smId);
                 finish();
                 break;
             case R.id.btnAddPic:

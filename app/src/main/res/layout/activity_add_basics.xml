@@ -24,10 +24,9 @@
                     android:orientation="horizontal"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/point_name"
-                        android:layout_margin="5dp"
+
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -54,10 +53,8 @@
                     android:orientation="horizontal"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/subordinate"
-                        android:layout_margin="5dp"
                         />
                     <TextView
                         android:layout_height="20dp"
@@ -84,10 +81,8 @@
                     android:orientation="horizontal"
                     >
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/type"
-                        android:layout_margin="5dp"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,9 +112,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_margin="5dp"
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/yes_no" />
 
                     <TextView
@@ -146,20 +139,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     >
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                    <ImageViewx
+                        style="@style/activity_point_all_icon_left"
                         android:background="@mipmap/remak"
-                        android:layout_margin="5dp"
                         />
                     <TextView
                         android:layout_height="20dp"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"
                         android:textSize="15dp"
-                        android:text="@string/line_setting_remark"
-                        />
+                        android:text="@string/line_setting_remark" />
                 </LinearLayout>
+
+
                 <EditText
                     android:id="@+id/edtLineRemark"
                     android:layout_weight="3"

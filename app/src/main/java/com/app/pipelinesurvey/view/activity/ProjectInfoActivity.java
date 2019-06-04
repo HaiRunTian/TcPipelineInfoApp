@@ -212,8 +212,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tvConfig:
-                //创建数据库
-                startActivity(new Intent(this, SettingActivity.class));
                 break;
             //保存数据，打开地图，如果没有添加地图，默认打开地图
             case R.id.btnOpen:

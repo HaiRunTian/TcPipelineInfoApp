@@ -62,6 +62,7 @@ public class PointSizeFragment extends Fragment implements View.OnClickListener 
                 SuperMapConfig.User_Query_Point_Size = Double.parseDouble(edtPointSize.getText().toString());
 
                 break;
+                default:
         }
     }
 }

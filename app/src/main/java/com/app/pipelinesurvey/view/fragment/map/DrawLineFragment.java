@@ -251,12 +251,20 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
      * 管类
      */
     private String gpType;
+    /**
+     * 起点
+     */
     private BaseFieldPInfos m_startPInfo = null;
+    /**
+     * 终点
+     */
     private BaseFieldPInfos m_endPInfo = null;
-    private int m_smId = -1;
+//    private int m_smId = -1;
     private Button btnSave;
+    /**
+     * 线
+     */
     private BaseFieldLInfos m_baseFileLInfo;
-    private SharedPreferences.Editor m_editor;
     private StringBuffer m_stringBuffer;
     private int m_endSmId;
     private String m_code;
@@ -347,9 +355,9 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         //终点点号
         m_endSmId = getArguments().getInt("endSmId", -1);
 
-        m_smId = getArguments().getInt("smId", -1);
         //获取当前点图层
         Layer _pLayer = DataHandlerObserver.ins().getTotalPtLayer();
+
         //获取当前点图层
         Layer _pEndLayer = DataHandlerObserver.ins().getTotalLrLayer();
         if (_pLayer == null || _pEndLayer == null) {
@@ -357,6 +365,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             getDialog().dismiss();
         }
 
+        //起点记录集
         Recordset _startReset = DataHandlerObserver.ins().queryRecordsetBySmid(_beginSmId, true, false);
         _startReset.moveFirst();
         //记录集转为管点类
@@ -368,8 +377,10 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             getDialog().dismiss();
         }
 
+        //终点记录集
         Recordset _endReset = DataHandlerObserver.ins().queryRecordsetBySmid(m_endSmId, true, false);
         _endReset.moveFirst();
+        //记录集转为管点类
         m_endPInfo = BaseFieldPInfos.createFieldInfo(_endReset);
         if (m_endPInfo == null) {
             LogUtills.e("Initial DrawPipeLineActivity Create End BaseFieldPInfos fail, Smid:" + m_endSmId);
@@ -381,7 +392,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         }
         //获取管线长度
         double _len = getPipeLen(_startReset, _endReset);
-
         //起点点号
         edtStartPoint.setText(m_startPInfo.id);
         //终点点号
@@ -399,6 +409,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         _endReset.close();
         _startReset.dispose();
         _endReset.dispose();
+
         //导入上一条管线数据 同类管相同就导入，否则不导入
         importData();
     }
@@ -419,14 +430,15 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
         double _dx = _sX - _eX;
         double _dy = _sY - _eY;
-
+        //计算线的长度
         double _len = Math.sqrt(_dx * _dx + _dy * _dy);
-
+        //查询数据库自定义的管线长度提示值
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
         int _tempL = 0;
         if (_cursor.moveToNext()) {
             _tempL = _cursor.getInt(_cursor.getColumnIndex("PipeLength"));
         }
+        //管线长度超过了数据库线长度的提示值
         if (_len > _tempL) {
             ToastUtil.showShort(getActivity(), "管线长度超出自定义长度" + _tempL + "米");
         }
@@ -438,7 +450,9 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     public void onClick(View v) {
         try {
             switch (v.getId()) {
+                //返回
                 case R.id.linearReturn:
+                    //如果添加的是临时点临时线，返回时要删除临时点
                     String _tem = "T_";
                     if (m_endPInfo.exp_Num.contains(_tem)) {
                         Recordset _endReset = DataHandlerObserver.ins().queryRecordsetBySmid(m_endSmId, true, true);
@@ -449,23 +463,27 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         _endReset.close();
                         _endReset.dispose();
                     }
-
                     getDialog().dismiss();
                     break;
+
                 //保存 提交 提交前判断有些选项数据是否合理
                 case R.id.btnRemove:
                 case R.id.tvSubmit:
                     boolean _result = false;
+                    //判断哪些值没有填写
                     checkViewData();
 
+                    //检查哪些必填值没有填写
                     if (!checkValueRight()) {
                         return;
                     }
+                    //往线记录集添加记录
                     _result = DataHandlerObserver.ins().addRecords(generateBaseFieldInfo());
                     if (!_result) {
                         ToastUtil.showShort(getActivity().getBaseContext(), "保存点数据失败...");
                         return;
                     } else {
+                        //更新起点终点的深度
                         //更新点数据集起点深度值
                         boolean _fistPoint = DataHandlerObserver.ins().updateRecordSetBySql("exp_Num = '" + getStartPoint() + "'", getStartBurialDepth());
                         //更新点数据集起点深度值
@@ -475,6 +493,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         }
                         getDialog().dismiss();
                     }
+
                     break;
 
                 //起点和终点交换，线方向改变
@@ -493,6 +512,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     edtEndBurialDepth.setText(temp);
                     break;
 
+                    //管线备注下拉按钮
                 case R.id.imgvLineRemark:
                     _popupWindow = new ListPopupWindow(getActivity());
                     _popupWindow.setWidth(layoutLineMark.getWidth() - 5);
@@ -509,6 +529,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     });
                     _popupWindow.show();
                     break;
+
                 //权属单位
                 case R.id.imgvOwnershipUnit:
                     if (gpType.equals("煤气-M") || gpType.equals("燃气-R") || gpType.equals("电信-D")) {
@@ -519,6 +540,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         ToastUtil.showShort(getActivity(), "当前管类没有权属单位数据列表");
                     }
                     break;
+
                 case R.id.imgvPipeSize:
                     if (gpType.equals("煤气-M") || gpType.equals("燃气-R")) {
                         if (spTextrure.getSelectedItem().toString().equals("钢") && gpType.equals("煤气-M")) {
@@ -541,6 +563,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         ToastUtil.showShort(getActivity(), "当前管类没有管径数据列表");
                     }
                     break;
+
                 default:
                     break;
             }
@@ -556,6 +579,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
      * @return
      */
     private boolean checkValueRight() {
+
         //已用孔数不但能大于总孔数
         if (!getHoleCount().isEmpty() && !getUsedHoleCount().isEmpty()) {
             if (Integer.valueOf(getUsedHoleCount()) > Integer.valueOf(getHoleCount())) {
@@ -563,15 +587,26 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 return false;
             }
         }
+
         //埋深不能超过20米
-        if (Double.valueOf(getStartBurialDepth()) > 20.0 ) {
+        if (Double.valueOf(getStartBurialDepth()) > 20.0) {
             ToastUtil.showShort(getActivity(), "起点埋深超过20米，请检查数据");
             return false;
         }
+
         //埋深不能超过20米
         if (Double.valueOf(getEndBurialDepth()) > 20.0) {
             ToastUtil.showShort(getActivity(), "终点埋深超过20米，请检查数据");
             return false;
+        }
+
+        //排水类管线，埋设方式为方沟，管线材料不能为塑料
+        if ("排水".equals(gpType.substring(0, 2))) {
+            if (spEmbeddedWay.getSelectedItem().toString().equals("方沟") && spTextrure.getSelectedItem().toString().equals("塑料")) {
+                ToastUtil.showShort(getActivity(), "排水埋设方式为方沟，管线材料不能为塑料");
+
+                return false;
+            }
         }
 
 
@@ -691,11 +726,18 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         setPuzzle();             //设置疑难问题
     }
 
+    /**
+     * TODO 需要修改 如果是两位管类代码的，就不能用当前管类代码判断界面实现内容
+     * @Author HaiRun
+     * @Time 2019/5/29 . 15:10
+     */
     private void initValue() {
 
         //管线类型
         gpType = getArguments().getString("gpType");
-        m_code = gpType.substring(gpType.length() - 1);
+        //从下标第三位截取管类代码
+        m_code = gpType.substring(3);
+
         tvTitle.setText("加线" + "(" + gpType + ")");
         //管线材料
         textureList = SpinnerDropdownListManager.getData("lineTexture", gpType);
@@ -786,9 +828,12 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
+
+            //埋设方式
             case R.id.spEmbeddedWay:
                 switch (spEmbeddedWay.getSelectedItem().toString()) {
                     case "管埋":
+                        edtLineRemark.setText("");
                         layoutPipeSize.setVisibility(View.VISIBLE);
                         layoutSection.setVisibility(View.GONE);
                         edtSectionWidth.setText("");
@@ -804,6 +849,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         break;
                     case "管块":
                     case "方沟":
+                        edtLineRemark.setText("");
                         layoutSection.setVisibility(View.VISIBLE);
                         layoutPipeSize.setVisibility(View.GONE);
                         edtPipeSize.setText("");
@@ -811,11 +857,8 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     default:
                         break;
                 }
-                //            case R.id.spLineRemark:
-                //                edtLineRemark.setText(spLineRemark.getSelectedItem().toString());
-                //                break;
-            default:
                 break;
+                default:break;
         }
     }
 
@@ -824,7 +867,9 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
     }
 
-    //埋深差值
+    /**
+     * 埋深差值 依据起点埋深和终点埋深差值改变
+     */
     private TextWatcher m_watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -847,8 +892,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 num2Str = "0";
             }
 
-//            int num2 = Integer.parseInt(num2Str);
-//            int num1 = Integer.parseInt(num1Str);
             int num2 = Integer.parseInt(num2Str);
             int num1 = Integer.parseInt(num1Str);
             int result = num1 - num2;
@@ -906,6 +949,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
         if (temp.length() > 0) {
             int s = Integer.parseInt(temp);
+            //厘米单位转换成米
             DecimalFormat df2 = new DecimalFormat("###.00");
             if (temp.length() > 2) {
                 return df2.format(s / 100d);
@@ -1160,7 +1204,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
      */
     @Override
     public void setUsedHoleCount() {
-        String _usedHoleCount = m_baseFileLInfo.totalHole;
+        String _usedHoleCount = m_baseFileLInfo.usedHole;
         if (_usedHoleCount != null) {
             edtUsedHoleCount.setText(_usedHoleCount);
         }

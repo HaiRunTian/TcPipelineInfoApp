@@ -33,16 +33,21 @@ public class SpinnerDropdownListManager {
     }
 
     /**
-     * 可以通过数据库查询获取到特征点附属物
+     * 可以通过管类代码 查询数据库表 获取到特征点附属物
      *
      * @Author HaiRun
      * @Time 2019/3/30 . 10:17
      */
     public static List<String> getData(String type, String value) {
         List<String> list = new ArrayList<>();
+
         switch (type) {
             //特征点TABLE_NAME_FEATURE_INFO
             case "feature": {
+                //如果管类代码有两位数 或者是一位数
+                if (value.length() == 5){
+                    value = value.substring(0,value.length()-1);
+                }
                 Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_FEATURE_INFO, "where code = '" + value.substring(value.length() - 1) + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
@@ -52,6 +57,10 @@ public class SpinnerDropdownListManager {
             break;
             //附属物
             case "subsid": {
+                //如果管类代码有两位数 或者是一位数
+                if (value.length() == 5){
+                    value = value.substring(0,value.length()-1);
+                }
                 Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_APPENDANT_INFO, "where code = '" + value.substring(value.length() - 1) + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));

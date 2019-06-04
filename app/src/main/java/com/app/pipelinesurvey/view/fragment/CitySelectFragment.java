@@ -213,14 +213,14 @@ public class CitySelectFragment extends Fragment implements AdapterView.OnItemSe
                                 false, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        for (String item : _listCity) {
-                                            DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_CITY_LIST,
-                                                    "city = ?", new String[]{item});
-                                            DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_POINT_CONFIG,
-                                                    "city = ?", new String[]{item});
-                                            DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_LINE_CONFIG,
-                                                    "city = ?", new String[]{item});
-                                        }
+//                                        for (String item : _listCity) {
+//                                            DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_CITY_LIST,
+//                                                    "city = ?", new String[]{item});
+//                                            DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_POINT_CONFIG,
+//                                                    "city = ?", new String[]{item});
+//                                            DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_LINE_CONFIG,
+//                                                    "city = ?", new String[]{item});
+//                                        }
                                         ToastUtil.showShort(getActivity(), "删除成功");
                                         notifyDataChange();
                                     }

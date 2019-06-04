@@ -5,6 +5,8 @@
 
     <!--创建数据库表格-->
     <sql_create_table>
+
+        <!--用户信息表-->
         <sql_create>
             create table user_info(id integer primary key autoincrement,name varchar,sex
             varchar,dept varchar,workgroup varchar,mobile varchar,company varchar);
@@ -31,85 +33,58 @@
             integer);
         </sql_create>
 
+        <!--app版本信息表-->
         <sql_create>create table app_info(id integer primary key autoincrement,app_name
             varchar,version_code varchar,updated_date varchar,dev_unit varchar,remark varchar);
         </sql_create>
+
+        <!--管线类型表-->
         <sql_create>create table pipe_type(id integer primary key autoincrement,serial_no
             varchar,pipe_type
             varchar,pipe_type_value varchar,city varchar);
         </sql_create>
-        <!--<sql_create>create table pipe_type(id integer primary key autoincrement,serial_no-->
-        <!--varchar,pipe_type-->
-        <!--varchar,pipe_type_value varchar,city varchar);-->
-        <!--</sql_create>-->
-        <sql_create>create table feature_point(id integer primary key autoincrement,pipe_type
-            varchar,feature_point varchar);
-        </sql_create>
-        <sql_create>create table appendant(id integer primary key autoincrement,pipe_type
-            varchar,appendant varchar);
-        </sql_create>
+
+        <!--点备注表-->
         <sql_create>create table point_remark(id integer primary key autoincrement,pipe_type
             varchar,remark varchar);
         </sql_create>
+
+        <!--线备注表-->
         <sql_create>create table line_remark(id integer primary key autoincrement,pipe_type
             varchar,remark varchar);
         </sql_create>
+
+        <!--管线材质-->
         <sql_create>create table pipe_texture(id integer primary key autoincrement,pipe_type
             varchar,texture varchar);
         </sql_create>
+
+        <!--埋设方式-->
         <sql_create>create table embedded_way(id integer primary key autoincrement,embedded_way
             varchar);
         </sql_create>
+
+        <!--状态-->
         <sql_create>create table state(id integer primary key autoincrement,state varchar);
         </sql_create>
+
+        <!--管径-->
         <sql_create>create table pipe_size(id integer primary key autoincrement,pipe_size varchar);
         </sql_create>
+
+        <!--压力-->
         <sql_create>create table pressure(id integer primary key autoincrement,pressure varchar);
         </sql_create>
+
+        <!--电压-->
         <sql_create>create table voltage(id integer primary key autoincrement,voltage varchar);
         </sql_create>
+
+        <!--井盖材质-->
         <sql_create>create table well_lid_texture(id integer primary key
             autoincrement,well_lid_texture
             varchar);
         </sql_create>
-        <!--弃用-->
-        <!--<sql_create>create table point_config(id integer primary key autoincrement,name-->
-            <!--varchar,color-->
-            <!--varchar,scaleX double,scaleY double,angle double,symbolID varchar,standard-->
-            <!--varchar,minScaleVisible double,maxScaleVisible double,lineWidth double,pipe_type-->
-            <!--varchar,city varchar);-->
-        <!--</sql_create>-->
-        <!--<sql_create>-->
-            <!--create table line_config(id integer primary key autoincrement,name varchar,width-->
-            <!--double,colorName varchar,-->
-            <!--color varchar,symbolID varchar,shortCall varchar,type varchar,typeCode varchar,remark-->
-            <!--varchar,typeShortCall varchar,-->
-            <!--localStandard varchar,city varchar);-->
-        <!--</sql_create>-->
-
-        <!--<sql_create>-->
-            <!--create table point_setting(id integer primary key autoincrement,groupNum varchar,length-->
-            <!--integer,local integer,numLength integer,pipeLength integer);-->
-        <!--</sql_create>-->
-
-        <!--&lt;!&ndash;点属性表&ndash;&gt;-->
-        <!--<sql_create>-->
-        <!--&lt;!&ndash;创建表    表名    &ndash;&gt;-->
-        <!--create table point(id integer primary key autoincrement,appendant varchar,buildingStructures varchar,depth varchar,elevation varchar,-->
-        <!--endDirDepth varchar,expGroup varchar,featurePoints varchar,gpId varchar,latitude double,longitude double,offset_local varchar,-->
-        <!--picture varchar,pipeType varchar,puzzle varchar,remark varchar,roadName varchar,situation varchar,startDirDepth varchar,state varchar,-->
-        <!--surveyDate varchar,symbol varchar,wellDepth varchar,wellLidSize varchar,wellLidTexture varchar,wellMud varchar,wellSize varchar,-->
-        <!--wellWater varchar,code varchar,datasetName varchar,submitName varchar,sysId integer,type varchar);-->
-        <!--</sql_create>-->
-        <!--&lt;!&ndash;线属性表&ndash;&gt;-->
-        <!--<sql_create>-->
-        <!--create table line(id integer primary key autoincrement,amount varchar,aperture varchar,burialDifference varchar,embeddedWay varchar,-->
-        <!--endBurialDepth varchar,endLatitude double,endLongitude double,endPointId varchar,holeCount varchar,labelTag varchar,-->
-        <!--ownershipUnit varchar,pipeLength varchar,pipeSize varchar,pipeType varchar,pressure varchar,puzzle varchar,remark varchar,rowXCol varchar,-->
-        <!--section varchar,startBurialDepth varchar,startLatitude double,startLongitude double,startPointId varchar,state varchar,surveyDate varchar,-->
-        <!--textrure varchar,usedHoleCount varchar,voltage varchar,code varchar,datasetName varchar,submitName varchar,sysId integer,type varchar);-->
-        <!--</sql_create>-->
-
 
         <!--2019年3月18日13:28:06-->
         <!--管类-->
@@ -117,6 +92,7 @@
             create table point_list(id integer primary key autoincrement,city varchar,point
             varchar);
         </sql_create>
+
         <!--线-->
         <sql_create>
             create table line_list(id integer primary key autoincrement,city varchar,line varchar);
@@ -128,7 +104,6 @@
         </sql_create>
 
         <!--2019年3月22日13:32:43-->
-
         <!--管类-->
         <sql_create>
             create table pipe_info(id integer primary key autoincrement,
@@ -140,6 +115,7 @@
             create table appendant_info(id integer primary key autoincrement,
             name varchar,typename varchar,code varchar,IsShowFearture booleam,remark varchar);
         </sql_create>
+
         <!--点特征表 -->
         <sql_create>
             create table feature_info(id integer primary key autoincrement,
@@ -155,7 +131,6 @@
 
         <!--点配置表new-->
         <sql_create>
-            <!-- create table aa_bb(id integer primary key autoincrement,name varchar);-->
             create table default_point_setting(id integer primary key autoincrement,name
             varchar,color varchar,scaleX double,scaleY double,angle double,symbolID integer,standard
             varchar,minScaleVisible double,maxScaleVisible double,lineWidth double,pipe_type
@@ -167,6 +142,7 @@
             varchar,width double,color varchar,symbolID integer,typename varchar,typeCode varchar
             ,remark varchar,typeShortCall varchar,standard varchar,city varchar);
         </sql_create>
+
 
         <!--点配置表new-->
         <sql_create>
@@ -188,24 +164,63 @@
     <!--数据插入数据库-->
     <sql_insert_table>
 
+        <!--app版本信息表-->
+        <sql_init_table_app_info>
+            <sql>insert into app_info(app_name,version_code,updated_date,dev_unit,remark)
+                values('天驰管调通','','','','广州市天驰测绘技术有限公司')
+            </sql>
+        </sql_init_table_app_info>
+
         <!--标签专题图颜色表示-->
         <sql_init_table_pipe_themelabel>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('排水-P','#A52A2A',0.0,1.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('雨水-Y','#A52A2A',1.0,2.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('污水-W','#A52A2A',2.0,3.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('给水-J','#00CCFF',3.0,4.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('煤气-R','#FF9900',4.0,5.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('燃气-M','#FF9900',5.0,6.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('电力-L','#FF0000',6.0,7.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('路灯-S','#FF6600',7.0,8.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('电信-D','#00FF00',8.0,9.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('有视-T','#0000FF',9.0,10.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('军队-B','#336600',10.0,11.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('交通-X','#00FF00',11.0,12.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('工业-G','#FF00FF',12.0,13.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('不明-N','#000000',13.0,14.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('其它-Q','#000000',14.0,15.0)</sql>
-            <sql>insert into pipe_themelabel(pipetype,color,start,end) values('临时-O','#FF0000',15.0,16.0)</sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('排水-P','#A52A2A',0.0,1.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('雨水-Y','#A52A2A',1.0,2.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('污水-W','#A52A2A',2.0,3.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('给水-J','#00CCFF',3.0,4.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('煤气-R','#FF9900',4.0,5.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('燃气-M','#FF9900',5.0,6.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('电力-L','#FF0000',6.0,7.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('路灯-S','#FF6600',7.0,8.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('电信-D','#00FF00',8.0,9.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('有视-T','#0000FF',9.0,10.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('军队-B','#336600',10.0,11.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('交通-X','#00FF00',11.0,12.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('工业-G','#FF00FF',12.0,13.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('不明-N','#000000',13.0,14.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('其它-Q','#000000',14.0,15.0)
+            </sql>
+            <sql>insert into pipe_themelabel(pipetype,color,start,end)
+                values('临时-O','#FF0000',15.0,16.0)
+            </sql>
         </sql_init_table_pipe_themelabel>
         <sql_init_table_standard_info>
             <sql>insert into
@@ -213,6 +228,7 @@
                 values('广州','某某','219年3月29日','default_point_setting','default_line_setting',1)
             </sql>
         </sql_init_table_standard_info>
+
         <!--管类表-->
         <sql_init_table_pipe_info>
             <sql>insert into pipe_info(name,code,typename,remark)
@@ -263,7 +279,9 @@
             <sql>insert into pipe_info(name,code,typename,remark)
                 values('临时','O','临时','')
             </sql>
+
         </sql_init_table_pipe_info>
+
         <!--附属物表-->
         <sql_init_table_appendant_info>
             <!--给水-->
@@ -689,6 +707,7 @@
                 values('通风井','临时点','O','0','')
             </sql>
         </sql_init_table_appendant_info>
+
         <!--点特征表-->
         <sql_init_table_feature_info>
             <!--给水-->
@@ -1460,7 +1479,7 @@
             <!--P-探测点-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('P-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'排水-P','广州')
+                values ('P-探测点','#A52A2A',3.2,3.2,1,32,'0',2477,200,2,'排水-P','广州')
             </sql>
 
             <!--雨水设置-->
@@ -1538,7 +1557,7 @@
             <!--Y-探测点-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-探测点','#A52A2A',3.2,3.2,1,32,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--污水设置-->
@@ -1615,7 +1634,7 @@
             <!--W-探测点-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('W-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'污水-W','广州')
+                values ('W-探测点','#A52A2A',3.2,3.2,1,32,'0',2477,200,2,'污水-W','广州')
             </sql>
 
 
@@ -1684,7 +1703,7 @@
             <!--J-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('J-探测点','#00CCFF',2.5,2.5,1,1,'0',2477,200,2,'给水-J','广州')
+                values ('J-探测点','#00CCFF',3.2,3.2,1,1,'0',2477,200,2,'给水-J','广州')
             </sql>
 
 
@@ -1692,7 +1711,7 @@
             <!--B-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('B-探测点','#336600',2.5,2.5,1,499,'0',2477,200,2,'军队-B','广州')
+                values ('B-探测点','#336600',3.2,3.2,1,499,'0',2477,200,2,'军队-B','广州')
             </sql>
             <!--B-'人孔井'-->
             <sql>insert into
@@ -1739,7 +1758,7 @@
             <!--T-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('T-探测点','#0000FF',2.5,2.5,1,508,'0',2477,200,2,'有视-T','广州')
+                values ('T-探测点','#0000FF',3.2,3.2,1,508,'0',2477,200,2,'有视-T','广州')
             </sql>
             <!--T-'人孔井'-->
             <sql>insert into
@@ -1786,7 +1805,7 @@
             <!--M-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('M-探测点','#FF9900',2.5,2.5,1,484,'0',2477,200,2,'煤气-M','广州')
+                values ('M-探测点','#FF9900',3.2,3.2,1,484,'0',2477,200,2,'煤气-M','广州')
             </sql>
             <!--M-'窨井'-->
             <sql>insert into
@@ -1844,7 +1863,7 @@
             <!--R-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('R-探测点','#FF9900',2.5,2.5,1,484,'0',2477,200,2,'燃气-R','广州')
+                values ('R-探测点','#FF9900',3.2,3.2,1,484,'0',2477,200,2,'燃气-R','广州')
             </sql>
             <!--R-'窨井'-->
             <sql>insert into
@@ -1901,7 +1920,7 @@
             <!--L-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('L-探测点','#FF0000',2.5,2.5,1,472,'0',2477,200,2,'电力-L','广州')
+                values ('L-探测点','#FF0000',3.2,3.2,1,472,'0',2477,200,2,'电力-L','广州')
             </sql>
             <!--L-'电杆'-->
             <sql>insert into
@@ -1968,7 +1987,7 @@
             <!--G-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('G-探测点','#FF00FF',2.5,2.5,1,61,'0',2477,200,2,'工业-G','广州')
+                values ('G-探测点','#FF00FF',3.2,3.2,1,61,'0',2477,200,2,'工业-G','广州')
             </sql>
             <!--G-'窨井'-->
             <sql>insert into
@@ -2036,7 +2055,7 @@
             <!--S-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('S-探测点','#FF6600',2.5,2.5,1,498,'0',2477,200,2,'路灯-S','广州')
+                values ('S-探测点','#FF6600',3.2,3.2,1,498,'0',2477,200,2,'路灯-S','广州')
             </sql>
             <!--S-'电杆'-->
             <sql>insert into
@@ -2109,7 +2128,7 @@
             <!--D-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('D-探测点','#00FF00',2.5,2.5,1,41,'0',2477,200,2,'电信-D','广州')
+                values ('D-探测点','#00FF00',3.2,3.2,1,41,'0',2477,200,2,'电信-D','广州')
             </sql>
             <!--D-'电杆'-->
             <sql>insert into
@@ -2194,7 +2213,7 @@
             <!--X-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('X-探测点','#00FF00',2.5,2.5,1,526,'0',2477,200,2,'交通-X','广州')
+                values ('X-探测点','#00FF00',3.2,3.2,1,526,'0',2477,200,2,'交通-X','广州')
             </sql>
             <!--X-'电杆'-->
             <sql>insert into
@@ -2277,7 +2296,7 @@
             <!--O-'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('O-探测点','#FF0000',2.5,2.5,1,41,'0',2477,200,2,'临时点-O','广州')
+                values ('O-探测点','#FF0000',3.2,3.2,1,41,'0',2477,200,2,'临时点-O','广州')
             </sql>
             <!--O-'电杆'-->
             <sql>insert into
@@ -2431,6 +2450,8 @@
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-探测点','#000000',2.5,2.5,1,526,'0',2477,200,2,'其它-Q','广州')
             </sql>
+
+            <!--其它设置-->
             <!--Q-'水表'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
@@ -2496,7 +2517,7 @@
             <!--'探测点'-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('O-临时','#FF0000',2.5,2.5,1,526,'0',2477,200,2,'临时-O','广州')
+                values ('O-临时','#FF0000',3.2,3.2,1,526,'0',2477,200,2,'临时-O','广州')
             </sql>
         </sql_init_table_default_point_setting>
 
@@ -2504,18 +2525,18 @@
             <!--给水水设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('给水', 0.2, '#00CCFF', 0,  '给水-J','J','', '', '广州标准', '广州')
+                values('给水', 0.2, '#00CCFF', 0, '给水-J','J','', '', '广州标准', '广州')
             </sql>
 
             <!--污水设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('污水', 0.2,  '#A52A2A', 965149,  '污水-W','W', '', '', '广州标准', '广州')
+                values('污水', 0.2, '#A52A2A', 965149, '污水-W','W', '', '', '广州标准', '广州')
             </sql>
             <!--雨水设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('雨水', 0.2, '#A52A2A', 965149,  '雨水-Y','Y', '', '', '广州标准', '广州')
+                values('雨水', 0.2, '#A52A2A', 965149, '雨水-Y','Y', '', '', '广州标准', '广州')
             </sql>
             <!--排水设置-->
             <sql>insert into default_line_setting(
@@ -2525,421 +2546,65 @@
             <!--煤气设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('煤气', 0.2,  '#FF9900', 0, '煤气-M', 'M', '', '', '广州标准', '广州')
+                values('煤气', 0.2, '#FF9900', 0, '煤气-M', 'M', '', '', '广州标准', '广州')
             </sql>
             <!--燃气设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('燃气', 0.2,  '#FF9900', 0,  '燃气-R','R', '', '', '广州标准', '广州')
+                values('燃气', 0.2, '#FF9900', 0, '燃气-R','R', '', '', '广州标准', '广州')
             </sql>
             <!--电力设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('电力', 0.2,  '#FF0000', 0,  '电力-L','L', '', '', '广州标准', '广州')
+                values('电力', 0.2, '#FF0000', 0, '电力-L','L', '', '', '广州标准', '广州')
             </sql>
             <!--路灯设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('路灯', 0.5,  '#FF6600', 0,  '路灯-S','S', '', '', '广州标准', '广州')
+                values('路灯', 0.5, '#FF6600', 0, '路灯-S','S', '', '', '广州标准', '广州')
             </sql>
             <!--电信设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('电信', 0.2,  '#00FF00', 0,  '电信-D','D', '', '', '广州标准', '广州')
+                values('电信', 0.2, '#00FF00', 0, '电信-D','D', '', '', '广州标准', '广州')
             </sql>
             <!--有视设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('有视', 0.2,  '#0000FF', 0,  '有视-T','T', '', '', '广州标准', '广州')
+                values('有视', 0.2, '#0000FF', 0, '有视-T','T', '', '', '广州标准', '广州')
             </sql>
             <!--交通设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('交通', 0.2,  '#00FF00', 0,  '交通-X','X', '', '', '广州标准', '广州')
+                values('交通', 0.2, '#00FF00', 0, '交通-X','X', '', '', '广州标准', '广州')
             </sql>
             <!--军队设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('军队', 0.2,  '#336600', 0, '军队-B', 'B', '', '', '广州标准', '广州')
+                values('军队', 0.2, '#336600', 0, '军队-B', 'B', '', '', '广州标准', '广州')
             </sql>
             <!--工业设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('工业', 0.2,  '#FF00FF', 0,  '工业-G','G', '', '', '广州标准', '广州')
+                values('工业', 0.2, '#FF00FF', 0, '工业-G','G', '', '', '广州标准', '广州')
             </sql>
             <!--不明设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('不明', 0.2,  '#00000', 0,  '不明-N','N', '', '', '广州标准', '广州')
+                values('不明', 0.2, '#00000', 0, '不明-N','N', '', '', '广州标准', '广州')
             </sql>
             <!--其它设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('其它', 0.2, '#000000', 0,  '其它-Q','Q', '', '', '广州标准', '广州')
+                values('其它', 0.2, '#000000', 0, '其它-Q','Q', '', '', '广州标准', '广州')
             </sql>
             <!--临时设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('临时', 0.2,  '#FF0000', 1, '临时-O', 'O', '', '', '广州标准', '广州')
+                values('临时', 0.2, '#FF0000', 1, '临时-O', 'O', '', '', '广州标准', '广州')
             </sql>
         </sql_init_table_default_line_setting>
 
-
-
-        <sql_init_table_point_config>
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF00FF',1,1,1,'453','',2477,200,2,'燃气-R','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('放水器','#FF00FF',1,1,1,'446','',2477,200,4,'燃气-R','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF00FF',1,1,1,'445','',2477,200,4,'燃气-R','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#A52A2A',1,1,1,'415','',2477,200,2,'雨水-Y','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#A52A2A',1,1,1,'409','',2477,200,4,'雨水-Y','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('雨水篦','#A52A2A',1,1,1,'410','',2477,200,4,'雨水-Y','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('出地','#1E90FF',1,1,1,'404','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#1E90FF',1,1,1,'408','',2477,200,2,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('放水口','#1E90FF',1,1,1,'403','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('水表','#1E90FF',1,1,1,'401','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('水表井','#1E90FF',1,1,1,'401','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('消防栓','#1E90FF',1,1,1,'400','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('游离井','#1E90FF',1,1,1,'402','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('阀门','#1E90FF',1,1,1,'399','',2477,200,6,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('阀门井','#1E90FF',1,1,1,'402','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#1E90FF',1,1,1,'402','',2477,200,4,'给水-J','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('调压箱','#FF00FF',1,1,1,'448','',2477,200,4,'燃气-R','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('阀门井','#FF00FF',1,1,1,'445','',2477,200,4,'燃气-R','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('化粪池','#A52A2A',1,1,1,'411','',2477,200,4,'污水-W','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#A52A2A',1,1,1,'415','',2477,200,2,'污水-W','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('污水篦','#A52A2A',1,1,1,'410','',2477,200,6,'污水-W','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#A52A2A',1,1,1,'409','',2477,200,4,'污水-W','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#7CFC00',1,1,1,'453','',2477,200,2,'工业-G','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#A52A2A',1,1,1,'415','',2477,200,2,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('污水篦','#A52A2A',1,1,1,'410','',2477,200,4,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#A52A2A',1,1,1,'409','',2477,200,4,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('人孔井','#008000',1,1,1,'416','',2477,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#008000',1,1,1,'417','',2477,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#008000',1,1,1,'428','',2477,200,2,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电线','#008000',1,1,1,'418','',2477,200,6,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('电话亭','#008000',1,1,1,'455','',2477,200,6,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('出水口','#A52A2A',1,1,1,'414','',2477,200,4,'雨水-Y','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变压器','#FF0000',1,1,1,'431','',2477,200,6,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#FF0000',1,1,1,'433','',2477,200,4,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变电箱','#FF0000',1,1,1,'431','',2477,200,6,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF0000',1,1,1,'443','',2477,200,2,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#FF0000',1,1,1,'434','',2477,200,6,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF0000',1,1,1,'429','',2477,200,4,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('路灯杆','#FF0000',1,1,1,'436','',2477,200,8,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('阀门井','#FF0000',1,1,1,'429','',2477,200,4,'','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#FF0000',1,1,1,'433','',2744,200,4,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变电箱','#FF0000',1,1,1,'431','',2744,200,6,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF0000',1,1,1,'443','',2744,200,2,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#FF0000',1,1,1,'430','',2744,200,6,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF0000',1,1,1,'429','',2744,200,4,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('路灯杆','#FF0000',1,1,1,'436','',2744,200,8,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF0000',1,1,1,'443','',2744,200,2,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#FF0000',1,1,1,'431','',2744,200,6,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF0000',1,1,1,'429','',2744,200,4,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('人孔井','#008000',1,1,1,'422','',2744,200,4,'军队-B','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#008000',1,1,1,'423','',2744,200,4,'军队-B','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#008000',1,1,1,'428','',2744,200,2,'军队-B','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('人孔井','#008000',1,1,1,'416','',2744,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#008000',1,1,1,'417','',2744,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#008000',1,1,1,'428','',2744,200,2,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#008000',1,1,1,'418','',2744,200,6,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('人孔井','#008000',1,1,1,'416','',2744,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#008000',1,1,1,'417','',2744,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#008000',1,1,1,'428','',2744,200,2,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#008000',1,1,1,'418','',2744,200,6,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('人孔井','#008000',1,1,1,'416','',2744,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#008000',1,1,1,'417','',2744,200,4,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#008000',1,1,1,'428','',2744,200,2,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#008000',1,1,1,'418','',2744,200,6,'电信-D','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#A52A2A',1,1,1,'415','',2744,200,2,'排水-P','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('污水篦','#A52A2A',1,1,1,'410','',2744,200,4,'排水-P','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#A52A2A',1,1,1,'409','',2744,200,4,'排水-P','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变电箱','#FF0000',1,1,1,'431','',2744,200,6,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF0000',1,1,1,'443','',2744,200,2,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#FF0000',1,1,1,'430','',2744,200,6,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF0000',1,1,1,'429','',2744,200,4,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('阀门井','#FF0000',1,1,1,'429','',2744,200,4,'电力-L','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变压器','#FF0000',1,1,1,'430','',2744,200,6,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变电箱','#FF0000',1,1,1,'431','',2744,200,6,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#FF0000',1,1,1,'432','',2744,200,4,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF0000',1,1,1,'443','',2744,200,2,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#FF0000',1,1,1,'454','',2744,200,6,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF0000',1,1,1,'429','',2744,200,4,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('路灯杆','#FF0000',1,1,1,'436','',2744,200,8,'路灯-S','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('变电箱','#FF0000',1,1,1,'431','',2744,200,6,'交通-X','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#FF0000',1,1,1,'433','',2744,200,4,'交通-X','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#FF0000',1,1,1,'443','',2744,200,2,'交通-X','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#FF0000',1,1,1,'430','',2744,200,6,'交通-X','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('窨井','#FF0000',1,1,1,'429','',2744,200,4,'交通-X','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('人孔井','#008000',1,1,1,'419','',2744,200,4,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('手孔井','#008000',1,1,1,'420','',2744,200,4,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('探测点','#008000',1,1,1,'443','',2744,200,2,'有视-T','惠州')-->
-            <!--</sql>-->
-            <!--<sql>insert into-->
-                <!--point_config(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)-->
-                <!--values ('接电箱','#008000',1,1,1,'421','',2744,200,6,'有视-T','惠州')-->
-            <!--</sql>-->
-        </sql_init_table_point_config>
 
         <sql_init_table_pipe_type>
             <sql>insert into pipe_type(serial_no,pipe_type,pipe_type_value,city)
@@ -2988,332 +2653,6 @@
                 values('Q','其它-Q','其它','广州')
             </sql>
         </sql_init_table_pipe_type>
-
-        <sql_init_table_feature_point>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','变径')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','变材')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('给水-J','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','六通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','七通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','八通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','九通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','十通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','户出')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','起始点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','转折点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','进水口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','出水口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('雨水-Y','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','六通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','七通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','八通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','九通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','十通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','户出')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','起始点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','转折点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','进水口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','出水口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('污水-W','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','六通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','七通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','八通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','九通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','十通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','户出')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','起始点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','转折点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','进水口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','出水口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('排水-P','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','变径')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','变材')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('煤气-M','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','变径')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','变材')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('燃气-R','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','上杆')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','分支点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('路灯-S','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','上杆')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','分支点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电力-L','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','上杆')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','分支点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('电信-D','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','上杆')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','分支点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('有视-T','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','上杆')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','分支点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('军队-B','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','上杆')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','分支点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('交通-X','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','变径')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','变材')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('工业-G','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','变径')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','变材')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('不明-N','出测区')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','弯头')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','三通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','四通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','五通')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','变径')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','变坡')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','变深')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','变材')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','出地')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','入户')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','直线点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','终止点')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','预留口')</sql>
-            <sql>insert into feature_point (pipe_type,feature_point) values ('其它-Q','出测区')</sql>
-        </sql_init_table_feature_point>
-
-        <sql_init_table_appendant>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','水表')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','阀门')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','阀门井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','消防栓')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','放水口')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('给水-J','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','检查井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','沉沙井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','接户井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','污水篦')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','化粪池')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','立管点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('污水-W','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','检查井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','沉沙井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','接户井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','雨水篦')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','污水篦')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','化粪池')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','立管点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('雨水-Y','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','检查井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','沉沙井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','接户井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','雨水篦')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','污水篦')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','化粪池')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','立管点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('排水-P','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('煤气-M','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('煤气-M','阀门')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('煤气-M','阀门井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('煤气-M','凝水缸')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('煤气-M','调压箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('煤气-M','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('燃气-R','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('燃气-R','阀门')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('燃气-R','阀门井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('燃气-R','凝水缸')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('燃气-R','调压箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('燃气-R','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','电杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','人孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','手孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','接线箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','路灯杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','地灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('路灯-S','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','电杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','接线箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','变电箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','路灯杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电力-L','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','电杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','人孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','手孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','接线箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','电话亭')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','摄像头')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','红绿灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','信号灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('电信-D','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','电杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','人孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','手孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','接线箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','摄像头')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','红绿灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','信号灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('有视-T','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','电杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','人孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','手孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','接线箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','摄像头')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','红绿灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','信号灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('军队-B','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','电杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','人孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','手孔井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','接线箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','摄像头')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','红绿灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','信号灯')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('交通-X','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','阀门')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','阀门井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','凝水缸')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','调压箱')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','水泥杆')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','铁塔')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('工业-G','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('不明-N','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('不明-N','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('其它-Q','窨井')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('其它-Q','探测点')</sql>
-            <sql>insert into appendant(pipe_type,appendant) values('临时-O','探测点')</sql>
-        </sql_init_table_appendant>
 
         <sql_init_table_point_remark>
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','变径')</sql>
@@ -3577,6 +2916,7 @@
             <sql>insert into state(state) values('修正')</sql>
             <sql>insert into state(state) values('删除')</sql>
         </sql_init_table_state>
+
 
         <sql_init_table_well_lid_texture>
             <sql>insert into well_lid_texture(well_lid_texture) values('铸铁')</sql>
