@@ -52,7 +52,6 @@
                 values('深圳','某某','219年6月1日','default_point_shenzhan','default_line_shenzhan',1)
             </sql>
         </sql_init_table_standard_info>
-
         <!--管类表-->
         <sql_init_table_pipe_info>
             <sql>insert into pipe_info(name,code,typename,remark)
