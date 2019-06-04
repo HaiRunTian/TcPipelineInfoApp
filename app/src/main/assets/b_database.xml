@@ -43,6 +43,7 @@
             ,remark varchar,typeShortCall varchar,standard varchar,city varchar);
         </sql_create>
     </sql_create_table>
+
     <!--数据插入数据库-->
     <sql_insert_table>
         <!--标准配置-->
