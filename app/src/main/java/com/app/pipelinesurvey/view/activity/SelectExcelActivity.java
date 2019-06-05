@@ -26,12 +26,10 @@ import com.app.pipelinesurvey.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Created by HaiRun on 2018/12/1.
  * excel数据导入
  */
-
 public class SelectExcelActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private TextView m_tvTitle;
@@ -61,16 +59,12 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
                     break;
                 case 1:
                     m_adapter.notifyDataSetChanged();
-
                     break;
                 default:
                     break;
             }
         }
     };
-    private AlertDialog.Builder diaLog;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +92,6 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
-
         m_list = new ArrayList<>();
         //根目录
         m_folderName = SuperMapConfig.SDCARD;
@@ -177,7 +170,6 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
             case R.id.tvReturn:
                     finish();
                 break;
-
             default:
                 break;
 
