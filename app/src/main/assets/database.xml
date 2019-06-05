@@ -140,25 +140,26 @@
 
 
         <!--点配置表new-->
-        <sql_create>
+      <!--  <sql_create>
             create table default_point_shenzhan(id integer primary key autoincrement,name
             varchar,color varchar,scaleX double,scaleY double,angle double,symbolID integer,standard
             varchar,minScaleVisible double,maxScaleVisible double,lineWidth double,pipe_type
             varchar,city varchar);
         </sql_create>
 
-        <!--线配置表-->
+        &lt;!&ndash;线配置表&ndash;&gt;
         <sql_create>
             create table default_line_shenzhan(id integer primary key autoincrement,name
             varchar,width double,color varchar,symbolID integer,typename varchar,typeCode varchar
             ,remark varchar,typeShortCall varchar,standard varchar,city varchar);
-        </sql_create>
+        </sql_create>-->
 
     </sql_create_table>
 
+
+
     <!--数据插入数据库-->
     <sql_insert_table>
-
         <!--app版本信息表-->
         <sql_init_table_app_info>
             <sql>insert into app_info(app_name,version_code,updated_date,dev_unit,remark)
@@ -217,6 +218,7 @@
                 values('临时-O','#FF0000',15.0,16.0)
             </sql>
         </sql_init_table_pipe_themelabel>
+
         <sql_init_table_standard_info>
             <sql>insert into
                 standard_info(name,creator,createtime,pointsettingtablesymbol,linesettintable,status)
@@ -279,15 +281,15 @@
                 values('临时','O','临时','')
             </sql>
             <!--深圳-->
-            <sql>insert into pipe_info(name,code,typename,remark)
-                values('合流','H','合流','')
-            </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
-                values('路灯-LD','LD','路灯','')
-            </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
-                values('信号','XH','信号','')
-            </sql>
+            <!--<sql>insert into pipe_info(name,code,typename,remark)-->
+                <!--values('合流','H','合流','')-->
+            <!--</sql>-->
+            <!--<sql>insert into pipe_info(name,code,typename,remark)-->
+                <!--values('路灯-LD','LD','路灯','')-->
+            <!--</sql>-->
+            <!--<sql>insert into pipe_info(name,code,typename,remark)-->
+                <!--values('信号','XH','信号','')-->
+            <!--</sql>-->
 
         </sql_init_table_pipe_info>
 
@@ -421,34 +423,34 @@
             </sql>
             <!--深圳-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('跌水井','污水','W','0','')
+                values('跌水井','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('渗水井','污水','W','0','')
+                values('渗水井','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('沉泥井','污水','W','0','')
+                values('沉泥井','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('冲洗井','污水','W','0','')
+                values('冲洗井','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进水口','污水','W','0','')
+                values('进水口','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('出水口','污水','W','0','')
+                values('出水口','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('进出水口','污水','W','0','')
+                values('进出水口','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('预留口','污水','W','0','')
+                values('预留口','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('未知井','污水','W','0','')
+                values('未知井','污水','Y','0','')
             </sql>
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)
-                values('通风井','污水','W','0','')
+                values('通风井','污水','Y','0','')
             </sql>
             <!--排水-->
             <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark)

@@ -151,6 +151,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
             case R.id.tvConfig:
                 new AlertDialog.Builder(this)
                         .setMessage("正在导入数据......请等候!")
+                        .setIcon(R.mipmap.ic_logo)
                         .show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
