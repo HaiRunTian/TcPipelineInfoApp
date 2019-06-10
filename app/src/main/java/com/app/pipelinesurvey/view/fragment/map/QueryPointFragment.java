@@ -3,6 +3,7 @@ package com.app.pipelinesurvey.view.fragment.map;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -37,6 +38,8 @@ import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.database.DatabaseHelpler;
+import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.CameraUtils;
 import com.app.pipelinesurvey.utils.ComTool;
@@ -576,6 +579,28 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     _info.serialNum = m_basePInfo.serialNum;
                 }
             }
+
+            //查询数据每个标准点配置表 专题图符号大小
+            String tabName = SQLConfig.TABLE_DEFAULT_POINT_SETTING;
+            Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+            //查询此标准的点表名
+            while (_cursorStand.moveToNext()) {
+                tabName = _cursorStand.getString(_cursorStand.getColumnIndex("pointsettingtablesymbol"));
+            }
+
+            if (tabName.length() == 0) {
+                LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
+            }
+
+            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
+                    new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
+            LogUtills.i("Sql:" + _cursor.getCount());
+            if (_cursor.moveToNext()) {
+                _info.symbolID = _cursor.getInt(_cursor.getColumnIndex("symbolID"));
+                _info.symbolSizeX = _cursor.getDouble(_cursor.getColumnIndex("scaleX"));
+                _info.symbolSizeY = _cursor.getDouble(_cursor.getColumnIndex("scaleY"));
+            }
+
 
         } catch (Exception e) {
             LogUtills.i(e.getMessage());

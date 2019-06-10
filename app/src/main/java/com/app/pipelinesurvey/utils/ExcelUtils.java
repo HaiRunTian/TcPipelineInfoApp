@@ -179,16 +179,40 @@ public class ExcelUtils {
         }
     }
 
+    /**
+     * 获取点线表数据量
+     *
+     * @Author HaiRun
+     * @Time 2019/6/10 . 11:13
+     */
+    public static int getExcelRows(File file, int sheet) {
+        int rows = 0;
+        try {
+            Workbook course = null;
+            course = Workbook.getWorkbook(file);
+            Cell _cell = null;
+            Sheet _sheet = course.getSheet(sheet);
+            rows = _sheet.getRows() - 1;
+            course.close();
+
+            return rows;
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return rows;
+    }
+
 
     /**
      * 从Excel表中导入数据
      *
      * @param f
-     * @param con
+     * @param
      * @param sheet
      * @return
      */
-    public static List<BaseFieldInfos> read2DB(File f, int sheet, Context con) {
+    public static List<BaseFieldInfos> read2DB(File f, int sheet) {
         ArrayList<BaseFieldInfos> _pInfos = new ArrayList<BaseFieldInfos>();
         try {
             Workbook course = null;
@@ -202,9 +226,9 @@ public class ExcelUtils {
                 //excel字段数组
                 Cell[] _cells = _sheetP.getRow(0);
                 //数组转为map
-                Map<String,Integer > _map = new HashMap<>();
+                Map<String, Integer> _map = new HashMap<>();
                 for (int _i = 0; _i < _cells.length; _i++) {
-                    _map.put(_cells[_i].getContents(),_i);
+                    _map.put(_cells[_i].getContents(), _i);
                 }
                 for (int i = 1; i < _rowsP; i++) {
                     _info = PointFieldFactory.Create();
@@ -212,14 +236,14 @@ public class ExcelUtils {
                     for (int _i = 0; _i < _fields.length; _i++) {
                         Field _field = _fields[_i];
                         String fileName = _field.getName();
-                        if (_map.get(fileName) == null ){
+                        if (_map.get(fileName) == null) {
                             LogUtills.i("excel not  include " + fileName);
                             continue;
                         }
-                        LogUtills.i(fileName + "--------" + _sheetP.getCell(_map.get(fileName),i).getContents());
+                        LogUtills.i(fileName + "--------" + _sheetP.getCell(_map.get(fileName), i).getContents());
                         String _type = _field.getType().getCanonicalName();
-                        LogUtills.i("type=",_type);
-                        switch (_type){
+                        LogUtills.i("type=", _type);
+                        switch (_type) {
                             case "double":
                                 _field.set(_info, Double.valueOf(_sheetP.getCell(_map.get(fileName), i).getContents()));
                                 break;
@@ -230,7 +254,8 @@ public class ExcelUtils {
                                 _field.set(_info, Integer.valueOf(_sheetP.getCell(_map.get(fileName), i).getContents()));
                                 break;
                             case "com.app.BaseInfo.Data.POINTTYPE":
-                                _info.type = POINTTYPE.valueOf(_sheetP.getCell(_map.get(fileName), i).getContents());
+                                _info.type = POINTTYPE.Type_All_A;
+//                                _info.type = POINTTYPE.valueOf(_sheetP.getCell(_map.get(fileName), i).getContents());
                                 break;
                             case "long":
                                 break;
@@ -242,93 +267,12 @@ public class ExcelUtils {
 
                                 break;
                             default:
-                                _field.set(_info,_sheetP.getCell(_map.get(fileName), i).getContents());
+                                _field.set(_info, _sheetP.getCell(_map.get(fileName), i).getContents());
                                 break;
                         }
                     }
                     _pInfos.add(_info);
-/*
-                    cell = _sheetP.getCell(0, i);
-                    _info.buildingStructures = cell.getContents();
-                    cell = _sheetP.getCell(1, i);
-                    _info.depth = cell.getContents();
-                    cell = _sheetP.getCell(2, i);
-                    _info.endDirDepth = cell.getContents();
-                    cell = _sheetP.getCell(3, i);
-                    _info.expGroup = cell.getContents();
-                    cell = _sheetP.getCell(4, i);
-                    _info.exp_Date = cell.getContents();
-                    cell = _sheetP.getCell(5, i);
-                    _info.exp_Num = cell.getContents();
-                    cell = _sheetP.getCell(6, i);
-                    _info.feature = cell.getContents();
-                    cell = _sheetP.getCell(7, i);
-                    _info.id = cell.getContents();
-                    cell = _sheetP.getCell(8, i);
-                    _info.latitude = Double.parseDouble(cell.getContents());
-                    cell = _sheetP.getCell(9, i);
-                    _info.longitude = Double.parseDouble(cell.getContents());
-                    cell = _sheetP.getCell(10, i);
-                    _info.picture = cell.getContents();
-                    cell = _sheetP.getCell(11, i);
-                    _info.pipeOffset = cell.getContents();
-                    cell = _sheetP.getCell(12, i);
-                    _info.puzzle = cell.getContents();
-                    cell = _sheetP.getCell(13, i);
-                    _info.remark = cell.getContents();
-                    cell = _sheetP.getCell(14, i);
-                    _info.road = cell.getContents();
-                    cell = _sheetP.getCell(15, i);
-                    _info.serialNum = Integer.parseInt(cell.getContents());
-                    cell = _sheetP.getCell(16, i);
-                    _info.situation = cell.getContents();
-                    cell = _sheetP.getCell(17, i);
-                    _info.startDirDepth = cell.getContents();
-                    cell = _sheetP.getCell(18, i);
-                    _info.state = cell.getContents();
-                    cell = _sheetP.getCell(19, i);
-                    _info.subsid = cell.getContents();
-                    cell = _sheetP.getCell(20, i);
-                    _info.surf_H = cell.getContents();
-                    cell = _sheetP.getCell(21, i);
-                    _info.symbol = cell.getContents();
-                    cell = _sheetP.getCell(22, i);
-                    _info.symbolExpression = cell.getContents();
-                    cell = _sheetP.getCell(23, i);
-                    _info.symbolID = Integer.parseInt(cell.getContents());
-                    cell = _sheetP.getCell(24, i);
-                    _info.symbolSizeX = Double.parseDouble(cell.getContents());
-                    cell = _sheetP.getCell(25, i);
-                    _info.symbolSizeY = Double.parseDouble(cell.getContents());
-                    cell = _sheetP.getCell(26, i);
-                    _info.wellCoverMaterial = cell.getContents();
-                    cell = _sheetP.getCell(27, i);
-                    _info.wellCoverSize = cell.getContents();
-                    cell = _sheetP.getCell(28, i);
-                    _info.wellDeep = cell.getContents();
-                    cell = _sheetP.getCell(29, i);
-                    _info.wellMud = cell.getContents();
-                    cell = _sheetP.getCell(30, i);
-                    _info.wellSize = cell.getContents();
-                    cell = _sheetP.getCell(31, i);
-                    _info.wellWater = cell.getContents();
-                    cell = _sheetP.getCell(32, i);
-                    _info.code = cell.getContents();
-                    cell = _sheetP.getCell(33, i);
-                    _info.datasetName = cell.getContents();
-                    cell = _sheetP.getCell(34, i);
-                    _info.pipeType = cell.getContents();
-                    cell = _sheetP.getCell(35, i);
-                    _info.rangeExpression = Double.parseDouble(cell.getContents());
-                    cell = _sheetP.getCell(36, i);
-                    _info.shortCode = cell.getContents();
-                    cell = _sheetP.getCell(37, i);
-                    _info.submitName = cell.getContents();
-                    cell = _sheetP.getCell(38, i);
-                    _info.sysId = Integer.parseInt(cell.getContents());
-                    cell = _sheetP.getCell(39, i);
-                    _info.type = POINTTYPE.valueOf(cell.getContents());
-                    _pInfos.add(_info);*/
+
                 }
 
             } else if (sheet == 1) {
@@ -340,9 +284,9 @@ public class ExcelUtils {
                 //excel字段数组
                 Cell[] _cells = _sheetL.getRow(0);
                 //数组转为map
-                Map<String,Integer > _map = new HashMap<>();
+                Map<String, Integer> _map = new HashMap<>();
                 for (int _i = 0; _i < _cells.length; _i++) {
-                    _map.put(_cells[_i].getContents(),_i);
+                    _map.put(_cells[_i].getContents(), _i);
                 }
                 //遍历行
                 for (int i = 1; i < _rowsL; i++) {
@@ -372,7 +316,9 @@ public class ExcelUtils {
                                 _field.set(_infoL, Integer.valueOf(_sheetL.getCell(_map.get(fileName), i).getContents()));
                                 break;
                             case "com.app.BaseInfo.Data.POINTTYPE":
-                                _infoL.type = POINTTYPE.valueOf(_sheetL.getCell(_map.get(fileName), i).getContents());
+                                _infoL.type = POINTTYPE.Type_All_A;
+//                                _infoL.type = POINTTYPE.valueOf(_sheetL.getCell(_map.get(fileName), i).getContents());
+
                                 break;
                             case "long":
                                 break;
@@ -384,86 +330,12 @@ public class ExcelUtils {
 
                                 break;
                             default:
-                                _field.set(_infoL,_sheetL.getCell(_map.get(fileName), i).getContents());
+                                _field.set(_infoL, _sheetL.getCell(_map.get(fileName), i).getContents());
                                 break;
                         }
                     }
                     _pInfos.add(_infoL);
 
-                    //遍历每行中的数据
-                  /*  cell = _sheetL.getCell(0, i);
-                    _infoL.belong = cell.getContents();
-                    cell = _sheetL.getCell(1, i);
-                    _infoL.benDeep = cell.getContents();
-                    cell = _sheetL.getCell(2, i);
-                    _infoL.benExpNum = cell.getContents();
-                    cell = _sheetL.getCell(3, i);
-                    _infoL.burialDifference = cell.getContents();
-                    cell = _sheetL.getCell(4, i);
-                    _infoL.buried = cell.getContents();
-                    cell = _sheetL.getCell(5, i);
-                    _infoL.cabNum = cell.getContents();
-                    cell = _sheetL.getCell(6, i);
-                    _infoL.d_S = cell.getContents();
-                    cell = _sheetL.getCell(7, i);
-                    _infoL.endDeep = cell.getContents();
-                    cell = _sheetL.getCell(8, i);
-                    _infoL.endExpNum = cell.getContents();
-                    cell = _sheetL.getCell(9, i);
-                    _infoL.endLatitude = Double.parseDouble(cell.getContents());
-                    cell = _sheetL.getCell(10, i);
-                    _infoL.endLongitude = Double.parseDouble(cell.getContents());
-                    cell = _sheetL.getCell(11, i);
-                    _infoL.exp_Date = cell.getContents();
-                    cell = _sheetL.getCell(12, i);
-                    _infoL.holeDiameter = cell.getContents();
-                    cell = _sheetL.getCell(13, i);
-                    _infoL.id = cell.getContents();
-                    cell = _sheetL.getCell(14, i);
-                    _infoL.labelTag = cell.getContents();
-                    cell = _sheetL.getCell(15, i);
-                    _infoL.material = cell.getContents();
-                    cell = _sheetL.getCell(16, i);
-                    _infoL.pipeLength = cell.getContents();
-                    cell = _sheetL.getCell(17, i);
-                    _infoL.pipeSize = cell.getContents();
-                    cell = _sheetL.getCell(18, i);
-                    _infoL.pressure = cell.getContents();
-                    cell = _sheetL.getCell(19, i);
-                    _infoL.puzzle = cell.getContents();
-                    cell = _sheetL.getCell(20, i);
-                    _infoL.remark = cell.getContents();
-                    cell = _sheetL.getCell(21, i);
-                    _infoL.rowXCol = cell.getContents();
-                    cell = _sheetL.getCell(22, i);
-                    _infoL.startLatitude = Double.parseDouble(cell.getContents());
-                    cell = _sheetL.getCell(23, i);
-                    _infoL.startLongitude = Double.parseDouble(cell.getContents());
-                    cell = _sheetL.getCell(24, i);
-                    _infoL.state = cell.getContents();
-                    cell = _sheetL.getCell(25, i);
-                    _infoL.totalHole = cell.getContents();
-                    cell = _sheetL.getCell(26, i);
-                    _infoL.usedHole = cell.getContents();
-                    cell = _sheetL.getCell(27, i);
-                    _infoL.voltage = cell.getContents();
-                    cell = _sheetL.getCell(28, i);
-                    _infoL.code = cell.getContents();
-                    cell = _sheetL.getCell(29, i);
-                    _infoL.datasetName = cell.getContents();
-                    cell = _sheetL.getCell(30, i);
-                    _infoL.pipeType = cell.getContents();
-                    cell = _sheetL.getCell(31, i);
-                    _infoL.rangeExpression = Double.parseDouble(cell.getContents());
-                    cell = _sheetL.getCell(32, i);
-                    _infoL.shortCode = cell.getContents();
-                    cell = _sheetL.getCell(33, i);
-                    _infoL.submitName = cell.getContents();
-                    cell = _sheetL.getCell(34, i);
-                    _infoL.sysId = Integer.parseInt(cell.getContents());
-                    cell = _sheetL.getCell(35, i);
-                    _infoL.type = POINTTYPE.valueOf(cell.getContents());
-                    _pInfos.add(_infoL);*/
                 }
             }
             course.close();

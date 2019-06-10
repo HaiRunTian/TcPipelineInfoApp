@@ -55,15 +55,15 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String wellSize = "";
     /**
-     * 窨井深度
+     * 窨井深度 cm
      */
     public String wellDeep = "";
     /**
-     * 窨井水深
+     * 窨井水深 cm
      */
     public String wellWater = "";
     /**
-     *  窨井淤泥
+     *  窨井淤泥 cm
      */
     public String wellMud = "";
     /**
@@ -595,13 +595,14 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      * s数据导出调用
      */
     public static BaseFieldPInfos createFieldInfo(Recordset reset, int statue) {
+        BaseFieldPInfos _info = null;
         try {
             if (reset.isEmpty()) {
                 LogUtills.e("CreateFieldInfo Recordset Is Empty...");
                 return null;
             }
 
-            BaseFieldPInfos _info = PointFieldFactory.Create();
+             _info = PointFieldFactory.Create();
             if (_info == null) {
                 LogUtills.e("CreateFieldInfo Can Not Find The Layer Of " + reset.getString("datasetName"));
                 return null;
@@ -610,10 +611,12 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             Field[] _fields = _info.getClass().getFields();
             //返回记录集里的字段信息集合对象。
             FieldInfos _infos = reset.getFieldInfos();
+            Field _field = null;
+            String _field_name = "";
             for (int i = 0; i < _fields.length; ++i) {
-                Field _field = _fields[i];
+                 _field = _fields[i];
                 //返回此 Field 对象表示的字段的名称。
-                String _field_name = _field.getName();
+                 _field_name = _field.getName();
                 //不包含此字段
                 if (_infos.get(_field_name) == null || _field_name.equals("type")) {
                     //LogUtills.i(" Recodest No Contain The Field "+_field_name+", In BaseFieldPInfos");
@@ -625,10 +628,16 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             // 枚举类型重新配置
             _info.type = POINTTYPE.valueOf(reset.getString("type"));
             LogUtills.i("Generator The BaseFieldPInfos Successfully, ID=" + reset.getID());
+
             return _info;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }finally {
+          /*  if (reset != null){
+                reset.close();
+                reset.dispose();
+            }*/
         }
     }
 

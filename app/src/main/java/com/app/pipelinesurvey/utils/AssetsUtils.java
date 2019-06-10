@@ -29,7 +29,7 @@ public class AssetsUtils {
 
     public static AssetsUtils getInstance() {
         if (!sInited) {
-            throw new IllegalArgumentException("Please call init() firstly");
+            throw new IllegalArgumentException("Please call getInserSql() firstly");
         }
         return sInstance;
     }

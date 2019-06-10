@@ -110,7 +110,6 @@ public class UnZipMainThread extends Thread {
                 e.printStackTrace();
                 listener.zipFail();
             }
-
             listener.zipSuccess();
         } catch (IOException e) {
             e.printStackTrace();

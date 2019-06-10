@@ -510,10 +510,13 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             }
             Field[] _fields = _info.getClass().getFields();
             FieldInfos _infos = reset.getFieldInfos();
+            Field _field = null;
+            String _field_name = "";
+
             for (int i = 0; i < _fields.length; ++i) {
-                Field _field = _fields[i];
+                 _field = _fields[i];
                 //字段名
-                String _field_name = _field.getName();
+                 _field_name = _field.getName();
                 //不包含此字段
                 if (_infos.get(_field_name) == null || _field_name.equals("type")) {
                     continue;
@@ -526,7 +529,13 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         } catch (Exception e) {
 
             return null;
+        }finally {
+          /*  if (reset != null){
+                reset.close();
+                reset.dispose();
+            }*/
         }
+
     }
 
 

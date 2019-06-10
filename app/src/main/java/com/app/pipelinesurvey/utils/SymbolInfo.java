@@ -1,4 +1,5 @@
 package com.app.pipelinesurvey.utils;
+
 import android.support.annotation.NonNull;
 
 /**
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 public class SymbolInfo {
 
     public static SymbolInfo m_ins = null;
+
     public static SymbolInfo Ins() {
         if (m_ins == null) {
             m_ins = new SymbolInfo();
@@ -17,6 +19,9 @@ public class SymbolInfo {
     }
 
     /**
+     * appentant 附属物
+     * feature  点特质
+     *
      * @Author HaiRun
      * @Time 2019/4/23 . 11:24
      */
@@ -104,7 +109,7 @@ public class SymbolInfo {
             case "调压箱":
                 _symbol = "调压箱";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -127,9 +132,7 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
-                break;
+
         }
         return _symbol;
     }
@@ -146,7 +149,7 @@ public class SymbolInfo {
             case "接线箱":
                 _symbol = "接线箱";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -169,9 +172,7 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
-                break;
+
         }
         return _symbol;
     }
@@ -190,7 +191,7 @@ public class SymbolInfo {
             case "接线箱":
                 _symbol = "接线箱";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -213,9 +214,7 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
-                break;
+
         }
         return _symbol;
     }
@@ -244,7 +243,7 @@ public class SymbolInfo {
             case "路灯杆":
                 _symbol = "路灯杆";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -266,9 +265,6 @@ public class SymbolInfo {
                         _symbol = "探测点";
                         break;
                 }
-                break;
-            default:
-                _symbol = "探测点";
                 break;
         }
         return _symbol;
@@ -296,7 +292,7 @@ public class SymbolInfo {
             case "调压箱":
                 _symbol = "调压箱";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -319,9 +315,7 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
-                break;
+
         }
         return _symbol;
     }
@@ -354,7 +348,7 @@ public class SymbolInfo {
             case "信号灯":
                 _symbol = "信号灯";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "信号灯":
                         _symbol = "信号灯";
@@ -380,11 +374,8 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
-                break;
-        }
 
+        }
         return _symbol;
     }
 
@@ -419,7 +410,7 @@ public class SymbolInfo {
             case "信号灯":
                 _symbol = "信号灯";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -442,9 +433,7 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
-                break;
+
         }
         return _symbol;
     }
@@ -454,6 +443,8 @@ public class SymbolInfo {
         switch (appendant) {
             case "窨井":
             case "检查井":
+                _symbol = "窨井";
+                break;
             case "雨水井":
             case "检修井":
                 _symbol = "窨井";
@@ -506,7 +497,7 @@ public class SymbolInfo {
                 _symbol = "立管点";
                 break;
 
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -529,9 +520,6 @@ public class SymbolInfo {
                         _symbol = "探测点";
                         break;
                 }
-                break;
-            default:
-                _symbol = "探测点";
                 break;
         }
         return _symbol;
@@ -560,7 +548,7 @@ public class SymbolInfo {
             case "放水口":
                 _symbol = "放水口";
                 break;
-            case "探测点":
+            default:
                 switch (feature) {
                     case "预留口":
                         _symbol = "预留口";
@@ -583,8 +571,7 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-            default:
-                _symbol = "探测点";
+
         }
         return _symbol;
     }

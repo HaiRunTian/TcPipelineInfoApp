@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 
-import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.utills.LogUtills;
 
 import java.io.File;
@@ -30,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
     /**
      * 建表语句
      */
@@ -94,7 +93,42 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //创建数据库
+
+        //创建数据 广州模式表格和插入数据 版本号3
+        createSqlAndInserDataForGZ(db);
+
+        //更新点特征 附属物表 字段，添加字段city 并且赋值 广州 版本号4
+        alterSqlAndInserDataForGZ(db);
+
+        //创建深圳模式表格和插入数据 版本号4
+        createSqlAndInserDataForSZ(db);
+        LogUtills.i("Sql onCreate","onCreate()");
+
+
+    }
+
+    /**
+     * 更新点特征 附属物表 字段，添加字段city 并且赋值 广州 版本号4
+     * @param db
+     */
+    private void alterSqlAndInserDataForGZ(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSql();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 创建数据 广州模式表格和插入数据
+     * @param db
+     */
+    private void createSqlAndInserDataForGZ(SQLiteDatabase db) {
+        //创建广州数据库
         for (String sql : createTableSQLList) {
             LogUtills.i(" Sql cteate=", sql);
             try {
@@ -103,7 +137,9 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
                 LogUtills.e(" Sql create error ", e.getMessage());
             }
         }
-        List<String> sqls = InitDatabase.init(m_context);
+
+        //插入广州模式
+        List<String> sqls = InitDatabase.getInserSql(m_context);
         //插入数据语句
         for (String sql : sqls) {
             LogUtills.i(" Sql inner =", sql);
@@ -113,7 +149,37 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
                 LogUtills.e(" Sql inner error ", e.getMessage());
             }
         }
+    }
 
+    /**
+     *   创建深圳模式表格和插入数据
+     */
+    private void createSqlAndInserDataForSZ(SQLiteDatabase db) {
+        //升级版本4 新建深圳模式点线 配置表
+        List<String> crateSql = InitDatabase.getShenZhenCteateSql(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
+
+        //升级版本4  插入深圳模式配置表
+
+        List<String> inserSqlShenzhen = InitDatabase.getShenZhenInserSql(m_context);
+        //插入数据语句
+        for (String sql : inserSqlShenzhen) {
+            LogUtills.i(" Sql inner =", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql inner error ", e.getMessage());
+            }
+        }
     }
 
     /**
@@ -129,8 +195,12 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
 
             case 3:
+                //更新点特征 附属物表 字段，添加字段city 并且赋值 广州 版本号4
+                alterSqlAndInserDataForGZ(db);
 
-
+                //创建深圳模式表格和插入数据 版本号4
+                createSqlAndInserDataForSZ(db);
+                LogUtills.i("Sql onUpdate","onUpdate()");
             case 4:
 
 
@@ -214,7 +284,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return null
      * @datetime 2018-06-13  14:58.
      */
-    public void update(String table, ContentValues values, String whereClause, String[] whereArgs) {
+    public void update(String table, ContentValues values, String whereClause, String[]
+            whereArgs) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
             SQLiteDatabase database = databaseHelpler.getWritableDatabase();
@@ -251,7 +322,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return cursor Cursor对象
      * @datetime 2018-06-13  14:58.
      */
-    public Cursor queryPoint(String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
+    public Cursor queryPoint(String[] columns, String selection, String[] selectionArgs, String
+            groupBy, String having,
                              String orderBy) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
@@ -273,7 +345,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return cursor Cursor对象
      * @datetime 2018-06-13  14:58.
      */
-    public Cursor queryLine(String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
+    public Cursor queryLine(String[] columns, String selection, String[] selectionArgs, String
+            groupBy, String having,
                             String orderBy) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
@@ -296,7 +369,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return cursor Cursor对象
      * @datetime 2018-06-13  14:58.
      */
-    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
+    public Cursor query(String table, String[] columns, String selection, String[]
+            selectionArgs, String groupBy, String having,
                         String orderBy) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
@@ -320,7 +394,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      * @return cursor Cursor对象
      * @datetime 2018-06-13  15:14.
      */
-    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having,
+    public Cursor query(String table, String[] columns, String selection, String[]
+            selectionArgs, String groupBy, String having,
                         String orderBy, String limit) {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {

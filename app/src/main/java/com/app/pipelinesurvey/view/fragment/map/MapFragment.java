@@ -164,7 +164,7 @@ public class MapFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         try {
-            LogUtills.i("init onCreateView");
+            LogUtills.i("getInserSql onCreateView");
             view = inflater.inflate(R.layout.fragment_map, container, false);
             m_mapView = (MapView) view.findViewById(R.id.mapView);
             m_mapControl = m_mapView.getMapControl();
@@ -240,11 +240,11 @@ public class MapFragment extends Fragment  {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        LogUtills.i("init onActivityCreated");
+        LogUtills.i("getInserSql onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         initAllData();
         try {
-            LogUtills.i("init onCreate...");
+            LogUtills.i("getInserSql onCreate...");
             if (!licenseStatus()) {
                 Toast.makeText(getActivity(), "许可证不可使用，请联系技术员", Toast.LENGTH_LONG).show();
                 return;

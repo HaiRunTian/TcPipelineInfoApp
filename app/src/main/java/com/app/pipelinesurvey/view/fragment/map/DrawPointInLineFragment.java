@@ -786,6 +786,18 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
             _info.serialNum = Integer.parseInt(m_num[1]);
         }
 
+        //查询数据每个标准点配置表 专题图符号大小
+        String tabName = SQLConfig.TABLE_DEFAULT_POINT_SETTING;
+        Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+        //查询此标准的点表名
+        while (_cursorStand.moveToNext()) {
+            tabName = _cursorStand.getString(_cursorStand.getColumnIndex("pointsettingtablesymbol"));
+        }
+
+        if (tabName.length() == 0) {
+            LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
+        }
+
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
                 new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
         LogUtills.i("Sql:" + _cursor.getCount());

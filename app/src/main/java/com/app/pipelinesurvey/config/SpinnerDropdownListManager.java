@@ -40,6 +40,7 @@ public class SpinnerDropdownListManager {
      */
     public static List<String> getData(String type, String value) {
         List<String> list = new ArrayList<>();
+        list.add(" ");
 
         switch (type) {
             //特征点TABLE_NAME_FEATURE_INFO
@@ -48,7 +49,7 @@ public class SpinnerDropdownListManager {
                 if (value.length() == 5){
                     value = value.substring(0,value.length()-1);
                 }
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_FEATURE_INFO, "where code = '" + value.substring(value.length() - 1) + "'");
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_FEATURE_INFO, "where code = '" + value.substring(value.length() - 1) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
                     list.add(_var);
@@ -61,7 +62,7 @@ public class SpinnerDropdownListManager {
                 if (value.length() == 5){
                     value = value.substring(0,value.length()-1);
                 }
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_APPENDANT_INFO, "where code = '" + value.substring(value.length() - 1) + "'");
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_APPENDANT_INFO, "where code = '" + value.substring(value.length() - 1) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
                     list.add(_var);

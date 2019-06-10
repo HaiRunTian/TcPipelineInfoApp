@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Kevin on 2018-05-31.
+ * @author
  */
 
 public class AlertDialogUtil {

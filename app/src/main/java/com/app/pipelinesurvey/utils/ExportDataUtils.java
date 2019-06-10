@@ -2,6 +2,8 @@ package com.app.pipelinesurvey.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.View;
 import android.widget.Toast;
 
 import com.app.BaseInfo.Data.BaseFieldInfos;
@@ -10,6 +12,7 @@ import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.view.widget.LoadingImgDialog;
 import com.app.utills.LogUtills;
 import com.supermap.data.Charset;
 import com.supermap.data.CursorType;
@@ -60,6 +63,8 @@ public class ExportDataUtils {
         this.m_prjId = prjId;
     }
 
+
+
     /**
      * 导出数据
      *
@@ -103,8 +108,8 @@ public class ExportDataUtils {
 
 
                     //点线导出shp
-                    exportDataToShp(_dsVectorP, _prjFolder);
-                    exportDataToShp(_dsVectorL, _prjFolder);
+//                    exportDataToShp(_dsVectorP, _prjFolder);
+//                    exportDataToShp(_dsVectorL, _prjFolder);
                     //点线数据集导出
                     reSetExportToExcel(_reSetP, _reSetL);
 
@@ -121,7 +126,7 @@ public class ExportDataUtils {
                     }
                     //初始化excel表格
                     ExcelUtils.initExcel(_prjFolder + "/Excel/" + m_prjId + "-" + String.valueOf(m_fileCount) + ".xls", m_excelFiledNameP, m_excelFiledNameL, _dsVectorP.getName(), _dsVectorL.getName());
-                    //点 线导出excel 创建项目文件夹
+//                    //点 线导出excel 创建项目文件夹
                     ExcelUtils.writeObjListToExcel(0, m_pointListGroup, _prjFolder + "/Excel/" + m_prjId + "-" + String.valueOf(m_fileCount) + ".xls", m_context);
                     ExcelUtils.writeObjListToExcel(1, m_lineListGroup, _prjFolder + "/Excel/" + m_prjId + "-" + String.valueOf(m_fileCount) + ".xls", m_context);
                     ToastUtil.show(m_context, "数据导出成功", Toast.LENGTH_LONG);
@@ -167,13 +172,15 @@ public class ExportDataUtils {
             m_pointListGroup = new ArrayList<>();
             m_pointListChild.size();
             ArrayList<Object> list = null;
+            Field[] _fields = null;
+            String _type = "";
             for (BaseFieldPInfos _pipePoint : m_pointListChild) {
                 list = new ArrayList<>();
-                Field[] _fields = _pipePoint.getClass().getFields();
+                _fields = _pipePoint.getClass().getFields();
                 for (int _i = 0; _i < _fields.length - 3; _i++) {
                     try {
-                        String _name = _fields[_i].getName();
-                        String _type = _fields[_i].getType().getCanonicalName();
+//                        String _name = _fields[_i].getName();
+                         _type = _fields[_i].getType().getCanonicalName();
                         switch (_type) {
                             case "double":
                             case "java.lang.String":
@@ -193,8 +200,11 @@ public class ExportDataUtils {
 
             }
         }
-        resetP.close();
-        resetP.dispose();
+        if (resetP != null){
+            resetP.close();
+            resetP.dispose();
+        }
+
 
         //初始化线表字段名
         FieldInfos _fieldInfosL = resetL.getFieldInfos();
@@ -217,19 +227,20 @@ public class ExportDataUtils {
             }
             m_lineListGroup = new ArrayList<>();
             ArrayList<Object> list = null;
+            Field[] _fields = null;
+            String _type = "";
             for (BaseFieldLInfos _pipeLine : m_lineListChild) {
                 list = new ArrayList<>();
-                Field[] _fields = _pipeLine.getClass().getFields();
+                 _fields = _pipeLine.getClass().getFields();
                 for (int _i = 0; _i < _fields.length - 3; _i++) {
                     try {
-                        String _type = _fields[_i].getType().getCanonicalName();
-
+                         _type = _fields[_i].getType().getCanonicalName();
                         switch (_type) {
                             case "double":
                             case "java.lang.String":
                             case "int":
                             case "com.app.BaseInfo.Data.POINTTYPE":
-                                LogUtills.i("添加数据 java type = ", _fields[_i].getName() + "-----------" + _type);
+//                                LogUtills.i("添加数据 java type = ", _fields[_i].getName() + "-----------" + _type);
                                 list.add(String.valueOf(_fields[_i].get(_pipeLine)));
                                 break;
                             default:
@@ -243,8 +254,11 @@ public class ExportDataUtils {
 
             }
         }
-        resetL.close();
-        resetL.dispose();
+        if (resetL != null){
+            resetL.close();
+            resetL.dispose();
+        }
+
     }
 
     /**
@@ -275,25 +289,30 @@ public class ExportDataUtils {
      * 1.读取手机中的excel表 获取里面的数据
      * 2.根据或者到的数据，判断数据属于那一中管类，然后直接添加到这个管类数据集中
      */
-    public void importData(File file) {
-        //点表
-        List<BaseFieldInfos> _baseFieldPInfos = ExcelUtils.read2DB(file, 0, m_context);
-        for (int _i = 0; _i < _baseFieldPInfos.size(); _i++) {
-            BaseFieldPInfos _baseFieldPInfos1 = (BaseFieldPInfos) _baseFieldPInfos.get(_i);
+    public static boolean importData(List<BaseFieldInfos> _baseFieldPInfos,List<BaseFieldInfos> baseFileLInfos) {
+
+
+        //点导入
+        BaseFieldPInfos _baseFieldPInfos1 = null;
+        for (int i = 0; i < _baseFieldPInfos.size(); i++) {
+             _baseFieldPInfos1 = (BaseFieldPInfos) _baseFieldPInfos.get(i);
             if (!DataHandlerObserver.ins().createRecords2(_baseFieldPInfos1)) {
-                ToastUtil.showShort(m_context, "点数据导入失败");
+//                ToastUtil.showShort(m_context, "点数据导入失败");
+                return false;
             }
         }
 
-        //线表
-        List<BaseFieldInfos> _baseFieldPInfos2 = ExcelUtils.read2DB(file, 1, m_context);
-        for (int _i = 0; _i < _baseFieldPInfos2.size(); _i++) {
-            BaseFieldLInfos _baseFieldLInfos1 = (BaseFieldLInfos) _baseFieldPInfos2.get(_i);
+
+        //线导入
+        BaseFieldLInfos _baseFieldLInfos1 = null;
+        for (int i = 0; i < baseFileLInfos.size(); i++) {
+             _baseFieldLInfos1 = (BaseFieldLInfos) baseFileLInfos.get(i);
             if (!DataHandlerObserver.ins().addRecords(_baseFieldLInfos1)) {
-                ToastUtil.showShort(m_context, "线数据导入失败");
+//                ToastUtil.showShort(m_context, "线数据导入失败");
+                return false;
             }
         }
 
-//        ToastUtil.showShort(m_context, "数据导入成功");
+        return true;
     }
 }

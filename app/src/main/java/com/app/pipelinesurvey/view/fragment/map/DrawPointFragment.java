@@ -87,13 +87,13 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
      */
     private Spinner spSituation;
     /**
-     * 附属物
-     */
-    private Spinner spAppendant;
-    /**
      * 特征点
      */
     private Spinner spFeaturePoints;
+    /**
+     * 附属物
+     */
+    private Spinner spAppendant;
     /**
      * 状态
      */
@@ -660,6 +660,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
             _info.longitude = m_pointX;
             _info.latitude = m_pointY;
             _info.surf_H = getElevation();
+            //组号
             Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
             if (_cursor.moveToNext()) {
                 _info.expGroup = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
@@ -684,8 +685,22 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
             } else {
                 _info.serialNum = Integer.parseInt(m_num[1]);
             }
-            Cursor _cursor2 = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
+
+            //查询数据每个标准点配置表 专题图符号大小
+            String tabName = SQLConfig.TABLE_DEFAULT_POINT_SETTING;
+            Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+            //查询此标准的点表名
+            while (_cursorStand.moveToNext()) {
+                tabName = _cursorStand.getString(_cursorStand.getColumnIndex("pointsettingtablesymbol"));
+            }
+
+            if (tabName.length() == 0) {
+                LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
+            }
+
+            Cursor _cursor2 = DatabaseHelpler.getInstance().query(tabName,
                     new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
+
 
             LogUtills.i("Sql:" + _cursor2.getCount());
             if (_cursor2.moveToNext()) {

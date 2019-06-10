@@ -3,6 +3,7 @@ package com.app.pipelinesurvey.view.activity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.hardware.Sensor;
@@ -29,6 +30,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.app.BaseInfo.Data.BaseFieldInfos;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.BaseInfo.Oper.OperNotifyer;
@@ -42,9 +44,12 @@ import com.app.pipelinesurvey.location.BaiDuGPS;
 import com.app.pipelinesurvey.location.BaseGPS;
 import com.app.pipelinesurvey.location.GpsUtils;
 import com.app.pipelinesurvey.location.NavigationPanelView;
+import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.AssetsUtils;
+import com.app.pipelinesurvey.utils.ExcelUtils;
 import com.app.pipelinesurvey.utils.ExportDataUtils;
 import com.app.pipelinesurvey.utils.FileUtils;
+import com.app.pipelinesurvey.utils.ImportDataProgressUtil;
 import com.app.pipelinesurvey.utils.LicenseUtils;
 import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
@@ -52,6 +57,7 @@ import com.app.pipelinesurvey.view.fragment.map.DistanceMeasureFragment;
 import com.app.pipelinesurvey.view.fragment.map.MeasuredPointFragment;
 import com.app.pipelinesurvey.view.fragment.map.QueryPointLocalFragment;
 import com.app.pipelinesurvey.view.fragment.map.WorkCountFragment;
+import com.app.pipelinesurvey.view.widget.LoadingImgDialog;
 import com.app.utills.LogUtills;
 import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
@@ -184,8 +190,17 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     private float startDegree = 0f;
     private Map m_map;
     private boolean m_start = true;
+    /**
+     *  打开工作空间数据进度条
+     */
     private ProgressDialog m_progress;
-    private static boolean mBackKeyPressed = false;//记录是否有首次按键
+    private String m_filePath;
+    private String m_fileName;
+    private LoadingImgDialog m_loadingImgDialog;
+    private int[] array = new int[2];
+
+
+
 
     @SuppressLint("HandlerLeak")
     private Handler m_handler = new Handler() {
@@ -210,11 +225,68 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     m_progress.setMessage("工作空间打开失败");
                     m_progress.dismiss();
                     break;
+
+                case 4:
+                    initProgress();
+                    //点表  读取excel 和生成数据集比较好耗时间 需要在子线程里进行
+
+                    ImportDataProgressUtil.ImportData(m_filePath, new ImportDataProgressUtil.ImportListener() {
+                        @Override
+                        public void zipStart() {
+                           m_handler.sendEmptyMessage(5);
+                        }
+
+                        @Override
+                        public void zipSuccess() {
+                            m_handler.sendEmptyMessage(6);
+
+                        }
+
+                        @Override
+                        public void zipProgress(int[] progress) {
+                            array = progress;
+                            m_handler.sendEmptyMessage(7);
+
+
+                        }
+
+                        @Override
+                        public void zipFail() {
+                            m_handler.sendEmptyMessage(8);
+
+                        }
+                    });
+
+                    break;
+
+                case 5:
+                    //开始初始化数据
+                    m_progress.setMessage("数据正常读取统计中……");
+                    m_progress.show();
+                    break;
+                case 6:
+                    //数据导入成功
+                    m_progress.setMessage("数据导入成功！");
+                    m_progress.dismiss();
+                    break;
+                case 7:
+                    //数据统计显示
+                    m_progress.setMessage("导入的点数据有" + array[0] + "条，线数据有" + array[1] + "条");
+                    break;
+                case 8:
+                    //数据导入失败
+                    m_progress.setMessage("数据导入失败！");
+                    m_progress.dismiss();
+                    break;
+
+
                 default:
                     break;
             }
         }
     };
+
+
 
 
     @Override
@@ -225,6 +297,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
         Environment.initialization(this);
         setContentView(R.layout.fragment_map);
+
 
         initView();
         initData();
@@ -273,6 +346,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //位置监听类
 //        m_localtion = new MyLocationListener(this, m_mapControl, m_NavigationPanelView);
+    }
+
+    private void initProgress() {
+      m_progress.setTitle("数据导入");
+
     }
 
 
@@ -396,16 +474,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
                         //创建数据集 生成专题图 加载到地图上 比较耗时
                         OperNotifyer.AddSystemLayers(_datasource);
-                        //压盖设置
-//                        MapOverlapDisplayedOptions _options = m_map.getOverlapDisplayedOptions();
-//                        _options.setAllowPointOverlap(false);
-//                        _options.setAllowPointWithTextDisplay(true);
-//                        _options.setAllowTextAndPointOverlap(true);
-//                        _options.setAllowTextOverlap(true);
-//                        _options.setAllowThemeGraduatedSymbolOverlap(true);
-//                        _options.setAllowThemeGraphOverlap(false);
-//                        _options.setOverlappedSpaceSize(new Size2D(5.0,5.0));
-//                        m_map.setOverlapDisplayedOptions(_options);
                         m_map.setOverlapDisplayed(true);
                         m_map.save(m_prjId);
 
@@ -495,9 +563,28 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * 查询数据库 管类加载
      */
     private void initData() {
-        //图层显示
-//        String[] layers = getResources().getStringArray(R.array.pipeType);
-        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_TYPE);
+
+        //上个activity传过来的数据
+        Intent _intent = getIntent();
+        //项目名称
+        m_prjId = _intent.getStringExtra("prjName");
+        //类型 是谷歌在线地图还是切片
+        m_type = _intent.getStringExtra("type");
+        //当前项目名称全局
+        SuperMapConfig.PROJECT_NAME = m_prjId;
+
+        //查询数据库项目表，查询地图的路径
+        Cursor _cursor1 = DatabaseHelpler.getInstance()
+                .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + m_prjId + "'");
+        while (_cursor1.moveToNext()) {
+            baseMapPath = _cursor1.getString(_cursor1.getColumnIndex("BaseMapPath"));
+            //当前城市标准名称
+            String city = _cursor1.getString(_cursor1.getColumnIndex("City"));
+            SuperMapConfig.PROJECT_CITY_NAME = city;
+        }
+
+        //通过城市名称查询此城市的管类
+        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_TYPE, "where city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
         while (_cursor.moveToNext()) {
             String pipeType = _cursor.getString(_cursor.getColumnIndex("pipe_type"));
             m_data_list.add(pipeType);
@@ -507,27 +594,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         spLayers.setAdapter(m_adapter);
         spLayers.setSelection(0, true);
 
-        //上个activity传过来的数据
-        Intent _intent = getIntent();
-        m_prjId = _intent.getStringExtra("prjName");
-        m_type = _intent.getStringExtra("type");
-        //当前项目名称
-        SuperMapConfig.PROJECT_NAME = m_prjId;
-        Cursor _cursor1 = DatabaseHelpler.getInstance()
-                .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + m_prjId + "'");
-        while (_cursor1.moveToNext()) {
-            baseMapPath = _cursor1.getString(_cursor1.getColumnIndex("BaseMapPath"));
 
-            //当前城市标准名称
-            String city= _cursor1.getString(_cursor1.getColumnIndex("City"));
-            SuperMapConfig.PROJECT_CITY_NAME = city;
-        }
         //如果创建的项目不是谷歌在线地图，地图图层切换按钮就隐藏
         if (!baseMapPath.equals("http://www.google.cn/maps")) {
             rdBtnMap.setVisibility(View.GONE);
             imgBtnLocation.setVisibility(View.GONE);
 
-        }else {
+        } else {
             rdBtnMap.setVisibility(View.VISIBLE);
             imgBtnLocation.setVisibility(View.VISIBLE);
         }
@@ -607,10 +680,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         switch (v.getId()) {
             //导入数据
             case R.id.rdBtnImport:
-                ///
-//                SymbolDialogFragment _dialogFragment = new SymbolDialogFragment();
-//                _dialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
-
+                if (m_loadingImgDialog == null) {
+                    m_loadingImgDialog = new LoadingImgDialog(MapActivity.this, R.mipmap.ic_logo);
+                }
                 startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
                 break;
 
@@ -623,8 +695,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             //定位
             case R.id.imgBtnLocation:
 
-                if (!GpsUtils.isOPen(MapActivity.this)){
-                    ToastUtil.showShort(MapActivity.this,"请先打开GPS定位功能");
+                if (!GpsUtils.isOPen(MapActivity.this)) {
+                    ToastUtil.showShort(MapActivity.this, "请先打开GPS定位功能");
                     GpsUtils.openGPS(MapActivity.this);
                     return;
                 }
@@ -663,7 +735,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     if (m_mapControl != null) {
                         DataHandlerObserver.ins().setCurrentPipeType(spLayers.getSelectedItem().toString());
                     }
-//                    return;
                 }
                 break;
             //加线
@@ -1047,9 +1118,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         if (requestCode == 1) {
             switch (resultCode) {
                 case RESULT_OK:
-                    String _filePath = data.getStringExtra("filePath");
-                    String _fileName = data.getStringExtra("fileName");
-                    new ExportDataUtils(this, m_workspace, m_prjId).importData(new File(_filePath));
+                    m_filePath = data.getStringExtra("filePath");
+                    m_fileName = data.getStringExtra("fileName");
+                    m_handler.sendEmptyMessage(4);
                     break;
                 default:
                     break;
@@ -1059,26 +1130,5 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 
 
 
-
-/*    @Override
-    public void onBackPressed() {
-        LogUtills.e(TAG, "onBackPressed() ");
-        super.onBackPressed();
-//        try {
-//            if (m_map.isModified() || m_workspace.isModified()) {
-//                m_map.save();
-//                m_workspace.save();
-//                LogUtills.e(TAG, "onBackPressed = save()");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            LogUtills.e(TAG, "onBackPressed =" + e.getMessage());
-//        }
-//        if (m_GPS != null) {
-//            m_SensorManager.unregisterListener(m_GPS.getSensorListener());
-//        }
-//        setResult(1);
-//        finish();
-    }*/
 
 }

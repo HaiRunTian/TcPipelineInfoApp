@@ -138,22 +138,6 @@
             ,remark varchar,typeShortCall varchar,standard varchar,city varchar);
         </sql_create>
 
-
-        <!--点配置表new-->
-      <!--  <sql_create>
-            create table default_point_shenzhan(id integer primary key autoincrement,name
-            varchar,color varchar,scaleX double,scaleY double,angle double,symbolID integer,standard
-            varchar,minScaleVisible double,maxScaleVisible double,lineWidth double,pipe_type
-            varchar,city varchar);
-        </sql_create>
-
-        &lt;!&ndash;线配置表&ndash;&gt;
-        <sql_create>
-            create table default_line_shenzhan(id integer primary key autoincrement,name
-            varchar,width double,color varchar,symbolID integer,typename varchar,typeCode varchar
-            ,remark varchar,typeShortCall varchar,standard varchar,city varchar);
-        </sql_create>-->
-
     </sql_create_table>
 
 

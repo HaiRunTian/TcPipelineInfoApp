@@ -17,22 +17,26 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.UnZipAdapter;
 import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.pipelinesurvey.utils.ZipProgressUtil;
 import com.app.utills.LogUtills;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 解压切片底图
  * @author HaiRun
- *  2018/11/23 0023.
+ * 2018/11/23 0023.
  */
 
 public class UnzipFragment extends DialogFragment implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -40,7 +44,6 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     private View m_rootView;
     private Button m_btnUnzip;
     private Button m_btnReturn;
-//    private Button m_btnClose;
     private ListView m_listView;
     private TextView m_tvTitle;
     private List<FileEntity> m_list;
@@ -50,6 +53,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     private boolean m_isUnZip = false;
     private ProgressDialog m_progressDialog;
     private String m_msg;
+    private String mZipFile;
     @SuppressLint("HandlerLeak")
     private Handler m_handler = new Handler() {
         @Override
@@ -79,6 +83,10 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                     m_folderName = SuperMapConfig.DEFAULT_DATA_PATH;
                     m_btnReturn.setVisibility(View.VISIBLE);
                     m_adapter.notifyDataSetChanged();
+                    //压缩成功后，弹出提示是否删除切片安装包
+                    showDialogDeleteZipFile();
+
+
                     break;
                 //数据解压失败
                 case 4:
@@ -91,6 +99,26 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
             }
         }
     };
+
+    /**
+     * 弹出窗口，是否删除切片压缩包
+     */
+    private void showDialogDeleteZipFile() {
+        AlertDialogUtil.showDialog(getActivity(), "删除提示", "是否要删除底图切片压缩包，释放手机内存空间?", false, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if ( FileUtils.getInstance().deleteFile(mZipFile)){
+                    LogUtills.i(TAG,"delete zipfile success");
+                    ToastUtil.showShort(getActivity(), "删除成功");
+
+                }else {
+                    LogUtills.i(TAG,"delete zipfile fail");
+                    ToastUtil.showShort(getActivity(), "删除失败");
+                }
+
+            }
+        });
+    }
 
 
     @Override
@@ -128,7 +156,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
         m_listView = m_rootView.findViewById(R.id.listView);
         m_tvTitle = m_rootView.findViewById(R.id.tvTitle2);
 
-        TextView  tvTitle = m_rootView.findViewById(R.id.tvTitle);
+        TextView tvTitle = m_rootView.findViewById(R.id.tvTitle);
         tvTitle.setText("解压切片");
         TextView tvColse = m_rootView.findViewById(R.id.tvConfig);
         tvColse.setText("关闭");
@@ -145,7 +173,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(),getDialog());
+        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override
@@ -179,10 +207,12 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                 }
                 break;
 
+            //解压切片
             case R.id.btnUnZip:
-
                 for (int i = 0; i < m_list.size(); i++) {
                     if (m_list.get(i).isCheck()) {
+                        //压缩包名字路径
+                        mZipFile = m_list.get(i).getFilePath();
                         ZipProgressUtil.UnZipFile(m_list.get(i).getFilePath(), SuperMapConfig.DEFAULT_DATA_PATH, new ZipProgressUtil.ZipListener() {
                             @Override
                             public void zipStart() {
@@ -278,19 +308,19 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         if (m_list.get(position).getFileType() == FileEntity.Type.FILE) {
                             if (FileUtils.getInstance().deleteFile(m_list.get(position).getFilePath())) {
-                                ToastUtil.show(getActivity(), "删除成功" + m_list.get(position).getFileName(), 1);
+                                ToastUtil.showShort(getActivity(), "删除成功" + m_list.get(position).getFileName());
                                 m_list.remove(position);
                                 m_handler.sendEmptyMessage(0);
                             } else {
-                                ToastUtil.show(getActivity(), "删除失败" + m_list.get(position).getFileName(), 1);
+                                ToastUtil.showShort(getActivity(), "删除失败" + m_list.get(position).getFileName());
                             }
                         } else {
                             if (FileUtils.getInstance().deleteDir(m_list.get(position).getFilePath())) {
-                                ToastUtil.show(getActivity(), "删除成功" + m_list.get(position).getFileName(), 1);
+                                ToastUtil.showShort(getActivity(), "删除成功" + m_list.get(position).getFileName());
                                 m_list.remove(position);
                                 m_handler.sendEmptyMessage(0);
                             } else {
-                                ToastUtil.show(getActivity(), "删除失败" + m_list.get(position).getFileName(), 1);
+                                ToastUtil.showShort(getActivity(), "删除失败" + m_list.get(position).getFileName());
                             }
                         }
                     }
