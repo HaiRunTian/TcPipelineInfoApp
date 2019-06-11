@@ -86,6 +86,12 @@ public class InitDatabase {
         //管类添加city字段
         String sqlAlterPipe_info= "alter table pipe_info add column city varchar ";
 
+        //管类材质添加city字段
+        String sqlAlterPipe_texture= "alter table pipe_texture add column city varchar ";
+
+        //管点备注添加city字段
+        String sqlAlterPoint_remark= "alter table point_remark add column city varchar ";
+
         //给先添加的字段填入数据city
         String sqlUpdateAppendan_info = "update appendant_info set city = '广州'";
 
@@ -95,12 +101,23 @@ public class InitDatabase {
         //给先添加的字段填入数据city
         String sqlUpdatePipe_info = "update pipe_info set city = '广州'";
 
+        //给广州模式先添加管类材质表字段填入数据city
+        String sqlUpdatePipe_texture = "update pipe_texture set city = '广州'";
+
+        //给广州模式先添加的管点备注表字段填入数据city
+        String sqlUpdatePoint_remark = "update point_remark set city = '广州'";
+
         _list.add(sqlAlterAppendant);
         _list.add(sqlAlterFeature_info);
         _list.add(sqlAlterPipe_info);
+        _list.add(sqlAlterPipe_texture);
+        _list.add(sqlAlterPoint_remark);
+
         _list.add(sqlUpdateAppendan_info);
         _list.add(sqlUpdateFeature_info);
         _list.add(sqlUpdatePipe_info);
+        _list.add(sqlUpdatePipe_texture);
+        _list.add(sqlUpdatePoint_remark);
 
         return _list;
 

@@ -7,7 +7,6 @@ import com.app.BaseInfo.Data.POINTTYPE;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.utills.LogUtills;
 import com.supermap.data.Color;
 import com.supermap.data.GeoStyle;

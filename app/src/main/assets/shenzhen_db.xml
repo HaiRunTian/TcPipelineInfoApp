@@ -7,14 +7,14 @@
 
         <!--点配置表new-->
         <sql_create>
-            create table default_point_shenzhan(id integer primary key autoincrement,name
+            create table default_point_shenzhen(id integer primary key autoincrement,name
             varchar,color varchar,scaleX double,scaleY double,angle double,symbolID integer,standard
             varchar,minScaleVisible double,maxScaleVisible double,lineWidth double,pipe_type
             varchar,city varchar);
         </sql_create>
 
         <!--线配置表-->
-        <sql_create>create table default_line_shenzhan(id integer primary key autoincrement,name
+        <sql_create>create table default_line_shenzhen(id integer primary key autoincrement,name
             varchar,width double,color varchar,symbolID integer,typename varchar,typeCode varchar
             ,remark varchar,typeShortCall varchar,standard varchar,city varchar);
         </sql_create>
@@ -29,48 +29,49 @@
         <sql_init_table_standard_info>
             <sql>insert into
                 standard_info(name,creator,createtime,pointsettingtablesymbol,linesettintable,status)
-                values('深圳','某某','219年6月1日','default_point_shenzhan','default_line_shenzhan',1)
+                values('深圳','某某','219年6月1日','default_point_shenzhen','default_line_shenzhen',1)
             </sql>
         </sql_init_table_standard_info>
+
         <!--管类表-->
         <sql_init_table_pipe_info>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('排水','P','排水','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('雨水','Y','雨水','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('污水','W','污水','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('给水','J','给水','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('合流','H','合流','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('燃气','R','燃气','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('电力','L','电力','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('路灯-LD','LD','路灯','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('信号','XH','信号','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('工业','G','工业','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('电信','D','电信','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('不明','N','不明','','深圳')
             </sql>
-            <sql>insert into pipe_info(name,code,typename,remark)
+            <sql>insert into pipe_info(name,code,typename,remark,city)
                 values('其它','Q','其它','','深圳')
             </sql>
 
@@ -1052,139 +1053,139 @@
         </sql_init_table_feature_info>
 
         <!--点-->
-        <sql_init_table_default_point_shenzhan>
+        <sql_init_table_default_point_shenzhen>
             <!--给水设置-->
             <!--J-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-探测点','#00CCFF',2.5,2.5,1,1,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--检修井设置-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-检修井','#00CCFF',4,4,1,2,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-'阀门'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-阀门','#00CCFF',4.0,5.5,1,2,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-'消防栓'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-消防栓','#00CCFF',4.0,6.0,1,3,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-'水表'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-水表','#00CCFF',4.0,7.0,1,11,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-预留口','#00CCFF',4.0,7.0,1,5,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-'排泥阀'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-排泥阀','#00CCFF',4.0,7.0,1,2,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-水源井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-未知井','#A52A2A',4,4,1,33,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-未知井','#A52A2A',4,4,1,33,'0',2477,200,2,'给水-J','深圳')
             </sql>
             <!--J-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('J-通风井','#A52A2A',4,4,1,33,'0',2477,200,2,'给水-J ','深圳')
             </sql>
 
             <!--污水设置-->
             <!--W-探测点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-检查井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-检查井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-跌水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-跌水井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-渗水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-渗水井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-沉泥井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-沉泥井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!-- W-冲洗井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-冲洗井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!-- W-进水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-进水口','#A52A2A',4,4,1,39,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!-- W-出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!-- W-进出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-进出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-雨水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-雨水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-污水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-污水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-预留口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-预留口','#A52A2A',3.0,7.0,1,35,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-化粪池-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-化粪池','#A52A2A',4,4,1,40,'0',2477,200,2,'污水-W','深圳')
             </sql>
 
             <!--W-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-未知井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-通风井','#A52A2A',4,4,1,33,'0',2477,200,2,'污水-W','深圳')
             </sql>
             <!--W-立管点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('W-立管点','#A52A2A',2.5,5.5,1,491,'0',2477,200,2,'污水-W','深圳')
             </sql>
 
@@ -1192,566 +1193,566 @@
             <!--污水设置-->
             <!--Y-探测点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-检查井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-检查井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-跌水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-跌水井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-渗水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-渗水井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-沉泥井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-沉泥井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!-- Y-冲洗井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-冲洗井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!-- Y-进水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-进水口','#A52A2A',4,4,1,39,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!-- Y-出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!-- Y-进出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-进出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-雨水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-雨水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-污水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-污水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-预留口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-预留口','#A52A2A',3.0,7.0,1,35,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-化粪池-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-化粪池','#A52A2A',4,4,1,40,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-未知井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-通风井','#A52A2A',4,4,1,33,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
             <!--Y-立管点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Y-立管点','#A52A2A',2.5,5.5,1,491,'0',2477,200,2,'雨水-Y','深圳')
             </sql>
 
             <!--排水设置-->
             <!--P-探测点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-检查井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-检查井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-跌水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-跌水井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-渗水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-渗水井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-沉泥井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-沉泥井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!-- P-冲洗井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-冲洗井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!-- P-进水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-进水口','#A52A2A',4,4,1,39,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!-- P-出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!-- P-进出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-进出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-雨水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-雨水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-污水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-污水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-预留口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-预留口','#A52A2A',3.0,7.0,1,35,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-化粪池-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-化粪池','#A52A2A',4,4,1,40,'0',2477,200,2,'排水-P','深圳')
             </sql>
 
             <!--P-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-未知井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-通风井','#A52A2A',4,4,1,33,'0',2477,200,2,'排水-P','深圳')
             </sql>
             <!--P-立管点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('P-立管点','#A52A2A',2.5,5.5,1,491,'0',2477,200,2,'排水-P','深圳')
             </sql>
 
             <!--合流设置-->
             <!--H-探测点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-探测点','#A52A2A',2.5,2.5,1,32,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-检查井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-检查井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-跌水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-跌水井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-渗水井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-渗水井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-沉泥井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-沉泥井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!-- H-冲洗井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-冲洗井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!-- H-进水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H进水口','#A52A2A',4,4,1,39,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!-- H-出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!-- H-进出水口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-进出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-雨水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-雨水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-污水篦-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-污水篦','#A52A2A',4,2.5,1,36,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-预留口-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-预留口','#A52A2A',3.0,7.0,1,35,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-化粪池-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-化粪池','#A52A2A',4,4,1,40,'0',2477,200,2,'合流-H','深圳')
             </sql>
 
             <!--H-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-未知井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-通风井','#A52A2A',4,4,1,33,'0',2477,200,2,'合流-H','深圳')
             </sql>
             <!--H-立管点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-立管点','#A52A2A',2.5,5.5,1,491,'0',2477,200,2,'合流-H','深圳')
             </sql>
 
             <!--燃气-->
             <!--R-探测点-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-探测点','#FF9900',2.5,5.5,1,484,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-检修井设置-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-检修井','#FF9900',4,4,1,2,'0',2477,200,2,'燃气-R','深圳')
             </sql>
 
             <!--R-阀门-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-阀门','#FF9900',2.5,5.5,1,479,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-盖堵-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-盖堵','#FF9900',2.5,5.5,1,479,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-'凝水缸'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-凝水缸','#FF9900',4.0,2.5,1,478,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-'出地'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-出地','#FF9900',2.5,5.5,1,482,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-'调压箱'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-调压箱','#FF9900',4.0,4.0,1,477,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-'燃气柜'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-燃气柜','#FF9900',4.0,4.0,1,477,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-未知井','#FF9900',4,4,1,33,'0',2477,200,2,'燃气-R','深圳')
             </sql>
             <!--R-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('R-通风井','#FF9900',4,4,1,33,'0',2477,200,2,'燃气-R','深圳')
             </sql>
 
             <!--电力设置-->
             <!--L-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-探测点','#FF0000',2.5,2.5,1,472,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'上杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-上杆','#FF0000',2.5,5.5,1,487,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'出入地'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-出入地','#FF0000',2.5,5.5,1,518,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-预留口','#FF0000',3.0,7.0,1,475,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'摄像头'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('L-摄像头','#FF0000',4.0,4.0,1,41,'0',2477,200,2,'电力-L','深圳
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                values ('L-摄像头','#FF0000',4.0,4.0,1,41,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'红绿灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-红绿灯','#FF0000',4.0,4.0,1,41,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'信号灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-信号灯','#FF0000',4.0,4.0,1,41,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'地灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-地灯','#FF0000',4.0,2.5,1,492,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'铁塔'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-铁塔','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'路灯杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-路灯杆','#FF0000',2.5,5.5,1,473,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'水泥杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-水泥杆','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'不清楚图标'-->
             <!--L-'检修井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-检修井','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'控制柜'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-控制柜','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'配电箱'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-配电箱','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'路灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-路灯','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'未知井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-未知井','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
             <!--L-'杆上变压器'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('L-杆上变压器','#FF0000',4.0,4.0,1,526,'0',2477,200,2,'电力-L','深圳')
             </sql>
 
             <!--路灯设置-->
             <!--LD-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-探测点','#FF6600',2.5,2.5,1,472,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'上杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-上杆','#FF6600',2.5,5.5,1,487,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'出入地'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-出入地','#FF6600',2.5,5.5,1,518,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-预留口','#FF6600',3.0,7.0,1,475,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'摄像头'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('LD-摄像头','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'路灯-LD','深圳
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                values ('LD-摄像头','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'红绿灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-红绿灯','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'信号灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-信号灯','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'地灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-地灯','#FF6600',4.0,2.5,1,492,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'铁塔'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-铁塔','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'路灯杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-路灯杆','#FF6600',2.5,5.5,1,473,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--L-'水泥杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('L-水泥杆','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                values ('LD-水泥杆','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'不清楚图标'-->
             <!--LD-'检修井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-检修井','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'控制柜'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-控制柜','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD配电箱'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-配电箱','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'路灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-路灯','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'未知井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-未知井','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
             <!--LD-'杆上变压器'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('LD-杆上变压器','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'路灯-LD','深圳')
             </sql>
 
             <!--信号设置-->
             <!--XH-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-探测点','#FF6600',2.5,2.5,1,472,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'上杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-上杆','#FF6600',2.5,5.5,1,487,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'出入地'-->
 
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-出入地','#FF6600',2.5,5.5,1,518,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-预留口','#FF6600',3.0,7.0,1,475,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'摄像头'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('XH-摄像头','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'信号-XH','深圳
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                values ('XH-摄像头','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'红绿灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-红绿灯','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'信号灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-信号灯','#FF6600',4.0,4.0,1,41,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'地灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-地灯','#FF6600',4.0,2.5,1,492,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'铁塔'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-铁塔','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'路灯杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-路灯杆','#FF6600',2.5,5.5,1,473,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--L-'水泥杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-水泥杆','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'不清楚图标'-->
             <!--LD-'检修井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-检修井','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'控制柜'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-控制柜','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD配电箱'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-配电箱','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'路灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-路灯','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'未知井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-未知井','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
             <!--LD-'杆上变压器'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('XH-杆上变压器','#FF6600',4.0,4.0,1,526,'0',2477,200,2,'信号-XH','深圳')
             </sql>
 
@@ -1759,251 +1760,251 @@
             <!--电信设置-->
             <!--D-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-探测点','#00FF00',2.5,2.5,1,41,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'电信人孔井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-电信人孔井','#00FF00',4.0,4.0,1,42,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'电信手孔井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-电信手孔井','#00FF00',4.0,4.0,1,43,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'出入地'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-出入地','#00FF00',2.5,5.5,1,525,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'接线箱'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-接线箱','#00FF00',4.0,5.5,1,44,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'电话亭'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-电话亭','#00FF00',2.5,5.5,1,49,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-预留口','#00FF00',4.0,4.0,1,46,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'摄像头'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-摄像头','#00FF00',4.0,4.0,1,41,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'红绿灯'-->
             <sql>insert into
-                default_point_shen zhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-红绿灯','#00FF00',4.0,4.0,1,41,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'信号灯'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-信号灯','#00FF00',4.0,4.0,1,41,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'水泥杆'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-水泥杆','#00FF00',4.0,4.0,1,41,'0',2477,200,2,'电信-D','深圳')
             </sql>
             <!--D-'铁塔'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('D-铁塔','#00FF00',4.0,4.0,1,41,'0',2477,200,2,'电信-D','深圳')
             </sql>
 
             <!--工业-G设置-->
             <!--G-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-探测点','#FF00FF',2.5,2.5,1,61,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'阀门'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-阀门','#FF00FF',3.0,5.5,1,519,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'凝水缸'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-凝水缸','#FF00FF',5.5,4.0,1,476,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'出入地'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-出入地','#FF00FF',2.5,5.5,1,63,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'调压箱'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-调压箱','#FF00FF',4.0,2.5,1,520,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'不清楚图标'-->
             <!--G-'检修井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-检修井','#FF00FF',4.0,4.0,1,526,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'燃气柜'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-燃气柜','#FF00FF',4.0,4.0,1,526,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-'排气阀'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-排气阀','#FF00FF',4.0,4.0,1,526,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-未知井','#FF9900',4,4,1,33,'0',2477,200,2,'工业-G','深圳')
             </sql>
             <!--G通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('G-通风井','#FF9900',4,4,1,33,'0',2477,200,2,'工业-G','深圳')
             </sql>
 
             <!--不明设置-->
             <!--N-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('N-探测点','#000000',2.5,2.5,1,526,'0',2477,200,2,'不明-N','深圳')
             </sql>
             <!--N-'检修井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('N-检修井','#000000',4.0,4.0,1,2,'0',2477,200,2,'不明-N','深圳')
             </sql>
             <!--N-'阀门'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('N-阀门','#000000',4.0,5.5,1,4,'0',2477,200,2,'不明-N','深圳')
             </sql>
             <!--N-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('N-预留口','#000000',4.0,7.0,1,5,'0',2477,200,2,'不明-N','深圳')
             </sql>
             <!--N-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('N-未知井','#000000',4,4,1,33,'0',2477,200,2,'不明-N','深圳')
             </sql>
             <!--N-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('N-通风井','#000000',4,4,1,33,'0',2477,200,2,'不明-N','深圳')
             </sql>
 
             <!--其它设置-->
             <!--Q-'探测点'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-探测点','#000000',2.5,2.5,1,526,'0',2477,200,2,'其它-Q','深圳')
             </sql>
             <!--Q-'检修井'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-检修井','#000000',4.0,4.0,1,2,'0',2477,200,2,'其它-Q','深圳')
             </sql>
             <!--Q-'阀门'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-阀门','#000000',4.0,5.5,1,4,'0',2477,200,2,'其它-Q','深圳')
             </sql>
             <!--Q-'预留口'-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-预留口','#000000',4.0,7.0,1,5,'0',2477,200,2,'其它-Q','深圳')
             </sql>
             <!--Q-未知井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-未知井','#000000',4,4,1,33,'0',2477,200,2,'其它-Q','深圳')
             </sql>
             <!--Q-通风井-->
             <sql>insert into
-                default_point_shenzhan(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('Q-通风井','#000000',4,4,1,33,'0',2477,200,2,'其它-Q','深圳')
             </sql>
-        </sql_init_table_default_point_shenzhan>
+        </sql_init_table_default_point_shenzhen>
         <!--线-->
-        <sql_init_table_default_line_shenzhan>
+        <sql_init_table_default_line_shenzhen>
             <!--给水水设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('给水', 0.2, '#00CCFF', 0, '给水-J','J','', '', '深圳标准', '深圳')
             </sql>
             <!--污水设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('污水', 0.2, '#A52A2A', 965149,'污水-W','W', '', '', '深圳标准', '深圳')
             </sql>
             <!--雨水设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('雨水', 0.2, '#A52A2A', 965149, '雨水-Y','Y', '', '', '深圳标准', '深圳')
             </sql>
             <!--排水设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('排水', 0.2, '#A52A2A', 965149, '排水-P', 'P', '', '', '深圳标准', '深圳')
             </sql>
             <!--合流设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('合流', 0.2, '#A52A2A', 965149, '合流-H', 'H', '', '', '深圳标准', '深圳')
             </sql>
 
             <!--燃气设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('燃气', 0.2, '#FF9900', 965149, '燃气-R', 'R', '', '', '深圳标准', '深圳')
             </sql>
             <!--电力设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('电力', 0.2, '#FF0000', 0, '电力-L','L', '', '', '深圳标准', '深圳')
             </sql>
             <!--路灯设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('路灯', 0.2, '#FF0000', 0, '路灯-LD','LD', '', '', '深圳标准', '深圳')
             </sql>
             <!--信号设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('信号', 0.2, '#FF0000', 0, '信号-XH','XH', '', '', '深圳标准', '深圳')
             </sql>
             <!--电信设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('电信', 0.2, '#00FF00', 0, '电信-D','D', '', '', '深圳标准', '深圳')
             </sql>
             <!--工业设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('工业', 0.2, '#FF00FF', 0, '工业-G','G', '', '', '深圳标准', '深圳')
             </sql>
             <!--不明设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('不明', 0.2, '#00000', 0, '不明-N','N', '', '', '深圳标准', '深圳')
             </sql>
             <!--其它设置-->
-            <sql>insert into default_line_shenzhan(
+            <sql>insert into default_line_shenzhen(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
                 values('其它', 0.2, '#000000', 0, '其它-Q','Q', '', '', '深圳标准', '深圳')
             </sql>
-        </sql_init_table_default_line_shenzhan>
+        </sql_init_table_default_line_shenzhen>
 
 
         <sql_init_table_pipe_type>
@@ -2216,7 +2217,7 @@
             <sql>insert into point_remark(pipe_type,remark,city) values('路灯-LD','偏心井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('路灯-LD','游离井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('路灯-LD','打不开','深圳')</sql>
-            <sql>insert into point_remark(pipe_type,remark,city) values('路灯-LD',顶管','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('路灯-LD','顶管','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('路灯-LD','出测区','深圳')</sql>
 
             <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH','入户','深圳')</sql>
@@ -2224,7 +2225,7 @@
             <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH','偏心井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH','游离井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH','打不开','深圳')</sql>
-            <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH',顶管','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH','顶管','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('信号-XH','出测区','深圳')</sql>
 
             <sql>insert into point_remark(pipe_type,remark,city) values('电信-D','入户','深圳')</sql>
@@ -2232,7 +2233,7 @@
             <sql>insert into point_remark(pipe_type,remark,city) values('电信-D','偏心井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('电信-D','游离井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('电信-D','打不开','深圳')</sql>
-            <sql>insert into point_remark(pipe_type,remark,city) values('电信-D',顶管','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('电信-D','顶管','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('电信-D','出测区','深圳')</sql>
 
             <sql>insert into point_remark(pipe_type,remark,city) values('工业-G','入户','深圳')</sql>
@@ -2240,7 +2241,7 @@
             <sql>insert into point_remark(pipe_type,remark,city) values('工业-G','偏心井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('工业-G','游离井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('工业-G','打不开','深圳')</sql>
-            <sql>insert into point_remark(pipe_type,remark,city) values('工业-G',顶管','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('工业-G','顶管','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('工业-G','出测区','深圳')</sql>
 
             <sql>insert into point_remark(pipe_type,remark,city) values('不明-N','入户','深圳')</sql>
@@ -2248,7 +2249,7 @@
             <sql>insert into point_remark(pipe_type,remark,city) values('不明-N','偏心井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('不明-N','游离井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('不明-N','打不开','深圳')</sql>
-            <sql>insert into point_remark(pipe_type,remark,city) values('不明-N',顶管','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('不明-N','顶管','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('不明-N','出测区','深圳')</sql>
 
             <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q','入户','深圳')</sql>
@@ -2256,7 +2257,7 @@
             <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q','偏心井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q','游离井','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q','打不开','深圳')</sql>
-            <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q',顶管','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q','顶管','深圳')</sql>
             <sql>insert into point_remark(pipe_type,remark,city) values('其它-Q','出测区','深圳')</sql>
 
         </sql_init_table_point_remark>

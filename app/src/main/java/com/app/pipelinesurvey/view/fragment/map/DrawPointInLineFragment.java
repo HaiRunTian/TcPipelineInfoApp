@@ -908,17 +908,17 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
 
     @Override
     public String getWellDepth() {
-        return edtWellDepth.getText().toString();
+        return getValueByView(edtWellDepth);
     }
 
     @Override
     public String getWellWater() {
-        return edtWellWater.getText().toString();
+        return getValueByView(edtWellWater);
     }
 
     @Override
     public String getWellMud() {
-        return edtWellMud.getText().toString();
+        return getValueByView(edtWellMud);
     }
 
     @Override
@@ -1144,6 +1144,27 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     public void onDestroy() {
         super.onDestroy();
         m_watcher = null;
+    }
+
+    /**
+     * @param view
+     * @return
+     * 厘米转换成米返回
+     */
+    private String getValueByView(EditText view) {
+        String value = view.getText().toString();
+        try {
+            if (value.length() > 0) {
+                double d = Double.valueOf(value);
+                double s = d / 100;
+                return String.valueOf(s);
+            } else {
+                return "";
+            }
+        } catch (Exception e) {
+            ToastUtil.showShort(getActivity(), "error " + e.getMessage());
+        }
+        return "";
     }
 
 
