@@ -70,15 +70,15 @@ android {
             jni.srcDirs = []
         }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
-    //testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

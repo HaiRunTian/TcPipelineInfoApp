@@ -1190,7 +1190,7 @@
             </sql>
 
 
-            <!--污水设置-->
+            <!--雨水设置-->
             <!--Y-探测点-->
             <sql>insert into
                 default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
@@ -1401,6 +1401,7 @@
                 default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
                 values ('H-进出水口','#A52A2A',4,4,1,39,'0',2477,200,2,'合流-H','深圳')
             </sql>
+
             <!--H-雨水篦-->
             <sql>insert into
                 default_point_shenzhen(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)

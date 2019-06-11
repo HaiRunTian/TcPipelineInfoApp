@@ -108,7 +108,7 @@
         <!--附属物表-->
         <sql_create>
             create table appendant_info(id integer primary key autoincrement,
-            name varchar,typename varchar,code varchar,IsShowFearture booleam,remark varchar);
+            name varchar,typename varchar,code varchar,IsShowFearture boolean,remark varchar);
         </sql_create>
 
         <!--点特征表 -->
