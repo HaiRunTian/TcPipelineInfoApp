@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -69,6 +68,10 @@ android {
             jniLibs.srcDirs = ['libs']
             jni.srcDirs = []
         }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 
 }
