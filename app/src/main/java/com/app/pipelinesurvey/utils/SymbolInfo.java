@@ -80,11 +80,64 @@ public class SymbolInfo {
 
             case "不明-N":
             case "其它-Q": {
-                _symbol = "探测点";
+                _symbol = getNQSymbol(appendant, feature);
+//                _symbol = "探测点";
             }
             break;
             default:
                 _symbol = "探测点";
+                break;
+        }
+        return _symbol;
+    }
+
+    private String getNQSymbol(String appendant, String feature) {
+        String _symbol;
+        switch (appendant) {
+            case "阀门":
+                _symbol = "阀门";
+                break;
+            case "消防栓":
+                _symbol = "消防栓";
+                break;
+            case "水表":
+            case "水表井":
+                _symbol = "水表";
+                break;
+            case "窨井":
+            case "阀门井":
+            case "消防井":
+            case "检修井":
+            case "未知井":
+            case "通风井":
+                _symbol = "窨井";
+                break;
+            case "放水口":
+                _symbol = "放水口";
+                break;
+
+            default:
+                switch (feature) {
+                    case "预留口":
+                        _symbol = "预留口";
+                        break;
+                    case "变径":
+                        _symbol = "变径";
+                        break;
+                    case "非普查区":
+                    case "出测区":
+                        _symbol = "出测区";
+                        break;
+                    case "出地":
+                        _symbol = "出地";
+                        break;
+                    case "入户":
+                        _symbol = "入户";
+                        break;
+                    default:
+                        _symbol = "探测点";
+                        break;
+                }
                 break;
         }
         return _symbol;

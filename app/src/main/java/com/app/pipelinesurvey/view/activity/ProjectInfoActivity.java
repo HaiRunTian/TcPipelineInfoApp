@@ -107,7 +107,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         while (_cursor1.moveToNext()) {
             _list.add(_cursor1.getString(_cursor1.getColumnIndex("name")));
         }
-        spCityStand.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_style, _list));
+        spCityStand.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, _list));
 
         //初始化
         String[] m_local = getResources().getStringArray(R.array.exp_num_type);

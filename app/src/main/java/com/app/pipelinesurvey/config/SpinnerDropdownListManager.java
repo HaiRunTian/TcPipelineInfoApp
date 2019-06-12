@@ -45,10 +45,10 @@ public class SpinnerDropdownListManager {
         switch (type) {
             //特征点TABLE_NAME_FEATURE_INFO
             case "feature": {
-                //如果管类代码有两位数 或者是一位数
+               /* //如果管类代码有两位数 或者是一位数
                 if (value.length() == 5){
                     value = value.substring(0,value.length()-1);
-                }
+                }*/
                 Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_FEATURE_INFO, "where code = '" + value.substring(value.length() - 1) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
@@ -59,9 +59,9 @@ public class SpinnerDropdownListManager {
             //附属物
             case "subsid": {
                 //如果管类代码有两位数 或者是一位数
-                if (value.length() == 5){
-                    value = value.substring(0,value.length()-1);
-                }
+//                if (value.length() == 5){
+//                    value = value.substring(0,value.length()-1);
+//                }
                 Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_APPENDANT_INFO, "where code = '" + value.substring(value.length() - 1) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
@@ -73,7 +73,7 @@ public class SpinnerDropdownListManager {
             case "pointRemark":
 
             {
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_REMARK, "where pipe_type = '" + value + "'");
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_REMARK, "where pipe_type = '" + value + "' and city = '"+ SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("remark"));
                     list.add(_var);
@@ -95,7 +95,7 @@ public class SpinnerDropdownListManager {
             break;
             //管线材料
             case "lineTexture": {
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_TEXTURE, "where pipe_type = '" + value + "'");
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_TEXTURE, "where pipe_type = '" + value + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("texture"));
                     list.add(_var);

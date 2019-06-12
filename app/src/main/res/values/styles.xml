@@ -42,9 +42,9 @@
     <!--默认标题栏样式-->
     <style name="DefaultTitleBarStyle">
         <item name="android:background">@drawable/shape_gradient_bg</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">3dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">40dp</item>
     </style>
 
     <!--标题栏文本样式-->

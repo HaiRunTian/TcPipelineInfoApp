@@ -29,6 +29,7 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_basics);
+
         table = getIntent().getStringExtra("table");
         user = getIntent().getStringExtra("name");
         point = getIntent().getStringExtra("point");
@@ -39,6 +40,7 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
 
     private void initData(String table, String user,String typeName) {
         if (table.equals(SQLConfig.TABLE_NAME_PIPE_INFO)) {
+            
             Cursor  _cursor = DatabaseHelpler.getInstance().query(table,
                     "where name = '" + user + "'");
             while (_cursor.moveToNext()) {
