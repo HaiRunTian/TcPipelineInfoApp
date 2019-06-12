@@ -2,8 +2,9 @@
 
 buildscript {
     repositories {
-        google()
         jcenter()
+        google()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
@@ -14,8 +15,8 @@ buildscript {
 allprojects {
     repositories{
          maven { url "https://maven.google.com"}//需要添加的仓库地址
-        google()
         jcenter()
+        google()
     }
 }
 

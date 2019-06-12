@@ -22,7 +22,9 @@ import okhttp3.Response;
 
 /**
  * OKhttp工具类
- * Created by Kevin on 2018/1/17.
+ *
+ * @author Kevin
+ * @date 2018/1/17
  */
 
 public class OkHttpUtils {
@@ -297,11 +299,10 @@ public class OkHttpUtils {
     }
 
 
-    //-------------------------文件下载--------------------------
+    /**-------------------------文件下载--------------------------**/
     public static void downloadAsync(String url, String desDir, InsertDataCallBack callBack) {
         getInstance().inner_downloadAsync(url, desDir, callBack);
     }
-
     /**
      * 下载文件的内部逻辑处理类
      *
