@@ -10,15 +10,26 @@ import com.app.pipelinesurvey.base.MyApplication;
 import com.app.utills.LogUtills;
 
 /**
- * Created by Kevin on 2018-05-31.
+ *
+ * @author linshen
+ * @date 2019-05-31
  */
-
 public class ToastUtil {
-    private static boolean isShow = true;//默认显示
-    private static Toast mToast = null;//全局唯一的Toast
+    /**
+     * 默认显示
+     */
+    private static boolean isShow = true;
+    /**
+     * 全局唯一的Toast
+     */
+
+    private static Toast mToast = null;
     //  Toast mToast = null;//全局唯一的Toast
 
-    /*private控制不应该被实例化*/
+    /**
+     * private控制不应该被实例化
+     */
+
     private ToastUtil() {
         throw new UnsupportedOperationException("不能被实例化");
     }
