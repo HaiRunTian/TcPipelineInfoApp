@@ -83,14 +83,15 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
 
     private void bundlePipeType(String table_name) {
         Cursor _cursor = DatabaseHelpler.getInstance()
-                .query(table_name );
+                .query(table_name);
         m_listPipeTypeList.clear();
 
         while (_cursor.moveToNext()) {
             String pipe_type = _cursor.getString(_cursor.getColumnIndex("point"));
 
-            if (!m_listPipeTypeList.contains(pipe_type))
+            if (!m_listPipeTypeList.contains(pipe_type)) {
                 m_listPipeTypeList.add(pipe_type);
+            }
         }
 
         ArrayAdapter<String> _adapter = new ArrayAdapter<String>(getActivity(),
@@ -133,7 +134,8 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
                 startActivityForResult(_intent, REQUEST_ADD_POINT_ATTR);
                 break;
 
-                default:break;
+            default:
+                break;
         }
     }
 

@@ -146,7 +146,7 @@
         <item name="android:layout_marginRight">2dp</item>
         <item name="android:layout_marginLeft">2dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@drawable/shape_rbtn_bg</item>
     </style>
 
     <!--改变edt的下划线颜色-->
@@ -162,6 +162,7 @@
         <item name="colorControlActivated">@color/blue12</item>
         <item name="android:alpha">0.8</item>
         <item name="android:textSize">@dimen/small</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="EdtStyle01">
@@ -178,7 +179,7 @@
     </style>
 
     <style name="EdtStyle02">
-        <item name="android:paddingLeft">6dp</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/small</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -220,12 +221,12 @@
     </style>
 
     <style name="TextViewStyle02">
-        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
         <item name="android:textSize">@dimen/small</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingLeft">1dp</item>
     </style>
 
     <style name="TextViewStyle02_1">
@@ -246,12 +247,12 @@
     </style>
 
     <style name="TextViewStyle02_3">
-        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
         <item name="android:textSize">@dimen/small</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingLeft">2dp</item>
     </style>
 
     <style name="ButtonStyle03">
@@ -355,14 +356,14 @@
     </style>
 
     <style name="fragment_btn_style">
-        <item name="android:layout_width">80dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">28dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textSize">@dimen/small</item>
         <item name="android:textColor">@drawable/selector_text_color_2</item>
         <item name="android:background">@drawable/selector_btn_all</item>
-        <item name="android:layout_margin">7dp</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
 
     <!--管点管线配置表左边图标-->
@@ -380,6 +381,32 @@
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:textSize">@dimen/text</item>
         <item name="android:textColor">@color/black01</item>
+    </style>
+
+    <!--地图功能菜单-->
+    <style name="mapactivity_menu_item_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <!--地图功能菜单 图片-->
+    <style name="mapactivity_menu_item_img_style">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+    </style>
+
+    <!--地图功能菜单 文字-->
+    <style name="mapactivity_menu_item_text_style">
+        <item name="android:enabled">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textColor">@color/grey02</item>
+        <item name="android:gravity">center</item>
     </style>
 
 

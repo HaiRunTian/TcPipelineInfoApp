@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -33,7 +34,21 @@ public class InitWindowSize {
         if (dialog != null) {
             DisplayMetrics dm = new DisplayMetrics();
             context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-            dialog.getWindow().setLayout((int) (dm.widthPixels * 0.98), (int) (dm.heightPixels * 0.94));
+            dialog.getWindow().setLayout((int) (dm.widthPixels * 0.9), (int) (dm.heightPixels * 0.9));
+        }
+    }
+
+    public  void initWindowSize(Activity context, Dialog dialog,double width, double height) {
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams windowParams = window.getAttributes();
+        windowParams.dimAmount = 0.0f;
+        windowParams.y = 100;
+        window.setAttributes(windowParams);
+        Dialog _dialog =dialog;
+        if (dialog != null) {
+            DisplayMetrics dm = new DisplayMetrics();
+            context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            dialog.getWindow().setLayout((int) (dm.widthPixels * width), (int) (dm.heightPixels * height));
         }
     }
 }

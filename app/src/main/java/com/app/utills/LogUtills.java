@@ -13,15 +13,14 @@ public class LogUtills {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
-
-    // 是否需要打印bug，可以在application的onCreate函数里面初始化
-    public static boolean isDebug = true;
+    /**
+     *  是否需要打印bug，可以在application的onCreate函数里面初始化
+     */
+    private static boolean isDebug = true;
     private static final String TAG = "TcPipe";
-
     public static String getToaskInfo() {
         final Throwable t = new Throwable();
         final StackTraceElement[] elements = t.getStackTrace();
-
 
         return elements[1].getClassName() + ", method: " + elements[1].getMethodName() + " ";
     }

@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 /**
  * 点
- * Created by Kevin on 2019-03-15.
+ * Created by linshen on 2019-03-15.
  */
 
 public class PointFragment extends Fragment implements View.OnClickListener {

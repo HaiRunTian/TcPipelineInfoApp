@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 4;
+    private static final int VERSION = 5;
     /**
      * 建表语句
      */
@@ -104,7 +104,30 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         createSqlAndInserDataForSZ(db);
         LogUtills.i("Sql onCreate","onCreate()");
 
+        //版本号5 创建检测记录表
+        createSql(db);
 
+
+    }
+
+    /**
+     * 版本号5 创建检测记录表
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/6/26  15:31
+     */
+    private void createSql(SQLiteDatabase db) {
+        List<String> crateSql = InitDatabase.getCteateSqlOf5(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
     }
 
     /**
@@ -189,20 +212,19 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         switch (oldVersion) {
             case 1:
-
-
             case 2:
-
-
             case 3:
                 //更新点特征 附属物表 字段，添加字段city 并且赋值 广州 版本号4
                 alterSqlAndInserDataForGZ(db);
-
                 //创建深圳模式表格和插入数据 版本号4
                 createSqlAndInserDataForSZ(db);
                 LogUtills.i("Sql onUpdate","onUpdate()");
             case 4:
+                //创建现场检测记录表
+                createSql(db);
+            case 5:
 
+                    break;
 
             default:
                 break;
@@ -423,6 +445,34 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         }
     }
 
+
+    /**
+     * 原生查询
+     * @param sqlString 查询条件
+     * @return cursor Cursor对象
+     * @datetime 2018-06-13  15:17.
+     */
+    public Cursor queryOfDis(String sqlString) {
+        DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
+        synchronized (databaseHelpler) {
+            SQLiteDatabase database = databaseHelpler.getReadableDatabase();
+            Cursor cursor = database.rawQuery(sqlString,null);
+            return cursor;
+        }
+    }
+
+    /**
+     * 关闭及清除当前操作的DB
+     *
+     * @return null
+     * @datetime 2018-06-13  15:18.
+     */
+    public void clear() {
+        DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
+        databaseHelpler.close();
+        dbMaps.remove(databaseHelpler);
+    }
+
     /**
      * 原生查询 查询表格全部内容
      *
@@ -438,18 +488,6 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             Cursor cursor = database.rawQuery("select * from " + tableName, null);
             return cursor;
         }
-    }
-
-    /**
-     * 关闭及清除当前操作的DB
-     *
-     * @return null
-     * @datetime 2018-06-13  15:18.
-     */
-    public void clear() {
-        DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
-        databaseHelpler.close();
-        dbMaps.remove(databaseHelpler);
     }
 
     /**

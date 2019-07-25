@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+    <dbname value="PipeLineInfo"></dbname>
+    <version value="1"></version>
+    <!--创建数据库表格-->
+        <sql_create_table>
+            <!--创建现场检测记录表-->
+            <sql_create>
+                create table log_sheet(id integer primary key autoincrement,prj_code varchar,
+                prj_name varchar,prj_site varchar,original varchar,apparatus_name1 varchar,
+                apparatus_name2 varchar,apparatus_code1 varchar,apparatus_code2 varchar,
+                detection_standard varchar,detection_date varchar,point_name varchar,
+                workload varchar,detection_method varchar,detection_map varchar,
+                group_leader varchar,group_mumber1 varchar,group_member2 varchar,remark varchar
+                ,date varchar);
+            </sql_create>
+
+        </sql_create_table>
+
+</database>

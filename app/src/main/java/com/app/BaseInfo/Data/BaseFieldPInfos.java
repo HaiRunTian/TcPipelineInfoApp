@@ -31,97 +31,72 @@ import java.lang.reflect.Field;
  * 点
  */
 
-//为满足数据库表设计，该类的成员变量不满足代码规范
+
 public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBaseInf {
-    /**
-     *  物探点号
-     */
-    public String exp_Num = "";
-    /**
-     * 管偏
-     */
-    public String pipeOffset = "";
-//    public String pipeType = "";
-    /**
-     *  点特征
-     */
-    public String feature = "";
-    /**
-     * 附属物
-     */
-    public String subsid = "";
-    /**
-     * 窨井规格
-     */
-    public String wellSize = "";
-    /**
-     * 窨井深度 cm
-     */
-    public String wellDeep = "";
-    /**
-     * 窨井水深 cm
-     */
-    public String wellWater = "";
-    /**
-     *  窨井淤泥 cm
-     */
-    public String wellMud = "";
-    /**
-     * 道路名称
-     */
-    public String road = "";
-    /**
-     *  状态
-     */
-    public String state = "";
-    /**
-     *  调查日期
-     */
-    public String exp_Date = "";
-    /**
-     * 井盖材质
-     */
-    public String wellCoverMaterial = "";
-    /**
-     * 井盖规格 井盖尺寸
-     */
-    public String wellCoverSize = "";
     /**
      *  建构筑物
      */
     public String buildingStructures = "";
     /**
-     * 经度
+     * 深度
      */
-    public double longitude = 0.0;
+    public String depth = "";
     /**
-     *  纬度
+     * 终点方向埋深
      */
-    public double latitude = 0.0;
-    /**
-     * H高程
-     */
-    public String surf_H = "";
+    public String endDirDepth = "";
     /**
      *  物探组长
      */
     public String expGroup = "";
     /**
-     * 管点备注
+     *  调查日期
      */
-    public String remark = "";
+    public String exp_Date = "";
     /**
-     * 照片
+     *  物探点号
      */
-    public String picture = "";
+    public String exp_Num = "";
+    /**
+     *  点特征
+     */
+    public String feature = "";
     /**
      *  自动编号
      */
     public String id = "";
     /**
+     *  纬度
+     */
+    public double latitude = 0.0;
+    /**
+     * 经度
+     */
+    public double longitude = 0.0;
+    /**
+     * 照片
+     */
+    public String picture = "";
+    /**
+     * 管偏
+     */
+    public String pipeOffset = "";
+    /**
      * 疑难问题
      */
     public String puzzle = "";
+    /**
+     * 管点备注
+     */
+    public String remark = "";
+    /**
+     * 道路名称
+     */
+    public String road = "";
+    /**
+     * 流水号
+     */
+    public int serialNum = 1;
     /**
      * 状况
      */
@@ -131,13 +106,17 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String startDirDepth = "";
     /**
-     * 终点方向埋深
+     *  状态
      */
-    public String endDirDepth = "";
+    public String state = "";
     /**
-     * 深度
+     * 附属物
      */
-    public String depth = "";
+    public String subsid = "";
+    /**
+     * H高程
+     */
+    public String surf_H = "";
     /**
      * 符号专题图 作用点专题图表达式
      */
@@ -159,17 +138,29 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public double symbolSizeY = 0.0;
     /**
-     * 流水号
+     * 井盖材质
      */
-    public int serialNum = 1;
-//    public String    rainGrateType      ="";     //雨篦类型
-//    public String    rainGrateSize      ="";     //雨篦大小
-//    public String    pipeNetType        ="";     //管网类型
-//    public String    pump               ="";     //泵站类型
-//    public String    sewagePoolType     ="";     //污水池类型
-//    public String    pipeForm           ="";     //井室形状
-//    public String    pipeSize           ="";     //井口尺寸
-
+    public String wellCoverMaterial = "";
+    /**
+     * 井盖规格 井盖尺寸
+     */
+    public String wellCoverSize = "";
+    /**
+     * 窨井深度 cm
+     */
+    public String wellDeep = "";
+    /**
+     *  窨井淤泥 cm
+     */
+    public String wellMud = "";
+    /**
+     * 窨井规格
+     */
+    public String wellSize = "";
+    /**
+     * 窨井水深 cm
+     */
+    public String wellWater = "";
 
     public BaseFieldPInfos() {
     }
@@ -184,7 +175,6 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         datasetName = "P_" + datasetName;
         pipeType = datasetName;
         return true;
-
     }
 
     @Override
@@ -194,53 +184,44 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-     /*   parcel.writeString(submitName);
-        parcel.writeString(datasetName);
-        parcel.writeInt(sysId);
-        parcel.writeString(code);
-        parcel.writeString(shortCode);*/
-
-        parcel.writeString(exp_Num);
-        parcel.writeString(pipeType);
-        parcel.writeString(feature);
-        parcel.writeString(subsid);
-        parcel.writeString(pipeOffset);
-        parcel.writeString(wellSize);
-        parcel.writeString(wellDeep);
-        parcel.writeString(wellWater);
-        parcel.writeString(wellMud);
-        parcel.writeString(road);
-        parcel.writeString(state);
-        parcel.writeString(exp_Date);
-        parcel.writeString(wellCoverMaterial);
-        parcel.writeString(wellCoverSize);
         parcel.writeString(buildingStructures);
-        parcel.writeDouble(longitude);
-        parcel.writeDouble(latitude);
-        parcel.writeString(surf_H);
-        parcel.writeString(expGroup);
-        parcel.writeString(remark);
-        parcel.writeString(picture);
-        parcel.writeString(id);
-        parcel.writeString(puzzle);
-        parcel.writeString(situation);
-        parcel.writeString(startDirDepth);
-        parcel.writeString(endDirDepth);
         parcel.writeString(depth);
+        parcel.writeString(endDirDepth);
+        parcel.writeString(expGroup);
+        parcel.writeString(exp_Date);
+        parcel.writeString(exp_Num);
+        parcel.writeString(feature);
+        parcel.writeString(id);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
+        parcel.writeString(picture);
+        parcel.writeString(pipeOffset);
+        parcel.writeString(puzzle);
+        parcel.writeString(remark);
+        parcel.writeString(road);
+        parcel.writeInt(serialNum);
+        parcel.writeString(startDirDepth);
+        parcel.writeString(state);
+        parcel.writeString(subsid);
+        parcel.writeString(surf_H);
         parcel.writeString(symbol);
         parcel.writeString(symbolExpression);
         parcel.writeInt(symbolID);
         parcel.writeDouble(symbolSizeX);
         parcel.writeDouble(symbolSizeY);
+        parcel.writeString(wellCoverMaterial);
+        parcel.writeString(wellCoverSize);
+        parcel.writeString(wellDeep);
+        parcel.writeString(wellMud);
+        parcel.writeString(wellSize);
+        parcel.writeString(wellWater);
         parcel.writeString(code);
-        parcel.writeString(submitName);
         parcel.writeString(datasetName);
-        parcel.writeInt(sysId);
-        parcel.writeString(shortCode);
+        parcel.writeString(pipeType);
         parcel.writeDouble(rangeExpression);
-        parcel.writeInt(serialNum);
-
-
+        parcel.writeString(shortCode);
+        parcel.writeString(submitName);
+        parcel.writeInt(sysId);
     }
 
     /**
@@ -250,48 +231,45 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         @Override
         public BaseFieldPInfos createFromParcel(Parcel source) {
             BaseFieldPInfos _field = new BaseFieldPInfos();
-
-
-            _field.exp_Num = source.readString();
-            _field.pipeType = source.readString();
-            _field.feature = source.readString();
-            _field.subsid = source.readString();
-            _field.pipeOffset = source.readString();
-            _field.wellSize = source.readString();
-            _field.wellDeep = source.readString();
-            _field.wellWater = source.readString();
-            _field.wellMud = source.readString();
-            _field.road = source.readString();
-            _field.state = source.readString();
-            _field.exp_Date = source.readString();
-            _field.wellCoverMaterial = source.readString();
-            _field.wellCoverSize = source.readString();
             _field.buildingStructures = source.readString();
-            _field.longitude = source.readDouble();
-            _field.latitude = source.readDouble();
-            _field.surf_H = source.readString();
-            _field.expGroup = source.readString();
-            _field.remark = source.readString();
-            _field.picture = source.readString();
-            _field.id = source.readString();
-            _field.puzzle = source.readString();
-            _field.situation = source.readString();
-            _field.startDirDepth = source.readString();
-            _field.endDirDepth = source.readString();
             _field.depth = source.readString();
+            _field.endDirDepth = source.readString();
+            _field.expGroup = source.readString();
+            _field.exp_Date = source.readString();
+            _field.exp_Num = source.readString();
+            _field.feature = source.readString();
+            _field.id = source.readString();
+            _field.latitude = source.readDouble();
+            _field.longitude = source.readDouble();
+            _field.picture = source.readString();
+            _field.pipeOffset = source.readString();
+            _field.puzzle = source.readString();
+            _field.remark = source.readString();
+            _field.road = source.readString();
+            _field.serialNum = source.readInt();
+            _field.startDirDepth = source.readString();
+            _field.state = source.readString();
+            _field.subsid = source.readString();
+            _field.surf_H = source.readString();
             _field.symbol = source.readString();
             _field.symbolExpression = source.readString();
             _field.symbolID = source.readInt();
             _field.symbolSizeX = source.readDouble();
             _field.symbolSizeY = source.readDouble();
+            _field.wellCoverMaterial = source.readString();
+            _field.wellCoverSize = source.readString();
+            _field.wellDeep = source.readString();
+            _field.wellMud = source.readString();
+            _field.wellSize = source.readString();
+            _field.wellWater = source.readString();
             _field.code = source.readString();
-            _field.submitName = source.readString();
             _field.datasetName = source.readString();
-            _field.sysId = source.readInt();
+            _field.pipeType = source.readString();
+            _field.datasetName = source.readString();
+            _field.rangeExpression = source.readInt();
             _field.shortCode = source.readString();
-            _field.rangeExpression = source.readDouble();
-            _field.serialNum = source.readInt();
-            //终点方向埋深      = source.readString();
+            _field.submitName = source.readString();
+            _field.sysId = source.readInt();
             return _field;
         }
 
@@ -306,82 +284,16 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         value = value.substring(1);
         int colorInt = Integer.valueOf(value, 16);
         return new Color(colorInt);
-       /* LogUtills.i("r = "+color.getR()+", g = "+color.getG()+", b = "+color.getB());*/
     }
 
 
     /**
-     *   子类调用，单值符号专题图
+     * 子类调用，单值符号专题图
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/6/20  16:08
      */
-    protected ThemeUnique createThemeUnique(String[] keys, int[] _sids, String color) {
-
-        ThemeUnique _theme = new ThemeUnique();
-        //表达式
-        _theme.setUniqueExpression("symbol");
-        GeoStyle _defaultStyle = new GeoStyle();
-        _defaultStyle.setMarkerSize(new Size2D(5, 5));
-        _defaultStyle.setLineColor(new Color(0, 255, 0));
-        _defaultStyle.setLineSymbolID(3);
-        _defaultStyle.setMarkerSymbolID(408);
-        _theme.setDefaultStyle(_defaultStyle);
-
-        //如果附属物是探测点，则要依据附属物作为第二条件赋予管点符号
-        for (int i = 0; i < keys.length; ++i) {
-            ThemeUniqueItem _item = new ThemeUniqueItem();
-            _item.setVisible(true);
-            _item.setUnique(keys[i]);
-            GeoStyle _style = new GeoStyle();
-            //符号大小
-            _style.setMarkerSize(new Size2D(5, 5));
-            _style.setLineColor(ColorByOxString(color));
-            _style.setFillBackColor(new Color(0, 255, 0));
-            _style.setFillGradientMode(FillGradientMode.RADIAL);
-            _style.setMarkerSymbolID(_sids[i]);
-            _item.setStyle(_style);
-            _theme.add(_item);
-        }
-        return _theme;
-    }
-
-    /**
-     *  子类调用，单值符号专题图
-     */
-    protected ThemeUnique createThemeUnique(String[] keys, int[] _sids, String color, Size2D[] size2Ds) {
-
-        ThemeUnique _theme = new ThemeUnique();
-        //表达式
-        _theme.setUniqueExpression("symbol");
-        GeoStyle _defaultStyle = new GeoStyle();
-        _defaultStyle.setMarkerSize(new Size2D(4, 4));
-        _defaultStyle.setLineColor(ColorByOxString(color));
-//        _defaultStyle.setFillBackColor(ColorByOxString(color));
-//        _defaultStyle.setFillForeColor(ColorByOxString(color));
-        _defaultStyle.setLineSymbolID(3);
-        _defaultStyle.setMarkerSymbolID(301);
-        _theme.setDefaultStyle(_defaultStyle);
-
-        //如果附属物是探测点，则要依据附属物作为第二条件赋予管点符号
-        for (int i = 0; i < keys.length; ++i) {
-            ThemeUniqueItem _item = new ThemeUniqueItem();
-            _item.setVisible(true);
-            _item.setUnique(keys[i]);
-            GeoStyle _style = new GeoStyle();
-            _style.setMarkerSize(size2Ds[i]); //符号大小
-            _style.setLineColor(ColorByOxString(color)); //线颜色
-//          _style.setFillBackColor(ColorByOxString(color)); //背景色
-//          _style.setFillForeColor(ColorByOxString(color)); //前景色
-            _style.setFillGradientMode(FillGradientMode.RADIAL);
-            _style.setMarkerSymbolID(_sids[i]);
-            _style.setLineWidth(0.1);
-            _item.setStyle(_style);
-            _theme.add(_item);
-        }
-        return _theme;
-    }
-
-    //子类调用，单值符号专题图
     protected ThemeUnique createThemeUnique(String sysbolField, String[] keys, int[] _sids, String[] color, Size2D[] size2Ds) {
-
         ThemeUnique _theme = new ThemeUnique();
         //表达式
         _theme.setUniqueExpression(sysbolField);
@@ -391,8 +303,6 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         _defaultStyle.setLineSymbolID(3);
         _defaultStyle.setMarkerSymbolID(301);
         _theme.setDefaultStyle(_defaultStyle);
-
-
         //如果附属物是探测点，则要依据附属物作为第二条件赋予管点符号
         for (int i = 0; i < keys.length; ++i) {
             ThemeUniqueItem _item = new ThemeUniqueItem();
@@ -418,7 +328,6 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
 
     /**
      * 标签专题图
-     *
      * @auther HaiRun
      * created at 2018/8/15 10:30
      */
@@ -451,13 +360,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             themeLabelMap.setFlowEnabled(true);
             themeLabelMap.setOffsetX("12");
             themeLabelMap.setOffsetFixed(true);
-//            themeLabelMap.setMaxTextHeight(5);
-//            themeLabelMap.setMaxTextWidth(5);
-//            themeLabelMap.setMinTextHeight(1);
-//            themeLabelMap.setMinTextWidth(1);
-
         }
-
         return themeLabelMap;
     }
 
@@ -482,30 +385,12 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     @Override
     public ThemeLabel createThemeLabel() {
-        LogUtills.i("begin " + this.getClass().getName() + "createThemeLabel....");
-        ThemeLabel themeLabelMap = new ThemeLabel();
-        // 设置标注字段表达式。
-        themeLabelMap.setLabelExpression("id");
-        // 设置分段字段表达式。 显示不同的颜色
-        themeLabelMap.setRangeExpression("rangeExpression");
-
-        // 为标签专题图的标签设置统一样式
-        ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
-        themeLabelItem1.setVisible(true);
-        TextStyle textStyle1 = new TextStyle();
-        textStyle1.setForeColor(new Color(255, 10, 10));
-        textStyle1.setFontName("楷体");
-        textStyle1.setFontHeight(3.0);
-        textStyle1.setFontWidth(3.0);
-        textStyle1.setSizeFixed(true);
-        themeLabelItem1.setStyle(textStyle1);
-        // 添加标签专题图子项到标签专题图对象中
-        themeLabelMap.addToHead(themeLabelItem1);
-        return themeLabelMap;
+       return  null;
     }
 
     /**
      *   标签专题图
+     *   测量收点 调用
      */
     public ThemeLabel createThemeLabel(String color) {
         LogUtills.i("begin " + this.getClass().getName() + "createThemeLabel....");
@@ -587,7 +472,6 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         }
     }
 
-
     /**
      * @param reset 记录集
      * @return BaseFieldPInfo
@@ -633,11 +517,6 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }finally {
-          /*  if (reset != null){
-                reset.close();
-                reset.dispose();
-            }*/
         }
     }
 

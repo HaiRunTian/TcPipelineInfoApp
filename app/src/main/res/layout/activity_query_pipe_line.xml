@@ -34,7 +34,7 @@
                     <LinearLayout style="@style/LinearCenterVertical">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvStartPoint"
                             style="@style/TextViewStyle02_3"
                             android:text="@string/start_pointid" />
 
@@ -54,7 +54,7 @@
                     <LinearLayout style="@style/LinearCenterVertical">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvEndPoint"
                             style="@style/TextViewStyle02_3"
                             android:text="@string/end_pointid" />
 
@@ -91,12 +91,11 @@
 
             <!--埋深-->
             <LinearLayout style="@style/LinearCenterVertical">
-
                 <!--平分左侧-->
                 <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvStartDepth"
                         style="@style/TextViewStyle02_3"
                         android:text="@string/start_burial_depth" />
 
@@ -113,12 +112,15 @@
                         style="@style/TextViewStyle02_2"
                         android:text="@string/unit_cm" />
                 </LinearLayout>
+            </LinearLayout>
 
+            <!--埋深-->
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--平分右侧-->
                 <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvEndDepth"
                         style="@style/TextViewStyle02_3"
                         android:text="@string/end_burial_depth" />
 
@@ -160,7 +162,10 @@
                         style="@style/TextViewStyle02_2"
                         android:text="@string/unit_m" />
                 </LinearLayout>
+            </LinearLayout>
 
+            <!--埋深-->
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--平分右侧-->
                 <LinearLayout style="@style/LinearWidthWeight1">
 
@@ -185,7 +190,6 @@
             </LinearLayout>
 
             <LinearLayout style="@style/LinearCenterVertical">
-
                 <!--埋设方式-->
                 <LinearLayout style="@style/LinearWidthWeight1">
 
@@ -198,13 +202,18 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
+                        android:dropDownWidth="80dp"
                         android:entries="@array/embeddedway" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <!--管线材质-->
                 <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
+                        android:id="@+id/tvTexture"
                         style="@style/TextViewStyle02"
                         android:text="@string/textrure" />
 
@@ -212,9 +221,9 @@
                         android:id="@+id/spTextrure"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:dropDownWidth="80dp" />
                 </LinearLayout>
-
 
             </LinearLayout>
 
@@ -227,20 +236,22 @@
                 <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvPipeSize"
                         style="@style/TextViewStyle02_3"
                         android:text="@string/pipe_size" />
 
                     <LinearLayout
+                        android:orientation="horizontal"
                         android:id="@+id/layoutPipeSizeEdt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_btn_shadow_bg"
                         android:padding="5dp">
 
                         <EditText
                             android:id="@+id/edtPipeSize"
-                            android:layout_width="100dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:digits="0123456789"
@@ -272,6 +283,7 @@
                 <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
+                        android:id="@+id/tvD_S"
                         style="@style/TextViewStyle02_3"
                         android:text="@string/section" />
 
@@ -312,14 +324,13 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!--android:visibility="gone"-->
             <!--与管类关联的属性列表-->
             <LinearLayout
                 android:id="@+id/layoutDLLDPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/shape_gradient_bg2"
                 android:orientation="vertical"
                 android:padding="5dp">
@@ -331,7 +342,7 @@
                     <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvHoleCount"
                             style="@style/TextViewStyle02_3"
                             android:text="@string/hole_count" />
 
@@ -344,11 +355,15 @@
                             android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <!--孔数-->
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--平分右侧-->
                     <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvUsedHole"
                             style="@style/TextViewStyle02_3"
                             android:text="@string/used_hole_count" />
 
@@ -369,7 +384,7 @@
                     <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvAmount"
                             style="@style/TextViewStyle02_3"
                             android:text="@string/amount" />
 
@@ -381,6 +396,10 @@
                             android:textColor="@drawable/selector_edt_enabled_state"
                             android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <!--电缆根数-->
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--平分右侧-->
                     <LinearLayout style="@style/LinearWidthWeight1">
 
@@ -438,9 +457,15 @@
                             android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
 
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/LinearCenterVertical">
+
                     <LinearLayout style="@style/LinearWidthWeight1">
                         <!--电压-->
                         <TextView
+                            android:id="@+id/tvVoltage"
                             style="@style/TextViewStyle02"
                             android:text="@string/voltage" />
 
@@ -448,7 +473,8 @@
                             android:id="@+id/spVoltage"
                             android:layout_width="0dp"
                             android:layout_height="30dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:dropDownWidth="80dp" />
 
                         <TextView
                             style="@style/TextViewStyle02_2"
@@ -473,14 +499,20 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
+                        android:dropDownWidth="80dp"
                         android:entries="@array/state" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <!--压力-->
                 <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
+                        android:id="@+id/tvOwnershipUnit"
                         style="@style/TextViewStyle02"
                         android:text="@string/pressure" />
 
@@ -488,7 +520,8 @@
                         android:id="@+id/spPressure"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:dropDownWidth="80dp" />
 
                 </LinearLayout>
 
@@ -627,12 +660,13 @@
             android:id="@+id/btnEdit"
             style="@style/fragment_btn_style"
             android:text="@string/edit"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnSave"
             style="@style/fragment_btn_style"
-            android:text="@string/save" />
+            android:text="@string/save"
+            android:visibility="gone" />
 
     </LinearLayout>
 

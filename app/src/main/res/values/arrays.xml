@@ -15,9 +15,9 @@
     </string-array>
 
     <string-array name="ownershipUnit">
-        <item>电信</item>
-        <item>移动</item>
-        <item>联通</item>
+        <item>中国电信</item>
+        <item>中国移动</item>
+        <item>中国联通</item>
         <item>有线电视</item>
         <item>珠江数码</item>
         <item>网通</item>
@@ -629,9 +629,19 @@
 
     <!--物探点号编码格式-->
     <string-array name="exp_num_type">
-        <item>组号+管类代码+流水号</item>
         <item>管类代码+组号+流水号</item>
+        <item>组号+管类代码+流水号</item>
         <item>管类代码+流水号+组号</item>
+    </string-array>
+
+    <string-array name="detection_method">
+        <item>调查</item>
+        <item>夹钳</item>
+        <item>感应</item>
+        <item>直连</item>
+        <item>测量</item>
+        <item>RTK</item>
+        <item></item>
     </string-array>
 
 

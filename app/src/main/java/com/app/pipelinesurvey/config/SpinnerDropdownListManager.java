@@ -40,16 +40,11 @@ public class SpinnerDropdownListManager {
      */
     public static List<String> getData(String type, String value) {
         List<String> list = new ArrayList<>();
-        list.add(" ");
 
         switch (type) {
             //特征点TABLE_NAME_FEATURE_INFO
             case "feature": {
-               /* //如果管类代码有两位数 或者是一位数
-                if (value.length() == 5){
-                    value = value.substring(0,value.length()-1);
-                }*/
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_FEATURE_INFO, "where code = '" + value.substring(value.length() - 1) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_FEATURE_INFO, "where code = '" + value.substring(3) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
                     list.add(_var);
@@ -58,11 +53,7 @@ public class SpinnerDropdownListManager {
             break;
             //附属物
             case "subsid": {
-                //如果管类代码有两位数 或者是一位数
-//                if (value.length() == 5){
-//                    value = value.substring(0,value.length()-1);
-//                }
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_APPENDANT_INFO, "where code = '" + value.substring(value.length() - 1) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_APPENDANT_INFO, "where code = '" + value.substring(3) + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
                     list.add(_var);
@@ -71,7 +62,6 @@ public class SpinnerDropdownListManager {
             break;
             //管点备注
             case "pointRemark":
-
             {
                 Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_REMARK, "where pipe_type = '" + value + "' and city = '"+ SuperMapConfig.PROJECT_CITY_NAME + "'");
                 while (_cursor.moveToNext()) {
@@ -79,18 +69,15 @@ public class SpinnerDropdownListManager {
                     list.add(_var);
                 }
             }
-
             break;
             //管线备注
             case "lineRemark":
-
             {
                 Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_LINE_REMARK, "where pipe_type = '" + value + "'");
                 while (_cursor.moveToNext()) {
                     String _var = _cursor.getString(_cursor.getColumnIndex("remark"));
                     list.add(_var);
                 }
-
             }
             break;
             //管线材料
@@ -100,13 +87,12 @@ public class SpinnerDropdownListManager {
                     String _var = _cursor.getString(_cursor.getColumnIndex("texture"));
                     list.add(_var);
                 }
-
             }
             break;
             default:
                 break;
         }
-
+        list.add(" ");
         return list;
     }
 
@@ -126,7 +112,6 @@ public class SpinnerDropdownListManager {
                 // 默认选中项
                 spinner.setSelection(i);
                 break;
-
             }
         }
     }

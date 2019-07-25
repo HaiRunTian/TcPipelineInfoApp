@@ -1,5 +1,6 @@
 package com.app.pipelinesurvey.utils;
 
+import android.content.Context;
 import android.util.Log;
 import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SuperMapConfig;
@@ -67,8 +68,8 @@ public class LicenseUtils {
     /**
      *  下载许可，暂时使用了怀阳高速许可证
      */
-    public void downLoadLicense() {
-        String url = "http://119.23.66.213:8080//hyrisk/file/license/SuperMapiMobileTrial.slm";
+    public void downLoadLicense(Context context) {
+        String url = "http://119.23.66.213:8080//hyrisk/file/pipelicense/SuperMapiMobileTrial.slm";
         String file = SuperMapConfig.LIC_PATH;
         OkHttpUtils.downloadAsync(url, file, new OkHttpUtils.InsertDataCallBack() {
             @Override
@@ -79,7 +80,7 @@ public class LicenseUtils {
             @Override
             public void requestSuccess(String result) throws Exception {
                 LogUtills.i("TAG","downloadSuccess");
-
+                Environment.initialization(context);
 
             }
         });

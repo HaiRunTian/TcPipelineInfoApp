@@ -10,6 +10,9 @@ import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.PullXMLUtil;
 import com.app.utills.LogUtills;
 import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
+
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +28,13 @@ import java.util.List;
 public class MyApplication extends Application {
     private static Context context;
     public BaseGPS m_baseGPS = null;
-
+//    private RefWatcher refWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
+//        refWatcher =  LeakCanary.install(this);
         context = this;
+
         //初始化数据库
         initDatabase();
         try {
@@ -119,4 +124,9 @@ public class MyApplication extends Application {
         }
         super.onLowMemory();
     }
+
+//    public static RefWatcher getRefWatcher(Context context) {
+//        MyApplication application = (MyApplication) context.getApplicationContext();
+//        return application.refWatcher;
+//    }
 }

@@ -42,6 +42,7 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/NoTitleBarActivityStyle">
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="VcTrsdrP5ro3VN2hCZbv3Pw224P5NvNw" >
@@ -62,8 +63,7 @@
         </activity>
         <activity android:name=".base.BaseActivity">
         </activity>
-        <!--<activity android:name=".view.activity.TemplateSelectActivity">-->
-        <!--</activity>-->
+
         <activity android:name=".view.activity.ProjectListActivity">
         </activity>
         <activity android:name=".view.activity.ProjectInfoActivity">
@@ -76,14 +76,7 @@
         </activity>
         <activity android:name=".view.activity.LogInActivity">
         </activity>
-        <!--<activity android:name=".view.activity.DrawPipePointActivity">-->
-        <!--</activity>-->
-        <activity
-            android:name=".view.activity.LayersActivity"
-            android:theme="@style/DialogActivityStyle">
-        </activity>
-        <!--<activity android:name=".view.activity.DrawPipeLineActivity">-->
-        <!--</activity>-->
+
         <activity android:name=".view.activity.AccountInfoActivity">
         </activity>
         <activity android:name=".view.activity.AppInfoActivity">
@@ -92,31 +85,29 @@
         </activity>
         <activity
             android:name=".view.activity.MapActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask">
         </activity>
         <activity android:name=".view.activity.SelectBaseMapActivity"
             android:theme="@style/DialogActivityStyle"/>
+
         <activity android:name=".view.activity.SelectExcelActivity"
             android:theme="@style/DialogActivityStyle"/>
-        <activity android:name=".view.activity.MultichoiceActivity"/>
+
         <activity android:name=".view.activity.linepoint.LineActivity"/>
         <activity android:name=".view.activity.linepoint.LineAllocationActivity"/>
         <activity android:name=".view.activity.linepoint.PointActivity"/>
         <activity android:name=".view.activity.linepoint.StandardActivity"/>
         <activity android:name=".view.activity.linepoint.SymbolicActivity"/>
         <activity android:name=".view.activity.linepoint.PointAllocationActivity"/>
-        <activity android:name=".view.activity.TextAcitvity"/>
         <activity android:name=".view.activity.linepoint.BasicsActivity" />
         <activity android:name=".view.activity.WebViewActivity"/>
         <!--显示PDF-->
         <activity android:name=".view.activity.HelpActivity" />
         <!--添加基础配置-->
         <activity android:name=".view.activity.linepoint.AddBasicsActivity"
-            android:theme="@style/DialogStyleActivity"
-            />
-
-
+            android:theme="@style/DialogStyleActivity" />
        <provider
            android:name="android.support.v4.content.FileProvider"
            android:authorities="com.app.pipelinesurvey"

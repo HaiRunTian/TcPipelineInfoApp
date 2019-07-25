@@ -88,7 +88,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
 
     private void adjubct(String pointname) {
         //右边适配器
-        basicsAppendantAdapter = new BasicsAppendantAdapter(getActivity(), adjunctList, appendantTable, pointname);
+        basicsAppendantAdapter = new BasicsAppendantAdapter(getActivity(), adjunctList, appendantTable, pointname,"附属物");
         appendantt.setAdapter(basicsAppendantAdapter);
         basicsAppendantAdapter.notifyDataSetChanged();
     }
@@ -131,6 +131,7 @@ public class AppendantFragment extends Fragment implements View.OnClickListener 
                 Intent intent = new Intent(getActivity(), AddBasicsActivity.class);
                 intent.putExtra("table",appendantTable);
                 intent.putExtra("pointname",pointname);
+                intent.putExtra("type","附属物");
                 startActivity(intent);
                 break;
             default:

@@ -29,6 +29,10 @@ public class MeasurePoint extends BaseFieldPInfos {
     }
 
 
+    /**
+     * 单值专题图
+     * @return
+     */
     @Override
     public ThemeUnique createDefaultThemeUnique() {
         LogUtills.i("begin " + this.getClass().getName() + " createDefaultThemeUnique....");
@@ -45,6 +49,11 @@ public class MeasurePoint extends BaseFieldPInfos {
 
         return createThemeUnique("symbolExpression",_objs, _ids, _color,_size2Ds);
     }
+
+    /**
+     * 标签专题图
+     * @return
+     */
     @Override
     public ThemeLabel createThemeLabel() {
         super.createThemeLabel();

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_pop_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/menu_point"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_point_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/draw_point" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_line"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_line_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/draw_line" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_query"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_query_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/local_point" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_line_point"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_line_point_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/point_in_line" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_measure_point"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_measure_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/measure_point" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_diatance"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_dis_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/measure_distance" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_area"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_area_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/measure_area" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_angle"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_angle_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/measure_angle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_xy"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_xy_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/measure_xy" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_count"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_count_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/count" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_export"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_export_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/export" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_import"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_import_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/importt" />
+    </LinearLayout>
+</LinearLayout>

@@ -100,7 +100,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         String _groupNum = "";
         int from = getIntent().getIntExtra("from", 2);
 
-
         //初始化城市标准sp
         Cursor _cursor1 = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "");
         List _list = new ArrayList();
@@ -119,7 +118,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         if (from == 0) {
             //新建项目
             mNewPrj = true;
-            edtGroupName.setText("A");
+            edtGroupName.setText("a");
             edtProjName.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT + "-"));
             tvProjectCreateTime.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT));
             tvLastestModifiedTime.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT));
@@ -136,17 +135,23 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             m_prjId = getIntent().getStringExtra("proj_name");
             String create_time = null, last_time = null, baseMapPath = null;
             edtProjName.setText(m_prjId);
+
+            //数据库查询
             Cursor _cursor = DatabaseHelpler.getInstance()
                     .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + m_prjId + "'");
             while (_cursor.moveToNext()) {
                 create_time = _cursor.getString(_cursor.getColumnIndex("CteateTime"));
                 baseMapPath = _cursor.getString(_cursor.getColumnIndex("BaseMapPath"));
                 last_time = _cursor.getString(_cursor.getColumnIndex("UpdateTime1"));
-
+                //组号
                 _groupNum = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
+                //流水号长度
                 _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
+                //城市
                 _city = _cursor.getString(_cursor.getColumnIndex("City"));
+                //组号位置
                 _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
+                //管线长度
                 _pipeLength = _cursor.getInt(_cursor.getColumnIndex("PipeLength"));
             }
 
@@ -171,12 +176,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 default:
                     break;
             }
-
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spGroupIndex, _group);
-
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spSeriNum, String.valueOf(_serialNum));
-
-
         }
     }
 
@@ -195,7 +196,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         btnDelete.setOnClickListener(this);
         btnOpen = (Button) findViewById(R.id.btnOpen);
         btnOpen.setOnClickListener(this);
-
         spCityStand = findViewById(R.id.sp_city_stand);
         spGroupIndex = findViewById(R.id.sp_group_local);
         spSeriNum = findViewById(R.id.sp_serinum);
@@ -215,7 +215,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 break;
             //保存数据，打开地图，如果没有添加地图，默认打开地图
             case R.id.btnOpen:
-
                 Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
                 _intent.putExtra("prjName", edtProjName.getText().toString().trim());
 
@@ -224,7 +223,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                     if (tvBaseMapPath.getText().toString().length() == 0) {
                         //类型 google代表谷歌地图 sci代表切片
                         _intent.putExtra("type", "google");
-                        //baseMapPath = "http://map.baidu.com";
+//                        baseMapPath = "http://map.baidu.com";
                         baseMapPath = "http://www.google.cn/maps";
                     } else {  //用户选择了地图切片
                         //类型 1代表谷歌地图 sci 代表切片
@@ -233,11 +232,10 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                     if (queryPrjName()){ return;}
                     saveDataToDB();
                 } else {
-                    //无用
+                    //无用 不是新建项目
                     _intent.putExtra("type", "3");
                     updataTime();
                 }
-
                 startActivity(_intent);
                 finish();
                 break;
@@ -260,16 +258,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which) {
                         String[] whereArgs = {edtProjName.getText().toString()};
                         DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_PROJECT_INFO, "Name = ?", whereArgs);
-
-                       /* String _wkName = edtProjName.getText().toString() + ".smwu";
-                        String _uddName = edtProjName.getText().toString() + ".udd";
-                        String _udpName = edtProjName.getText().toString() + ".udb";
-//                        FileUtils.getInstance().deleteDir(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId);
-                        FileUtils.getInstance().deleteFile(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + _wkName);
-                        FileUtils.getInstance().deleteFile(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + _uddName);
-                        FileUtils.getInstance().deleteFile(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + _udpName);*/
-//                        boolean _folder = FileUtils.getInstance().deleteDir(SuperMapConfig.DEFAULT_DATA_PATH + whereArgs[0]);
-
                         ToastUtil.show(ProjectInfoActivity.this, "删除成功", Toast.LENGTH_SHORT);
                         setResult(1);
                         finish();
@@ -345,11 +333,15 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_PROJECT_INFO, _values);
 
         if (!edtProjName.getText().toString().isEmpty()) {
+            String priName = edtProjName.getText().toString().trim();
             //创建此工程路径的文件夹
-            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + edtProjName.getText().toString());
-            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + edtProjName.getText().toString() + "/" + SuperMapConfig.DEFAULT_DATA_PICTURE_PATH);
-            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + edtProjName.getText().toString() + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
-            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + edtProjName.getText().toString() + "/" + SuperMapConfig.DEFAULT_DATA_SHP_PATH);
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName);
+            //创建照片文件夹picture
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_PICTURE_PATH);
+            //创建excel文件夹Picture
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
+            //创建shp文件夹Shp
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_SHP_PATH);
         }
     }
 

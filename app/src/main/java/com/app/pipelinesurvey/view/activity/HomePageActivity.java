@@ -39,23 +39,24 @@ import java.util.Map;
  * @创建日期 2018-05-29  15:55.
  */
 public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, TextWatcher {
-    //    private TextView tvQuickSerch;//放大镜图标
-    //    private TextView tvSubmit;//提交搜索
-    private TextView tvTitle;//标题
-    private TextView tvLoginName;//用户名
+    //标题
+    private TextView tvTitle;
+    //用户名
+    private TextView tvLoginName;
 
-    //    private AutoCompleteTextView autoTvQuickSearch;//自动补全框
-    //    private LinearLayout linearSearchBar;//搜索布局
-    private RelativeLayout layoutTitleBar;//标题栏
-    private RadioGroup radioGroupBottom;//底部radiobutton组
+    //标题栏
+    private RelativeLayout layoutTitleBar;
+    //底部radiobutton组
+    private RadioGroup radioGroupBottom;
     private RadioButton rdbtnHome, rdbtnMap;
-    private Animation m_animation;//动画
+    //动画
+    private Animation m_animation;
     private HomePageFragment homePageFragment;
-//    private MapFragment mapFragment;
     private FragmentManager m_manager;
     private FragmentTransaction m_transaction;
     private List<String> m_datalist = new ArrayList<>();
-    private final static int REQUESTCODE = 1; // 返回的结果码
+    // 返回的结果码
+    private final static int REQUESTCODE = 1;
     private String currentUser;
     private SharedPrefManager _manager;
     private long intervalTime = 0;
@@ -122,7 +123,7 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
     //        for (String fnName : fnList) {
     //            m_datalist.add(fnName);
     //        }
-    //        ArrayAdapter<String> _adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_datalist);
+    //        ArrayAdapter<String> _adapter = new ArrayAdapter<String>(this, android.R.fragment_map_setting.simple_list_item_1, m_datalist);
     //        //        autoTvQuickSearch.setAdapter(_adapter);
     //    }
 

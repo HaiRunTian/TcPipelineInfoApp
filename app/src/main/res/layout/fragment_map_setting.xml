@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_titlebar_pipe_table" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!--工程编码-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvPrjCode"
+                    android:text="@string/prj_code"/>
+
+                <EditText
+                    android:id="@+id/edtPrjCode"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--工程名称-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvPrjName"
+                    android:text="@string/prj_name2"/>
+
+                <EditText
+                    android:id="@+id/edtPrjName"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--工程地点-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvPrjSite"
+                    android:text="@string/prj_site"/>
+
+                <EditText
+                    android:id="@+id/edtPrjSite"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--原始文件记录-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvOriginal"
+                    android:text="@string/original"/>
+
+                <EditText
+                    android:focusable="false"
+                    android:id="@+id/edtOriginal"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--仪器名称-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvApparatus_name"
+                    android:text="@string/apparatus_name"/>
+
+                <EditText
+                    android:id="@+id/edtApparatus_name"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--仪器名称-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvApparatus_code"
+                    android:text="@string/apparatus_code"/>
+
+                <EditText
+                    android:id="@+id/edtApparatus_code"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--检测标准-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvDetection_standard"
+                    android:text="@string/detection_standard"/>
+
+                <EditText
+                    android:text="城市地下管线探测技术规程CJJ 61-2017"
+                    android:id="@+id/edtDetection_standard"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--检测方法-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvDetection_method"
+                    android:text="@string/detection_method"/>
+
+                <EditText
+                    android:id="@+id/edtDetection_method"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02"  />
+
+                <ImageView
+                    android:id="@+id/imgvOwnershipUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_down" />
+
+            </LinearLayout>
+
+            <!--检测图幅-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvDetection_map"
+                    android:text="@string/detection_map"/>
+
+                <EditText
+                    android:id="@+id/edtDetection_map"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--检测图幅-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvGroup_leader"
+                    android:text="@string/group_leader"/>
+
+                <EditText
+                    android:id="@+id/edtGroup_leader"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--检测组员-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvGroup_mumber1"
+                    android:text="@string/group_mumber"/>
+
+                <EditText
+                    android:id="@+id/edtGroup_mumber1"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--检测组员-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvGroup_mumber2"
+                    android:text="@string/group_mumber"/>
+
+                <EditText
+                    android:id="@+id/edtGroup_mumber2"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+
+            <!--日期-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvDate"
+                    android:text="@string/date"/>
+
+                <EditText
+                    android:focusable="false"
+                    android:id="@+id/edtDate"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+
+            </LinearLayout>
+            <!--备注-->
+            <LinearLayout style="@style/LinearCenterVertical">
+
+                <TextView
+                    style="@style/TextViewStyle02_3"
+                    android:id="@+id/tvRemark"
+                    android:text="@string/remark"/>
+
+                <EditText
+                    android:id="@+id/edtRemark"
+                    style="@style/EdtStyle02"
+                    android:theme="@style/CustomEdittext02" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -64,6 +64,7 @@ public class BasicsPointFragment extends Fragment implements View.OnClickListene
             case R.id.btnAdd:
                 Intent intent = new Intent(getActivity(), AddBasicsActivity.class);
                 intent.putExtra("table", table);
+                intent.putExtra("type","管类");
                 startActivity(intent);
                 break;
             default:

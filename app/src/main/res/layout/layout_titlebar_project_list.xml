@@ -8,7 +8,7 @@
         android:gravity="center"
         android:textSize="15dp"
         android:textColor="@color/white"
-        android:drawableLeft="@mipmap/ic_arrow_left_32x54"/>
+        android:drawableLeft="@mipmap/ic_arrow_left_32"/>
 
     <TextView
         android:id="@+id/tvTitle"
@@ -21,8 +21,8 @@
         android:layout_centerInParent="true"
         android:layout_alignParentRight="true"
         android:id="@+id/tvNewProject"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:padding="5dp"
-        android:background="@mipmap/ic_add_30px"/>
+        android:background="@mipmap/ic_add_64"/>
 </RelativeLayout>

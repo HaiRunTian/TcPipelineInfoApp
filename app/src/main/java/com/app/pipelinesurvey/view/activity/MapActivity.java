@@ -3,40 +3,50 @@ package com.app.pipelinesurvey.view.activity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.app.BaseInfo.Data.BaseFieldInfos;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.BaseInfo.Oper.OperNotifyer;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.LayersSimpleArraryAdapter;
 import com.app.pipelinesurvey.base.BaseActivity;
+import com.app.pipelinesurvey.bean.ItemInfo;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
@@ -44,21 +54,27 @@ import com.app.pipelinesurvey.location.BaiDuGPS;
 import com.app.pipelinesurvey.location.BaseGPS;
 import com.app.pipelinesurvey.location.GpsUtils;
 import com.app.pipelinesurvey.location.NavigationPanelView;
-import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.AssetsUtils;
-import com.app.pipelinesurvey.utils.ExcelUtils;
 import com.app.pipelinesurvey.utils.ExportDataUtils;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.ImportDataProgressUtil;
 import com.app.pipelinesurvey.utils.LicenseUtils;
+import com.app.pipelinesurvey.utils.ThreadUtils;
 import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
-import com.app.pipelinesurvey.view.fragment.map.DistanceMeasureFragment;
-import com.app.pipelinesurvey.view.fragment.map.MeasuredPointFragment;
-import com.app.pipelinesurvey.view.fragment.map.QueryPointLocalFragment;
-import com.app.pipelinesurvey.view.fragment.map.WorkCountFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureAngleFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureAreaFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureDisFragment;
+import com.app.pipelinesurvey.view.fragment.map.MapSettingFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureXYFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasuredPointFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.QueryPointLocalFragment;
+import com.app.pipelinesurvey.view.fragment.map.mapbottom.WorkCountFragment;
 import com.app.pipelinesurvey.view.widget.LoadingImgDialog;
+import com.app.pipelinesurvey.view.widget.MeasureXyView;
 import com.app.utills.LogUtills;
+import com.example.zhouwei.library.CustomPopWindow;
+import com.supermap.data.Color;
 import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
 import com.supermap.data.Datasource;
@@ -68,6 +84,7 @@ import com.supermap.data.EngineType;
 import com.supermap.data.Environment;
 import com.supermap.data.GeoCoordSys;
 import com.supermap.data.Maps;
+import com.supermap.data.Point;
 import com.supermap.data.Point2D;
 import com.supermap.data.PrjCoordSys;
 import com.supermap.data.PrjCoordSysType;
@@ -83,8 +100,13 @@ import com.supermap.mapping.MapParameterChangedListener;
 import com.supermap.mapping.MapView;
 import com.supermap.mapping.*;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +117,7 @@ import java.util.List;
  * 地图界面类
  */
 
-public class MapActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
+public class MapActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, View.OnTouchListener, CompoundButton.OnCheckedChangeListener {
     private final String TAG = "MapActivity";
     /**
      * 图层选择
@@ -107,21 +129,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     private ImageButton imgBtnLocation;
 
     /**
-     * 放大
-     */
-    private ImageButton imgBtnZoomIn;
-    /**
-     * 缩小
-     */
-    private ImageButton imgBtnZoomOut;
-    /**
      * 详细面板
      */
     private LinearLayout layoutContainer;
-    /**
-     * Mapcontrol功能栏
-     */
-    private ScrollView layoutFuntionbar;
     /**
      * 图层填充数据
      */
@@ -134,11 +144,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * 动画
      */
     private Animation m_animation;
-    private CheckBox cbFunctions;
-    private RadioButton rdBtnDrag, rdBtnDrawPoint, rdBtnDrawLine, rdbtnLayers,
-            rdBtnPointInLine, rdBtnMeasuredPoint, rdBtnQueryPoint, rdBtnDistanceMeasure,
-            rdBtnQueryLine, rdBtnMovePoint, rdBtnCount, rdBtnMap, rdBtnImport, rdBtnExport;
-    private TextView tvLabel;
     /**
      * 工作空间
      */
@@ -154,7 +159,19 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     /**
      * 距离测量fragment
      */
-    private DistanceMeasureFragment m_distanceMeasurementFragment;
+    private MeasureDisFragment measureDisFragment;
+    /**
+     * 面积测量fragment
+     */
+    private MeasureAreaFragment measureAreaFragment;
+    /**
+     * 角度测量fragment
+     */
+    private MeasureAngleFragment measureAngleFragment;
+    /**
+     * 角度测量fragment
+     */
+    private MeasureXYFragment measureXYFragment;
     /**
      * 工作量统计fragment
      */
@@ -186,21 +203,36 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     public static PrjCoordSys m_PrjCoordSys;
     //位置管理类
     private LocationManager locationManager;
-    private StringBuffer m_builder;
     private float startDegree = 0f;
     private Map m_map;
     private boolean m_start = true;
     /**
-     *  打开工作空间数据进度条
+     * 打开工作空间数据进度条
      */
     private ProgressDialog m_progress;
     private String m_filePath;
     private String m_fileName;
     private LoadingImgDialog m_loadingImgDialog;
     private int[] array = new int[2];
-
-
-
+    private String tvLabel = "";
+    private final int KEY_QUERY_POINT = 0;
+    private final int KEY_MEASURE_POINT = 1;
+    private final int KEY_MEASURE_DIS = 2;
+    private final int KEY_MEASURE_AREA = 3;
+    private final int KEY_MEASURE_ANGE = 4;
+    private final int KEY_MEASURE_XY = 5;
+    private final int KEY_SUM_DATA = 6;
+    private List<ItemInfo> itemInfos;
+    private CustomPopWindow mCustomPopWindow;
+    private EditText edtX;
+    private EditText edtY;
+    private Button btnQuery;
+    private View layoutMeausre;
+    private Switch aSwitch;
+    private TextView tvAction;
+    private ImageButton imgMap;
+    private CallOut callOut;
+    private final String CALLOUT = "measurePoint";
 
     @SuppressLint("HandlerLeak")
     private Handler m_handler = new Handler() {
@@ -209,17 +241,16 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-
                     m_progress.setMessage("正在打开工作空间……请稍等");
                     break;
                 case 1:
-
                     m_progress.setMessage("正在创建新工作空间……请稍等");
                     break;
                 case 2:
                     m_progress.setMessage("工作空间打开成功");
-
                     m_progress.dismiss();
+                    setLogSheet();
+
                     break;
                 case 3:
                     m_progress.setMessage("工作空间打开失败");
@@ -229,36 +260,30 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 case 4:
                     initProgress();
                     //点表  读取excel 和生成数据集比较好耗时间 需要在子线程里进行
-
                     ImportDataProgressUtil.ImportData(m_filePath, new ImportDataProgressUtil.ImportListener() {
                         @Override
                         public void zipStart() {
-                           m_handler.sendEmptyMessage(5);
+                            m_handler.sendEmptyMessage(5);
                         }
 
                         @Override
                         public void zipSuccess() {
                             m_handler.sendEmptyMessage(6);
-
                         }
 
                         @Override
                         public void zipProgress(int[] progress) {
                             array = progress;
                             m_handler.sendEmptyMessage(7);
-
-
                         }
 
                         @Override
                         public void zipFail() {
                             m_handler.sendEmptyMessage(8);
-
                         }
                     });
 
                     break;
-
                 case 5:
                     //开始初始化数据
                     m_progress.setMessage("数据正常读取统计中……");
@@ -278,16 +303,28 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     m_progress.setMessage("数据导入失败！");
                     m_progress.dismiss();
                     break;
-
-
                 default:
                     break;
             }
         }
     };
 
+    /**
+     * 设置好当天检测记录表
+     *
+     * @Params
+     * @author :HaiRun
+     * @date :2019/6/26  15:07
+     */
+    private void setLogSheet() {
+        MapSettingFragment fragment = new MapSettingFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("prj_name", m_prjId);
+        bundle.putString("type", m_type);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "MapSettingFragment");
 
-
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -297,21 +334,18 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
         Environment.initialization(this);
         setContentView(R.layout.fragment_map);
-
-
+        EventBus.getDefault().register(this);
         initView();
         initData();
         //判断许可是否可用
         if (!LicenseUtils.ins().judgeLicese()) {
-            LicenseUtils.ins().downLoadLicense();
+            LicenseUtils.ins().downLoadLicense(this);
         }
         //定位相关类初始化
         initLocal();
         //打开或者创建工作空间
         createOrOpenWorkspace2();
-        LogUtills.i(TAG, "onCteate()=" + this.toString());
     }
-
 
     /**
      * 地图切换到上次加点的位置
@@ -335,7 +369,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * 初始化定位需要到的类和控件
      */
     private void initLocal() {
-        m_builder = new StringBuffer();
         //传感器
         m_SensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         //显示方向的view
@@ -344,15 +377,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         m_NavigationPanelView.setVisibility(View.GONE);
         //位置管理类
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //位置监听类
-//        m_localtion = new MyLocationListener(this, m_mapControl, m_NavigationPanelView);
     }
 
     private void initProgress() {
-      m_progress.setTitle("数据导入");
-
+        m_progress.setTitle("数据导入");
     }
-
 
     /**
      * 新建或者打开工作空间
@@ -374,7 +403,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     _wkInfo.setName(m_prjId);
                     _wkInfo.setType(WorkspaceType.SMWU);
                     boolean wkExist = FileUtils.getInstance().isFileExsit(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".smwu");
-
                     if (wkExist) {
                         if (!m_workspace.open(_wkInfo)) {
                             ToastUtil.showShort(MapActivity.this, "workspace open fail");
@@ -412,8 +440,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             //百度地图定位初始化
                             initGps();
                         }
-
-
                     } else {
                         //工作空间不存在，开始新建
                         m_handler.sendEmptyMessage(1);
@@ -429,7 +455,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                                 LogUtills.i("point111", "线符号库导入失败");
                             }
                         }
-
                         //数据源的集合类
                         Datasources _ds = m_workspace.getDatasources();
                         //数据源连接信息类
@@ -476,13 +501,10 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         OperNotifyer.AddSystemLayers(_datasource);
                         m_map.setOverlapDisplayed(true);
                         m_map.save(m_prjId);
-
                         if ("google".equals(m_type)) {
                             initGps();
                         }
-
                     }
-
                     if (wkExist) {
                         WorkSpaceUtils.getInstance().setWorkSpace(m_workspace);
                         WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
@@ -504,9 +526,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     initPointMap();
                     //比例尺更新
                     setMapParamChangge();
-
                     m_handler.sendEmptyMessage(2);
-
                 } catch (Exception e) {
                     LogUtills.e(TAG, e.getMessage());
                     m_handler.sendEmptyMessage(3);
@@ -524,10 +544,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         m_SensorManager.registerListener(m_GPS.getSensorListener(),
                 m_SensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_UI);
-
-
     }
-
 
     /**
      * 地图比例尺
@@ -563,7 +580,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * 查询数据库 管类加载
      */
     private void initData() {
-
         //上个activity传过来的数据
         Intent _intent = getIntent();
         //项目名称
@@ -572,7 +588,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         m_type = _intent.getStringExtra("type");
         //当前项目名称全局
         SuperMapConfig.PROJECT_NAME = m_prjId;
-
         //查询数据库项目表，查询地图的路径
         Cursor _cursor1 = DatabaseHelpler.getInstance()
                 .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + m_prjId + "'");
@@ -589,69 +604,54 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             String pipeType = _cursor.getString(_cursor.getColumnIndex("pipe_type"));
             m_data_list.add(pipeType);
         }
-        m_adapter = new LayersSimpleArraryAdapter(MapActivity.this, R.layout.spinner_item_style, m_data_list);
+        m_adapter = new LayersSimpleArraryAdapter(MapActivity.this, R.layout.spinner_item_style_map, m_data_list);
         m_adapter.setDropDownViewResource(R.layout.spinner_item_dropdown_style);
         spLayers.setAdapter(m_adapter);
         spLayers.setSelection(0, true);
-
-
         //如果创建的项目不是谷歌在线地图，地图图层切换按钮就隐藏
         if (!baseMapPath.equals("http://www.google.cn/maps")) {
-            rdBtnMap.setVisibility(View.GONE);
+            imgMap.setVisibility(View.GONE);
             imgBtnLocation.setVisibility(View.GONE);
-
         } else {
-            rdBtnMap.setVisibility(View.VISIBLE);
+            imgMap.setVisibility(View.VISIBLE);
             imgBtnLocation.setVisibility(View.VISIBLE);
         }
     }
+
 
     private void initView() {
         try {
             m_mapView = (MapView) $(R.id.mapView);
             m_mapControl = m_mapView.getMapControl();
+            //地图标注
+            callOut = new CallOut(this);
+            ImageView view = new ImageView(this);
+            callOut.setCustomize(true);
+            view.setBackgroundResource(R.drawable.ic_map_callout_32px);
+            callOut.setStyle(CalloutAlignment.BOTTOM);
+            callOut.setContentView(view);
+            callOut.setVisibility(View.GONE);
+            m_mapView.addCallout(callOut, CALLOUT);
+
             spLayers = $(R.id.spLayers);
             spLayers.setOnItemSelectedListener(this);
             imgBtnLocation = $(R.id.imgBtnLocation);
             imgBtnLocation.setOnClickListener(this);
-            imgBtnZoomIn = $(R.id.imgBtnZoomIn);
-            imgBtnZoomIn.setOnClickListener(this);
-            imgBtnZoomOut = $(R.id.imgBtnZoomOut);
-            imgBtnZoomOut.setOnClickListener(this);
             layoutContainer = $(R.id.layoutMapContainer);
-            cbFunctions = $(R.id.cbFunctions);
-            cbFunctions.setOnClickListener(this);
-            layoutFuntionbar = $(R.id.layoutFuntionbar);
+            layoutContainer.setEnabled(false);
             m_mapScale = $(R.id.txMapScale);
-            tvLabel = $(R.id.tvLabel);
-            rdBtnDrag = $(R.id.rdBtnDrag);
-            rdBtnDrag.setOnClickListener(this);
-            rdBtnDrawPoint = $(R.id.rdBtnDrawPoint);
-            rdBtnDrawPoint.setOnClickListener(this);
-            rdBtnDrawLine = $(R.id.rdBtnDrawLine);
-            rdBtnDrawLine.setOnClickListener(this);
-            rdBtnPointInLine = $(R.id.rdBtnPointInLine);
-            rdBtnPointInLine.setOnClickListener(this);
-            rdBtnMeasuredPoint = $(R.id.rdBtnMeasuredPoint);
-            rdBtnMeasuredPoint.setOnClickListener(this);
-            rdBtnDistanceMeasure = $(R.id.rdBtnDistanceMeasure);
-            rdBtnDistanceMeasure.setOnClickListener(this);
-            rdBtnQueryPoint = $(R.id.rdBtnQueryPoint);
-            rdBtnQueryPoint.setOnClickListener(this);
-            rdbtnLayers = $(R.id.rdBtnLayers);
-            rdbtnLayers.setOnClickListener(this);
-            rdBtnQueryLine = $(R.id.rdBtnQueryLine);
-            rdBtnQueryLine.setOnClickListener(this);
-            rdBtnMovePoint = $(R.id.rdBtnMovePoint);
-            rdBtnMovePoint.setOnClickListener(this);
-            rdBtnCount = $(R.id.rdBtnCount);
-            rdBtnCount.setOnClickListener(this);
-            rdBtnMap = $(R.id.rdBtnMap);
-            rdBtnMap.setOnClickListener(this);
-            rdBtnImport = $(R.id.rdBtnImport);
-            rdBtnExport = $(R.id.rdBtnExport);
-            rdBtnExport.setOnClickListener(this);
-            rdBtnImport.setOnClickListener(this);
+            tvAction = findViewById(R.id.tvAction);
+            imgMap = findViewById(R.id.imgMapChange);
+            //测量坐标
+            layoutMeausre = findViewById(R.id.layoutMeausre);
+            edtX = findViewById(R.id.edtX);
+            edtY = findViewById(R.id.edtY);
+            btnQuery = findViewById(R.id.btnQuery);
+            aSwitch = findViewById(R.id.swOpen);
+            aSwitch.setOnCheckedChangeListener(this);
+            btnQuery.setOnClickListener(this);
+            imgMap.setOnClickListener(this);
+            tvAction.setOnClickListener(this);
             m_progress = new ProgressDialog(this);
             m_progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             m_progress.setCancelable(false);
@@ -663,169 +663,27 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         }
     }
 
-
     @Override
     public void onClick(View v) {
-        //按钮文本
-        String buttonText = "";
-        //标签文本
-        String labelText = "";
-        //判断是否属于radiobutton
-        if (v instanceof RadioButton) {
-            //当前激活按钮文本
-            buttonText = ((RadioButton) v).getText().toString();
-        }
-        //当前标签文本
-        labelText = tvLabel.getText().toString();
         switch (v.getId()) {
-            //导入数据
-            case R.id.rdBtnImport:
-                if (m_loadingImgDialog == null) {
-                    m_loadingImgDialog = new LoadingImgDialog(MapActivity.this, R.mipmap.ic_logo);
-                }
-                startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
-                break;
-
-            //导出数据
-            case R.id.rdBtnExport:
-                new ExportDataUtils(MapActivity.this, m_workspace, m_prjId).exportData();
-
-                break;
-
             //定位
             case R.id.imgBtnLocation:
-
+                hideBottomPanel();
                 if (!GpsUtils.isOPen(MapActivity.this)) {
                     ToastUtil.showShort(MapActivity.this, "请先打开GPS定位功能");
                     GpsUtils.openGPS(MapActivity.this);
                     return;
                 }
-
                 if (m_GPS != null && m_NavigationPanelView.getVisibility() != View.VISIBLE) {
                     m_GPS.onStart();
                     LogUtills.i("定位", "定位打开");
                 } else {
-
                     m_GPS.onStop();
                     LogUtills.i("定位", "定位关闭");
                 }
                 break;
-            case R.id.imgBtnZoomIn:
-                m_map.zoom(1.5);
-                DataHandlerObserver.ins().setAction(Action.PAN);
-
-                break;
-            case R.id.imgBtnZoomOut:
-                m_map.zoom(0.5);
-                DataHandlerObserver.ins().setAction(Action.PAN);
-
-                break;
-            case R.id.rdBtnDrag:
-                hideBottomPanel();
-                DataHandlerObserver.ins().setAction(Action.PAN);
-
-                break;
-
-            //加点
-            case R.id.rdBtnDrawPoint:
-                hideBottomPanel();
-                if (DataHandlerObserver.ins().setAction(Action.PAN)) {
-
-                    DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_CreatePoint);
-                    if (m_mapControl != null) {
-                        DataHandlerObserver.ins().setCurrentPipeType(spLayers.getSelectedItem().toString());
-                    }
-                }
-                break;
-            //加线
-            case R.id.rdBtnDrawLine:
-                hideBottomPanel();
-                if (DataHandlerObserver.ins().setAction(Action.PAN)) {
-                    DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_CreateLineStartPoint);
-
-                }
-
-                break;
-            //线中加点
-            case R.id.rdBtnPointInLine:
-                DataHandlerObserver.ins().setAction(Action.PAN);
-                hideBottomPanel();
-                DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_AddPointInLine_FindLine);
-                break;
-            //测量收点
-            case R.id.rdBtnMeasuredPoint:
-                DataHandlerObserver.ins().setAction(Action.PAN);
-                if (buttonText.equals(labelText)) {
-                    toggleBottomPanel();
-                } else {
-                    DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasurePoint);
-                    showBottomPanel();
-                    switchFragment(3);
-                }
-                break;
-
-            //测量距离
-            case R.id.rdBtnDistanceMeasure:
-                if (buttonText.equals(labelText)) {
-                    toggleBottomPanel();
-                    DataHandlerObserver.ins().setAction(Action.PAN);
-                } else {
-                    showBottomPanel();
-                    switchFragment(5);
-                    DataHandlerObserver.ins().setAction(Action.MEASURELENGTH);
-                    DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereDistance);
-                }
-                break;
-
-            //管点定位
-            case R.id.rdBtnQueryPoint:
-                DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
-                DataHandlerObserver.ins().setAction(Action.PAN);
-                if (buttonText.equals(labelText)) {
-                    toggleBottomPanel();
-                } else {
-                    showBottomPanel();
-                    switchFragment(4);
-                }
-                break;
-
-            //图层
-            case R.id.rdBtnLayers:
-                DataHandlerObserver.ins().setAction(Action.PAN);
-                startActivity(new Intent(MapActivity.this, LayersActivity.class));
-                hideBottomPanel();
-                break;
-
-            //编辑管线
-            case R.id.rdBtnQueryLine:
-                hideBottomPanel();
-                break;
-
-            //移动管点
-            case R.id.rdBtnMovePoint:
-                m_mapControl.setAction(Action.PAN);
-                hideBottomPanel();
-                break;
-
-            case R.id.cbFunctions:
-                DataHandlerObserver.ins().setAction(Action.PAN);
-                setFuntionPanelVisibility();
-                hideBottomPanel();
-                break;
-
-            //工作量统计
-            case R.id.rdBtnCount:
-                DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
-                DataHandlerObserver.ins().setAction(Action.PAN);
-                if (buttonText.equals(labelText)) {
-                    toggleBottomPanel();
-                } else {
-                    showBottomPanel();
-                    switchFragment(7);
-                }
-                break;
-
-            case R.id.rdBtnMap: {
+            //地图切换
+            case R.id.imgMapChange: {
                 int _count = m_map.getLayers().getCount();
                 if (baseMapPath.equals("http://www.google.cn/maps")) {
                     Layer _layer = m_map.getLayers().get(_count - 2);
@@ -839,15 +697,24 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
                 DataHandlerObserver.ins().setAction(Action.PAN);
             }
+            hideBottomPanel();
             break;
-
+            //功能按钮
+            case R.id.tvAction:
+                showPopMenu();
+                break;
+            case R.id.btnQuery:
+                String x = edtX.getText().toString();
+                String y = edtY.getText().toString();
+                Point2D point2D = new Point2D(Double.valueOf(x), Double.valueOf(y));
+                callOut.setLocation(point2D.getX(), point2D.getY());
+                m_map.setCenter(point2D);
+                m_map.refresh();
+                break;
             default:
                 break;
         }
-
-        tvLabel.setText(buttonText);
     }
-
 
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -858,13 +725,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         pipeType = spLayers.getSelectedItem().toString();
         //改变图层信息配置
-
         if (m_start == true) {
             m_start = false;
             return;
         }
         DataHandlerObserver.ins().setCurrentPipeType(spLayers.getSelectedItem().toString());
-
     }
 
     @Override
@@ -872,25 +737,241 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 
     }
 
-    //控制底部面板显示
+    private void showPopMenu() {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_menu, null);
+        //处理popWindow 显示内容
+        handleLogic(contentView);
+        //创建并显示popWindow
+        mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
+                .setView(contentView)
+                .create()
+                .showAsDropDown(tvAction, 0, 20);
+    }
+
+    /**
+     * 处理弹出显示内容、点击事件等逻辑
+     *
+     * @param contentView
+     */
+    private void handleLogic(View contentView) {
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String labelText = "";
+                String itemText = "";
+                if (mCustomPopWindow != null) {
+                    mCustomPopWindow.dissmiss();
+                }
+                String showContent = "";
+                switch (v.getId()) {
+                    //加点
+                    case R.id.menu_point:
+                        hideBottomPanel();
+                        if (DataHandlerObserver.ins().setAction(Action.PAN)) {
+                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_CreatePoint);
+                            if (m_mapControl != null) {
+                                DataHandlerObserver.ins().setCurrentPipeType(spLayers.getSelectedItem().toString());
+                            }
+                        }
+                        itemText = "点";
+                        break;
+                    //加线
+                    case R.id.menu_line:
+                        hideBottomPanel();
+                        if (DataHandlerObserver.ins().setAction(Action.PAN)) {
+                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_CreateLineStartPoint);
+                        }
+                        itemText = "线";
+                        break;
+                    //管点定位
+                    case R.id.menu_query:
+                        itemText = "管点定位";
+                        DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        if (itemText.equals(labelText)) {
+                            toggleBottomPanel();
+                        } else {
+                            showBottomPanel();
+                            switchFragment(KEY_QUERY_POINT);
+                        }
+                        break;
+                    //线中加点
+                    case R.id.menu_line_point:
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        hideBottomPanel();
+                        DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_AddPointInLine_FindLine);
+                        itemText = "线中加点";
+                        break;
+                    //测量收点
+                    case R.id.menu_measure_point:
+                        itemText = "测量收点";
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        if (itemText.equals(labelText)) {
+                            toggleBottomPanel();
+                        } else {
+                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasurePoint);
+                            showBottomPanel();
+                            switchFragment(KEY_MEASURE_POINT);
+                        }
+                        break;
+                    //测量距离
+                    case R.id.menu_diatance:
+                        itemText = "测量距离";
+                        if (itemText.equals(labelText)) {
+                            toggleBottomPanel();
+                            DataHandlerObserver.ins().setAction(Action.PAN);
+                        } else {
+                            showBottomPanel();
+                            switchFragment(KEY_MEASURE_DIS);
+                            DataHandlerObserver.ins().setAction(Action.MEASURELENGTH);
+                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereDistance);
+                        }
+                        break;
+                    //测量面积
+                    case R.id.menu_area:
+                        itemText = "测量面积";
+                        if (itemText.equals(labelText)) {
+                            toggleBottomPanel();
+                            DataHandlerObserver.ins().setAction(Action.PAN);
+                        } else {
+                            showBottomPanel();
+                            switchFragment(KEY_MEASURE_AREA);
+                            DataHandlerObserver.ins().setAction(Action.MEASUREAREA);
+                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereArea);
+                        }
+                        break;
+                    //测量角度
+                    case R.id.menu_angle:
+                        itemText = "测量角度";
+                        if (itemText.equals(labelText)) {
+                            toggleBottomPanel();
+                            DataHandlerObserver.ins().setAction(Action.PAN);
+                        } else {
+                            showBottomPanel();
+                            switchFragment(KEY_MEASURE_ANGE);
+                            DataHandlerObserver.ins().setAction(Action.MEASUREANGLE);
+                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereAngle);
+                        }
+                        break;
+                    //测量坐标系
+                    case R.id.menu_xy:
+                        itemText = "测量坐标";
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        if (itemText.equals(labelText)) {
+                            hideBottomPanel();
+                        } else {
+                            showLayoutAndCallout();
+                        }
+                        break;
+                    //工足量统计
+                    case R.id.menu_count:
+                        itemText = "统计数据";
+                        DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        if (itemText.equals(labelText)) {
+                            toggleBottomPanel();
+                        } else {
+                            showBottomPanel();
+                            switchFragment(KEY_SUM_DATA);
+                        }
+                        break;
+                    //数据导出
+                    case R.id.menu_export:
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        hideBottomPanel();
+                        new ExportDataUtils(MapActivity.this, m_workspace, m_prjId).exportData();
+                        itemText = "数据导出";
+                        break;
+                    //数据导入
+                    case R.id.menu_import:
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        hideBottomPanel();
+                        if (m_loadingImgDialog == null) {
+                            m_loadingImgDialog = new LoadingImgDialog(MapActivity.this, R.mipmap.ic_logo);
+                        }
+                        startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
+                        itemText = "数据导入";
+                        break;
+                    case R.id.btnQuery:
+
+                        break;
+                    default:
+                        break;
+                }
+                labelText = itemText;
+                tvAction.setText(itemText);
+                Toast.makeText(MapActivity.this, labelText, Toast.LENGTH_SHORT).show();
+            }
+        };
+        contentView.findViewById(R.id.menu_point).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_line).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_query).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_line_point).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_measure_point).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_diatance).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_area).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_angle).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_xy).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_count).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_export).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_import).setOnClickListener(listener);
+    }
+
+    /**
+     * 设置底部view 和标注
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/7/17  14:04
+     */
+    private void showLayoutAndCallout() {
+        callOut.setVisibility(View.VISIBLE);
+        m_mapView.showCallOut();
+        m_mapControl.setMagnifierEnabled(true);
+        m_mapControl.setMagnifierCrossColor(new Color(255, 0, 0));
+        m_mapControl.setMagnifierRadius(100);
+        layoutMeausre.setVisibility(View.VISIBLE);
+        DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereXY);
+    }
+
+    /**
+     * 控制底部面板显示
+     */
     private void showBottomPanel() {
         if (layoutContainer.getVisibility() == View.GONE) {
             layoutContainer.setVisibility(View.VISIBLE);
             m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.translate_bottom_in);
             layoutContainer.startAnimation(m_animation);
         }
+
+        if (layoutMeausre.getVisibility() == View.VISIBLE) {
+            layoutMeausre.setVisibility(View.GONE);
+            callOut.setVisibility(View.GONE);
+            m_mapControl.setMagnifierEnabled(false);
+            m_map.refresh();
+        }
     }
 
-    //隐藏底部面板
+    /**
+     * 隐藏底部面板
+     */
     private void hideBottomPanel() {
         if (layoutContainer.getVisibility() == View.VISIBLE) {
             m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.translate_bottom_out);
             layoutContainer.startAnimation(m_animation);
             layoutContainer.setVisibility(View.GONE);
         }
+        if (layoutMeausre.getVisibility() == View.VISIBLE) {
+            layoutMeausre.setVisibility(View.GONE);
+            callOut.setVisibility(View.GONE);
+            m_mapControl.setMagnifierEnabled(false);
+            m_map.refresh();
+        }
     }
-
-    //切换底部面板显示
+    /**
+     * 切换底部面板显示
+     */
     private void toggleBottomPanel() {
         if (layoutContainer.getVisibility() == View.VISIBLE) {
             m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.translate_bottom_out);
@@ -902,19 +983,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.translate_bottom_in);
             layoutContainer.startAnimation(m_animation);
         }
-    }
-
-    //控制功能面板的显示
-    private void setFuntionPanelVisibility() {
-        if (layoutFuntionbar.getVisibility() == View.GONE) {
-            layoutFuntionbar.setVisibility(View.VISIBLE);
-            m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.alpha_autotv_show);
-            layoutFuntionbar.startAnimation(m_animation);
-        } else {
-            m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.alpha_autotv_disapper);
-            layoutFuntionbar.startAnimation(m_animation);
-            layoutFuntionbar.setVisibility(View.GONE);
+        if (layoutMeausre.getVisibility() == View.VISIBLE) {
+            layoutMeausre.setVisibility(View.GONE);
+            callOut.setVisibility(View.GONE);
+            m_mapControl.setMagnifierEnabled(false);
+            m_map.refresh();
         }
+
     }
 
     /**
@@ -944,19 +1019,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      */
     private void showFragment(int id) {
         switch (id) {
-
-
-            //显示测量收点
-            case 3:
-                if (m_measuredPointFragment == null) {
-                    m_measuredPointFragment = new MeasuredPointFragment();
-                    m_transaction.add(R.id.layoutMapContainer, m_measuredPointFragment);
-                } else {
-                    m_transaction.show(m_measuredPointFragment);
-                }
-                break;
             //显示查询管点
-            case 4:
+            case 0:
                 if (m_queryPointFragment == null) {
                     m_queryPointFragment = new QueryPointLocalFragment();
                     m_transaction.add(R.id.layoutMapContainer, m_queryPointFragment);
@@ -964,18 +1028,53 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     m_transaction.show(m_queryPointFragment);
                 }
                 break;
-            //显示距离测量
-            case 5:
-                if (m_distanceMeasurementFragment == null) {
-                    m_distanceMeasurementFragment = new DistanceMeasureFragment();
-                    m_transaction.add(R.id.layoutMapContainer, m_distanceMeasurementFragment);
+            //显示测量收点
+            case 1:
+                if (m_measuredPointFragment == null) {
+                    m_measuredPointFragment = new MeasuredPointFragment();
+                    m_transaction.add(R.id.layoutMapContainer, m_measuredPointFragment);
                 } else {
-                    m_transaction.show(m_distanceMeasurementFragment);
+                    m_transaction.show(m_measuredPointFragment);
                 }
                 break;
-
+            //显示距离测量
+            case 2:
+                if (measureDisFragment == null) {
+                    measureDisFragment = new MeasureDisFragment();
+                    m_transaction.add(R.id.layoutMapContainer, measureDisFragment);
+                } else {
+                    m_transaction.show(measureDisFragment);
+                }
+                break;
+            //显示面积测量
+            case 3:
+                if (measureAreaFragment == null) {
+                    measureAreaFragment = new MeasureAreaFragment();
+                    m_transaction.add(R.id.layoutMapContainer, measureAreaFragment);
+                } else {
+                    m_transaction.show(measureAreaFragment);
+                }
+                break;
+            //显示角度测量
+            case 4:
+                if (measureAngleFragment == null) {
+                    measureAngleFragment = new MeasureAngleFragment();
+                    m_transaction.add(R.id.layoutMapContainer, measureAngleFragment);
+                } else {
+                    m_transaction.show(measureAngleFragment);
+                }
+                break;
+            //显示坐标系测量
+            case 5:
+                if (measureXYFragment == null) {
+                    measureXYFragment = new MeasureXYFragment();
+                    m_transaction.add(R.id.layoutMapContainer, measureXYFragment);
+                } else {
+                    m_transaction.show(measureXYFragment);
+                }
+                break;
             //显示工作量统计
-            case 7:
+            case 6:
                 if (m_workCountFragment == null) {
                     m_workCountFragment = new WorkCountFragment();
                     m_transaction.add(R.id.layoutMapContainer, m_workCountFragment);
@@ -983,10 +1082,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     m_transaction.show(m_workCountFragment);
                 }
                 break;
-            case 8: {
-
-                break;
-            }
             default:
                 break;
         }
@@ -1000,25 +1095,27 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * @datetime 2018-05-16  15:25.
      */
     private void hideFragment(FragmentTransaction transaction) {
-
         if (m_measuredPointFragment != null) {
             transaction.hide(m_measuredPointFragment);
         }
-
         if (m_queryPointFragment != null) {
             transaction.hide(m_queryPointFragment);
         }
-
-
-        if (m_distanceMeasurementFragment != null) {
-            transaction.hide(m_distanceMeasurementFragment);
+        if (measureDisFragment != null) {
+            transaction.hide(measureDisFragment);
         }
-
-
+        if (measureAreaFragment != null) {
+            transaction.hide(measureAreaFragment);
+        }
+        if (measureAngleFragment != null) {
+            transaction.hide(measureAngleFragment);
+        }
+        if (measureXYFragment != null) {
+            transaction.hide(measureXYFragment);
+        }
         if (m_workCountFragment != null) {
             transaction.hide(m_workCountFragment);
         }
-
     }
 
     /**
@@ -1036,7 +1133,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         return true;
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -1050,12 +1146,14 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 
     }
 
-
+    /**
+     * 界面闪退或者退出前，判断地图是否有修改，有修改则保存地图和工作空间
+     */
     @Override
     protected void onPause() {
         super.onPause();
         LogUtills.i(TAG, "onPause()" + this.toString());
-        //保存工作空间 防止闪退而忘记保存onde
+        //保存工作空间 防止闪退而忘记保存
         try {
             if (m_map.isModified() || m_workspace.isModified()) {
                 m_map.save();
@@ -1065,17 +1163,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
 
     @Override
     protected void onRestart() {
         super.onRestart();
         LogUtills.i(TAG, "onRestart()" + this.toString());
     }
-
 
     @Override
     protected void onStop() {
@@ -1087,10 +1181,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         LogUtills.i(TAG, "onStop()" + this.toString());
     }
 
-
+    /**
+     * 界面闪退或者退出前，判断地图是否有修改，有修改则保存地图和工作空间
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         try {
             if (m_map.isModified() || m_workspace.isModified()) {
                 m_map.save();
@@ -1099,7 +1196,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             }
         } catch (Exception e) {
             LogUtills.i(TAG, "onDestroy" + e.getMessage());
-
         } finally {
             m_map.close();
             m_map.dispose();
@@ -1109,7 +1205,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             m_workspace.dispose();
         }
         LogUtills.i(TAG, "onDestroy()" + this.toString());
-
     }
 
     @Override
@@ -1129,6 +1224,66 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     }
 
 
+    /**
+     * 测量坐标系时的时间分发
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            //按下
+            case MotionEvent.ACTION_DOWN:
+                break;
+            //移动
+            case MotionEvent.ACTION_MOVE:
+                double x = event.getX();
+                double y = event.getY();
+                LogUtills.i(TAG, "x = " + x + " ,y = " + y);
+                Point2D point2D = m_map.pixelToMap(new Point((int) x, (int) y));
+                DecimalFormat df = new DecimalFormat("0.00000");
+                String x2 = df.format(point2D.getX());
+                String y2 = df.format(point2D.getY());
+                LogUtills.i(TAG, "Point2D x = " + x2 + " ,Point2D y = " + y2);
+                edtX.setText(x2);
+                edtY.setText(y2);
+//                EventBus.getDefault().post(point2D);
+                break;
+            //弹起
+            case MotionEvent.ACTION_POINTER_UP:
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            LogUtills.i("选中");
+            edtX.setEnabled(true);
+            edtY.setEnabled(true);
+        } else {
+            LogUtills.i("未选中");
+            edtX.setEnabled(false);
+            edtY.setEnabled(false);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updataXY2View(Point Point) {
+        Point2D point2D = m_map.pixelToMap(Point);
+        DecimalFormat df = new DecimalFormat("0.00000");
+        String x2 = df.format(point2D.getX());
+        String y2 = df.format(point2D.getY());
+        LogUtills.i(TAG, "Point2D x = " + x2 + " ,Point2D y = " + y2);
+        edtX.setText(x2);
+        edtY.setText(y2);
+        callOut.setLocation(point2D.getX(), point2D.getY());
+//        m_mapView.addCallout(callOut);
+    }
 
 }

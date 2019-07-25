@@ -98,6 +98,7 @@ public class PointAllocationActivity extends AppCompatActivity implements View.O
             }
         }
     }
+
     private void initView() {
         tvReturn = ((TextView) findViewById(R.id.tvReturn));
         tvReturn.setOnClickListener(this);
@@ -174,8 +175,6 @@ public class PointAllocationActivity extends AppCompatActivity implements View.O
     public void onMoonEvent(Symbolbean symbolbean){
             edtSymbolID.setText(symbolbean.getSymId()+"");
     }
-
-
 
     @Override
     protected void onDestroy() {

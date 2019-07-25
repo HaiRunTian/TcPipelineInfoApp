@@ -54,9 +54,6 @@ public class UnZipAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-//        if (m_list.get(position).getFileType() == FileEntity.Type.FLODER){
-//
-//        }
         return super.getItemViewType(position);
     }
 

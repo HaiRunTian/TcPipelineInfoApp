@@ -142,14 +142,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
                 break;
             //确定
             case R.id.tvConfig:
-//                new AlertDialog.Builder(this)
-//                        .setTitle("数据导入")
-//                        .setIcon(R.mipmap.ic_logo)
-//                        .setMessage("正在导入成果表数据，亲等候!")
-//                        .show();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
+
                         for (int i = 0; i < m_list.size(); i++) {
                             if (m_list.get(i).isCheck()) {
                                 FileEntity _fileEntity = m_list.get(i);
@@ -162,10 +155,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
                                 break;
                             }
                         }
-//                        ToastUtil.showShort(SelectExcelActivity.this,"导入成功！");
                         finish();
-//                    }
-//                },2000);
                 break;
             //返回关掉Acitity
             case R.id.tvReturn:

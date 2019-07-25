@@ -29,12 +29,14 @@ public class BasicsAppendantAdapter extends BaseAdapter {
     private LayoutInflater m_inflater;
     private  String table;
     private  String typename;
-    public BasicsAppendantAdapter(Context context, List<String>list,String table,String typename){
+    private  String type;
+    public BasicsAppendantAdapter(Context context, List<String>list,String table,String typename,String type){
         this.context = context;
         this.list = list;
         this.m_inflater = LayoutInflater.from(context);
         this.table = table;
         this.typename = typename;
+        this.type = type;
     }
     @Override
     public int getCount() {
@@ -102,6 +104,7 @@ public class BasicsAppendantAdapter extends BaseAdapter {
                 intent.putExtra("table",table);
                 intent.putExtra("name",name);
                 intent.putExtra("point",typename);
+                intent.putExtra("type",type);
                 context.startActivity(intent);
             }
         });

@@ -81,9 +81,9 @@ public class MyAlertDialog extends AlertDialog {
 //    public static AlertDialog editTextDialog(Context context, String title, String message, List<String> list,
 //                                             int iconId, View.OnClickListener okClickListener,
 //                                             View.OnClickListener cancelClickListener) {
-//        View view = View.inflate(context, R.layout.layout_push_log, null);
+//        View view = View.inflate(context, R.fragment_map_setting.layout_push_log, null);
 //        AutoCompleteTextView autoTvAccount = (AutoCompleteTextView) view.findViewById(R.id.autoTvAccount);
-//        autoTvAccount.setAdapter(new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1,list));
+//        autoTvAccount.setAdapter(new ArrayAdapter<String>(context,android.R.fragment_map_setting.simple_list_item_1,list));
 //        Button btnPushLog = (Button) view.findViewById(R.id.btnPushLog);
 //        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
 //        btnPushLog.setOnClickListener(okClickListener);

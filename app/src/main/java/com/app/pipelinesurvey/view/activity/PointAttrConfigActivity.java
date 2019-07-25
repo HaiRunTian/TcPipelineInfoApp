@@ -46,7 +46,8 @@ public class PointAttrConfigActivity extends BaseActivity implements IPointAttrC
         String fromWhere = _intent.getStringExtra("from");
         previousAction = fromWhere;
         if (fromWhere != null) {
-            if (fromWhere.equals(PointAttrConfigFragment.ITEM_CLICK)) {//从点属性配置点击子项进入
+            //从点属性配置点击子项进入
+            if (fromWhere.equals(PointAttrConfigFragment.ITEM_CLICK)) {
                 Bundle _bundle = _intent.getExtras();
                 PipePointConfigInfo _info = (PipePointConfigInfo) _bundle.get("info");
                 position = _bundle.getInt("position");

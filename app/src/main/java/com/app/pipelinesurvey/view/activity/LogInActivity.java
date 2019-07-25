@@ -16,7 +16,6 @@ import com.app.pipelinesurvey.utils.NetUtils;
 import com.app.pipelinesurvey.utils.PermissionUtils;
 import com.app.pipelinesurvey.utils.ToastUtil;
 import com.app.pipelinesurvey.view.iview.IGetNetTime;
-import com.app.utills.LogUtills;
 
 /**
  * @描述 LogInActivity 登录页
@@ -36,11 +35,9 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_log_in);
         PermissionUtils.initPermission(this, new PermissionUtils.PermissionHolder());
         initView();
-
         //请求网络时间
         LimitByTimeUtil.ins().getTimeFromNet(this);
 
@@ -63,7 +60,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogIn:
-                //判断软件使用时间
+////                //判断软件使用时间
                 if (NetUtils.isNetworkConnected(this) && nowTime.length() > 0){
                     //有网情况下用网络时间判断
                     if (!LimitByTimeUtil.ins().isEffectiveDate(nowTime)) {
@@ -79,7 +76,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
                 }
                 startActivity(new Intent(this, HomePageActivity.class).putExtra("loginName", edtLogInId.getText().toString()));
                 finish();
-
                 break;
             case R.id.tvRememberPassword:
                 cbRemeberPass.toggle();

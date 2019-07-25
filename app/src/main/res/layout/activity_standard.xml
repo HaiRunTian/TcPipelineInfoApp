@@ -21,7 +21,7 @@
             android:textSize="15dp"
             android:textColor="@color/white"
             android:text="列表"
-            android:drawableLeft="@mipmap/ic_arrow_left_32x54"/>
+            android:drawableLeft="@mipmap/ic_arrow_left_32"/>
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"

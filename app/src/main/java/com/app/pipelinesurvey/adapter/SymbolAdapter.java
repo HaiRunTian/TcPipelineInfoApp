@@ -43,12 +43,8 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
-
-
-
     private List<Symbolbean> m_list = new ArrayList<>();
     private Context m_context;
-
     public SymbolAdapter(List<Symbolbean> list) {
         m_list = list;
     }
@@ -59,7 +55,6 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
             m_context = parent.getContext();
         }
         View _view = LayoutInflater.from(m_context).inflate(R.layout.layout_item_symbol, parent, false);
-
         return new ViewHolder(_view);
     }
 
@@ -75,11 +70,7 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
                 listener.onClick(position);
             }
         });
-
-
     }
-
-
     @Override
     public int getItemCount() {
         return m_list.size();
@@ -89,7 +80,6 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
         CardView cardView;
         ImageView image;
         TextView type;
-
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView;
@@ -97,5 +87,4 @@ public class SymbolAdapter extends RecyclerView.Adapter<SymbolAdapter.ViewHolder
             type = (TextView) itemView.findViewById(R.id.cat_type);
         }
     }
-
 }

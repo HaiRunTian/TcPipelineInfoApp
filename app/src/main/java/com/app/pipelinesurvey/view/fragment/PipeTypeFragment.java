@@ -66,15 +66,12 @@ public class PipeTypeFragment extends Fragment implements View.OnClickListener {
             _parentInfo.setChildInfoList(_childList);
             m_list.add(_parentInfo);
         }
-
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imgBtnAdd:
-
                 break;
             default:break;
         }

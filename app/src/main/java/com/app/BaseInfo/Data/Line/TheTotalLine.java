@@ -28,6 +28,11 @@ public class  TheTotalLine extends BaseFieldLInfos {
         Init();
     }
 
+
+    /**
+     * 标准专题图
+     * @return
+     */
     @Override
     public ThemeLabel createThemeLabel() {
         super.createThemeLabel();

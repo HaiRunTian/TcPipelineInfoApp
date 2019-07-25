@@ -215,7 +215,7 @@ public class CameraUtils {
         return bytes;
     }
 
-    /*
+    /**
      *  bitmap转文件
      *  @param  bitmap 图片bitmap
      *  @return   File 图片文件

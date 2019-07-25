@@ -100,7 +100,6 @@ public class BasicsActivity extends AppCompatActivity implements View.OnClickLis
         switch (id) {
             case 0:
                 if (basicsPointFragment == null) {
-
                     basicsPointFragment = new BasicsPointFragment();
                     m_transaction.add(R.id.fl, basicsPointFragment);
                 } else {
@@ -123,7 +122,7 @@ public class BasicsActivity extends AppCompatActivity implements View.OnClickLis
                     m_transaction.add(R.id.fl, featurePointFragment);
                 } else {
                     hideFragment(m_transaction);
-                    m_transaction.show(appendantFragment);
+                    m_transaction.show(featurePointFragment);
                 }
                 break;
             default:

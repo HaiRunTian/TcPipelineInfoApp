@@ -13,31 +13,28 @@ public interface IBaseInf {
      *
      * @return 对象风格
      */
-    public GeoStyle GetStyle();
+     GeoStyle GetStyle();
 
     /**
      *
      * @param preStr
      * @param index 设置ID
      */
-    public void setId(String preStr,int index);
+     void setId(String preStr,int index);
 
     /**
      *  创建统一标签专题图
      */
-    public ThemeLabel createThemeLabel();
+     ThemeLabel createThemeLabel();
 
     /**
      *  创建单值专题图
      */
-    public ThemeUnique createThemeUnique();
+     ThemeUnique createThemeUnique();
 
     /**
      *  创建默认单值专题图
      */
-    public ThemeUnique createDefaultThemeUnique();
+     ThemeUnique createDefaultThemeUnique();
 
-    /**
-     *  设置图层选中的样式
-     */
 }

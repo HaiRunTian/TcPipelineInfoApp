@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">天驰管调通</string>
-    <string name="app_full_name">天驰管调通</string>
+    <string name="app_name">管智绘</string>
+    <string name="app_full_name">管智绘</string>
     <string name="guide_text">天驰科技 管通天下</string>
     <string name="version">V1.0</string>
     <string name="version_num">1.0</string>
-    <string name="homepage_titlebar_text">天驰管调通</string>
+    <string name="homepage_titlebar_text">管智绘</string>
     <string name="homepage_searchbar_hint">键入内容快速搜索</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
@@ -19,8 +19,8 @@
     <string name="prj_create_time">项目创建时间:</string>
     <string name="prj_last_time">最后更新时间:</string>
     <string name="map_data">新建项目点击右边按钮选择添加底图数据</string>
-    <string name="importt">导入</string>
-    <string name="export">导出</string>
+    <string name="importt">数据导入</string>
+    <string name="export">数据导出</string>
     <string name="delete">删除</string>
     <string name="open">打开</string>
     <string name="prj_list">项目列表</string>
@@ -28,6 +28,10 @@
     <string name="choose_template">选择模板</string>
     <string name="enter">进入</string>
     <string name="current_dis">当前测量距离：</string>
+    <string name="current_area">当前测量面积：</string>
+    <string name="current_angle">当前测量角度：</string>
+    <string name="current_X">X坐标:</string>
+    <string name="current_Y">X坐标:</string>
     <string name="reset">重置</string>
     <string name="new_help">帮助文档</string>
     <string name="withdraw">回退</string>
@@ -57,7 +61,7 @@
     <string name="draw_line">线</string>
     <string name="draw_point_in_line">管线加点</string>
     <string name="measure_point">测量收点</string>
-    <string name="count">统计</string>
+    <string name="count">统计数据</string>
     <string name="pointSize">地图切换</string>
     <string name="unmeasure_point">未测：</string>
     <string name="measureed_point">已测点数：</string>
@@ -68,7 +72,10 @@
     <string name="work_count">工作量统计</string>
     <string name="point_size">查询范围</string>
     <string name="query_line">编辑管线</string>
-    <string name="measure_distance">距离测量</string>
+    <string name="measure_distance">测量距离</string>
+    <string name="measure_area">测量面积</string>
+    <string name="measure_angle">测量角度</string>
+    <string name="measure_xy">测量坐标</string>
     <string name="query">查询</string>
     <string name="local">定位</string>
     <string name="login">登录</string>
@@ -104,7 +111,8 @@
     <string name="pipe_type_hint">可手动编辑管类，以+号隔开</string>
     <string name="pipe_type_select">点击选取</string>
     <string name="feature_points">点 &#160;特 &#160;征</string>
-    <string name="appendant">附属物</string>
+    <string name="change_point_style">转 &#160;实 &#160;点</string>
+    <string name="appendant">附&#160;属&#160;物</string>
     <string name="offset">管 &#160; &#160; &#160; &#160;偏</string>
     <string name="depth">深 &#160; &#160;&#160; 度</string>
     <string name="start_dir_depth">起点埋深</string>
@@ -133,7 +141,7 @@
     <string name="unit_cm">cm</string>
     <string name="unit_mm">mm</string>
     <string name="unit_m">m</string>
-    <string name="unit_kv">KV</string>
+    <string name="unit_kv">Kv</string>
     <string name="unit_pa">Pa</string>
     <string name="layers_title">图层选择</string>
     <string name="move">移动</string>
@@ -149,8 +157,8 @@
     <string name="burial_difference">埋深差值</string>
     <string name="pipe_length">管段长度</string>
     <string name="embedded_way">埋设方式</string>
-    <string name="pipe_size">管 &#160; &#160; &#160; &#160;径</string>
-    <string name="section">断 &#160; &#160; &#160; &#160;面</string>
+    <string name="pipe_size">管 &#160; &#160;径</string>
+    <string name="section">断 &#160; &#160; 面</string>
     <string name="section_width_hint">宽</string>
     <string name="section_height_hint">高</string>
     <string name="row_x_col">行 &#160;X &#160; 列</string>
@@ -194,6 +202,22 @@
     <string name="switch_user">个人中心</string>
     <string name="input_realname_hint">请输入您的真实姓名</string>
     <string name="new_base">基础配置</string>
+
+    <!--设置配置界面-->
+    <string name="prj_code">工程编码</string>
+    <string name="prj_name2">工程名称</string>
+    <string name="prj_site">工程地点</string>
+    <string name="original">原始文件</string>
+    <string name="apparatus_name">仪器名称</string>
+    <string name="apparatus_code">仪器编号</string>
+    <string name="detection_standard">检测标准</string>
+    <string name="detection_method">检测方法</string>
+    <string name="detection_map">检测图幅</string>
+    <string name="group_leader">检测组长</string>
+    <string name="group_mumber">检测组员</string>
+    <string name="date">检测日期</string>
+    <string name="remark">备注</string>
+
 
     <string name="pref_header_general">General</string>
 

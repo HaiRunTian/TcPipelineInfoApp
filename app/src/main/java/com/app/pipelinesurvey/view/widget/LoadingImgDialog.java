@@ -88,13 +88,10 @@ public class LoadingImgDialog {
      */
     public void show() {
         dismiss();
-
         initAnim();
-
         layout = (RelativeLayout) layoutInflater.inflate(R.layout.view_loadingdialog, null);
         loading_dialog = (View) layout.findViewById(R.id.loading_dialog);
         loading_dialog.setBackgroundResource(residBg);
-
         layout_bg = (RelativeLayout) layout.findViewById(R.id.bgLayout);
         popupDialog = new PopupWindow(layout, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         View parentView = ((Activity) context).getWindow().findViewById(Window.ID_ANDROID_CONTENT);

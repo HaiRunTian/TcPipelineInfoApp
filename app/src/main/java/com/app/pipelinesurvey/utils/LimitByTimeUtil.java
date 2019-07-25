@@ -84,9 +84,14 @@ public class LimitByTimeUtil {
                 //取得资源对象
                 URL url = null;
                 try {
-                    url = new URL("http://www.baidu.com");
+
+                    //http://www.baidu.com 百度
+                    // http://www.ntsc.ac.cn 中国科学院国家授时中心
+                    url = new URL("http://www.ntsc.ac.cn");
                     //生成连接对象
                     URLConnection baidu = url.openConnection();
+                    baidu.setConnectTimeout(5000);
+                    baidu.setReadTimeout(5000);
                     //发出连接
                     baidu.connect();
                     long time13 = baidu.getDate();
@@ -94,6 +99,7 @@ public class LimitByTimeUtil {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
                     String currentTime = sdf.format(new Date(time13));
+                    LogUtills.e("当前时间点 = " + currentTime);
                     listen.getNetTimeOk(currentTime);
 //                    System.out.println("当前时间：" + currentTime);
                     //  设置系统时间

@@ -107,6 +107,9 @@ public class InitDatabase {
         //给广州模式先添加的管点备注表字段填入数据city
         String sqlUpdatePoint_remark = "update point_remark set city = '广州'";
 
+        //点特征二通换为三通
+        String sqlUpdateFeature_info2 = "update feature_info set typename = '三通' where typename = '二通'";
+
         _list.add(sqlAlterAppendant);
         _list.add(sqlAlterFeature_info);
         _list.add(sqlAlterPipe_info);
@@ -118,9 +121,29 @@ public class InitDatabase {
         _list.add(sqlUpdatePipe_info);
         _list.add(sqlUpdatePipe_texture);
         _list.add(sqlUpdatePoint_remark);
+        _list.add(sqlUpdateFeature_info2);
 
         return _list;
+    }
 
+    /**
+     * 版本升级5 创建检测记录表
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/6/26  15:29
+     */
+    public static List<String> getCteateSqlOf5(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("database_db_5.xml"), "sql_create_table", "sql_create");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

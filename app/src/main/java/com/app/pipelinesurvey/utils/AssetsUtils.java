@@ -39,7 +39,7 @@ public class AssetsUtils {
             try {
                 return sAssetManager.get().open(fileName, AssetManager.ACCESS_STREAMING);
             } catch (Exception e) {
-//				e.printStackTrace();
+				e.printStackTrace();
             }
         }
         return null;

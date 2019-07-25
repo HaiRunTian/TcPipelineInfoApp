@@ -102,6 +102,10 @@ public class SQLConfig {
      *  标签分段专题图
      */
     public static final String TABLE_NAME_PIPE_THEME = "pipe_themelabel";
+    /**
+     * 现场检测记录表
+     */
+    public static final String TABLE_NAME_LOG_SHEET = "log_sheet";
 
 
 

@@ -84,6 +84,14 @@ public class SymbolInfo {
 //                _symbol = "探测点";
             }
             break;
+
+            case "路灯-LS": {
+                _symbol = getLSSymblol(appendant, feature);
+            }
+            break;
+            case "信号-XH": {
+                _symbol = getXHSymbol(appendant, feature);
+            }
             default:
                 _symbol = "探测点";
                 break;
@@ -91,6 +99,53 @@ public class SymbolInfo {
         return _symbol;
     }
 
+
+    /**
+     * 深圳 信号
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 10:43
+     */
+    private String getXHSymbol(String appendant, String feature) {
+        String _symbol = "";
+        switch (appendant) {
+            case "探测点":
+            case "":
+                _symbol = feature;
+                break;
+            default:
+                _symbol = appendant;
+                break;
+        }
+        return _symbol;
+    }
+
+    /**
+     * 深圳 路灯
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:55
+     */
+    private String getLSSymblol(String appendant, String feature) {
+        String _symbol = "";
+        switch (appendant) {
+            case "探测点":
+            case "":
+                _symbol = feature;
+                break;
+            default:
+                _symbol = appendant;
+                break;
+        }
+        return _symbol;
+    }
+
+    /**
+     * 不明  其他
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:55
+     */
     private String getNQSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -144,6 +199,12 @@ public class SymbolInfo {
     }
 
 
+    /**
+     * 工业
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:54
+     */
     private String getGSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -184,6 +245,7 @@ public class SymbolInfo {
                         _symbol = "探测点";
                         break;
                 }
+
                 break;
 
         }
@@ -230,6 +292,12 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 有视电视
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:53
+     */
     private String getTSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -272,6 +340,12 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 路灯
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:53
+     */
     private String getSSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -323,6 +397,12 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 燃气  煤气
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:53
+     */
     private String getRMSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -373,6 +453,12 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 电力
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:52
+     */
     private String getLSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -432,6 +518,12 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 交通电信
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:51
+     */
     private String getXDSymblo(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -491,6 +583,12 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 雨水污水排水
+     *
+     * @Author HaiRun
+     * @Time 2019/6/13 . 9:51
+     */
     private String getYWPSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -578,7 +676,14 @@ public class SymbolInfo {
         return _symbol;
     }
 
-    @NonNull
+
+    /**
+     * 给水
+     *
+     * @param appendant
+     * @param feature
+     * @return
+     */
     private String getJSymbol(String appendant, String feature) {
         String _symbol;
         switch (appendant) {
@@ -601,6 +706,8 @@ public class SymbolInfo {
             case "放水口":
                 _symbol = "放水口";
                 break;
+
+            case "探测点":
             default:
                 switch (feature) {
                     case "预留口":

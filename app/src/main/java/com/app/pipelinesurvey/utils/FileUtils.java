@@ -40,7 +40,9 @@ public class FileUtils {
         return false;
     }
 
-    //判断是否是文件夹，并且返回
+    /**
+     * 判断是否是文件夹，并且返回
+     */
     public boolean isDirExsit(String dir) {
         File file = new File(dir);
         if (file.isDirectory() && file.exists()) {
@@ -49,6 +51,11 @@ public class FileUtils {
         return false;
     }
 
+    /**
+     * 单例 获取FileUtils
+     *
+     * @return
+     */
     public static FileUtils getInstance() {
         if (sInstance == null) {
             sInstance = new FileUtils();
@@ -56,6 +63,11 @@ public class FileUtils {
         return sInstance;
     }
 
+    /***
+     * 创建文件夹
+     * @param path
+     * @return
+     */
     public boolean mkdirs(String path) {
         File dir = new File(path);
 
@@ -63,10 +75,14 @@ public class FileUtils {
             return dir.mkdirs();
         }
         return false;
-
     }
 
-    //返回该路径下的文件夹数组
+    /**
+     * 返回该路径下的文件夹数组
+     *
+     * @param path
+     * @return
+     */
     public File[] opendir(String path) {
         File dir = new File(path);
         if (dir.isDirectory()) {
@@ -75,6 +91,13 @@ public class FileUtils {
         return null;
     }
 
+    /**
+     * 复制文件夹
+     *
+     * @param from
+     * @param to
+     * @return
+     */
     public boolean copy(String from, String to) {
         File fromFile = new File(from);
         File toFile = new File(to);
@@ -88,19 +111,37 @@ public class FileUtils {
                 return false;
             }
         }
-
         return false;
     }
 
+    /**
+     * 复制文件夹
+     *
+     * @param from
+     * @param to
+     * @return
+     */
     public boolean copy(InputStream from, String to) {
         File toFile = new File(to);
         return copyFile(from, toFile, true);
     }
 
+    /**
+     * 删除文件夹
+     *
+     * @param file
+     * @return
+     */
     public boolean deleteFile(String file) {
         return deleteFile(new File(file));
     }
 
+    /**
+     * 删除文件夹
+     *
+     * @param file
+     * @return
+     */
     public boolean deleteFile(File file) {
         if (file.isFile() && file.exists()) {
             return file.delete();
@@ -118,6 +159,12 @@ public class FileUtils {
         return deleteDir(new File(dir));
     }
 
+    /**
+     * 删除文件夹
+     *
+     * @param dir
+     * @return
+     */
     public boolean deleteDir(File dir) {
         if (dir.exists() && dir.isDirectory()) {
             return delete(dir);
@@ -146,6 +193,14 @@ public class FileUtils {
         return false;
     }
 
+    /**
+     * 复制文件夹
+     *
+     * @param src
+     * @param des
+     * @param rewrite
+     * @return
+     */
     private boolean copyFile(InputStream src, File des, boolean rewrite) {
         //目标路径不存在的话就创建一个
         if (!des.getParentFile().exists()) {
@@ -210,6 +265,12 @@ public class FileUtils {
 //        }
 //    }
 
+    /**
+     * 获取文件大小
+     *
+     * @param file
+     * @return
+     */
     public static boolean fileSizeOverLimit(File file) {
         try {
             long fileSize = file.length();
@@ -223,6 +284,12 @@ public class FileUtils {
         return false;
     }
 
+    /**
+     * 正则表达  文件名是否合法
+     *
+     * @param fileName
+     * @return
+     */
     public static boolean isFileNameIllegal(String fileName) {
         Pattern pattern = Pattern.compile("[\\s\\\\/:\\*\\?\\\"<>\\|]");
         Matcher matcher = pattern.matcher(fileName);
@@ -233,6 +300,13 @@ public class FileUtils {
         }
     }
 
+    /**
+     * 查找当前文件夹里所有文件夹和文件
+     *
+     * @param path
+     * @param list
+     * @return
+     */
     public static List<FileEntity> findAllFile(String path, List<FileEntity> list) {
         list.clear();
         if (path == null || path.equals("")) {
@@ -260,7 +334,7 @@ public class FileUtils {
         if (files != null && files.length > 0) {
             for (int i = 0; i < _list.size(); i++) {
                 FileEntity entity = new FileEntity();
-                boolean isDirectory =_list.get(i).isDirectory();
+                boolean isDirectory = _list.get(i).isDirectory();
                 if (isDirectory) {
                     entity.setFileType(FileEntity.Type.FLODER);
                     //					entity.setFileName(files[i].getPath());
@@ -274,9 +348,43 @@ public class FileUtils {
                 list.add(entity);
             }
         }
-
         return list;
     }
 
+    /**
+     * 重命名文件名
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/7/3  16:56
+     */
+    private static boolean updateFileName(String filePath, String newFileName) {
+        File f = new File(filePath);
+        // 判断原文件是否存在（防止文件名冲突）
+        if (!f.exists()) {
+            return false;
+        }
+        newFileName = newFileName.trim();
+        // 文件名不能为空
+        if ("".equals(newFileName) || newFileName == null) {
+            return false;
+        }
+        String newFilePath = null;
+        // 判断是否为文件夹
+        if (f.isDirectory()) {
+            newFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/" + newFileName;
+        } else {
+            newFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/" + newFileName
+                    + filePath.substring(filePath.lastIndexOf("."));
+        }
+        File nf = new File(newFilePath);
+        try {
+            // 重命名文件名
+            f.renameTo(nf);
+        } catch (Exception err) {
+            err.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
 }

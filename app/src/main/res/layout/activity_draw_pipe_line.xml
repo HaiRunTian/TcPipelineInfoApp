@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +7,7 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_titlebar_pipe_table"/>
+    <include layout="@layout/layout_titlebar_pipe_table" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +19,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,55 +30,53 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
                     <!--管线点号-->
-                    <LinearLayout
-                        style="@style/LinearCenterVertical">
+                    <LinearLayout style="@style/LinearCenterVertical">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvStartPoint"
                             style="@style/TextViewStyle02_3"
-                            android:text="@string/start_pointid"/>
+                            android:text="@string/start_pointid" />
 
                         <EditText
                             android:id="@+id/edtStartPoint"
                             style="@style/EdtStyle02"
                             android:enabled="false"
                             android:textColor="@drawable/selector_edt_enabled_state"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
 
                         <Button
-                            android:visibility="gone"
                             android:id="@+id/btnGetStartPoint"
                             style="@style/ButtonStyle02"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_gravity="top"
-                            android:text="@string/get_start_point"/>
+                            android:text="@string/get_start_point"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!--连接点号-->
-                    <LinearLayout
-                        style="@style/LinearCenterVertical">
+                    <LinearLayout style="@style/LinearCenterVertical">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvEndPoint"
                             style="@style/TextViewStyle02_3"
-                            android:text="@string/end_pointid"/>
+                            android:text="@string/end_pointid" />
 
                         <EditText
                             android:id="@+id/edtEndPoint"
                             style="@style/EdtStyle02"
                             android:enabled="false"
                             android:textColor="@drawable/selector_edt_enabled_state"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
 
                         <Button
-                            android:visibility="gone"
                             android:id="@+id/btnGetEndPoint"
                             style="@style/ButtonStyle02"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:layout_gravity="top"
-                            android:text="@string/get_end_point"/>
+                            android:text="@string/get_end_point"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -97,23 +93,20 @@
                         android:layout_centerInParent="true"
                         android:alpha="0.6"
                         android:background="@drawable/selector_btn_exchange"
-                        android:src="@mipmap/ic_change"/>
+                        android:src="@mipmap/ic_change" />
                 </RelativeLayout>
 
             </LinearLayout>
 
             <!--埋深-->
-            <LinearLayout
-                style="@style/LinearCenterVertical">
-
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--平分左侧-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvStartDepth"
                         style="@style/TextViewStyle02_3"
-                        android:text="@string/start_burial_depth"/>
+                        android:text="@string/start_burial_depth" />
 
                     <EditText
                         android:id="@+id/edtStartBurialDepth"
@@ -121,21 +114,23 @@
                         android:digits="0123456789"
                         android:gravity="center"
                         android:inputType="numberDecimal"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
 
                     <TextView
                         style="@style/TextViewStyle02_2"
-                        android:text="@string/unit_cm"/>
+                        android:text="@string/unit_cm" />
                 </LinearLayout>
+            </LinearLayout>
 
+            <!--埋深-->
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--平分右侧-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvEndDepth"
                         style="@style/TextViewStyle02_3"
-                        android:text="@string/end_burial_depth"/>
+                        android:text="@string/end_burial_depth" />
 
                     <EditText
                         android:id="@+id/edtEndBurialDepth"
@@ -143,26 +138,24 @@
                         android:digits="0123456789"
                         android:gravity="center"
                         android:inputType="numberDecimal"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
 
                     <TextView
                         style="@style/TextViewStyle02_2"
-                        android:text="@string/unit_cm"/>
+                        android:text="@string/unit_cm" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <!--埋深-->
-            <LinearLayout
-                style="@style/LinearCenterVertical">
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <!--平分左侧-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         style="@style/TextViewStyle02_3"
-                        android:text="@string/pipe_length"/>
+                        android:text="@string/pipe_length" />
 
                     <EditText
                         android:id="@+id/edtPipeLength"
@@ -171,73 +164,74 @@
                         android:gravity="center"
                         android:inputType="numberDecimal"
                         android:textColor="@drawable/selector_edt_enabled_state"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
 
                     <TextView
                         style="@style/TextViewStyle02_2"
-                        android:text="@string/unit_m"/>
+                        android:text="@string/unit_m" />
                 </LinearLayout>
+            </LinearLayout>
 
+            <!--埋深-->
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--平分右侧-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         style="@style/TextViewStyle02"
-                        android:text="@string/burial_difference"/>
+                        android:text="@string/burial_difference" />
 
                     <EditText
-                        android:textColor="@drawable/selector_edt_enabled_state"
                         android:id="@+id/edtBurialDifference"
                         style="@style/EdtStyle02"
                         android:digits="0123456789"
-                        android:enabled="false"
                         android:gravity="center"
                         android:inputType="numberDecimal"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:textColor="@drawable/selector_edt_enabled_state"
+                        android:theme="@style/CustomEdittext02" />
 
                     <TextView
                         style="@style/TextViewStyle02_2"
-                        android:text="@string/unit_cm"/>
+                        android:text="@string/unit_cm" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/LinearCenterVertical">
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <!--埋设方式-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         style="@style/TextViewStyle02_3"
-                        android:text="@string/embedded_way"/>
+                        android:text="@string/embedded_way" />
 
                     <Spinner
                         android:id="@+id/spEmbeddedWay"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:entries="@array/embeddedway"/>
+                        android:dropDownWidth="80dp"
+                        android:entries="@array/embeddedway" />
                 </LinearLayout>
-                <!--android:background="@drawable/shape_btn_shadow_bg"-->
+            </LinearLayout>
 
-                <!--android:background="@drawable/shape_btn_shadow_bg-->
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--管线材质-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        style="@style/TextViewStyle02"
-                        android:text="@string/textrure"/>
+                        android:id="@+id/tvTexture"
+                        style="@style/TextViewStyle02_3"
+                        android:text="@string/textrure" />
 
                     <Spinner
                         android:id="@+id/spTextrure"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1"/>
-            </LinearLayout>
+                        android:layout_weight="1"
+                        android:dropDownWidth="80dp" />
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -246,43 +240,45 @@
             <LinearLayout
                 android:id="@+id/layoutPipeSize"
                 style="@style/LinearCenterVertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
-                        style="@style/TextViewStyle02"
-                        android:text="@string/pipe_size"/>
+                        android:id="@+id/tvPipeSize"
+                        style="@style/TextViewStyle02_3"
+                        android:text="@string/pipe_size" />
 
                     <LinearLayout
+                        android:orientation="horizontal"
                         android:id="@+id/layoutPipeSizeEdt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_btn_shadow_bg"
                         android:padding="5dp">
 
                         <EditText
+                            android:gravity="center"
                             android:id="@+id/edtPipeSize"
-                            android:layout_width="100dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:background="@null"
                             android:digits="0123456789"
                             android:inputType="numberDecimal"
                             android:singleLine="true"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
 
                         <ImageView
                             android:id="@+id/imgvPipeSize"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/selector_down"/>
+                            android:background="@drawable/selector_down" />
                     </LinearLayout>
 
                     <TextView
                         style="@style/TextViewStyle02_2"
-                        android:text="@string/unit_mm"/>
+                        android:text="@string/unit_mm" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -293,12 +289,12 @@
                 style="@style/LinearCenterVertical"
                 android:visibility="gone">
                 <!--宽-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        style="@style/TextViewStyle02"
-                        android:text="@string/section"/>
+                        android:id="@+id/tvD_S"
+                        style="@style/TextViewStyle02_3"
+                        android:text="@string/section" />
 
                     <EditText
                         android:id="@+id/edtSectionWidth"
@@ -306,21 +302,20 @@
                         android:gravity="center"
                         android:hint="@string/section_width_hint"
                         android:inputType="numberSigned"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
                     <!--<TextView-->
                     <!--style="@style/TextViewStyle02"-->
                     <!--android:text="@string/unit_mm"/>-->
                 </LinearLayout>
                 <!--高-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="X"/>
+                        android:text="X" />
 
                     <EditText
                         android:id="@+id/edtSectionHeight"
@@ -328,115 +323,110 @@
                         android:gravity="center"
                         android:hint="@string/section_height_hint"
                         android:inputType="numberSigned"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
 
                     <TextView
                         style="@style/TextViewStyle02"
-                        android:text="@string/unit_mm"/>
+                        android:text="@string/unit_mm" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!--android:visibility="gone"-->
             <!--与管类关联的属性列表-->
             <LinearLayout
                 android:id="@+id/layoutDLLDPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/shape_gradient_bg2"
                 android:orientation="vertical"
                 android:padding="5dp">
-
                 <!--孔数-->
-                <LinearLayout
-                    style="@style/LinearCenterVertical">
-
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--平分左侧-->
-                    <LinearLayout
-                        style="@style/LinearWidthWeight1">
+                    <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvHoleCount"
                             style="@style/TextViewStyle02_3"
-                            android:text="@string/hole_count"/>
+                            android:text="@string/hole_count" />
 
                         <EditText
                             android:id="@+id/edtHoleCount"
                             style="@style/EdtStyle02"
                             android:digits="0123456789"
                             android:inputType="numberDecimal"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
+                </LinearLayout>
 
+                <!--孔数-->
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--平分右侧-->
-                    <LinearLayout
-                        style="@style/LinearWidthWeight1">
-
+                    <LinearLayout style="@style/LinearWidthWeight1">
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvUsedHole"
                             style="@style/TextViewStyle02_3"
-                            android:text="@string/used_hole_count"/>
+                            android:text="@string/used_hole_count" />
 
                         <EditText
                             android:id="@+id/edtUsedHoleCount"
                             style="@style/EdtStyle02"
                             android:digits="0123456789"
                             android:inputType="numberDecimal"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <!--电缆根数-->
-                <LinearLayout
-                    style="@style/LinearCenterVertical">
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--平分左侧-->
-                    <LinearLayout
-                        style="@style/LinearWidthWeight1">
+                    <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
-                            android:drawableRight="@mipmap/ic_must_fill_16"
+                            android:id="@+id/tvAmount"
                             style="@style/TextViewStyle02_3"
-                            android:text="@string/amount"/>
+                            android:text="@string/amount" />
 
                         <EditText
                             android:id="@+id/edtAmount"
                             style="@style/EdtStyle02"
                             android:digits="0123456789"
                             android:inputType="numberDecimal"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
+                </LinearLayout>
+
+                <!--电缆根数-->
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--平分右侧-->
-                    <LinearLayout
-                        style="@style/LinearWidthWeight1">
+                    <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
                             style="@style/TextViewStyle02"
-                            android:text="@string/aperture"/>
+                            android:text="@string/aperture" />
 
                         <EditText
                             android:id="@+id/edtAperture"
                             style="@style/EdtStyle02"
                             android:digits="0123456789"
                             android:inputType="numberDecimal"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
 
                         <TextView
                             style="@style/TextViewStyle02_2"
-                            android:text="@string/unit_mm"/>
+                            android:text="@string/unit_mm" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    style="@style/LinearCenterVertical">
+                <LinearLayout style="@style/LinearCenterVertical">
                     <!--行X高-->
-                    <LinearLayout
-                        style="@style/LinearWidthWeight1">
+                    <LinearLayout style="@style/LinearWidthWeight1">
 
                         <TextView
                             style="@style/TextViewStyle02_3"
-                            android:text="@string/row_x_col"/>
+                            android:text="@string/row_x_col" />
 
                         <EditText
                             android:id="@+id/edtRow"
@@ -445,14 +435,14 @@
                             android:gravity="center"
                             android:hint="@string/row_x_row_hint"
                             android:inputType="numberDecimal"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="X"/>
+                            android:text="X" />
 
                         <EditText
                             android:id="@+id/edtCol"
@@ -461,60 +451,67 @@
                             android:gravity="center"
                             android:hint="@string/row_x_col_hint"
                             android:inputType="numberDecimal"
-                            android:theme="@style/CustomEdittext02"/>
+                            android:theme="@style/CustomEdittext02" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        style="@style/LinearWidthWeight1">
+                </LinearLayout>
+
+                <!--压力-->
+                <LinearLayout style="@style/LinearCenterVertical">
+                    <!--状态-->
+                    <LinearLayout style="@style/LinearWidthWeight1">
                         <!--电压-->
                         <TextView
-                            style="@style/TextViewStyle02"
-                            android:text="@string/voltage"/>
+                            android:id="@+id/tvVoltage"
+                            style="@style/TextViewStyle02_3"
+                            android:text="@string/voltage" />
 
                         <Spinner
                             android:id="@+id/spVoltage"
                             android:layout_width="0dp"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-                          />
+                            android:dropDownWidth="80dp" />
 
                         <TextView
                             style="@style/TextViewStyle02_2"
-                            android:text="@string/unit_kv"/>
+                            android:text="@string/unit_kv" />
                     </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/LinearCenterVertical">
+
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <!--状态-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         style="@style/TextViewStyle02"
-                        android:text="@string/state"/>
+                        android:text="@string/state" />
                     <!--android:background="@drawable/shape_btn_shadow_bg"-->
                     <Spinner
                         android:id="@+id/spState"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:entries="@array/state"/>
+                        android:dropDownWidth="80dp"
+                        android:entries="@array/state" />
 
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout style="@style/LinearCenterVertical">
                 <!--压力-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         style="@style/TextViewStyle02"
-                        android:text="@string/pressure"/>
+                        android:text="@string/pressure" />
 
                     <!--android:background="@drawable/shape_btn_shadow_bg"-->
                     <Spinner
@@ -522,11 +519,12 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                      />
+                        android:dropDownWidth="80dp" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
 
             <!--权属单位-->
             <LinearLayout
@@ -534,8 +532,9 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
+                    android:id="@+id/tvOwnershipUnit"
                     style="@style/TextViewStyle02_3"
-                    android:text="@string/ownership_unit"/>
+                    android:text="@string/ownership_unit" />
 
                 <LinearLayout
                     android:id="@+id/layoutOwnershipUnit"
@@ -545,19 +544,20 @@
                     android:padding="5dp">
 
                     <EditText
+                        android:gravity="center"
                         android:id="@+id/edtOwnershipUnit"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
                         android:singleLine="true"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
 
                     <ImageView
                         android:id="@+id/imgvOwnershipUnit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/selector_down"/>
+                        android:background="@drawable/selector_down" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -570,7 +570,7 @@
 
                 <TextView
                     style="@style/TextViewStyle02_3"
-                    android:text="@string/remark_line"/>
+                    android:text="@string/remark_line" />
 
                 <LinearLayout
                     android:id="@+id/layoutLineMark"
@@ -580,65 +580,65 @@
                     android:padding="5dp">
 
                     <EditText
+                        android:gravity="center"
                         android:id="@+id/edtLineRemark"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
                         android:singleLine="true"
-                        android:theme="@style/CustomEdittext02"/>
+                        android:theme="@style/CustomEdittext02" />
 
                     <ImageView
                         android:id="@+id/imgvLineRemark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/selector_down"/>
+                        android:background="@drawable/selector_down" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <!--疑难问题-->
-            <LinearLayout
-                style="@style/LinearCenterVertical">
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <TextView
                     style="@style/TextViewStyle02_3"
-                    android:text="@string/puzzle"/>
+                    android:text="@string/puzzle" />
 
                 <EditText
                     android:id="@+id/edtPuzzle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:theme="@style/CustomEdittext02"/>
+                    android:theme="@style/CustomEdittext02" />
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-    <include layout="@layout/layout_seperate_line_h"/>
-
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnPreviousOne"
             style="@style/fragment_btn_style"
-            android:text="@string/previous_one"/>
+            android:text="@string/previous_one" />
+
         <Button
-            android:visibility="invisible"
             android:id="@+id/btnNot"
             style="@style/fragment_btn_style"
-            android:text="@string/save"/>
+            android:text="@string/save"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/btnRemove"
             style="@style/fragment_btn_style"
-            android:text="@string/save"/>
+            android:text="@string/save" />
     </LinearLayout>
 
 </LinearLayout>

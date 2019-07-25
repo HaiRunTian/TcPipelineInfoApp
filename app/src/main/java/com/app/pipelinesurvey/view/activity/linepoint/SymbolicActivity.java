@@ -116,6 +116,7 @@ public class SymbolicActivity extends AppCompatActivity implements View.OnClickL
             case R.id.tvReturn:
                 finish();
                 break;
+                default:break;
         }
     }
 }

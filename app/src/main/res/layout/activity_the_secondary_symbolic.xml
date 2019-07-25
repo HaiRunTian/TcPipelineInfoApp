@@ -16,7 +16,7 @@
             android:textSize="15dp"
             android:textColor="@color/white"
             android:text="标准配置"
-            android:drawableLeft="@mipmap/ic_arrow_left_32x54"/>
+            android:drawableLeft="@mipmap/ic_arrow_left_32"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

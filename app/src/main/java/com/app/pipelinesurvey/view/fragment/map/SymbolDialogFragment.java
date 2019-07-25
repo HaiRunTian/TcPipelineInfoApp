@@ -85,7 +85,6 @@ public class SymbolDialogFragment extends DialogFragment implements View.OnClick
 
     private void initData() {
 
-
     }
 
     @Override

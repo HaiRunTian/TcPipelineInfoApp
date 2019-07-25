@@ -7,9 +7,9 @@
     <ImageView
         android:layout_marginLeft="5dp"
         android:layout_gravity="center"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:background="@mipmap/ic_itme_32px" />
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@mipmap/ic_item_64px" />
 
     <TextView
         android:id="@+id/tvPrjName"

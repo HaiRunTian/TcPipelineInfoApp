@@ -6,10 +6,17 @@
     android:layout_margin="10dp"
     android:orientation="horizontal">
 
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/ic_logo" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:background="@drawable/scrollview_bg"
         android:layout_gravity="center"
         android:text="广州天驰"
@@ -27,11 +34,6 @@
         android:textColor="@drawable/selector_tv_color"
         android:textSize="@dimen/small"/>
 
-    <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:background="@mipmap/ic_logo" />
+
 
 </LinearLayout>

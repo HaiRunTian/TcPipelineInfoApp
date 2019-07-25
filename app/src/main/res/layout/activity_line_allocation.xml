@@ -19,7 +19,7 @@
                 android:id="@+id/tvReturn"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:drawableLeft="@mipmap/ic_arrow_left_32x54"
+                android:drawableLeft="@mipmap/ic_arrow_left_32"
                 android:gravity="center"
                 android:text="类型选择"
                 android:textColor="@color/white"

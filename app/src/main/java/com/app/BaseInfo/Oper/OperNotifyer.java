@@ -1,50 +1,11 @@
 package com.app.BaseInfo.Oper;
 
-import android.util.Log;
-import android.util.TimeUtils;
-
 import com.app.BaseInfo.Data.BaseFieldInfos;
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
-import com.app.BaseInfo.Data.Line.ArmyFieldLine;
-import com.app.BaseInfo.Data.Line.CableTVFieldLine;
-import com.app.BaseInfo.Data.Line.CoalGasFieldLine;
-import com.app.BaseInfo.Data.Line.DrainageFieldLine;
-import com.app.BaseInfo.Data.Line.ElectricPowerFieldLine;
-import com.app.BaseInfo.Data.Line.GasFieldLine;
-import com.app.BaseInfo.Data.Line.IndustryFieldLine;
-import com.app.BaseInfo.Data.Line.OtherFieldLine;
-import com.app.BaseInfo.Data.Line.PipeLine;
-import com.app.BaseInfo.Data.Line.RainFieldLine;
-import com.app.BaseInfo.Data.Line.SewageFieldLine;
-import com.app.BaseInfo.Data.Line.StreetLampFieldLine;
-import com.app.BaseInfo.Data.Line.TelecomFieldLine;
 import com.app.BaseInfo.Data.Line.TheTotalLine;
-import com.app.BaseInfo.Data.Line.TrafficFieldLine;
-import com.app.BaseInfo.Data.Line.UnknownFieldLine;
-import com.app.BaseInfo.Data.Line.WaterSupplyFieldLine;
-import com.app.BaseInfo.Data.POINTTYPE;
-import com.app.BaseInfo.Data.Point.ArmyFieldPoint;
-import com.app.BaseInfo.Data.Point.CableTVFieldPoint;
-import com.app.BaseInfo.Data.Point.CoalGasFieldPoint;
-import com.app.BaseInfo.Data.Point.DrainageFieldPoint;
-import com.app.BaseInfo.Data.Point.ElectricPowerFieldPoint;
-import com.app.BaseInfo.Data.Point.GasFieldPoint;
-import com.app.BaseInfo.Data.Point.IndustryFieldPoint;
 import com.app.BaseInfo.Data.Point.MeasurePoint;
-import com.app.BaseInfo.Data.Point.OtherFieldPoint;
-import com.app.BaseInfo.Data.Point.PipePoint;
-import com.app.BaseInfo.Data.Point.RainFieldPoint;
-import com.app.BaseInfo.Data.Point.SewageFieldPoint;
-import com.app.BaseInfo.Data.Point.StreetLampFieldPoint;
-import com.app.BaseInfo.Data.Point.TelecomFieldPoint;
-import com.app.BaseInfo.Data.Point.TempPoint;
 import com.app.BaseInfo.Data.Point.TheTotalPoint;
-import com.app.BaseInfo.Data.Point.TrafficFieldPoint;
-import com.app.BaseInfo.Data.Point.UnknownFieldPoint;
-import com.app.BaseInfo.Data.Point.WaterSupplyFieldPoint;
-import com.app.pipelinesurvey.base.MyApplication;
-import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.utills.LogUtills;
 import com.supermap.data.Color;
@@ -64,34 +25,26 @@ import com.supermap.data.Recordset;
 import com.supermap.data.Size2D;
 import com.supermap.data.Workspace;
 import com.supermap.mapping.Layer;
-import com.supermap.mapping.LayerSettingType;
 import com.supermap.mapping.LayerSettingVector;
 import com.supermap.mapping.Map;
-import com.supermap.mapping.MapControl;
 import com.supermap.mapping.Selection;
 import com.supermap.mapping.ThemeLabel;
-import com.supermap.mapping.ThemeRange;
 import com.supermap.mapping.ThemeUnique;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by Administrator on 2018/6/14 0014.
  * 初始化图层、专题图
  */
 public class OperNotifyer {
-
     private Workspace m_workSpace;
-
     /**
      * 创建数据集
      * 可以依据用户勾选了哪一种管类再生成
-     *
      * @param ds
      */
     public static void AddSystemLayers(Datasource ds) {
@@ -106,11 +59,8 @@ public class OperNotifyer {
             _resultDv.setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
             //数据集添加到地图中
             AddAndSetLayerType(_resultDv, _infos.get(i));
-
         }
-
     }
-
 
     /**
      * 创建数据集  费时间
@@ -120,7 +70,7 @@ public class OperNotifyer {
      * @return 矢量数据集
      */
     private static DatasetVector CreateDataset(Datasource ds, BaseFieldInfos info) {
-        // 假设打开一个工作空间 workspace 对象，工作空间中存在一个数据源 datasource 对象
+
         // 以下代码示范通过矢量数据集信息创建矢量数据集
         Datasets datasets = ds.getDatasets();
         if (datasets.contains(info.datasetName)) {
@@ -155,18 +105,15 @@ public class OperNotifyer {
      * @param info 数据集字段信息类
      */
     private static void AddFieldInfo(DatasetVector dv, BaseFieldInfos info) {
-
         try {
             FieldInfos _infos = dv.getFieldInfos();
             Field[] _field = info.getClass().getFields();
-
             // 遍历所有属性
             for (int j = 0; j < _field.length; j++) {
                 // 获取属性的名字
                 String _name = _field[j].getName();
                 String type = _field[j].getGenericType().toString();
                 if (_name.length() > 20) {
-
                     continue;
                 }
                 // 如果type是类类型，则前面包含"class "，后面跟类名
@@ -174,7 +121,6 @@ public class OperNotifyer {
                 _fieldinfo.setCaption(_name);
                 _fieldinfo.setName(_name);
                 _fieldinfo.setDefaultValue("");
-
                 switch (type) {
                     case "class com.app.BaseInfo.Data.POINTTYPE":
                     case "class java.lang.String": {
@@ -184,7 +130,6 @@ public class OperNotifyer {
                     case "float": {
                         _fieldinfo.setType(FieldType.SINGLE);
                     }
-
                     break;
                     case "double": {
                         _fieldinfo.setType(FieldType.DOUBLE);
@@ -198,7 +143,6 @@ public class OperNotifyer {
                         _fieldinfo.setType(FieldType.BOOLEAN);
                     }
                     break;
-
                     default:
                         LogUtills.i("没有创建成功字段名 = ", _name);
                         continue;
@@ -209,9 +153,7 @@ public class OperNotifyer {
         } catch (Exception ex) {
             LogUtills.e("add field info: " + ex.toString());
         }
-
     }
-
 
     /**
      * 把适量数据集添加到地图图层
@@ -219,11 +161,9 @@ public class OperNotifyer {
      * @param info
      */
     private static void AddAndSetLayerType(DatasetVector dv, BaseFieldInfos info) {
-
         Map map = WorkSpaceUtils.getInstance().getMapControl().getMap();
         Layer _temp = map.getLayers().add(dv, true);
         _temp.setVisible(true);
-
         //点图层
         if (info instanceof BaseFieldPInfos) {
             LayerSettingVector _vector = new LayerSettingVector();
@@ -245,7 +185,6 @@ public class OperNotifyer {
             //设置该图层单值专题图 符号库
             ThemeUnique _uniqueTheme = _temp_info.createDefaultThemeUnique();
             _resultLayer = map.getLayers().add(dv, _uniqueTheme, true);
-
             //设置单值专题图选中样式
             Selection _selection = _resultLayer.getSelection();
             GeoStyle _style = _uniqueTheme.getDefaultStyle();
@@ -286,8 +225,6 @@ public class OperNotifyer {
         }
     }
 
-
-
     public static java.util.Map<java.lang.String, java.lang.Object> getFieldMaps(BaseFieldInfos info) {
         try {
             java.util.Map<java.lang.String, java.lang.Object> _values = new HashMap<String, Object>();
@@ -304,7 +241,6 @@ public class OperNotifyer {
             return null;
         }
     }
-
 
     public static java.util.Map<java.lang.String, java.lang.Object> getFieldMaps(Recordset result) {
         try {

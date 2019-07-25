@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.pipelinesurvey.R;
+import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.SQLUtils;
@@ -20,11 +21,14 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
     private EditText edtName;
     private EditText edtType;
     private EditText edtTypeCode;
+    private TextView tvName;
     private EditText edtLineRemark;
     private String table;
     private String user;
     private int id;
     private String point;
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +37,15 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
         table = getIntent().getStringExtra("table");
         user = getIntent().getStringExtra("name");
         point = getIntent().getStringExtra("point");
+        name = getIntent().getStringExtra("type");
         initView();
 
         initData(table, user,point);
     }
 
     private void initData(String table, String user,String typeName) {
+        //管类
         if (table.equals(SQLConfig.TABLE_NAME_PIPE_INFO)) {
-            
             Cursor  _cursor = DatabaseHelpler.getInstance().query(table,
                     "where name = '" + user + "'");
             while (_cursor.moveToNext()) {
@@ -55,6 +60,8 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
                 edtLineRemark.setText(remark);
             }
         }else {
+            tvName.setText(name);
+            //点特征或者附属物
             Cursor  _cursor = DatabaseHelpler.getInstance().query(table,
                     "where name = '" + user + "' and typename = '"+typeName+"'");
             while (_cursor.moveToNext()) {
@@ -78,6 +85,8 @@ public class AddBasicsActivity extends AppCompatActivity implements View.OnClick
         edtType = ((EditText) findViewById(R.id.edtType));
         edtTypeCode = ((EditText) findViewById(R.id.edtTypeCode));
         edtLineRemark = ((EditText) findViewById(R.id.edtLineRemark));
+        tvName = findViewById(R.id.tvName);
+
     }
 
     @Override

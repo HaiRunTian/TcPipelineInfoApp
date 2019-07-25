@@ -20,25 +20,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
-
-            <!--&lt;!&ndash;自动编号&ndash;&gt;-->
-            <!--<LinearLayout-->
-            <!--style="@style/LinearCenterVertical">-->
-            <!--<TextView-->
-            <!--style="@style/TextViewStyle02"-->
-            <!--android:text="@string/id"/>-->
-            <!--<EditText-->
-            <!--android:id="@+id/edtId"-->
-            <!--style="@style/EdtStyle02"-->
-            <!--android:theme="@style/CustomEdittext02"/>-->
-            <!--</LinearLayout>-->
-
+            
             <!--物探点号-->
             <LinearLayout
                 style="@style/LinearCenterVertical">
 
                 <TextView
-                    android:drawableRight="@mipmap/ic_must_fill_16"
+                    android:id="@+id/tvPointNum"
                     style="@style/TextViewStyle02_3"
                     android:text="@string/gpid"/>
 
@@ -49,48 +37,74 @@
 
                 <Spinner
                     android:id="@+id/spSituation"
-                    android:layout_width="120dp"
+                    android:layout_width="80dp"
                     android:layout_height="30dp"
                     style="@style/sp_style"/>
 
             </LinearLayout>
 
             <!--点特征，附属物-->
-            <LinearLayout
-                style="@style/LinearCenterVertical">
+            <LinearLayout style="@style/LinearCenterVertical">
 
                 <!--平分左侧-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
                         android:id="@+id/tvFeaturePoints"
-                        android:drawableRight="@mipmap/ic_must_fill_16"
                         style="@style/TextViewStyle02_3"
-                        android:text="@string/feature_points"/>
+                        android:text="@string/feature_points" />
 
-                    <Spinner
+                    <com.app.pipelinesurvey.view.widget.FeaturePointsSpinner
+                        android:spinnerMode="dropdown"
                         android:id="@+id/spFeaturePoints"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                        android:layout_height="35dp"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        app:msDropItemBackgroundColor="@android:color/white"
+                        app:msDropItemText="全部选项"
+                        app:msDropItemTextColor="@color/black"
+                        app:msDropTitleBackgroundColor="@color/colorAccent"
+                        app:msDropTitleText="常用选项"
+                        app:msDropTitleTextColor="@android:color/white"
+                        app:msItemTextColor="@android:color/black"
+                        app:msDropItemTextSize="@dimen/small"
+                        app:msDropTitleTextSize="@dimen/small"
+                        app:msItemTextSize="@dimen/small" />
 
-                <!--平分右侧-->
-                <LinearLayout
-                    style="@style/LinearWidthWeight1">
+                </LinearLayout>
+            </LinearLayout>
+            
+            <!--点特征，附属物-->
+            <LinearLayout style="@style/LinearCenterVertical">
+            <!--平分右侧-->
+                <LinearLayout style="@style/LinearWidthWeight1">
 
                     <TextView
-                        android:drawableRight="@mipmap/ic_must_fill_16"
+                        android:id="@+id/tvAppendant"
                         style="@style/TextViewStyle02_3"
-                        android:text="@string/appendant"/>
+                        android:text="@string/appendant" />
 
-                    <Spinner
+                    <com.app.pipelinesurvey.view.widget.AppendanSpinner
+                        android:spinnerMode="dropdown"
                         android:id="@+id/spAppendant"
-                        style="@style/sp_style"
+                        android:gravity="center"
+                        android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="1" />
+                        android:layout_height="35dp"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        app:msDropItemBackgroundColor="@android:color/white"
+                        app:msDropItemText="全部选项"
+                        app:msDropItemTextColor="@color/black"
+                        app:msDropTitleBackgroundColor="@color/colorAccent"
+                        app:msDropTitleText="常用选项"
+                        app:msDropTitleTextColor="@android:color/white"
+                        app:msItemTextColor="@android:color/black"
+                        app:msDropItemTextSize="@dimen/small"
+                        app:msDropTitleTextSize="@dimen/small"
+                        app:msItemTextSize="@dimen/small" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -117,7 +131,7 @@
 
                         <TextView
                             android:id="@+id/tvWellSize"
-                            style="@style/TextViewStyle02"
+                            style="@style/TextViewStyle02_3"
                             android:text="@string/well_size"/>
 
                         <EditText
@@ -126,23 +140,31 @@
                             android:inputType="numberSigned"
                             android:theme="@style/CustomEdittext02"/>
                     </LinearLayout>
+                </LinearLayout>
+
+                <!--窨井规格，深度-->
+                <LinearLayout
+                    style="@style/LinearCenterVertical">
 
                     <LinearLayout
                         style="@style/LinearWidthWeight1">
 
                         <TextView
-                            style="@style/TextViewStyle02"
+                            style="@style/TextViewStyle02_3"
                             android:text="@string/well_depth"/>
 
                         <EditText
                             android:id="@+id/edtWellDepth"
                             style="@style/EdtStyle02"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:theme="@style/CustomEdittext02"/>
 
                         <TextView
-                            android:id="@+id/tvUnitWellDepth"
-                            style="@style/TextViewStyle02"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/small"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="3dp"
                             android:text="@string/unit_cm"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -157,38 +179,50 @@
 
                         <TextView
                             android:id="@+id/tvWellWater"
-                            style="@style/TextViewStyle02"
+                            style="@style/TextViewStyle02_3"
                             android:text="@string/well_water"/>
 
                         <EditText
                             android:id="@+id/edtWellWater"
                             style="@style/EdtStyle02"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:theme="@style/CustomEdittext02"/>
 
                         <TextView
-                            android:id="@+id/tvUnitWellWater"
-                            style="@style/TextViewStyle02"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/small"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="3dp"
                             android:text="@string/unit_cm"/>
                     </LinearLayout>
+                </LinearLayout>
+
+                <!--水深，淤泥-->
+                <LinearLayout
+                    style="@style/LinearCenterVertical">
 
                     <!--平分右侧-->
                     <LinearLayout
                         style="@style/LinearWidthWeight1">
 
                         <TextView
-                            style="@style/TextViewStyle02"
+                            style="@style/TextViewStyle02_3"
                             android:text="@string/well_mud"/>
 
                         <EditText
                             android:id="@+id/edtWellMud"
                             style="@style/EdtStyle02"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:theme="@style/CustomEdittext02"/>
 
                         <TextView
                             android:id="@+id/tvUnitWellMud"
-                            style="@style/TextViewStyle02"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/small"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="3dp"
                             android:text="@string/unit_cm"/>
                     </LinearLayout>
 
@@ -203,10 +237,11 @@
 
                         <TextView
                             android:id="@+id/tvWellLidTexture"
-                            style="@style/TextViewStyle02"
+                            style="@style/TextViewStyle02_3"
                             android:text="@string/well_lid_texture"/>
 
                         <Spinner
+                            android:dropDownWidth="80dp"
                             android:id="@+id/spWellLidTexture"
                             style="@style/sp_style"
                             android:layout_width="0dp"
@@ -214,13 +249,19 @@
                             android:layout_weight="1"
                             android:entries="@array/wellLidTexture"/>
                     </LinearLayout>
+                    
+                </LinearLayout>
+                
+                <!--井盖材质，规格-->
+                <LinearLayout
+                    style="@style/LinearCenterVertical">
                     <!--平分右侧-->
                     <LinearLayout
                         style="@style/LinearWidthWeight1"
                         android:gravity="center">
 
                         <TextView
-                            style="@style/TextViewStyle02"
+                            style="@style/TextViewStyle02_3"
                             android:text="@string/well_lid_size"/>
 
                         <EditText
@@ -247,6 +288,7 @@
                         android:text="@string/point_state"/>
 
                     <Spinner
+                        android:dropDownWidth="80dp"
                         style="@style/sp_style"
                         android:id="@+id/spState"
                         android:layout_width="0dp"
@@ -254,12 +296,17 @@
                         android:layout_weight="1"
                        />
                 </LinearLayout>
+            </LinearLayout>
+
+            <!--状态，高程-->
+            <LinearLayout
+                style="@style/LinearCenterVertical">
                 <!--平分右侧-->
                 <LinearLayout
                     style="@style/LinearWidthWeight1">
 
                     <TextView
-                        style="@style/TextViewStyle02"
+                        style="@style/TextViewStyle02_3"
                         android:text="@string/elevation"/>
 
                     <EditText
@@ -277,64 +324,27 @@
                         android:text="@string/unit_m" />
                 </LinearLayout>
             </LinearLayout>
-
-            <!--起点方向埋深-->
-            <LinearLayout
-                android:id="@+id/layoutStartDirDepth"
-                android:visibility="gone"
-                style="@style/LinearCenterVertical">
-
-                <TextView
-                    style="@style/TextViewStyle02"
-                    android:text="@string/start_dir_depth"/>
-
-                <EditText
-                    android:id="@+id/edtStartDirDepth"
-                    style="@style/EdtStyle02"
-                    android:hint="@string/start_dir_depth_hint"
-                    android:theme="@style/CustomEdittext02"/>
-                <TextView
-                    style="@style/TextViewStyle02"
-                    android:text="@string/unit_cm"/>
-            </LinearLayout>
-
-            <!--终点方向埋深-->
-            <LinearLayout
-                android:id="@+id/layoutEndDirDepth"
-                android:visibility="gone"
-                style="@style/LinearCenterVertical">
-
-                <TextView
-                    style="@style/TextViewStyle02"
-                    android:text="@string/end_dir_depth"/>
-
-                <EditText
-                    android:id="@+id/edtEndDirDepth"
-                    style="@style/EdtStyle02"
-                    android:hint="@string/end_dir_depth_hint"
-                    android:theme="@style/CustomEdittext02"/>
-                <TextView
-                    style="@style/TextViewStyle02"
-                    android:text="@string/unit_cm"/>
-            </LinearLayout>
-
             <!--深度-->
             <LinearLayout
                 style="@style/LinearCenterVertical">
 
                 <TextView
-                    android:drawableRight="@mipmap/ic_must_fill_16"
+                   android:id="@+id/tvDepth"
                     style="@style/TextViewStyle02_3"
                     android:text="@string/depth"/>
 
                 <EditText
                     android:id="@+id/edtDepth"
                     style="@style/EdtStyle02"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:theme="@style/CustomEdittext02"/>
                 <TextView
 
-                    style="@style/TextViewStyle02"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="3dp"
                     android:text="@string/unit_cm"/>
             </LinearLayout>
 
@@ -456,6 +466,7 @@
             android:text="@string/move"/>
 
         <Button
+            android:visibility="gone"
             android:id="@+id/btnRemove"
             style="@style/fragment_btn_style"
             android:text="@string/save"/>

@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 /**
@@ -64,8 +65,8 @@ public class OkHttpUtils {
 
     public void initConfig() {
         // 可以通过实现 Logger 接口更改日志保存位置
-//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         m_okHttpClient = new OkHttpClient();
         /**
@@ -75,7 +76,7 @@ public class OkHttpUtils {
         builder.connectTimeout(10, TimeUnit.SECONDS);
         builder.readTimeout(10, TimeUnit.SECONDS);
         builder.writeTimeout(10, TimeUnit.SECONDS);
-//        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(loggingInterceptor);
         m_okHttpClient = builder.build();
 
         /**

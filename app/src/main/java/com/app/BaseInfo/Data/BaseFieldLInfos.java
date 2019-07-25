@@ -45,118 +45,73 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     }
 
     /**
-     * 管线点号
+     * 权属单位
      */
-    public String benExpNum;
-    /**
-     * 连接点号
-     */
-    public String endExpNum;
-    /**
-     * 起点经度
-     */
-    public double startLongitude;
-    /**
-     * 终点经度
-     */
-    public double endLongitude;
-    /**
-     * 起点纬度
-     */
-    public double startLatitude;
-
-    /**
-     * 起点纬度
-     */
-    public double endLatitude;
-    /**
-     * 调查日期
-     */
-    public String exp_Date;
+    public String belong;
     /**
      * 起点埋深
      */
     public String benDeep;
     /**
-     * 终点埋深
+     * 管线点号
      */
-    public String endDeep;
+    public String benExpNum;
+    /**
+     * 埋深差值
+     */
+    public String burialDifference;
     /**
      * 埋设方式
      */
     public String buried;
     /**
-     * 管径
+     * 电缆根数
      */
-    public String pipeSize;
+    public String cabNum;
     /**
      * 断面
      */
     public String d_S;
     /**
-     * 行X列
+     * 终点埋深
      */
-    public String rowXCol;
+    public String endDeep;
     /**
-     * 电缆根数
+     * 连接点号
      */
-    public String cabNum;
+    public String endExpNum;
     /**
-     * 权属单位
+     * 起点纬度
      */
-    public String belong;
+    public double endLatitude;
     /**
-     * 电压
+     * 终点经度
      */
-    public String voltage;
+    public double endLongitude;
     /**
-     * 压力
+     * 调查日期
      */
-    public String pressure;
-    /**
-     * 管线材质
-     */
-    public String material;
-    /**
-     * 总孔数
-     */
-    public String totalHole;
-    /**
-     * 已用孔数
-     */
-    public String usedHole;
+    public String exp_Date;
     /**
      * 孔径
      */
     public String holeDiameter;
     /**
-     * 状态
-     */
-    public String state;
-    /**
-     * 管线备注
-     */
-    public String remark;
-    /**
      * 自动编号
      */
     public String id;
-    /**
-     * 疑难问题
-     */
-    public String puzzle;
     /**
      * 标注
      */
     public String labelTag;
     /**
-     * 管线长度
+     * 管线材质
      */
-    public String pipeLength;
+    public String material;
     /**
-     * 埋深差值
+     * 测量的时间
      */
-    public String burialDifference;
+    public String measureDate = "";
     /**
      * 起点是否测量 0未测量 1测量
      */
@@ -166,40 +121,55 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
      */
     public String measureEnd;
     /**
-     * 测量的时间
+     * 管线长度
      */
-    public String measureDate = "";
+    public String pipeLength;
+    /**
+     * 管径
+     */
+    public String pipeSize;
+    /**
+     * 压力
+     */
+    public String pressure;
+    /**
+     * 疑难问题
+     */
+    public String puzzle;
+    /**
+     * 管线备注
+     */
+    public String remark;
+    /**
+     * 行X列
+     */
+    public String rowXCol;
+    /**
+     * 起点纬度
+     */
+    public double startLatitude;
+    /**
+     * 起点经度
+     */
+    public double startLongitude;
+    /**
+     * 状态
+     */
+    public String state;
+    /**
+     * 总孔数
+     */
+    public String totalHole;
+    /**
+     * 已用孔数
+     */
+    public String usedHole;
+    /**
+     * 电压
+     */
+    public String voltage;
 
-//
-//    protected BaseFieldLInfos(Parcel in) {
-//        pipeType           = in.readString();
-//        benExpNum       = in.readString();
-//        endExpNum         = in.readString();
-//        startLongitude     = in.readDouble();
-//        endLongitude       = in.readDouble();
-//        startLatitude      = in.readDouble();
-//        endLatitude        = in.readDouble();
-//        exp_Date         = in.readString();
-//        benDeep   = in.readString();
-//        endDeep     = in.readString();
-//        buried        = in.readString();
-//        pipeSize           = in.readString();
-//        d_S            = in.readString();
-//        rowXCol            = in.readString();
-//        cabNum             = in.readString();
-//        voltage            = in.readString();
-//        pressure           = in.readString();
-//        material           = in.readString();
-//        belong      = in.readString();
-//        totalHole          = in.readString();
-//        usedHole      = in.readString();
-//        holeDiameter           = in.readString();
-//        state              = in.readString();
-//        remark             = in.readString();
-//        id                 = in.readString();
-//        puzzle             = in.readString();
-//        labelTag           = in.readString();
-//    }
+
 
 
     @Override
@@ -216,43 +186,26 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     }
 
     @Override
-    public void setId(String preStr, int index) {
-    }
+    public void setId(String preStr, int index) { }
 
+    /**
+     * 标签专题图  子类已覆盖
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/6/20  16:09
+     */
     @Override
     public ThemeLabel createThemeLabel() {
-        LogUtills.i("begin " + this.getClass().getName() + "createThemeLabel....");
-        ThemeLabel themeLabelMap = new ThemeLabel();
-        themeLabelMap.setLabelExpression("labelTag");
-        themeLabelMap.setRangeExpression("smid");
-
-        // 为标签专题图的标签设置统一样式
-        ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
-        themeLabelItem1.setVisible(true);
-        TextStyle textStyle1 = new TextStyle();
-        /* textStyle1.setForeColor(new Color(193, 210, 240));*/
-        textStyle1.setForeColor(new Color(0, 255, 0));
-        textStyle1.setFontName("楷体");
-        textStyle1.setFontHeight(16.0);
-        textStyle1.setFontWidth(16.0);
-        textStyle1.setSizeFixed(true);
-        themeLabelItem1.setStyle(textStyle1);
-        themeLabelMap.setAlongLineSpaceRatio(2.0);
-        themeLabelMap.setAlongLine(true);
-        themeLabelMap.setAlongLineDirection(AlongLineDirection.ALONG_LINE_NORMAL);
-        themeLabelMap.setLabelRepeatInterval(30.0);
-        themeLabelMap.setMaxTextHeight(30);
-        themeLabelMap.setMaxTextWidth(30);
-        themeLabelMap.setMinTextHeight(12);
-        themeLabelMap.setMinTextWidth(12);
-        themeLabelMap.setLeaderLineDisplayed(true);
-        themeLabelMap.addToHead(themeLabelItem1);
-
-        return themeLabelMap;
+        return null;
     }
 
+    /**
+     * 单值专题图
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/6/20  16:10
+     */
     public ThemeLabel createThemeLabel(String[] pipeType, String[] color, double[] start, double[] end) {
-        LogUtills.i("Create The Theme Layer...");
         ThemeLabel themeLabelMap = new ThemeLabel();
         themeLabelMap.setLabelExpression("labelTag");
         themeLabelMap.setRangeExpression("rangeExpression");
@@ -276,43 +229,9 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             themeLabelItem1.setStyle(textStyle1);
             // 添加标签专题图子项到标签专题图对象中
             themeLabelMap.addToTail(themeLabelItem1);
-
         }
-
         return themeLabelMap;
-
     }
-
-    public ThemeLabel createThemeLabel(Color color) {
-        LogUtills.i("Create The Theme Layer...");
-        ThemeLabel themeLabelMap = new ThemeLabel();
-        themeLabelMap.setLabelExpression("labelTag");
-        themeLabelMap.setRangeExpression("rangeExpression");
-        // 为标签专题图的标签设置统一样式
-        ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
-        themeLabelItem1.setVisible(true);
-        TextStyle textStyle1 = new TextStyle();
-        textStyle1.setForeColor(new Color(193, 210, 240));
-        textStyle1.setFontName("楷体");
-        textStyle1.setFontHeight(45.0);
-        textStyle1.setFontWidth(0.0);
-        themeLabelItem1.setStyle(textStyle1);
-        themeLabelMap.setAlongLineSpaceRatio(2.0);
-        themeLabelMap.setAlongLine(true);
-        themeLabelMap.setAlongLineDirection(AlongLineDirection.ALONG_LINE_NORMAL);
-        themeLabelMap.setLabelRepeatInterval(200.0);
-        themeLabelMap.setMaxTextHeight(60);
-        themeLabelMap.setMaxTextWidth(60);
-        themeLabelMap.setMinTextHeight(30);
-        themeLabelMap.setMinTextWidth(30);
-        themeLabelMap.setFlowEnabled(true);
-        // 添加标签专题图子项到标签专题图对象中
-        themeLabelMap.setLeaderLineDisplayed(true);
-        themeLabelMap.addToHead(themeLabelItem1);
-        return themeLabelMap;
-
-    }
-
 
     private Color ColorByOxString(String value) {
         value = value.substring(1);
@@ -321,6 +240,12 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         /* LogUtills.i("r = "+color.getR()+", g = "+color.getG()+", b = "+color.getB());*/
     }
 
+    /**
+     * 单值专题图
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/6/20  16:13
+     */
     @Override
     public ThemeUnique createThemeUnique() {
         // 构造单值专题图并进行相应设置
@@ -350,36 +275,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         return _theme;
     }
 
-    public ThemeUnique createThemeUnique(String color) {
-        // 构造单值专题图并进行相应设置
-        ThemeUnique _theme = new ThemeUnique();
-        _theme.setUniqueExpression("pipeType");
-        String[] _objs = new String[]{"给水_J", "临时"};
-        int[] _ids = new int[]{0, 1};
-        for (int i = 0; i < _objs.length; ++i) {
-            ThemeUniqueItem _item = new ThemeUniqueItem();
-            _item.setVisible(true);
-            _item.setUnique(_objs[i]);
-            GeoStyle _style = new GeoStyle();
-            _style.setFillBackColor(new Color(0, 255, 0));
-            _style.setFillGradientMode(FillGradientMode.RADIAL);
-
-            _style.setLineColor(new Color(255, 0, 0));
-            _style.setLineWidth(0.4);
-            _style.setLineSymbolID(_ids[i]);
-            _item.setStyle(_style);
-            _theme.add(_item);
-        }
-
-        GeoStyle _defaultStyle = new GeoStyle();
-        _defaultStyle.setLineWidth(2);
-        _defaultStyle.setLineColor(new Color(0, 255, 0));
-        _defaultStyle.setLineSymbolID(0);
-        _theme.setDefaultStyle(_defaultStyle);
-//        LogUtills.i("add geoline style successfully...");
-        return _theme;
-    }
-
     /**
      * @return 默认专题图
      */
@@ -387,7 +282,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     public ThemeUnique createDefaultThemeUnique() {
         // 构造单值专题图并进行相应设置
         ThemeUnique _theme = new ThemeUnique();
-
         String tabName = "";
         //TODO 根据标准名称 查找点配置表
         Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
@@ -395,20 +289,17 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         while (_cursorStand.moveToNext()) {
             tabName = _cursorStand.getString(_cursorStand.getColumnIndex("linesettintable"));
         }
-
         if (tabName.length() == 0) {
             LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
         }
         Cursor _cursor = DatabaseHelpler.getInstance().query(tabName,
                 new String[]{"typename", "symbolID", "width", "color"}, null, null, null, null, null);
-
         LogUtills.i("Sql:" + _cursor.toString());
         int _num = _cursor.getCount();
         if (_num == 0) {
             LogUtills.e("Query Line Config Table " + SQLConfig.TABLE_DEFAULT_LINE_SETTING + " Faild...");
             return null;
         }
-
         String[] _keys = new String[_num];
         int[] _symbolIds = new int[_num];
         double[] _widths = new double[_num];
@@ -424,7 +315,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _symbolIds[_index] = _symbolId;
             _widths[_index] = _width;
             _colors[_index] = _color;
-
             _index++;
             LogUtills.i("Query Line Config Infomation: " + "Name;" + _name + ",Symbolid:" + _symbolId +
                     ",Width:" + _width + ",_color:" + _color);
@@ -452,12 +342,14 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         _defaultStyle.setLineColor(new Color(0, 255, 0));
         _defaultStyle.setLineSymbolID(0);
         _theme.setDefaultStyle(_defaultStyle);
-        LogUtills.i("Set Line Symbol Style Successfully...");
         return _theme;
-
-
     }
 
+    /**
+     * Recordset 转bean
+     * @param reset
+     * @return
+     */
     public static BaseFieldLInfos createFieldInfo(Recordset reset) {
         try {
             if (reset.isEmpty()) {
@@ -470,10 +362,8 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 LogUtills.e("CreateFieldInfo Can Not Find The Layer Of " + reset.getString("datasetName"));
                 return null;
             }
-
             Field[] _fields = _info.getClass().getFields();
             FieldInfos _infos = reset.getFieldInfos();
-
             for (int i = 0; i < _fields.length; ++i) {
                 Field _field = _fields[i];
                 String _field_name = _field.getName();
@@ -527,17 +417,9 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _info.type = POINTTYPE.valueOf(reset.getString("type"));
             return _info;
         } catch (Exception e) {
-
             return null;
-        }finally {
-          /*  if (reset != null){
-                reset.close();
-                reset.dispose();
-            }*/
         }
-
     }
-
 
     @Override
     public int describeContents() {
@@ -546,40 +428,44 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeString(pipeType);
-        parcel.writeString(benExpNum);
-        parcel.writeString(endExpNum);
-        parcel.writeDouble(startLongitude);
-        parcel.writeDouble(endLongitude);
-        parcel.writeDouble(startLatitude);
-        parcel.writeDouble(endLatitude);
-        parcel.writeString(exp_Date);
-        parcel.writeString(benDeep);
-        parcel.writeString(endDeep);
-        parcel.writeString(buried);
-        parcel.writeString(pipeSize);
-        parcel.writeString(d_S);
-        parcel.writeString(rowXCol);
-        parcel.writeString(cabNum);
-        parcel.writeString(voltage);
-        parcel.writeString(pressure);
-        parcel.writeString(material);
         parcel.writeString(belong);
-        parcel.writeString(totalHole);
-        parcel.writeString(usedHole);
-        parcel.writeString(holeDiameter);
-        parcel.writeString(state);
-        parcel.writeString(remark);
-        parcel.writeString(id);
-        parcel.writeString(puzzle);
-        parcel.writeString(labelTag);
-        parcel.writeString(pipeLength);
+        parcel.writeString(benDeep);
+        parcel.writeString(benExpNum);
         parcel.writeString(burialDifference);
-        parcel.writeDouble(rangeExpression);
+        parcel.writeString(buried);
+        parcel.writeString(cabNum);
+        parcel.writeString(d_S);
+        parcel.writeString(endDeep);
+        parcel.writeString(endExpNum);
+        parcel.writeDouble(endLatitude);
+        parcel.writeDouble(endLongitude);
+        parcel.writeString(exp_Date);
+        parcel.writeString(holeDiameter);
+        parcel.writeString(id);
+        parcel.writeString(labelTag);
+        parcel.writeString(material);
+        parcel.writeString(measureDate);
         parcel.writeString(measureStart);
         parcel.writeString(measureEnd);
-        parcel.writeString(measureDate);
-
+        parcel.writeString(pipeLength);
+        parcel.writeString(pipeSize);
+        parcel.writeString(pressure);
+        parcel.writeString(puzzle);
+        parcel.writeString(remark);
+        parcel.writeString(rowXCol);
+        parcel.writeDouble(startLatitude);
+        parcel.writeDouble(startLongitude);
+        parcel.writeString(state);
+        parcel.writeString(totalHole);
+        parcel.writeString(usedHole);
+        parcel.writeString(voltage);
+        parcel.writeString(code);
+        parcel.writeString(datasetName);
+        parcel.writeString(pipeType);
+        parcel.writeDouble(rangeExpression);
+        parcel.writeString(shortCode);
+        parcel.writeString(submitName);
+        parcel.writeInt(sysId);
     }
 
     /**
@@ -589,39 +475,45 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         @Override
         public BaseFieldLInfos createFromParcel(Parcel source) {
             BaseFieldLInfos _field = new BaseFieldLInfos();
-            _field.pipeType = source.readString();
-            _field.benExpNum = source.readString();
-            _field.endExpNum = source.readString();
-            _field.startLongitude = source.readDouble();
-            _field.endLongitude = source.readDouble();
-            _field.startLatitude = source.readDouble();
-            _field.endLatitude = source.readDouble();
-            _field.exp_Date = source.readString();
-            _field.benDeep = source.readString();
-            _field.endDeep = source.readString();
-            _field.buried = source.readString();
-            _field.pipeSize = source.readString();
-            _field.d_S = source.readString();
-            _field.rowXCol = source.readString();
-            _field.cabNum = source.readString();
-            _field.voltage = source.readString();
-            _field.pressure = source.readString();
-            _field.material = source.readString();
             _field.belong = source.readString();
-            _field.totalHole = source.readString();
-            _field.usedHole = source.readString();
-            _field.holeDiameter = source.readString();
-            _field.state = source.readString();
-            _field.remark = source.readString();
-            _field.id = source.readString();
-            _field.puzzle = source.readString();
-            _field.labelTag = source.readString();
-            _field.pipeLength = source.readString();
+            _field.benDeep = source.readString();
+            _field.benExpNum = source.readString();
             _field.burialDifference = source.readString();
-            _field.rangeExpression = source.readDouble();
+            _field.buried = source.readString();
+            _field.cabNum = source.readString();
+            _field.d_S = source.readString();
+            _field.endDeep = source.readString();
+            _field.endExpNum = source.readString();
+            _field.endLatitude = source.readDouble();
+            _field.endLongitude = source.readDouble();
+            _field.exp_Date = source.readString();
+            _field.holeDiameter = source.readString();
+            _field.id = source.readString();
+            _field.labelTag = source.readString();
+            _field.material = source.readString();
+            _field.measureDate = source.readString();
             _field.measureStart = source.readString();
             _field.measureEnd = source.readString();
-            _field.measureDate = source.readString();
+            _field.pipeLength = source.readString();
+            _field.pipeSize = source.readString();
+            _field.pressure = source.readString();
+            _field.puzzle = source.readString();
+            _field.remark = source.readString();
+            _field.rowXCol = source.readString();
+            _field.startLatitude = source.readDouble();
+            _field.startLongitude = source.readDouble();
+            _field.state = source.readString();
+            _field.totalHole = source.readString();
+            _field.usedHole = source.readString();
+            _field.voltage = source.readString();
+            _field.code = source.readString();
+            _field.datasetName = source.readString();
+            _field.pipeType = source.readString();
+            _field.datasetName = source.readString();
+            _field.rangeExpression = source.readInt();
+            _field.shortCode = source.readString();
+            _field.submitName = source.readString();
+            _field.sysId = source.readInt();
 
             return _field;
         }

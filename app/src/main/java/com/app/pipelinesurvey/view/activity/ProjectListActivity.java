@@ -57,13 +57,10 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initValue() {
-
         tvTitle.setText("项目列表" + "(" + getIntent().getStringExtra("model") + ")");
         list_Prj = new ArrayList<>();
         try {
-
             Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, null, null, null, null, null, "CteateTime desc");
-
             list_Prj.clear();
             while (_cursor.moveToNext()) {
                 //工程名称，工作空间名称
@@ -78,7 +75,6 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
             tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");
             m_listAdapter = new ProjectListAdapter(ProjectListActivity.this, list_Prj);
             lvProjectList.setAdapter(m_listAdapter);
-
         } else {
             tvTitle.setText("项目列表(0)");
             tvNoPrj.setVisibility(View.VISIBLE);
@@ -205,7 +201,6 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                         list_Prj.remove(position);
                         m_listAdapter.notifyDataSetChanged();
                         tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");
-
                         ToastUtil.show(ProjectListActivity.this, "删除成功", Toast.LENGTH_SHORT);
 //                        }
 

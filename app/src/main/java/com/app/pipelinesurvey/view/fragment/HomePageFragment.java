@@ -16,16 +16,16 @@ import android.widget.ViewFlipper;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.ViewPagerAdapter;
-import com.app.pipelinesurvey.base.BaseActivity;
+
 import com.app.pipelinesurvey.utils.GlideImageLoader;
 import com.app.pipelinesurvey.view.activity.AppInfoActivity;
 import com.app.pipelinesurvey.view.activity.HelpActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.BasicsActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.SymbolicActivity;
 import com.app.pipelinesurvey.view.activity.ProjectListActivity;
-import com.app.pipelinesurvey.view.activity.SettingActivity;
+
 import com.app.pipelinesurvey.view.activity.WebViewActivity;
-import com.app.pipelinesurvey.view.fragment.map.SymbolDialogFragment;
+
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -116,7 +116,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initData();
         startBanner();
     }
@@ -166,7 +165,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
             m_tvContent.setText(list[i].toString());
             viewFlipper.addView(lContent);
         }
-
 
         viewFlipper.setOnClickListener(new View.OnClickListener() {
             @Override

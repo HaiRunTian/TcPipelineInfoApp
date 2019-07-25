@@ -22,7 +22,7 @@ import java.util.TimerTask;
  * @创建日期 2018/2/28  15:45.
  */
 public class BaseActivity extends AppCompatActivity {
-    private static boolean mBackKeyPressed = false;//记录是否有首次按键
+
     /**
      * 网络观察者
      */
@@ -33,7 +33,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         ActivityUtil.addActivity(this);
-//        PermissionUtils.initPermission(this,new PermissionUtils.PermissionHolder());
         // 网络改变的一个回掉类
         mNetChangeObserver = new NetChangeObserver() {
             @Override
@@ -62,8 +61,6 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    ;
-
     /**
      * 网络断开的时候调用
      */
@@ -77,8 +74,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         ActivityUtil.removeActivity(this);
         NetStateReceiver.removeRegisterObserver(mNetChangeObserver);
-//        Log.i("BaseActivity",getClass().getSimpleName()+"该活动已移除");
-//        LogUtills.i("BaseActivity onDestroy()","onDestroy()");
+
     }
 
     protected final <T> T $(int id) {
@@ -86,25 +82,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        if (!mBackKeyPressed) {
-//            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-//            mBackKeyPressed = true;
-//            //延时两秒，如果超出则擦错第一次按键记录
-//            new Timer().schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    mBackKeyPressed = false;
-//                }
-//            }, 1500);
-//        } else {
-//            //退出程序
-//            this.finish();
-//            System.exit(0);
-//        }
-    }
 
 }
 

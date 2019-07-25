@@ -10,7 +10,7 @@
         <TextView
             android:id="@+id/tvReturn"
             style="@style/TitleBarLeftIconStyle"
-            android:background="@mipmap/ic_arrow_left_32x54"/>
+            android:background="@mipmap/ic_arrow_left_32"/>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -21,9 +21,10 @@
     </LinearLayout>
 
     <TextView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/tvSubmit"
         style="@style/TitleBarRightIconStyle"
         android:text="@string/save"/>
+
 
 </RelativeLayout>

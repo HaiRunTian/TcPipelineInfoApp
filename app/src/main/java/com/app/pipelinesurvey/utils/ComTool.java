@@ -28,7 +28,6 @@ public class ComTool {
         if (m_ins == null) {
             m_ins = new ComTool();
         }
-
         return m_ins;
     }
 
@@ -57,7 +56,8 @@ public class ComTool {
             _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
         }
 
-        String _query = isTemp ? "exp_Num like 'T_%'" : "exp_Num Not like 'T_%'";
+//        String _query = isTemp ? "exp_Num like 'T_%'" : "exp_Num Not like 'T_%'";
+        String _query = isTemp ? "subsid = '临时点'" : "subsid != '临时点'";
         // 设置查询参数
         QueryParameter _parameter = new QueryParameter();
         _parameter.setAttributeFilter(_query);
@@ -84,10 +84,10 @@ public class ComTool {
         if (_groupName.length() != 0) {
             switch (_groupLocal) {
                 case 1:
-                    _newExpNum = (isTemp ? "T_" : "") + _groupName + code + SerialNum;
+                    _newExpNum = (isTemp ? "T_" : "") + code + _groupName + SerialNum;
                     break;
                 case 2:
-                    _newExpNum = (isTemp ? "T_" : "") + code + _groupName + SerialNum;
+                    _newExpNum = (isTemp ? "T_" : "") + _groupName + code + SerialNum;
                     break;
                 case 3:
                     _newExpNum = (isTemp ? "T_" : "") + code + SerialNum + _groupName;

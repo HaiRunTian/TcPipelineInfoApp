@@ -1,196 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/layoutTop"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="2dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="2dp">
-
-        <Spinner
-            android:id="@+id/spLayers"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_btn_shadow_bg"
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_btn_shadow_bg"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tvLabelFn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:gravity="center"
-                android:text="@string/function"
-                android:textSize="@dimen/tiny2"
-                android:textColor="@color/black02" />
-
-            <CheckBox
-                android:id="@+id/cbFunctions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/tvLabelFn"
-                android:background="@drawable/selector_checkbox"
-                android:button="@null" />
-
-            <TextView
-                android:gravity="center"
-                android:id="@+id/tvLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:text="无"
-                android:textSize="@dimen/tiny2"
-                android:textColor="@color/green03" />
-
-            <TextView
-                android:id="@+id/tvLabelReminder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/tvLabel"
-                android:text=""
-                android:textColor="@color/green03" />
-
-        </RelativeLayout>
-    </LinearLayout>
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.supermap.mapping.MapView
         android:id="@+id/mapView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutTop" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <ScrollView
-        android:id="@+id/layoutFuntionbar"
+    <Spinner
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:id="@+id/spLayers"
+        android:layout_width="80dp"
+        android:layout_height="22dp"
+        android:dropDownWidth="80dp"
+        android:background="@drawable/shape_sp_bg"/>
+
+  <!--  <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/layoutTop"
-        android:background="@drawable/shape_gradient_bg2"
-        android:fadeScrollbars="false"
-        android:scrollbarSize="3dp"
-        android:scrollbarThumbVertical="@color/green03">
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:elevation="3dp"
+        android:src="@drawable/selector_action"
+        android:backgroundTint="@color/blue03"
+        app:pressedTranslationZ="3dp"/>-->
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="2dp">
-
-                <RadioButton
-                    android:id="@+id/rdBtnDrag"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_drag"
-                    android:text="@string/drag"
-                    android:visibility="gone" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnDrawPoint"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_drawpoint"
-                    android:text="@string/draw_point" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnDrawLine"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_drawline"
-                    android:text="@string/draw_line" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnQueryLine"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_query_point"
-                    android:text="@string/query_line"
-                    android:visibility="gone" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnQueryPoint"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_query_point"
-                    android:text="@string/local_point" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnMovePoint"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_drawpoint"
-                    android:text="@string/move_point"
-                    android:visibility="gone" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnPointInLine"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_point_in_line"
-                    android:text="@string/point_in_line" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnLayers"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_layers"
-                    android:text="@string/layers"
-                    android:visibility="gone" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnDistanceMeasure"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_distance_measure"
-                    android:text="@string/measure_distance" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnMeasuredPoint"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_check_point"
-                    android:text="@string/measure_point" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnCount"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_count"
-                    android:text="@string/count" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnExport"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_export"
-                    android:text="@string/export" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnImport"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_import"
-                    android:text="@string/importt" />
-
-                <RadioButton
-                    android:visibility="gone"
-                    android:id="@+id/rdBtnMap"
-                    style="@style/RadiobuttonStyle02"
-                    android:drawableTop="@drawable/selector_btn_setting"
-                    android:text="@string/pointSize" />
-
-            </RadioGroup>
-
-        </LinearLayout>
-
-    </ScrollView>
+    <TextView
+        android:textSize="@dimen/tiny2"
+        android:gravity="center"
+        android:text="漫游"
+        android:textColor="@color/white"
+        android:id="@+id/tvAction"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:elevation="3dp"
+        android:src="@drawable/selector_action"
+        android:background="@drawable/shape_btn_cricle"/>
 
 
     <LinearLayout
@@ -215,21 +71,33 @@
 
                 <ImageButton
                     android:id="@+id/imgBtnLocation"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="3dp"
-                    android:background="@drawable/selector_btn_zoom"
-                    android:src="@mipmap/ic_map_local2_32px"
-                    android:textSize="@dimen/small" />
+                    android:background="@drawable/shape_btn_cricle"
+                    android:src="@drawable/selector_local" />
+
+                <ImageButton
+                    android:visibility="visible"
+                    android:id="@+id/imgMapChange"
+                    android:layout_width="30dp"
+                    android:scaleType="fitXY"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/shape_btn_cricle"
+                    android:src="@drawable/selector_btn_map" />
 
                 <ImageButton
                     android:id="@+id/imgbtnNone"
                     android:layout_width="40dp"
                     android:layout_height="30dp"
+                    android:layout_below="@+id/imgBtnLocation"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/imgBtnLocation"
                     android:visibility="invisible" />
 
                 <TextView
@@ -243,48 +111,9 @@
                     android:text="@string/scale"
                     android:textColor="@color/red"
                     android:textSize="@dimen/tiny" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layoutZoomInZoomOut"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="right">
-
-                <ImageButton
-                    android:id="@+id/imgBtnZoomIn"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/selector_btn_zoom"
-                    android:src="@mipmap/ic_zoom_in_32px" />
-
-                <ImageButton
-                    android:id="@+id/imgBtnZoomOut"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/imgBtnZoomIn"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/selector_btn_zoom"
-                    android:src="@mipmap/ic_zoom_out_32px" />
             </RelativeLayout>
 
         </LinearLayout>
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/layoutMapContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="140dp"-->
-        <!--android:layout_marginBottom="2dp"-->
-        <!--android:layout_marginLeft="5dp"-->
-        <!--android:layout_marginRight="5dp"-->
-        <!--android:background="@drawable/shape_btn_shadow_bg"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="vertical"-->
-        <!--android:visibility="visible">-->
-
-        <!--</LinearLayout>-->
 
     </LinearLayout>
 
@@ -293,14 +122,118 @@
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginBottom="2dp"
         android:background="@drawable/shape_btn_shadow_bg"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
+    </LinearLayout>
+
+    <com.app.pipelinesurvey.view.widget.MeasureXyView
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_map_measure_arrow"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/measureXyView"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/layoutMeausre"
+        android:visibility="gone"
+        android:background="@drawable/shape_btn_shadow_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/tvx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/current_X"
+                    android:textSize="@dimen/small"
+                    />
+
+                <EditText
+                    android:enabled="false"
+                    style="@style/EdtStyle01"
+                    android:id="@+id/edtX"
+                    android:textSize="@dimen/small"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/tvy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/current_Y"
+                    android:textSize="@dimen/small"/>
+
+                <EditText
+                    android:enabled="false"
+                    android:id="@+id/edtY"
+                    style="@style/EdtStyle01"
+                    android:textSize="@dimen/small"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Switch
+                android:textOn="关"
+                android:textOff="编辑"
+                android:background="@drawable/selector_btn_check_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/swOpen"/>
+
+            <Button
+                android:text="@string/query"
+                style="@style/fragment_btn_style"
+                android:id="@+id/btnQuery"/>
+
+
+
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
+
+
 
 </RelativeLayout>
