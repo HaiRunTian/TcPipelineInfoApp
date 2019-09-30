@@ -37,7 +37,6 @@ public class MemorySpinnerUtils {
         String SceneListString = new String(Base64.encode(
                 byteArrayOutputStream.toByteArray(), Base64.DEFAULT));
         objectOutputStream.close();
-
         return SceneListString;
     }
 

@@ -25,10 +25,9 @@ import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.ZipProgressUtil;
 import com.app.utills.LogUtills;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,15 +84,12 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                     m_adapter.notifyDataSetChanged();
                     //压缩成功后，弹出提示是否删除切片安装包
                     showDialogDeleteZipFile();
-
-
                     break;
                 //数据解压失败
                 case 4:
                     m_progressDialog.setMessage("数据解压失败");
                     m_progressDialog.dismiss();
                     break;
-
                 default:
                     break;
             }
@@ -109,11 +105,11 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
             public void onClick(DialogInterface dialog, int which) {
                 if ( FileUtils.getInstance().deleteFile(mZipFile)){
                     LogUtills.i(TAG,"delete zipfile success");
-                    ToastUtil.showShort(getActivity(), "删除成功");
+                    ToastyUtil.showSuccessShort(getActivity(), "删除成功");
 
                 }else {
                     LogUtills.i(TAG,"delete zipfile fail");
-                    ToastUtil.showShort(getActivity(), "删除失败");
+                    ToastyUtil.showErrorShort(getActivity(), "删除失败");
                 }
 
             }
@@ -138,13 +134,19 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     private void initData() {
         m_list = new ArrayList<>();
 //        SuperMapConfig.SDCARD = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
-        m_list = FileUtils.getInstance().findAllFile(SuperMapConfig.SDCARD, m_list);
+        String pathOfQQ = SuperMapConfig.SDCARD + "/tencent/QQfile_recv";
+        m_list = FileUtils.getInstance().findAllFile(pathOfQQ, m_list);
+        m_folderName = pathOfQQ;
+        m_tvTitle.setText(pathOfQQ);
+        if(m_list.size() == 0){
+            m_list = FileUtils.getInstance().findAllFile(SuperMapConfig.SDCARD, m_list);
+            m_folderName = SuperMapConfig.SDCARD;
+            m_tvTitle.setText(m_folderName);
+        }
         //根目录
-        m_folderName = SuperMapConfig.SDCARD;
         LogUtills.i(TAG, "" + m_list.size());
         m_adapter = new UnZipAdapter(getActivity(), m_list);
         m_listView.setAdapter(m_adapter);
-        m_tvTitle.setText(SuperMapConfig.SDCARD);
         m_listView.setOnItemClickListener(this);
         m_listView.setOnItemLongClickListener(this);
     }
@@ -152,6 +154,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     private void initView() {
         m_btnUnzip = m_rootView.findViewById(R.id.btnUnZip);
         m_btnReturn = m_rootView.findViewById(R.id.btnReturn2);
+        m_btnReturn.setVisibility(View.VISIBLE);
         TextView tvReturn = m_rootView.findViewById(R.id.tvReturn);
         m_listView = m_rootView.findViewById(R.id.listView);
         m_tvTitle = m_rootView.findViewById(R.id.tvTitle2);
@@ -166,7 +169,6 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
         m_tvTitle.setOnClickListener(this);
         tvColse.setOnClickListener(this);
         tvReturn.setOnClickListener(this);
-
 
     }
 
@@ -186,7 +188,6 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
         m_progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         m_progressDialog.setMax(100);
 
-
     }
 
     @Override
@@ -202,7 +203,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                     m_btnReturn.setVisibility(View.VISIBLE);
                     m_handler.sendEmptyMessage(0);
                 } else {
-                    ToastUtil.show(getActivity(), "已经是根目录了，不能再返回", 1);
+                    ToastyUtil.showInfoShort(getActivity(), "已经是根目录了，不能再返回");
                     m_btnReturn.setVisibility(View.GONE);
                 }
                 break;
@@ -221,15 +222,12 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
 
                             @Override
                             public void zipSuccess() {
-
                                 m_handler.sendEmptyMessage(3);
-
                             }
 
                             @Override
                             public void zipProgress(int progress) {
                                 m_progressDialog.setProgress(progress);
-
                             }
 
                             @Override
@@ -290,7 +288,6 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
         }
     }
 
-
     /**
      * 长按删除文件
      *
@@ -299,7 +296,6 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
         AlertDialog _dialog = new AlertDialog.Builder(getActivity())
                 .setTitle("提示 ！")
                 .setMessage("确定删除此文件吗？")
@@ -308,19 +304,19 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         if (m_list.get(position).getFileType() == FileEntity.Type.FILE) {
                             if (FileUtils.getInstance().deleteFile(m_list.get(position).getFilePath())) {
-                                ToastUtil.showShort(getActivity(), "删除成功" + m_list.get(position).getFileName());
+                                ToastyUtil.showSuccessShort(getActivity(),"文件删除成功");
                                 m_list.remove(position);
                                 m_handler.sendEmptyMessage(0);
                             } else {
-                                ToastUtil.showShort(getActivity(), "删除失败" + m_list.get(position).getFileName());
+                                ToastyUtil.showErrorShort(getActivity(),"文件删除失败");
                             }
                         } else {
                             if (FileUtils.getInstance().deleteDir(m_list.get(position).getFilePath())) {
-                                ToastUtil.showShort(getActivity(), "删除成功" + m_list.get(position).getFileName());
+                                ToastyUtil.showSuccessShort(getActivity(),"文件删除成功");
                                 m_list.remove(position);
                                 m_handler.sendEmptyMessage(0);
                             } else {
-                                ToastUtil.showShort(getActivity(), "删除失败" + m_list.get(position).getFileName());
+                                ToastyUtil.showErrorShort(getActivity(),"文件删除失败");
                             }
                         }
                     }
@@ -333,7 +329,6 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
                 })
                 .create();
         _dialog.show();
-
 
         return false;
     }

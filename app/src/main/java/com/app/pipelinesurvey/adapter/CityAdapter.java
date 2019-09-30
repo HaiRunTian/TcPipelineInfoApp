@@ -17,7 +17,7 @@ import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.SQLUtils;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.activity.linepoint.StandardActivity;
 
 
@@ -100,7 +100,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder>{
                                 DatabaseHelpler.getInstance().execSQL("drop table "+linesettintable);
                                 List.remove(position);
                                 notifyDataSetChanged();
-                                ToastUtil.show(context,"删除成功", Toast.LENGTH_SHORT);
+                                ToastyUtil.showSuccessShort(context,"删除成功");
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {

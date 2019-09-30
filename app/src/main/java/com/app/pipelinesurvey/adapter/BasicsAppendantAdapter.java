@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.activity.linepoint.AddBasicsActivity;
 
 import java.util.List;
@@ -81,13 +81,13 @@ public class BasicsAppendantAdapter extends BaseAdapter {
                                         " name = '"+name+"' and typename = '"+typename+"'", null);
                                 list.remove(position);
                                 notifyDataSetChanged();
-                                ToastUtil.show(context,"删除成功....", Toast.LENGTH_SHORT);
+                                ToastyUtil.showSuccessShort(context,"删除成功....");
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ToastUtil.show(context,"取消了操作...", Toast.LENGTH_SHORT);
+                                ToastyUtil.showInfoShort(context,"取消了操作...");
                             }
                         })
                         .create();

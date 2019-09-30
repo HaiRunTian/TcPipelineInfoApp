@@ -43,7 +43,7 @@ public class TheTotalPoint extends BaseFieldPInfos {
             LogUtills.i("begin " + this.getClass().getName() + " createDefaultThemeUnique....");
             super.createThemeUnique();
             String tabName = "";
-            //TODO 根据标准名称 查找点配置表
+           /* //TODO 根据标准名称 查找点配置表
             Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
             //查询此标准的点表名
             while (_cursorStand.moveToNext()) {
@@ -52,9 +52,9 @@ public class TheTotalPoint extends BaseFieldPInfos {
 
             if (tabName.length() == 0) {
                 LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
-            }
+            }*/
 
-            Cursor _cursor = DatabaseHelpler.getInstance().query(tabName,
+            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
                     new String[]{"name", "symbolID", "scaleX", "scaleY", "color"}, null, null, null, null, null);
             int _num = _cursor.getCount();
             String[] _keys = new String[_num];
@@ -64,7 +64,6 @@ public class TheTotalPoint extends BaseFieldPInfos {
             LogUtills.i("Query Cursor: " + _num);
             int _index = 0;
             while (_cursor.moveToNext()) {
-
                 String _name = _cursor.getString(_cursor.getColumnIndex("name"));
                 int _symbolId = _cursor.getInt(_cursor.getColumnIndex("symbolID"));
                 double _scaleX = _cursor.getDouble(_cursor.getColumnIndex("scaleX"));
@@ -75,9 +74,7 @@ public class TheTotalPoint extends BaseFieldPInfos {
                 _size2ds[_index] = new Size2D(_scaleX , _scaleY);
                 _colors[_index] = _color;
                 _index++;
-
             }
-            _cursorStand.close();
             _cursor.close();
 
             return createThemeUnique("symbolExpression", _keys, _symbolIds, _colors, _size2ds);
@@ -101,7 +98,7 @@ public class TheTotalPoint extends BaseFieldPInfos {
 
         try {
             //查询数据库表，设置点线有颜色
-            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_THEME);
+            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_THEME,"where city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
             int _num = _cursor.getCount();
             String[] _keys = new String[_num];
             String[] _colors = new String[_num];
@@ -136,7 +133,7 @@ public class TheTotalPoint extends BaseFieldPInfos {
     public GeoStyle createDefaultSelectStyle() {
         GeoStyle _style = new GeoStyle();
         _style.setLineColor(new Color(255, 0, 0));
-        _style.setLineWidth(0.8);
+        _style.setLineWidth(0.5);
         _style.setMarkerSize(new Size2D(8, 8));
         _style.setFillBackOpaque(true);
         return _style;

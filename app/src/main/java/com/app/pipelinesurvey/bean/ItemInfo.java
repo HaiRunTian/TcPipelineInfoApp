@@ -7,7 +7,6 @@ package com.app.pipelinesurvey.bean;
 public class ItemInfo {
     private String text;
     private int img;
-
     public String getText() {
         return text;
     }

@@ -6,6 +6,8 @@ import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.Line.TheTotalLine;
 import com.app.BaseInfo.Data.Point.MeasurePoint;
 import com.app.BaseInfo.Data.Point.TheTotalPoint;
+import com.app.pipelinesurvey.base.MyApplication;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.utills.LogUtills;
 import com.supermap.data.Color;
@@ -47,15 +49,15 @@ public class OperNotifyer {
      * 可以依据用户勾选了哪一种管类再生成
      * @param ds
      */
-    public static void AddSystemLayers(Datasource ds) {
+    public static void AddSystemLayers(Datasource ds ) {
         List<BaseFieldInfos> _infos = new ArrayList();
         _infos.add(new TheTotalPoint());
         _infos.add(new TheTotalLine());
         _infos.add(new MeasurePoint());
-
         for (int i = 0; i < _infos.size(); ++i) {
             DatasetVector _resultDv = CreateDataset(ds, _infos.get(i));
             //设置数据集的投影坐标系
+//            _resultDv.setPrjCoordSys(prjCoordSysType);
             _resultDv.setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
             //数据集添加到地图中
             AddAndSetLayerType(_resultDv, _infos.get(i));
@@ -70,7 +72,6 @@ public class OperNotifyer {
      * @return 矢量数据集
      */
     private static DatasetVector CreateDataset(Datasource ds, BaseFieldInfos info) {
-
         // 以下代码示范通过矢量数据集信息创建矢量数据集
         Datasets datasets = ds.getDatasets();
         if (datasets.contains(info.datasetName)) {
@@ -87,13 +88,15 @@ public class OperNotifyer {
         } else {
             return null;
         }
-
         datasetVectorInfo.setEncodeType(EncodeType.NONE);
         datasetVectorInfo.setName(name);
         // 创建矢量数据集
         DatasetVector datasetVector = datasets.create(datasetVectorInfo);
-        if (datasetVector != null) {
+        if (datasetVector == null) {
+//            ToastyUtil.showErrorShort(MyApplication.Ins(),"创建数据集失败");
+            LogUtills.i("数据集创建失败");
         }
+        //数据集添加到图层
         AddFieldInfo(datasetVector, info);
         // 释放资源
         return datasetVector;
@@ -163,7 +166,8 @@ public class OperNotifyer {
     private static void AddAndSetLayerType(DatasetVector dv, BaseFieldInfos info) {
         Map map = WorkSpaceUtils.getInstance().getMapControl().getMap();
         Layer _temp = map.getLayers().add(dv, true);
-        _temp.setVisible(true);
+        _temp.setSymbolScalable(false);
+        _temp.setVisible(false);
         //点图层
         if (info instanceof BaseFieldPInfos) {
             LayerSettingVector _vector = new LayerSettingVector();
@@ -181,7 +185,10 @@ public class OperNotifyer {
             ThemeLabel _theme = _temp_info.createThemeLabel();
             //设置该图层标签专题图
             Layer _resultLayer = map.getLayers().add(dv, _theme, true);
+            //设置最小可见
+            _resultLayer.setMinVisibleScale(1/1000.0);
             _resultLayer.setVisible(true);
+//            _resultLayer.setSymbolScalable(true);
             //设置该图层单值专题图 符号库
             ThemeUnique _uniqueTheme = _temp_info.createDefaultThemeUnique();
             _resultLayer = map.getLayers().add(dv, _uniqueTheme, true);
@@ -193,17 +200,13 @@ public class OperNotifyer {
             _style.setMarkerSymbolID(((BaseFieldPInfos) info).symbolID);
             _selection.setStyle(_style);
             _resultLayer.setVisible(true);
+            _resultLayer.setMinVisibleScale(1/1000.0);
+            _resultLayer.setSymbolScalable(true);
             map.refresh();
         }
 
         if (info instanceof BaseFieldLInfos) {
-            LayerSettingVector _vector = new LayerSettingVector();
-            GeoStyle geoStyle_P = new GeoStyle();
-            geoStyle_P.setLineSymbolID(0);
-            geoStyle_P.setLineWidth(0.1);
-            geoStyle_P.setLineColor(new Color(255, 0, 0));
-            _vector.setStyle(geoStyle_P);
-            _temp.setAdditionalSetting(_vector);
+
             BaseFieldLInfos _temp_info = (BaseFieldLInfos) info;
             ThemeLabel _theme = _temp_info.createThemeLabel();
             //标签专题图
@@ -211,25 +214,31 @@ public class OperNotifyer {
             if (_resultLayer == null) {
                 LogUtills.w("Add ThemeLable Layer Faild...");
             }
-            _resultLayer.setVisible(true);
+            _resultLayer.setVisible(false);
             //单值专题图
             ThemeUnique _uniqueTheme = _temp_info.createDefaultThemeUnique();
             _resultLayer = map.getLayers().add(dv, _uniqueTheme, true);
             Selection _selection = _resultLayer.getSelection();
             GeoStyle _style = new GeoStyle();
             _style.setLineColor(new Color(255, 0, 0));
-            _style.setLineWidth(0.5);
+            _style.setLineWidth(0.2);
             _style.setLineSymbolID(0);
             _selection.setStyle(_style);
+            _resultLayer.setSymbolScalable(true);
             _resultLayer.setVisible(true);
         }
     }
 
+    /**
+     * 通过bean获取数据集字段 与 值map
+     * @param info
+     * @return
+     */
     public static java.util.Map<java.lang.String, java.lang.Object> getFieldMaps(BaseFieldInfos info) {
         try {
             java.util.Map<java.lang.String, java.lang.Object> _values = new HashMap<String, Object>();
             Field[] _field = info.getClass().getFields();
-            // 遍历所有属性
+            // 遍历所有属性 会把所有的字段存进去，一些系统自带的字段夜壶存进去
             for (int j = 0; j < _field.length; j++) {
                 //获取value值
                 Object _obj = _field[j].get(info);
@@ -242,6 +251,11 @@ public class OperNotifyer {
         }
     }
 
+    /**
+     * 通过记录集获取 字段名和值
+     * @param result
+     * @return
+     */
     public static java.util.Map<java.lang.String, java.lang.Object> getFieldMaps(Recordset result) {
         try {
             if (result.isEmpty()) {

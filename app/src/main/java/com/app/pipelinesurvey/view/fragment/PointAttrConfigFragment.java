@@ -20,7 +20,7 @@ import com.app.pipelinesurvey.bean.PipePointConfigInfo;
 import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.activity.PointAttrConfigActivity;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
 //        currentCity = (String) new SharedPrefManager(getActivity(),
 //                SharedPrefManager.FILE_CONFIG).getSharedPreference(SharedPrefManager.KEY_CITY, "");
 //        if (currentCity.length() == 0) {
-//            ToastUtil.showShort(getActivity(), "请选择城市");
+//            ToastyUtil.showShort(getActivity(), "请选择城市");
 //        } else {
 //            bundlePipeType(SQLConfig.TABLE_NAME_POINT_LIST);
 //        }
@@ -166,7 +166,7 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
         } else {
             m_adapter = new PointConfigItemListBaseAdapter(getActivity(), m_infoList);
             m_lvPointConfig.setAdapter(m_adapter);
-            ToastUtil.showShort(getActivity(), "未检索到数据");
+            ToastyUtil.showInfoShort(getActivity(), "未检索到数据");
         }
     }
 

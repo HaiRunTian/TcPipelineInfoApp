@@ -11,7 +11,7 @@ import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.bean.PipePointConfigInfo;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.fragment.PointAttrConfigFragment;
 import com.app.pipelinesurvey.view.iview.IPointAttrConfigView;
 
@@ -99,13 +99,13 @@ public class PointAttrConfigActivity extends BaseActivity implements IPointAttrC
                 if (previousAction.equals(PointAttrConfigFragment.ITEM_CLICK)) {
                     DatabaseHelpler.getInstance().update(SQLConfig.TABLE_DEFAULT_POINT_SETTING, getCurrentContentValues(),
                             "id = ?", new String[]{edtID.getText().toString()});
-                    ToastUtil.showShort(PointAttrConfigActivity.this, "已保存");
+                    ToastyUtil.showSuccessShort(PointAttrConfigActivity.this, "已保存");
                     updatePointAttrConfigInfo();
                 } else if (previousAction.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {
                     ContentValues _values = getCurrentContentValues();
                     _values.put("city", "广州");
                     DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_DEFAULT_POINT_SETTING,_values);
-                    ToastUtil.showShort(PointAttrConfigActivity.this,"保存成功");
+                    ToastyUtil.showSuccessShort(PointAttrConfigActivity.this,"保存成功");
                     setResult(RESULT_OK);
                     finish();
                 }

@@ -64,24 +64,18 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 网络断开的时候调用
      */
-    protected void onNetworkDisConnected() {
-
-    };
-
+    protected void onNetworkDisConnected() { };
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityUtil.removeActivity(this);
         NetStateReceiver.removeRegisterObserver(mNetChangeObserver);
-
     }
 
     protected final <T> T $(int id) {
         return (T) findViewById(id);
     }
-
-
 
 }
 

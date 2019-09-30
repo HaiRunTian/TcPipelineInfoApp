@@ -22,7 +22,7 @@ import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.Decompressor;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
 
 import java.util.ArrayList;
@@ -61,7 +61,6 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
                     break;
                 case 1:
                     m_adapter.notifyDataSetChanged();
-
                     break;
 
                 default:
@@ -94,7 +93,8 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
 
         m_list = new ArrayList<>();
 //        SuperMapConfig.SDCARD = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
-        m_folderName = SuperMapConfig.DEFAULT_DATA_PATH;  //根目录
+        //根目录
+        m_folderName = SuperMapConfig.DEFAULT_DATA_PATH.substring(0,SuperMapConfig.DEFAULT_DATA_PATH.length()-1);
         m_list = FileUtils.getInstance().findAllFile(m_folderName, m_list);
         LogUtills.i(TAG, "" + m_list.size());
         m_adapter = new SelectBaseMapAdapter(this, m_list);
@@ -136,7 +136,7 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
                     m_btnReturn.setVisibility(View.VISIBLE);
                     m_handler.sendEmptyMessage(0);
                 } else {
-                    ToastUtil.show(this, "已经是根目录了，不能再返回", 1);
+                    ToastyUtil.showInfoShort(this, "已经是根目录了，不能再返回");
                     m_btnReturn.setVisibility(View.GONE);
                 }
                 break;
@@ -180,7 +180,7 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
             LogUtills.i(TAG, m_list.size() + "");
             m_tvTitle.setText(m_folderName);
             m_handler.sendEmptyMessage(0);
-        } else if (m_folderName.endsWith(".sci") || m_folderName.endsWith(".SCI")) {
+        } else if (m_folderName.endsWith(".sci") || m_folderName.endsWith(".SCI") ||m_folderName.endsWith(".json")) {
 
             if (m_itemPosition == -1) { //未选择变选中
                 m_list.get(position).setCheck(true);

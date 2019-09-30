@@ -51,7 +51,6 @@ public class PipeTypeFragment extends Fragment implements View.OnClickListener {
         initData();
         PipeTypeExListViewAdapter adapter = new PipeTypeExListViewAdapter(getActivity(),m_list);
         m_exlistView.setAdapter(adapter);
-
     }
 
     private void initData() {

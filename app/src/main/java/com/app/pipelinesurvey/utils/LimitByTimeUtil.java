@@ -84,7 +84,6 @@ public class LimitByTimeUtil {
                 //取得资源对象
                 URL url = null;
                 try {
-
                     //http://www.baidu.com 百度
                     // http://www.ntsc.ac.cn 中国科学院国家授时中心
                     url = new URL("http://www.ntsc.ac.cn");

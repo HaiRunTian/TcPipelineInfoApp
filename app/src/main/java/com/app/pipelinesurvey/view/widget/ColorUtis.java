@@ -31,7 +31,7 @@ public class ColorUtis {
      *
      * @param argb ARGB(含RGB)颜色
      * @return 16进制颜色
-     * @throws NumberFormatException 当{@param argb}不是一个正确的颜色格式的字符串时
+     * @throws IllegalArgumentException 当{@param argb}不是一个正确的颜色格式的字符串时
      */
     public static int convertToColorInt(@NonNull String argb) throws IllegalArgumentException {
         if (argb.matches("[0-9a-fA-F]{1,6}")) {

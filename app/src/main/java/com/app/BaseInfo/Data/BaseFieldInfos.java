@@ -17,7 +17,6 @@ public abstract class BaseFieldInfos implements Parcelable {
     /**
      * 管点类型
      */
-
     public POINTTYPE type = POINTTYPE.Type_None;
 
     /**

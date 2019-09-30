@@ -21,7 +21,7 @@ import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
 
 import java.util.ArrayList;
@@ -80,7 +80,6 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
             tvNoPrj.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void initView() {
         tvNoPrj = (TextView) findViewById(R.id.tvNoPrj);
@@ -148,26 +147,28 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                 setResult(3, data);
                 finish();
             } else if (resultCode == 1 || resultCode == 0) {
-                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, null, null, null, null, null, null);
-                list_Prj.clear();
-                while (_cursor.moveToNext()) {
-                    //工程名称，工作空间名称
-
-                    String _prjName = _cursor.getString(_cursor.getColumnIndex("Name"));
-                    list_Prj.add(_prjName);
+                try {
+                    Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, null, null, null, null, null, null);
+                    list_Prj.clear();
+                    while (_cursor.moveToNext()) {
+                        //工程名称，工作空间名称
+                        String _prjName = _cursor.getString(_cursor.getColumnIndex("Name"));
+                        list_Prj.add(_prjName);
+                    }
+                    if (list_Prj.size() == 0) {
+                        tvNoPrj.setVisibility(View.VISIBLE);
+                    } else {
+                        tvNoPrj.setVisibility(View.GONE);
+                        m_listAdapter.notifyDataSetChanged();
+                    }
+                } catch (Exception e) {
+                    LogUtills.i(e.toString());
                 }
-                if (list_Prj.size() == 0) {
-                    tvNoPrj.setVisibility(View.VISIBLE);
-                } else {
-                    m_listAdapter.notifyDataSetChanged();
-                }
-
             }
             tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");
+
         }
-
     }
-
 
     /**
      * 长按删除
@@ -201,7 +202,7 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                         list_Prj.remove(position);
                         m_listAdapter.notifyDataSetChanged();
                         tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");
-                        ToastUtil.show(ProjectListActivity.this, "删除成功", Toast.LENGTH_SHORT);
+                        ToastyUtil.showSuccessShort(ProjectListActivity.this, "删除成功");
 //                        }
 
                     }

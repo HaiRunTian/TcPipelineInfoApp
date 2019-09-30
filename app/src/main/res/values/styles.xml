@@ -96,6 +96,15 @@
         <item name="android:background">@drawable/selector_btn_default</item>
         <item name="android:textSize">@dimen/tiny2</item>
     </style>
+    <!--自定义按钮样式测量收点界面隐藏已测标识2-1-->
+    <style name="ButtonStyle02_2">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:textColor">@color/grey04</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@drawable/selector_btn_default</item>
+        <item name="android:textSize">@dimen/tiny2</item>
+    </style>
 
     <!--标题栏左侧图标样式-->
     <style name="TitleBarLeftIconStyle">
@@ -107,8 +116,9 @@
 
     <!--标题栏右侧图标样式-->
     <style name="TitleBarRightIconStyle">
+        <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginRight">5dp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
@@ -179,12 +189,14 @@
     </style>
 
     <style name="EdtStyle02">
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/small</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">3dp</item>
     </style>
 
 
@@ -247,10 +259,19 @@
     </style>
 
     <style name="TextViewStyle02_3">
-        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
         <item name="android:textSize">@dimen/small</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:paddingLeft">2dp</item>
+    </style>
+
+    <style name="TextViewStyle02_4">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">@dimen/title</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:paddingLeft">2dp</item>
     </style>
@@ -355,9 +376,28 @@
         <item name="android:textColor">@drawable/selector_text_color_2</item>
     </style>
 
+    <style name="activity_btn_style_2">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textColor">@drawable/selector_text_color_2</item>
+    </style>
+
     <style name="fragment_btn_style">
         <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">28dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textColor">@drawable/selector_text_color_2</item>
+        <item name="android:background">@drawable/selector_btn_all</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+    <style name="fragment_btn_style_2">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/small</item>
@@ -385,7 +425,7 @@
 
     <!--地图功能菜单-->
     <style name="mapactivity_menu_item_style">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">horizontal</item>
@@ -396,18 +436,38 @@
     <style name="mapactivity_menu_item_img_style">
         <item name="android:layout_width">25dp</item>
         <item name="android:layout_height">25dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <!--地图功能菜单 文字-->
     <style name="mapactivity_menu_item_text_style">
         <item name="android:enabled">false</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:layout_marginLeft">1dp</item>
+        <item name="android:textSize">@dimen/small</item>
         <item name="android:textColor">@color/grey02</item>
         <item name="android:gravity">center</item>
     </style>
 
+    <!--scollview style-->
+    <style name="scollview_style">
+        <item name="android:scrollbarSize">3dp</item>
+        <item name="android:scrollbarThumbVertical">@color/blue03</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:isScrollContainer">true</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
 
+    <style name="activity_setting_rbtn_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/selector_rbtn_setting</item>
+    </style>
+    
 </resources>

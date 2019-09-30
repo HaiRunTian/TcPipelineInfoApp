@@ -24,7 +24,7 @@ import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.fragment.PointAttrConfigFragment;
 import com.app.pipelinesurvey.view.iview.IPointAttrConfigView;
 
@@ -59,7 +59,8 @@ public class ProjectConfigActivity extends BaseActivity implements IPointAttrCon
         String fromWhere = _intent.getStringExtra("from");
         previousAction = fromWhere;
         if (fromWhere != null) {
-            if (fromWhere.equals(PointAttrConfigFragment.ITEM_CLICK)) {//从点属性配置点击子项进入
+            //从点属性配置点击子项进入
+            if (fromWhere.equals(PointAttrConfigFragment.ITEM_CLICK)) {
                 Bundle _bundle = _intent.getExtras();
                 PipePointConfigInfo _info = (PipePointConfigInfo) _bundle.get("info");
                 position = _bundle.getInt("position");
@@ -77,7 +78,8 @@ public class ProjectConfigActivity extends BaseActivity implements IPointAttrCon
                     edtMaxScaleVisble.setText(String.valueOf(_info.getMaxScaleVisble()));
                     edtLineWidth.setText(String.valueOf(_info.getLineWidth()));
                 }
-            } else if (fromWhere.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {//从点属性配置点击新增进入
+                //从点属性配置点击新增进入
+            } else if (fromWhere.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {
                 city = _intent.getStringExtra("city");
                 pipeType = _intent.getStringExtra("pipeType");
                 edtPipeType.setText(pipeType);
@@ -111,13 +113,13 @@ public class ProjectConfigActivity extends BaseActivity implements IPointAttrCon
                 if (previousAction.equals(PointAttrConfigFragment.ITEM_CLICK)) {
 //                    DatabaseHelpler.getInstance().update(SQLConfig.TABLE_NAME_POINT_CONFIG, getCurrentContentValues(),
 //                            "id = ?", new String[]{edtID.getText().toString()});
-                    ToastUtil.showShort(ProjectConfigActivity.this, "已保存");
+                    ToastyUtil.showSuccessShort(ProjectConfigActivity.this, "已保存");
                     updatePointAttrConfigInfo();
                 } else if (previousAction.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {
                     ContentValues _values = getCurrentContentValues();
                     _values.put("city", city);
 //                    DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_POINT_CONFIG,_values);
-                    ToastUtil.showShort(ProjectConfigActivity.this,"保存成功");
+                    ToastyUtil.showSuccessShort(ProjectConfigActivity.this,"保存成功");
                     setResult(RESULT_OK);
                     finish();
                 }

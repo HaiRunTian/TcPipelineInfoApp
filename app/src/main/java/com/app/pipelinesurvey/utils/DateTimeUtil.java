@@ -29,10 +29,9 @@ public class DateTimeUtil {
      * @return
      */
     public static boolean isFastDoubleClick(long lastClickTime) {
-        long time = System.currentTimeMillis();
-        long timeD = time - lastClickTime;
-//        lastClickTime = time;
-        return timeD <= 800;
+        long startTime = System.currentTimeMillis();
+        long time = startTime - lastClickTime;
+        return time <= 800;
     }
 
 

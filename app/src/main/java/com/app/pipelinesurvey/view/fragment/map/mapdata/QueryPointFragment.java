@@ -30,7 +30,6 @@ import android.widget.ListPopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
@@ -50,7 +49,7 @@ import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
 import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
 import com.app.pipelinesurvey.utils.SymbolInfo;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.iview.IDrawPipePointView;
 import com.app.pipelinesurvey.view.iview.IQueryPipePointView;
@@ -194,6 +193,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      * 第一次进来
      */
     private boolean firstInit = true;
+    private EditText edtX;
+    private EditText edtY;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -205,7 +206,74 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         m_view = inflater.inflate(R.layout.activity_query_pipe_point, container, false);
         initView(m_view);
+        initlayoutView(m_view);
         return m_view;
+    }
+
+    /**
+     * 初始化每一行view,根据数据库表用户设置是否显示
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/8/23  16:58
+     */
+    private void initlayoutView(View m_view) {
+        View laayoutGpid = m_view.findViewById(R.id.layout_gpid);
+        View layoutFeature = m_view.findViewById(R.id.layout_feature);
+        View layoutAppendant = m_view.findViewById(R.id.layout_appendant);
+        View layout_well_size = m_view.findViewById(R.id.layout_well_size);
+        View layout_well_depth = m_view.findViewById(R.id.layout_well_depth);
+        View layout_well_water = m_view.findViewById(R.id.layout_well_water);
+        View layout_well_mud = m_view.findViewById(R.id.layout_well_mud);
+        View layout_well_lid_texture = m_view.findViewById(R.id.layout_well_lid_texture);
+        View layout_well_lid_size = m_view.findViewById(R.id.layout_well_lid_size);
+        View layout_state = m_view.findViewById(R.id.layout_state);
+        View layout_elevation = m_view.findViewById(R.id.layout_elevation);
+        View layout_depth = m_view.findViewById(R.id.layout_depth);
+        View layout_offset = m_view.findViewById(R.id.layout_offset);
+        View layout_building_structures = m_view.findViewById(R.id.layout_building_structures);
+        View layout_road_name = m_view.findViewById(R.id.layout_road_name);
+        View layout_point_remark = m_view.findViewById(R.id.layout_point_remark);
+        View layout_puzzle = m_view.findViewById(R.id.layout_puzzle);
+        View layout_x = m_view.findViewById(R.id.layout_x);
+        View layout_y = m_view.findViewById(R.id.layout_y);
+
+        //TODO 根据数据库表 判断view是否显示
+        String _gpType = getArguments().getString("gpType");
+        Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_SETTING, "where prj_name = '"
+                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + _gpType + "'");
+        while (cursor.moveToNext()){
+            int wellsize = cursor.getInt(cursor.getColumnIndex("wellsize"));
+            int welldepth = cursor.getInt(cursor.getColumnIndex("welldepth"));
+            int wellwater = cursor.getInt(cursor.getColumnIndex("wellwater"));
+            int wellmud = cursor.getInt(cursor.getColumnIndex("wellmud"));
+            int welllidtexture = cursor.getInt(cursor.getColumnIndex("welllidtexture"));
+            int welllidsize = cursor.getInt(cursor.getColumnIndex("welllidsize"));
+            int state = cursor.getInt(cursor.getColumnIndex("state"));
+            int elevation = cursor.getInt(cursor.getColumnIndex("elevation"));
+            int offset = cursor.getInt(cursor.getColumnIndex("offset"));
+            int building = cursor.getInt(cursor.getColumnIndex("building"));
+            int roadname = cursor.getInt(cursor.getColumnIndex("roadname"));
+            int pointremark = cursor.getInt(cursor.getColumnIndex("pointremark"));
+            int puzzle = cursor.getInt(cursor.getColumnIndex("puzzle"));
+            int x = cursor.getInt(cursor.getColumnIndex("x"));
+            int y = cursor.getInt(cursor.getColumnIndex("y"));
+            layout_well_size.setVisibility(wellsize == 1?View.VISIBLE:View.GONE);
+            layout_well_depth.setVisibility(welldepth == 1?View.VISIBLE:View.GONE);
+            layout_well_water.setVisibility(wellwater == 1?View.VISIBLE:View.GONE);
+            layout_well_mud.setVisibility(wellmud == 1?View.VISIBLE:View.GONE);
+            layout_well_lid_texture.setVisibility(welllidtexture == 1?View.VISIBLE:View.GONE);
+            layout_well_lid_size.setVisibility(welllidsize == 1?View.VISIBLE:View.GONE);
+            layout_state.setVisibility(state == 1?View.VISIBLE:View.GONE);
+            layout_elevation.setVisibility(elevation == 1?View.VISIBLE:View.GONE);
+            layout_offset.setVisibility(offset == 1?View.VISIBLE:View.GONE);
+            layout_building_structures.setVisibility(building == 1?View.VISIBLE:View.GONE);
+            layout_road_name.setVisibility(roadname == 1?View.VISIBLE:View.GONE);
+            layout_point_remark.setVisibility(pointremark == 1?View.VISIBLE:View.GONE);
+            layout_puzzle.setVisibility(puzzle == 1?View.VISIBLE:View.GONE);
+            layout_x.setVisibility(x == 1?View.VISIBLE:View.GONE);
+            layout_y.setVisibility(y == 1?View.VISIBLE:View.GONE);
+        }
+
     }
 
     @Override
@@ -217,7 +285,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
 
     private void initValue() {
-
         m_bundle = getArguments();
         m_basePInfo = m_bundle.getParcelable("info");
         LogUtills.i("queryActivity " + m_basePInfo.toString());
@@ -234,16 +301,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         featurePointsList = SpinnerDropdownListManager.getData("feature", m_gpType);
         spFeaturePoints.setMemoryCount(5);
         spFeaturePoints.setData(null, (ArrayList<String>) featurePointsList);
-//        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, featurePointsList);
-//        spFeaturePoints.setAdapter(m_adapter);
-//        spFeaturePoints.setSelection(featurePointsList.size()-1);
         //附属物
         appendantList = SpinnerDropdownListManager.getData("subsid", m_gpType);
         spAppendant.setMemoryCount(5);
         spAppendant.setData(null, (ArrayList<String>) appendantList);
-//       m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, appendantList);
-//        spAppendant.setAdapter(m_adapter);
-//        spAppendant.setSelection(appendantList.size()-1);
         //管点备注
         pointRemarkList = SpinnerDropdownListManager.getData("pointRemark", m_gpType);
 
@@ -251,12 +312,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         situationList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.situation));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
         spSituation.setAdapter(m_adapter);
-
         //管点状态
         stateList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.state));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, stateList);
         spState.setAdapter(m_adapter);
-
         //井盖材质
         wellLidTextureList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.wellLidTexture));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, wellLidTextureList);
@@ -277,19 +336,25 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             setRoadName();
             setPointRemark();
             setPuzzle();
+            setWellSize();
             setWellDepth();
             setWellMud();
             setWellWater();
+            setWellLidSize();
+            setX();
+            setY();
             m_listPicName = getPicturefromReSet();
             //从本地读取照片，放到gridView中
             if (m_listPicName.size() > 0) {
                 m_picIndex = m_listPicName.size();
+
                 for (String _s : m_listPicName) {
                     boolean isExsit = FileUtils.getInstance().isFileExsit(SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.PROJECT_NAME + "/" + SuperMapConfig.DEFAULT_DATA_PICTURE_PATH + "/" + _s);
                     if (!isExsit) {
-                        ToastUtil.show(getActivity(), "此图片不存在 = " + _s, 2);
+                        ToastyUtil.showInfoShort(getActivity(), "此图片不存在 = " + _s);
                         continue;
                     }
+                    picNames.add(_s);
                     picFiles.add(new File(SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.PROJECT_NAME + "/" + SuperMapConfig.DEFAULT_DATA_PICTURE_PATH + "/" + _s));
                     Bitmap _bitmap = CameraUtils.getimage(SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.PROJECT_NAME + "/" + SuperMapConfig.DEFAULT_DATA_PICTURE_PATH + "/" + _s);
                     HashMap<String, Object> _map = new HashMap<>();
@@ -341,7 +406,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         btnChangeStyle = view.findViewById(R.id.btnChangeStyle);
         btnOpenCamera = view.findViewById(R.id.btnAddPic);
         tv = view.findViewById(R.id.layout);
-
+        edtX = view.findViewById(R.id.edtX);
+        edtY = view.findViewById(R.id.edtY);
         initShowPicArea();
         btnOpenCamera.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -363,7 +429,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         setViewDrawable(tvAppendant);
         TextView tvFeaturePoints = view.findViewById(R.id.tvFeaturePoints);
         setViewDrawable(tvFeaturePoints);
-
     }
 
     @Override
@@ -380,7 +445,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 //编辑保存数据数据
                 _result = DataHandlerObserver.ins().editRecords(generateBaseFieldInfo());
                 if (!_result) {
-                    ToastUtil.show(getActivity(), "保存点数据失败", Toast.LENGTH_SHORT);
+                    ToastyUtil.showErrorShort(getActivity(), "保存点数据失败");
                     return;
                 } else {
                     if (!initPointExp.equals(getGPId())) {
@@ -388,7 +453,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     }
                     getDialog().dismiss();
                 }
-
                 break;
 
             //删除点 删除线
@@ -406,7 +470,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                         _reSet.edit();
                         if (_reSet.delete()) {
                             _reSet.update();
-                            ToastUtil.showShort(getActivity(), "删除点成功");
+                            ToastyUtil.showSuccessShort(getActivity(), "删除点成功");
                             getDialog().dismiss();
 
                             //线 此点作为终点
@@ -426,7 +490,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                             _resetL.dispose();
 
                         } else {
-                            ToastUtil.showShort(getActivity(), "删除点失败");
+                            ToastyUtil.showErrorShort(getActivity(), "删除点失败");
                         }
 
                         _reSet.close();
@@ -499,7 +563,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
     }
 
-
     /**
      * 更新线的起点和终点
      */
@@ -534,7 +597,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         reSetendExpNum.close();
     }
 
-
     private BaseFieldPInfos generateBaseFieldInfo() {
         BaseFieldPInfos _info = null;
         try {
@@ -547,6 +609,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 LogUtills.e(" Create BaseFieldPInfos Fail...");
                 return null;
             }
+            _info.shortCode = m_code;
             _info.exp_Num = getGPId();
             _info.pipeType = m_basePInfo.pipeType;
             _info.feature = getFeaturePoints();
@@ -576,7 +639,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.sysId = m_smid[0];
             _info.symbol = SymbolInfo.Ins().getSymbol(gpType, getAppendant(), getFeaturePoints());
             //如果管类代码有两位，截取第一位
-            if (_layerType.length() == 2) {
+            //管类代码 深圳和广州之前没区分
+            if (_layerType.length() == 2 && (SuperMapConfig.PROJECT_CITY_NAME.equals("广州") || SuperMapConfig.PROJECT_CITY_NAME.equals("深圳"))){
                 _layerType = _layerType.substring(0, 1);
             }
             _info.symbolExpression = _layerType + "-" + _info.symbol;
@@ -599,7 +663,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 }
             }
 
-            //查询数据每个标准点配置表 专题图符号大小
+           /* //查询数据每个标准点配置表 专题图符号大小
             String tabName = SQLConfig.TABLE_DEFAULT_POINT_SETTING;
             Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
             //查询此标准的点表名
@@ -609,7 +673,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
             if (tabName.length() == 0) {
                 LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
-            }
+            }*/
 
             Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
                     new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
@@ -619,7 +683,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 _info.symbolSizeX = _cursor.getDouble(_cursor.getColumnIndex("scaleX"));
                 _info.symbolSizeY = _cursor.getDouble(_cursor.getColumnIndex("scaleY"));
             }
-
 
         } catch (Exception e) {
             LogUtills.i(e.getMessage());
@@ -645,11 +708,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void setViewEdit(boolean state) {
-
         spAppendant.setEnabled(state);
         spFeaturePoints.setEnabled(state);
         spSituation.setEnabled(state);
@@ -669,7 +730,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         edtPuzzle.setEnabled(state);
 
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -706,7 +766,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 break;
         }
     }
-
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -806,7 +865,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         }
     }
 
-
     /**
      * 设置物探点号
      */
@@ -878,8 +936,11 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     @Override
     public String getPointRemark() {
         String s = edtPointRemark.getText().toString().trim();
-        if (s.startsWith("-")){
+        if (s.startsWith("-")) {
             s = s.substring(1);
+        }
+        if (s.endsWith("-")){
+            s = s.substring(0,s.length()-1);
         }
         return s;
     }
@@ -977,17 +1038,17 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (_appendant.contains("孔") || _appendant.contains("井") || _appendant.contains("篦")) {
             if (linearAppendantPanel.getVisibility() != View.VISIBLE) {
                 linearAppendantPanel.setVisibility(View.VISIBLE);
-                setWellSize();
-                setWellDepth();
-                setWellWater();
-                setWellMud();
-                setWellLidTexture();
-                setWellLidSize();
                 if (animSwitch) {
                     m_animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_autotv_show);
                     linearAppendantPanel.startAnimation(m_animation);
                 }
             }
+            setWellSize();
+            setWellDepth();
+            setWellWater();
+            setWellMud();
+            setWellLidTexture();
+            setWellLidSize();
         } else {
             linearAppendantPanel.setVisibility(View.GONE);
         }
@@ -1044,8 +1105,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void setRoadName() {
         String _roadName = m_basePInfo.road;
-        String _data = m_basePInfo.exp_Date;
-        String _statue = m_basePInfo.state;
         if (_roadName.length() != 0) {
             edtRoadName.setText(_roadName);
         }
@@ -1090,13 +1149,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      */
     @Override
     public void setWellDepth() {
-//        String _wellDepth = m_basePInfo.wellDeep;
-//        if (_wellDepth.length() != 0) {
-//            edtWellDepth.setText(_wellDepth);
-//        }
-
         String _wellDepth = m_basePInfo.wellDeep;
-        if (_wellDepth != null) {
+        if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
             int temp = (int) (s * 100);
             String depth = String.valueOf(temp);
@@ -1109,12 +1163,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      */
     @Override
     public void setWellWater() {
-//        String _wellWater = m_basePInfo.wellWater;
-//        if (_wellWater.length() != 0) {
-//            edtWellWater.setText(_wellWater);
-//        }
         String _wellWater = m_basePInfo.wellWater;
-        if (_wellWater != null) {
+        if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
             int temp = (int) (s * 100);
             String depth = String.valueOf(temp);
@@ -1127,18 +1177,27 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      */
     @Override
     public void setWellMud() {
-//        String _wellMud = m_basePInfo.wellMud;
-//        if (_wellMud.length() != 0) {
-//            edtWellMud.setText(_wellMud);
-//        }
-
         String _wellMud = m_basePInfo.wellMud;
-        if (_wellMud != null) {
+        if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
             int temp = (int) (s * 100);
             String depth = String.valueOf(temp);
             edtWellMud.setText(depth);
         }
+    }
+
+    /**
+     * 设置X坐标系
+     */
+    public void setX() {
+        edtX.setText(String.valueOf(m_basePInfo.longitude));
+    }
+
+    /**
+     * 设置Y坐标
+     */
+    public void setY() {
+        edtY.setText(String.valueOf(m_basePInfo.latitude));
     }
 
     /**
@@ -1180,7 +1239,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (!picName.isEmpty()) {
             _list.addAll(Arrays.asList(picName.split("#")));
         }
-        int _i = _list.size();
         return _list;
     }
 
@@ -1188,37 +1246,43 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      * 刷新图片区域gridview
      */
     private void refreshGridviewAdapter() {
-        simpleAdapter = new SimpleAdapter(getActivity(), imageItem,
-                R.layout.layout_griditem_addpic, new String[]{"itemImage", "picName"}, new int[]{R.id.imageView1, R.id.tvPicName});
-        simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(final View view, final Object data, String textRepresentation) {
-                if (view instanceof ImageView && data instanceof Bitmap) {
-                    getActivity()
-                            .runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {//绑定视图
-                                    ImageView i = (ImageView) view;
-                                    i.setImageBitmap((Bitmap) data);
-                                }
-                            });
-                    return true;
-                } else if (view instanceof TextView) {
-                    TextView _tv = (TextView) view;
-                    _tv.setText(textRepresentation);
-                    return true;
-                }
+        if (simpleAdapter == null) {
+            simpleAdapter = new SimpleAdapter(getActivity(), imageItem,
+                    R.layout.layout_griditem_addpic, new String[]{"itemImage", "picName"}, new int[]{R.id.imageView1, R.id.tvPicName});
+            simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                @Override
+                public boolean setViewValue(final View view, final Object data, String textRepresentation) {
+                    if (view instanceof ImageView && data instanceof Bitmap) {
+                        getActivity()
+                                .runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {//绑定视图
+                                        ImageView i = (ImageView) view;
+                                        i.setImageBitmap((Bitmap) data);
+                                    }
+                                });
+                        return true;
+                    } else if (view instanceof TextView) {
+                        TextView _tv = (TextView) view;
+                        _tv.setText(textRepresentation);
+                        return true;
+                    }
 
-                return false;
-            }
-        });
-        getActivity().runOnUiThread(new Runnable() {//主线程绑定adapter刷新数据
-            @Override
-            public void run() {
-                m_gridView.setAdapter(simpleAdapter);
-                simpleAdapter.notifyDataSetChanged();
-            }
-        });
+                    return false;
+                }
+            });
+
+            getActivity().runOnUiThread(new Runnable() {
+                //主线程绑定adapter刷新数据
+                @Override
+                public void run() {
+                    m_gridView.setAdapter(simpleAdapter);
+                    simpleAdapter.notifyDataSetChanged();
+                }
+            });
+        } else {
+            simpleAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initShowPicArea() {
@@ -1228,13 +1292,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         m_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //                if (picFiles.get(position) != null) {
-                //                    //打开照片查看
-                //                    Intent intent = new Intent();
-                //                    intent.setAction(Intent.ACTION_VIEW);
-                //                    intent.setDataAndType(Uri.fromFile(picFiles.get(position)), CameraUtils.IMAGE_UNSPECIFIED);
-                //                    startActivity(intent);
-                //                }
                 if (m_listPicName.get(position) != null) {
                     //打开照片查看
                     if (picFiles.get(position) != null) {
@@ -1252,7 +1309,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                         }
                         intent.setDataAndType(_uri, CameraUtils.IMAGE_UNSPECIFIED);
                         startActivity(intent);
-
                     }
                 }
             }
@@ -1292,9 +1348,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         try {
             switch (requestCode) {
                 case CameraUtils.PHOTO_REQUEST_TAKEPHOTO:
-//                    uri = CameraUtils.getBitmapUriFromCG(requestCode, resultCode, data, fileUri);
-//                    if (uri != null) {
-//                        picBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                     picBitmap = BitmapFactory.decodeFile(m_pictureName.getAbsolutePath());
                     picBitmap = CameraUtils.comp(picBitmap);
                     if (picBitmap != null) {
@@ -1308,7 +1361,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                         imageItem.add(_map);
                         refreshGridviewAdapter();
                     } else {
-                        ToastUtil.show(getActivity(), "图片名不允许带特殊符号", Toast.LENGTH_SHORT);
+                        ToastyUtil.showInfoShort(getActivity(), "图片名不允许带特殊符号");
                     }
 
                     break;
@@ -1316,14 +1369,14 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     break;
             }
         } catch (Exception e) {
-            ToastUtil.show(getActivity(), "new safety log error e:=" + e.getMessage(), Toast.LENGTH_SHORT);
+            ToastyUtil.showErrorShort(getActivity(), "new safety log error e:=" + e.getMessage());
         }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog(),0.78,0.8);
+        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override
@@ -1380,7 +1433,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 return "";
             }
         } catch (Exception e) {
-            ToastUtil.showShort(getActivity(), "error " + e.getMessage());
+            ToastyUtil.showErrorShort(getActivity(), "error " + e.getMessage());
         }
         return "";
     }

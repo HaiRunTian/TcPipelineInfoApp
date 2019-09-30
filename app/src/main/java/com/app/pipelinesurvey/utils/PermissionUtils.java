@@ -91,8 +91,6 @@ public class PermissionUtils {
     }
 
     public static class PermissionHolder implements CallBack {
-
-
         @Override
         public void onGranted() {
 

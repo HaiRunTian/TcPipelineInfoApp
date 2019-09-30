@@ -63,7 +63,6 @@ public class MeasureAreaFragment extends Fragment implements View.OnClickListene
         m_mapControl.addMeasureListener(this);
         //面积量算
         m_mapControl.addMeasureStateListener(this);
-
     }
 
     @Override

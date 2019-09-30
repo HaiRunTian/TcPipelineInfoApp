@@ -93,11 +93,11 @@ public class SQLConfig {
     /**
      *   点表
      */
-    public static final String TABLE_DEFAULT_POINT_SETTING = "default_point_setting";
+    public static  String TABLE_DEFAULT_POINT_SETTING = "default_point_setting";
     /**
      *  线表
      */
-    public static final String TABLE_DEFAULT_LINE_SETTING  = "default_line_setting";
+    public static  String TABLE_DEFAULT_LINE_SETTING  = "default_line_setting";
     /**
      *  标签分段专题图
      */
@@ -106,6 +106,18 @@ public class SQLConfig {
      * 现场检测记录表
      */
     public static final String TABLE_NAME_LOG_SHEET = "log_sheet";
+    /**
+     * 点设置表
+     */
+    public static final String TABLE_NAME_POINT_SETTING = "point_view_setting";
+    /**
+     * 线设置表
+     */
+    public static final String TABLE_NAME_LINE_SETTING = "line_view_setting";
+    /**
+     * 管类表是否显示
+     */
+    public static final String TABLE_NAME_PIPE_PRJ_SHOW = "pipe_prj_show";
 
 
 

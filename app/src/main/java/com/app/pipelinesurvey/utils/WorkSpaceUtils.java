@@ -43,7 +43,6 @@ public class WorkSpaceUtils {
         return m_mapControl;
     }
 
-
     public void setGPS(BaseGPS baseGPS) {
         this.m_baseGPS = baseGPS;
     }

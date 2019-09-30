@@ -13,7 +13,7 @@
         <Button
             android:layout_alignParentLeft="true"
             android:id="@+id/btnHideMeasuredFlag"
-            style="@style/ButtonStyle02_1"
+            style="@style/ButtonStyle02_2"
             android:layout_marginLeft="10dp"
             android:text="@string/hide_measured_point"/>
 

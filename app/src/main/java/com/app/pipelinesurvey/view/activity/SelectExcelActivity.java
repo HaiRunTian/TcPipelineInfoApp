@@ -22,7 +22,7 @@ import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +136,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
                     m_btnReturn.setVisibility(View.VISIBLE);
                     m_handler.sendEmptyMessage(0);
                 } else {
-                    ToastUtil.show(this, "已经是根目录了，不能再返回", 1);
+                    ToastyUtil.showInfoShort(this, "已经是根目录了，不能再返回");
                     m_btnReturn.setVisibility(View.GONE);
                 }
                 break;

@@ -7,7 +7,7 @@
         style="@style/TitleBarLeftIconStyle"
         android:text="返回"
         android:gravity="center"
-        android:textSize="15dp"
+        android:textSize="@dimen/text"
         android:textColor="@color/white"
         android:drawableLeft="@mipmap/ic_arrow_left_32" />
 

@@ -67,7 +67,7 @@ public class ExcelUtilsOfPoi {
      * @date :2019/6/26  18:00
      */
     public static void initExcelLogSheet(String fileName, List<DetectionInfo> list) {
-        int[] width = new int[]{5,11,13,20,30,8,8,8,8,8};
+        int[] width = new int[]{5, 11, 13, 20, 30, 8, 8, 8, 8, 8};
 //        fileName = SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + "/检测记录表.xls";
         FileOutputStream outputStream = null;
         Workbook workbook = null;
@@ -75,7 +75,7 @@ public class ExcelUtilsOfPoi {
         SparseArray<CellStyle> borderedStyle = createBorderedStyle(workbook);
         Sheet sheet = workbook.createSheet("现场检测记录表");
         for (int i = 0; i < width.length; i++) {
-            sheet.setColumnWidth(i,width[i] * 256);
+            sheet.setColumnWidth(i, width[i] * 256);
         }
         //设置复杂excel表头
         setCellStyle(borderedStyle, sheet, list.get(0));
@@ -86,7 +86,7 @@ public class ExcelUtilsOfPoi {
                     DetectionInfo info = list.get(i);
                     LogUtills.i(info.toString());
                     Row row = sheet.createRow(10 + i);
-                    row.setHeight((short) (256*1.2));
+                    row.setHeight((short) (256 * 1.2));
                     Cell cell = row.createCell(0);
                     cell.setCellStyle(borderedStyle.get(3));
                     cell.setCellValue(info.getSerialNum());
@@ -151,28 +151,28 @@ public class ExcelUtilsOfPoi {
     private static void setCellStyle(SparseArray<CellStyle> borderedStyle, Sheet sheet, DetectionInfo info) {
         //第一行
         Row row1 = sheet.createRow(0);
-        row1.setHeight((short) (256*1.6));
+        row1.setHeight((short) (256 * 1.6));
         Cell cell = row1.createCell(0);
         cell.setCellStyle(borderedStyle.get(0));
         cell.setCellValue("广州市天驰测绘技术有限公司");
         mergingCells(sheet, CellRangeAddress.valueOf("$A$1:$J$1"));
         //第二行
         Row row2 = sheet.createRow(1);
-        row2.setHeight((short) (256*1.6));
+        row2.setHeight((short) (256 * 1.6));
         Cell cell2 = row2.createCell(0);
         cell2.setCellStyle(borderedStyle.get(0));
         cell2.setCellValue("现 场 检 测 记 录 表");
         mergingCells(sheet, CellRangeAddress.valueOf("$A$2:$J$2"));
         //第三行
         Row row3 = sheet.createRow(2);
-        row3.setHeight((short) (256*1.6));
+        row3.setHeight((short) (256 * 1.6));
         Cell cell3 = row3.createCell(0);
         cell3.setCellStyle(borderedStyle.get(0));
         cell3.setCellValue("管线探测事业部");
         mergingCells(sheet, CellRangeAddress.valueOf("$A$3:$J$3"));
         //第四行
         Row row4 = sheet.createRow(3);
-        row4.setHeight((short) (256*1.2));
+        row4.setHeight((short) (256 * 1.2));
         Cell cell4 = row4.createCell(0);
         cell4.setCellStyle(borderedStyle.get(4));
         cell4.setCellValue("格式编码：TCIVA A1 LT5 18 07");
@@ -189,8 +189,8 @@ public class ExcelUtilsOfPoi {
         mergingCells(sheet, CellRangeAddress.valueOf("$I$4:$J$4"));
         //第五行1
         Row row5 = sheet.createRow(4);
-        row5.setHeight((short) (256*1.2));
-        setCloumLine(borderedStyle,row5);
+        row5.setHeight((short) (256 * 1.2));
+        setCloumLine(borderedStyle, row5);
         Cell cell5 = row5.createCell(0);
         cell5.setCellStyle(borderedStyle.get(1));
         cell5.setCellValue("工程编码：" + info.getPrjCode());
@@ -216,9 +216,9 @@ public class ExcelUtilsOfPoi {
 
         //第六行1
         Row row6 = sheet.createRow(5);
-        row6.setHeight((short) (256*1.2));
+        row6.setHeight((short) (256 * 1.2));
         Cell cell61 = row6.createCell(0);
-        setCloumLine(borderedStyle,row6);
+        setCloumLine(borderedStyle, row6);
         cell61.setCellStyle(borderedStyle.get(1));
         cell61.setCellValue("仪器名称：" + info.getApparatusName1());
         mergingCells(sheet, CellRangeAddress.valueOf("$A$6:$C$6"));
@@ -230,12 +230,12 @@ public class ExcelUtilsOfPoi {
         //第六行3
         Cell cell63 = row6.createCell(4);
         cell63.setCellStyle(borderedStyle.get(1));
-        cell63.setCellValue("仪器名称：" + info.getApparatusName2()+ "");
+        cell63.setCellValue("仪器名称：" + info.getApparatusName2() + "");
 //        mergingCells(sheet, CellRangeAddress.valueOf("$F$6:$G$6"));
         //第六行4
         Cell cell64 = row6.createCell(5);
         cell64.setCellStyle(borderedStyle.get(1));
-        cell64.setCellValue("仪器编号：" + info.getApparatusCode2()+"");
+        cell64.setCellValue("仪器编号：" + info.getApparatusCode2() + "");
         mergingCells(sheet, CellRangeAddress.valueOf("$F$6:$H$6"));
         //第六行5
         Cell cell65 = row6.createCell(8);
@@ -244,8 +244,8 @@ public class ExcelUtilsOfPoi {
         mergingCells(sheet, CellRangeAddress.valueOf("$I$6:$J$6"));
         //第七行1
         Row row7 = sheet.createRow(6);
-        row7.setHeight((short) (256*1.2));
-        setCloumLine(borderedStyle,row7);
+        row7.setHeight((short) (256 * 1.2));
+        setCloumLine(borderedStyle, row7);
         Cell cell71 = row7.createCell(0);
         cell71.setCellValue("检测标准：" + info.getDetectionStandard());
         mergingCells(sheet, CellRangeAddress.valueOf("$A$7:$E$7"));
@@ -258,8 +258,8 @@ public class ExcelUtilsOfPoi {
 
         //第8行
         Row row8 = sheet.createRow(7);
-        row8.setHeight((short) (256*1.2));
-        setCloumLine(borderedStyle,row8);
+        row8.setHeight((short) (256 * 1.2));
+        setCloumLine(borderedStyle, row8);
         Cell cell81 = row8.createCell(0);
         cell81.setCellStyle(borderedStyle.get(1));
         cell81.setCellValue("检测标准：" + info.getDetectionStandard());
@@ -272,8 +272,8 @@ public class ExcelUtilsOfPoi {
 
         //第九行
         Row row9 = sheet.createRow(8);
-        row9.setHeight((short) (256*1.2));
-        setCloumLine(borderedStyle,row9);
+        row9.setHeight((short) (256 * 1.2));
+        setCloumLine(borderedStyle, row9);
         Cell cell9 = row9.createCell(0);
         cell9.setCellStyle(borderedStyle.get(2));
         cell9.setCellValue("项 目 详 情 记 录 表");
@@ -281,7 +281,7 @@ public class ExcelUtilsOfPoi {
 
         //第十行
         Row row10 = sheet.createRow(9);
-        row10.setHeight((short) (256*1.2));
+        row10.setHeight((short) (256 * 1.2));
         for (int i = 0; i < title.length; i++) {
             Cell cell10 = row10.createCell(i);
             cell10.setCellStyle(borderedStyle.get(2));
@@ -389,9 +389,7 @@ public class ExcelUtilsOfPoi {
                 }
             }
             os = new FileOutputStream(fileName);
-
             wb.write(os);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -508,9 +506,10 @@ public class ExcelUtilsOfPoi {
 
     /**
      * 设置单元格格式
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/7/2  17:34
+     * @date :2019/7/2  17:34
      */
     private static void setCellStyle(CellStyle cellStyle3) {
         //重新设置单元格的四边颜色
@@ -600,137 +599,53 @@ public class ExcelUtilsOfPoi {
      * @author :HaiRun
      * @date :2019/6/19  20:27
      */
-    public static List<BaseFieldInfos> readExcelDataToBean(File file, int sheet) {
-        ArrayList<BaseFieldInfos> pInfos = new ArrayList<BaseFieldInfos>();
+    public static List<Map<String, Object>> readExcelDataToBean(File file, int sheet) {
+        ArrayList<Map<String, Object>> pInfos = new ArrayList<>();
         FileInputStream is = null;
         Workbook workbook = null;
         try {
             is = new FileInputStream(file);
             workbook = new HSSFWorkbook(is);
-            if (sheet == 0) {
-                //点表
-                Sheet sheetPoint = workbook.getSheetAt(sheet);
-                BaseFieldPInfos infos = null;
-                //获取表的行数
-                int rowsP = sheetPoint.getPhysicalNumberOfRows();
-                //获取第一行
-                Row row = sheetPoint.getRow(0);
-                //获取第一行列数
-                int num = row.getPhysicalNumberOfCells();
-                //数组转为map
-                Map<String, Integer> map = new HashMap<>();
-                for (int i = 0; i < num; i++) {
-                    map.put(row.getCell(i).getStringCellValue(), i);
-                }
-                for (int i = 1; i < rowsP; i++) {
-                    infos = PointFieldFactory.Create();
-                    Field[] fields = infos.getClass().getFields();
-                    Row rowi = sheetPoint.getRow(i);
-                    for (int j = 0; j < fields.length; j++) {
-                        Field field = fields[j];
-                        String fileName = field.getName();
-                        if (map.get(fileName) == null) {
-                            LogUtills.i("excel not  include " + fileName);
-                            continue;
-                        }
-                        String _type = field.getType().getCanonicalName();
-                        LogUtills.i("type point =", _type + "----------" + fileName);
-                        switch (_type) {
-                            case "double":
-                                field.set(infos, Double.valueOf(rowi.getCell(map.get(fileName)).getStringCellValue()));
-                                break;
-                            case "java.lang.String":
-                                field.set(infos, rowi.getCell(map.get(fileName)).getStringCellValue());
-                                break;
-                            case "int":
-                                field.set(infos, Integer.valueOf(rowi.getCell(map.get(fileName)).getStringCellValue()));
-                                break;
-                            case "com.app.BaseInfo.Data.POINTTYPE":
-                                infos.type = POINTTYPE.Type_All_A;
-                                break;
-                            case "long":
-                                break;
-                            case "float":
-                                break;
-                            case "short":
-                                break;
-                            case "boolean":
-                                break;
-                            default:
-                                field.set(infos, rowi.getCell(map.get(fileName)).getStringCellValue());
-                                break;
-                        }
+            //点表
+            Sheet sheetPoint = workbook.getSheetAt(sheet);
+            BaseFieldPInfos infos = null;
+            //获取表的行数
+            int rowsP = sheetPoint.getPhysicalNumberOfRows();
+            //获取第一行
+            Row row = sheetPoint.getRow(0);
+            //获取第一行列数
+            int columnCount = row.getPhysicalNumberOfCells();
+            LogUtills.i("行数",rowsP  +"------------" + columnCount );
+            //遍历行数
+            for (int i = 1; i < rowsP; i++) {
+                Map<String, Object> map = new HashMap<>();
+                Row row1 = sheetPoint.getRow(i);
+                LogUtills.i("长度", columnCount + "======" + row1.getPhysicalNumberOfCells());
+                //遍历列数
+                for (int j = 0; j < columnCount; j++) {
+                    try {
+                        String cell = row.getCell(j).toString();
+                        map.put(row.getCell(j).toString(), row1.getCell(j).toString());
+                    } catch (Exception e) {
+                        map.put(row.getCell(j).toString(), "");
+                        LogUtills.e("字段值", row.getCell(j).toString() + "======");
                     }
-                    pInfos.add(infos);
                 }
-            } else if (sheet == 1) {
-                //点表
-                Sheet sheetPoint = workbook.getSheetAt(sheet);
-                BaseFieldLInfos infos = null;
-                //获取表的行数
-                int rowsP = sheetPoint.getPhysicalNumberOfRows();
-                //获取第一行
-                Row row = sheetPoint.getRow(0);
-                //获取第一行列数
-                int num = row.getPhysicalNumberOfCells();
-                //数组转为map
-                Map<String, Integer> map = new HashMap<>();
-                for (int i = 0; i < num; i++) {
-                    map.put(row.getCell(i).getStringCellValue(), i);
-                }
-                for (int i = 1; i < rowsP; i++) {
-                    infos = LineFieldFactory.Create();
-                    Field[] fields = infos.getClass().getFields();
-                    Row rowi = sheetPoint.getRow(i);
-                    for (int j = 0; j < fields.length; j++) {
-                        Field field = fields[j];
-                        String fileName = field.getName();
-                        if (map.get(fileName) == null) {
-                            LogUtills.i("excel not  include " + fileName);
-                            continue;
-                        }
-                        String _type = field.getType().getCanonicalName();
-                        LogUtills.i("type line=", _type + "---------" + fileName);
-                        switch (_type) {
-                            case "double":
-                                field.set(infos, Double.valueOf(rowi.getCell(map.get(fileName)).getStringCellValue()));
-                                break;
-                            case "java.lang.String":
-                                field.set(infos, String.valueOf(rowi.getCell(map.get(fileName)).getStringCellValue()));
-                                break;
-                            case "int":
-                                field.set(infos, Integer.valueOf(rowi.getCell(map.get(fileName)).getStringCellValue()));
-                                break;
-                            case "com.app.BaseInfo.Data.POINTTYPE":
-                                infos.type = POINTTYPE.Type_All_A;
-                                break;
-                            case "long":
-                                break;
-                            case "float":
-                                break;
-                            case "short":
-                                break;
-                            case "boolean":
-                                break;
-                            default:
-                                field.set(infos, rowi.getCell(map.get(fileName)).getStringCellValue());
-                                break;
-                        }
-                    }
-                    pInfos.add(infos);
-                }
+                pInfos.add(map);
             }
-
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            LogUtills.i("FileNotFoundException" + e.toString());
+            LogUtills.e("FileNotFoundException" + e.toString());
         } catch (IOException e) {
             e.printStackTrace();
-            LogUtills.i("IOException" + e.toString());
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            LogUtills.i("IllegalAccessException" + e.toString());
+            LogUtills.e("IOException" + e.toString());
+        }finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return pInfos;

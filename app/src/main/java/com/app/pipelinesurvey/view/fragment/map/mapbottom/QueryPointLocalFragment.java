@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.utills.LogUtills;
 import com.supermap.data.CursorType;
@@ -75,12 +75,13 @@ public class QueryPointLocalFragment extends Fragment implements View.OnClickLis
                 LogUtills.i(sqlLower);
                 Recordset _reSet = DataHandlerObserver.ins().queryRecordsetBySql(sqlLower, false);
                 if (!_reSet.isEmpty()) {
+                    _reSet.moveFirst();
                     MapControl _mapControl = WorkSpaceUtils.getInstance().getMapControl();
                     //设置选择样式
                     DataHandlerObserver.ins().setPtSelectionHighLigh(_reSet);
                     Map _map = _mapControl.getMap();
-                    double _x = _reSet.getDouble("SmX");
-                    double _y = _reSet.getDouble("SmY");
+                    double _x = _reSet.getDouble("longitude");
+                    double _y = _reSet.getDouble("latitude");
                     Point2D _point2D = new Point2D(_x, _y);
                     double[] _scale = _map.getVisibleScales();
                     _map.setScale(_scale[_scale.length - 1]);
@@ -88,9 +89,8 @@ public class QueryPointLocalFragment extends Fragment implements View.OnClickLis
                     _map.refresh();
                     _reSet.close();
                     _reSet.dispose();
-
                 } else {
-                    ToastUtil.show(getActivity(), "没有找到对应点号，请重选输入查询", Toast.LENGTH_SHORT);
+                    ToastyUtil.showInfoShort(getActivity(), "没有找到对应点号，请重选输入查询");
                 }
                 break;
             default:

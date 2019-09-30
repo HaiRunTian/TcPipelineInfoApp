@@ -117,7 +117,6 @@ public class UnZipMainThread extends Thread {
     }
 
     int lastProgress = 0;
-
     private void updateProgress(int progress, ZipProgressUtil.ZipListener listener2) {
         /** 因为会频繁的刷新,这里我只是进度>1%的时候才去显示 */
         if (progress > lastProgress) {

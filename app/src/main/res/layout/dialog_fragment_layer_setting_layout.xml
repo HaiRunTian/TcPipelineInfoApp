@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <CheckBox
+        android:id="@+id/cb_point"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点图层"/>
+
+    <CheckBox
+        android:id="@+id/cb_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="线图层"/>
+
+    <CheckBox
+        android:id="@+id/cb_point_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点标记"/>
+
+    <CheckBox
+        android:id="@+id/cb_line_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="线标记"/>
+
+    <Button
+        android:layout_marginBottom="20dp"
+        android:id="@+id/btn_config"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:textColor="@drawable/selector_text_color_2"
+        android:textSize="@dimen/text"
+        android:background="@drawable/selector_btn_all"
+        android:text="确定"  />
+
+</LinearLayout>

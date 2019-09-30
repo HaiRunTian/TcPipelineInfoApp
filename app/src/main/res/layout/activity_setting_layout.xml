@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_titlebar_pipe_table" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--左侧列表-->
+        <RadioGroup
+            android:id="@+id/rg_btn"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/rbtn_pipe_type"
+                style="@style/activity_setting_rbtn_style"
+                android:text="管类" />
+            <RadioButton
+                android:id="@+id/rbtn_point"
+                style="@style/activity_setting_rbtn_style"
+                android:text="管点" />
+
+            <RadioButton
+                android:id="@+id/rbtn_line"
+                style="@style/activity_setting_rbtn_style"
+                android:text="管线" />
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="@color/grey01" />
+
+        <!--右侧内容-->
+        <FrameLayout
+            android:id="@+id/layoutContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

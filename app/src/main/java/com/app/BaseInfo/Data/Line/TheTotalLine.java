@@ -37,7 +37,7 @@ public class  TheTotalLine extends BaseFieldLInfos {
     public ThemeLabel createThemeLabel() {
         super.createThemeLabel();
         try {
-            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_THEME);
+            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_THEME,"where city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'" );
             int _num = _cursor.getCount();
             String[] _keys = new String[_num];
             String[] _colors = new String[_num];

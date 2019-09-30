@@ -40,13 +40,13 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
         url = getIntent().getStringExtra("url");
         initView();
-
 
     }
     @Override
@@ -70,7 +70,6 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         settings.setAppCacheEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
-
         settings.setUserAgentString(string + "; android_app/1.0.0");
         /**
          * 以下两条设置可以使页面适应手机屏幕的分辨率，完整的显示在屏幕上
@@ -92,7 +91,6 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 return true;
             }
         });
-
 
     }
 
@@ -120,7 +118,6 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 //WebView开始加载调用的方法
                 // TODO Auto-generated method stub
                 super.onPageStarted(view, url, favicon);
-
                 LogUtills.i("Page开始  " + url  + "   " + favicon);
             }
             //WebView加载完成会调用的方法

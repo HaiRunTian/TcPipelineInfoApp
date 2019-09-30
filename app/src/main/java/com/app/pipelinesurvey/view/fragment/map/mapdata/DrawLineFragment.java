@@ -41,7 +41,7 @@ import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.InitWindowSize;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.iview.IDrawPipeLineView;
 import com.app.pipelinesurvey.view.iview.IQueryPipeLineView;
@@ -292,8 +292,85 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         m_view = inflater.inflate(R.layout.activity_draw_pipe_line, container, false);
         initView(m_view);
-
+        initLayoutView(m_view);
         return m_view;
+    }
+
+    /**
+     * 初始化每一行view,根据数据库表用户设置是否显示
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/8/23  16:58
+     */
+    private void initLayoutView(View m_view) {
+        View layout_start_depth = m_view.findViewById(R.id.layout_start_depth);
+        View layout_end_depth = m_view.findViewById(R.id.layout_end_depth);
+        View layout_pipe_length = m_view.findViewById(R.id.layout_pipe_length);
+        View layout_bureal_diff = m_view.findViewById(R.id.layout_bureal_diff);
+        View layout_embedded_way = m_view.findViewById(R.id.layout_embedded_way);
+        View layout_texture = m_view.findViewById(R.id.layout_texture);
+        View layoutPipeSize = m_view.findViewById(R.id.layoutPipeSize);
+        View layoutSection = m_view.findViewById(R.id.layoutSection);
+        View layout_hole_count = m_view.findViewById(R.id.layout_hole_count);
+        View layout_used_count = m_view.findViewById(R.id.layout_used_count);
+        View layout_amount = m_view.findViewById(R.id.layout_amount);
+        View layout_aperture = m_view.findViewById(R.id.layout_aperture);
+        View layout_row_col = m_view.findViewById(R.id.layout_row_col);
+        View layout_voltage = m_view.findViewById(R.id.layout_voltage);
+        View layout_state = m_view.findViewById(R.id.layout_state);
+        View layout_pressure = m_view.findViewById(R.id.layout_pressure);
+        View layout_owner_ship_unit = m_view.findViewById(R.id.layout_owner_ship_unit);
+        View layout_line_remark = m_view.findViewById(R.id.layout_line_remark);
+        View layout_puzzle = m_view.findViewById(R.id.layout_puzzle);
+
+        //TODO  根据数据库表 判断是否显示view
+        String type = getArguments().getString("gpType");
+        Cursor cursor =  DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_LINE_SETTING,"where prj_name = '"
+                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + type +  "'");
+        while (cursor.moveToNext()){
+            int start_depth = cursor.getInt(cursor.getColumnIndex("start_depth"));
+            int end_depth = cursor.getInt(cursor.getColumnIndex("end_depth"));
+            int pipe_length = cursor.getInt(cursor.getColumnIndex("pipe_length"));
+            int bureal_diff = cursor.getInt(cursor.getColumnIndex("bureal_diff"));
+            int embedded_way = cursor.getInt(cursor.getColumnIndex("embedded_way"));
+            int texture = cursor.getInt(cursor.getColumnIndex("texture"));
+            int pipe_size = cursor.getInt(cursor.getColumnIndex("pipe_size"));
+            int secttion = cursor.getInt(cursor.getColumnIndex("secttion"));
+            int hole_count = cursor.getInt(cursor.getColumnIndex("hole_count"));
+            int used_count = cursor.getInt(cursor.getColumnIndex("used_count"));
+            int amount = cursor.getInt(cursor.getColumnIndex("amount"));
+            int aperture = cursor.getInt(cursor.getColumnIndex("aperture"));
+            int row_col = cursor.getInt(cursor.getColumnIndex("row_col"));
+            int voltage = cursor.getInt(cursor.getColumnIndex("voltage"));
+            int state = cursor.getInt(cursor.getColumnIndex("state"));
+            int pressure = cursor.getInt(cursor.getColumnIndex("pressure"));
+            int owner_ship_unit = cursor.getInt(cursor.getColumnIndex("owner_ship_unit"));
+            int line_remark = cursor.getInt(cursor.getColumnIndex("line_remark"));
+            int puzzle = cursor.getInt(cursor.getColumnIndex("puzzle"));
+
+            layout_start_depth.setVisibility(start_depth == 1?View.VISIBLE:View.GONE);
+            layout_end_depth.setVisibility(end_depth == 1?View.VISIBLE:View.GONE);
+            layout_pipe_length.setVisibility(pipe_length == 1?View.VISIBLE:View.GONE);
+            layout_bureal_diff.setVisibility(bureal_diff == 1?View.VISIBLE:View.GONE);
+            layout_embedded_way.setVisibility(embedded_way == 1?View.VISIBLE:View.GONE);
+            layout_texture.setVisibility(texture == 1?View.VISIBLE:View.GONE);
+            layoutPipeSize.setVisibility(pipe_size == 1?View.VISIBLE:View.GONE);
+            layoutSection.setVisibility(secttion == 1?View.VISIBLE:View.GONE);
+            layout_hole_count.setVisibility(hole_count == 1?View.VISIBLE:View.GONE);
+            layout_used_count.setVisibility(used_count == 1?View.VISIBLE:View.GONE);
+            layout_amount.setVisibility(amount == 1?View.VISIBLE:View.GONE);
+            layout_aperture.setVisibility(aperture == 1?View.VISIBLE:View.GONE);
+            layout_row_col.setVisibility(row_col == 1?View.VISIBLE:View.GONE);
+            layout_voltage.setVisibility(voltage == 1?View.VISIBLE:View.GONE);
+            layout_state.setVisibility(state == 1?View.VISIBLE:View.GONE);
+            layout_pressure.setVisibility(pressure == 1?View.VISIBLE:View.GONE);
+            layout_owner_ship_unit.setVisibility(owner_ship_unit == 1?View.VISIBLE:View.GONE);
+            layout_line_remark.setVisibility(line_remark == 1?View.VISIBLE:View.GONE);
+            layout_puzzle.setVisibility(puzzle == 1?View.VISIBLE:View.GONE);
+
+        }
+        cursor.close();
     }
 
     private void initView(View view) {
@@ -353,7 +430,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         tvHoleCount = view.findViewById(R.id.tvHoleCount);
         tvUsedHole = view.findViewById(R.id.tvUsedHole);
         tvAmount = view.findViewById(R.id.tvAmount);
-
         //起点点号
         TextView tvStartPoint = view.findViewById(R.id.tvStartPoint);
         setViewDrawable(tvStartPoint);
@@ -383,7 +459,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         initValue();
         initData();
-
     }
 
     /**
@@ -436,7 +511,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         edtStartPoint.setText(m_startPInfo.id);
         //终点点号
         edtEndPoint.setText(m_endPInfo.id);
-
+        //管线长度
         edtPipeLength.setText(String.format("%.2f", _len));
         //线备注
         edtLineRemark.setText(PipeLineInfo.getPipeLineInfo().getLineRemark());
@@ -448,7 +523,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         _endReset.close();
         _startReset.dispose();
         _endReset.dispose();
-
         //导入上一条管线数据 同类管相同就导入，否则不导入
         importData();
     }
@@ -479,7 +553,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         }
         //管线长度超过了数据库线长度的提示值
         if (_len > _tempL) {
-            ToastUtil.showShort(getActivity(), "管线长度超出自定义长度" + _tempL + "米");
+            ToastyUtil.showWarningShort(getActivity(), "管线长度超出自定义长度" + _tempL + "米");
         }
         return _len;
     }
@@ -518,7 +592,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     //往线记录集添加记录
                     _result = DataHandlerObserver.ins().addRecords(generateBaseFieldInfo());
                     if (!_result) {
-                        ToastUtil.showShort(getActivity().getBaseContext(), "保存点数据失败...");
+                        ToastyUtil.showErrorShort(getActivity().getBaseContext(), "保存点数据失败...");
                         return;
                     } else {
                         //更新起点终点的深度
@@ -570,17 +644,18 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
                 //权属单位
                 case R.id.imgvOwnershipUnit:
-                    if (gpType.equals("煤气-M") || gpType.equals("燃气-R") || gpType.equals("电信-D")) {
+                    if (gpType.contains("煤气") || gpType.contains("燃气") || gpType.contains("电信") || gpType.contains("监控") || gpType.contains("移动") ||
+                            gpType.contains("联通") || gpType.contains("盈通")) {
                         showDialog(pipeUnitList, edtOwnershipUnit, "权属单位列表");
                         _popupWindow.show();
                     } else {
-                        ToastUtil.showShort(getActivity(), "当前管类没有权属单位数据列表");
+                        ToastyUtil.showInfoShort(getActivity(), "当前管类没有权属单位数据列表");
                     }
                     break;
 
                 case R.id.imgvPipeSize:
-                    if (gpType.equals("煤气-M") || gpType.equals("燃气-R")) {
-                        if (spTextrure.getSelectedItem().toString().equals("钢") && gpType.equals("煤气-M")) {
+                    if (gpType.contains("煤气") || gpType.contains("燃气")) {
+                        if (spTextrure.getSelectedItem().toString().equals("钢") && gpType.equals("煤气")) {
                             _popupWindow = new ListPopupWindow(getActivity());
                             _popupWindow.setWidth(layoutPipeSizeEdt.getWidth() - 5);
                             m_adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item_text, pipeSizeList);
@@ -597,7 +672,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                             _popupWindow.show();
                         }
                     } else {
-                        ToastUtil.showShort(getActivity(), "当前管类没有管径数据列表");
+                        ToastyUtil.showInfoShort(getActivity(), "当前管类没有管径数据列表");
                     }
                     break;
 
@@ -620,28 +695,27 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         //已用孔数不但能大于总孔数
         if (!getHoleCount().isEmpty() && !getUsedHoleCount().isEmpty()) {
             if (Integer.valueOf(getUsedHoleCount()) > Integer.valueOf(getHoleCount())) {
-                ToastUtil.showShort(getActivity(), "已用孔数不能大于总孔数");
+                ToastyUtil.showInfoShort(getActivity(), "已用孔数不能大于总孔数");
                 return false;
             }
         }
 
         //埋深不能超过20米
         if (Double.valueOf(getStartBurialDepth()) > 20.0) {
-            ToastUtil.showShort(getActivity(), "起点埋深超过20米，请检查数据");
+            ToastyUtil.showInfoShort(getActivity(), "起点埋深超过20米，请检查数据");
             return false;
         }
 
         //埋深不能超过20米
         if (Double.valueOf(getEndBurialDepth()) > 20.0) {
-            ToastUtil.showShort(getActivity(), "终点埋深超过20米，请检查数据");
+            ToastyUtil.showInfoShort(getActivity(), "终点埋深超过20米，请检查数据");
             return false;
         }
 
         //排水类管线，埋设方式为方沟，管线材料不能为塑料
         if ("排水".equals(gpType.substring(0, 2))) {
             if (spEmbeddedWay.getSelectedItem().toString().equals("方沟") && spTextrure.getSelectedItem().toString().equals("塑料")) {
-                ToastUtil.showShort(getActivity(), "排水埋设方式为方沟，管线材料不能为塑料");
-
+                ToastyUtil.showInfoShort(getActivity(), "排水埋设方式为方沟，管线材料不能为塑料");
                 return false;
             }
         }
@@ -729,7 +803,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             m_baseFileLInfo = BaseFieldLInfos.createFieldInfo(reSet);
             setValueToView();
         } else {
-            ToastUtil.showShort(getActivity(), "您未录入过此类型管点数据");
+            ToastyUtil.showInfoShort(getActivity(), "您未录入过此类型管点数据");
         }
 
         reSet.close();
@@ -797,15 +871,16 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         spEmbeddedWay.setAdapter(m_adapter);
 
         //管径
-        if (gpType.equals("煤气-M") || gpType.equals("燃气-R")) {
+        if (gpType.contains("煤气") || gpType.contains("燃气")) {
             //管径
             pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
         }
 
         //权属单位
-        if (gpType.equals("煤气-M") || gpType.equals("燃气-R")) {
+        if (gpType.contains("煤气") || gpType.contains("燃气")) {
             pipeUnitList = getResources().getStringArray(R.array.ownershipUnit_rq_mq);
-        } else if (gpType.equals("电信-D")) {
+        } else if (gpType.contains("电信") || gpType.contains("监控") || gpType.contains("移动") ||
+                gpType.contains("联通") || gpType.contains("盈通")) {
             pipeUnitList = getResources().getStringArray(R.array.ownershipUnit);
         }
         //电压数据
@@ -820,9 +895,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         spPressure.setSelection(pressureList.size() - 1);
 
         //显示隐藏属性面板
-        if (gpType.equals("电力-L") || gpType.equals("路灯-S")
-                || gpType.equals("电信-D") || gpType.equals("有视-T")
-                || gpType.equals("军队-B") || gpType.equals("交通-X")) {
+        if (gpType.contains("电力") || gpType.contains("路灯")
+                || gpType.contains("电信") || gpType.contains("有视")
+                || gpType.contains("军队") || gpType.contains("交通")
+                || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("监控") || gpType.contains("移动") ||
+                gpType.contains("联通") || gpType.contains("盈通")) {
             layoutDLLDPanel.setVisibility(View.VISIBLE);
         } else {
             layoutDLLDPanel.setVisibility(View.GONE);
@@ -850,11 +927,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             }
         });
 
-        if (gpType.contains("电信")) {
+        if (gpType.contains("高压") || gpType.contains("低压")) {
             setViewDrawable(tvOwnershipUnit);
         }
 
-        if (gpType.contains("电力") || gpType.contains("路灯")) {
+        if (gpType.contains("电力") || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("路灯")) {
             setViewDrawable(tvVoltage);
         }
     }
@@ -863,7 +940,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     public void onStart() {
         super.onStart();
         //初始化窗口大小
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog(),0.78,0.8);
+        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override
@@ -890,7 +967,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         setViewDrawable(tvUsedHole);
                         setViewDrawable(tvAmount);
 
-                    break;
+                        break;
                     case "直埋":
                     case "架空":
                         edtLineRemark.setText(spEmbeddedWay.getSelectedItem().toString());
@@ -904,27 +981,27 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         setViewDrawableNull(tvHoleCount);
                         setViewDrawableNull(tvUsedHole);
 
-                    break;
+                        break;
                     case "管块":
                         //电力线管块 已用孔数  总孔数  电缆根数设置星号
                         setViewDrawable(tvHoleCount);
                         setViewDrawable(tvUsedHole);
                         setViewDrawable(tvAmount);
 
-                    edtLineRemark.setText("");
-                    layoutSection.setVisibility(View.VISIBLE);
-                    layoutPipeSize.setVisibility(View.GONE);
-                    edtPipeSize.setText("");
-                    break;
+                        edtLineRemark.setText("");
+                        layoutSection.setVisibility(View.VISIBLE);
+                        layoutPipeSize.setVisibility(View.GONE);
+                        edtPipeSize.setText("");
+                        break;
                     case "方沟":
                         edtLineRemark.setText("");
                         layoutSection.setVisibility(View.VISIBLE);
                         layoutPipeSize.setVisibility(View.GONE);
                         edtPipeSize.setText("");
                         //电力线管块 已用孔数  总孔数  电缆根数设置星号
-                            setViewDrawable(tvAmount);
-                            setViewDrawableNull(tvHoleCount);
-                            setViewDrawableNull(tvUsedHole);
+                        setViewDrawable(tvAmount);
+                        setViewDrawableNull(tvHoleCount);
+                        setViewDrawableNull(tvUsedHole);
 
                         break;
                     default:
@@ -1410,19 +1487,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         }
     }
 
-    ///
-   /* public void setStartBurialDepth(String depth) {
-//        String _startBurialDepth = m_baseFileLInfo.benDeep;
-        if (depth != null) {
-//            LogUtills.i("i起点埋深 = ", depth);
-            double s = Double.parseDouble(depth);
-            int temp = (int) (s * 100);
-            String h = String.valueOf(temp);
-            edtStartBurialDepth.setText(h);
-        }
-    }*/
-
-
     /**
      * 判断数据是否写完毕，未填写完毕则提示
      *
@@ -1448,9 +1512,10 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             }
         }
         //显示隐藏属性面板
-        if (gpType.equals("电力-L") || gpType.equals("路灯-S")
-                || gpType.equals("电信-D") || gpType.equals("有视-T")
-                || gpType.equals("军队-B") || gpType.equals("交通-X")) {
+        if (gpType.contains("电力") || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("路灯")
+                || gpType.contains("电信") || gpType.contains("有视")
+                || gpType.contains("军队") || gpType.contains("交通") || gpType.contains("监控") || gpType.contains("移动") ||
+                gpType.contains("联通") || gpType.contains("盈通")) {
 
             if (edtHoleCount.getText().toString().isEmpty()) {
                 str.append("总孔数、");
@@ -1487,7 +1552,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         }
 
         if (str.length() > 0) {
-            Toast.makeText(getActivity().getBaseContext(), str.toString().substring(0, str.length() - 1) + "数据没有填写", Toast.LENGTH_LONG).show();
+            ToastyUtil.showInfoShort(getActivity().getBaseContext(), str.toString().substring(0, str.length() - 1) + "数据没有填写");
         }
 
 
@@ -1513,11 +1578,13 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         //电缆数
         String _amount = getAmount();
 
-        if (gpType.equals("电力-L") || gpType.equals("电信-D") || gpType.equals("路灯-S")) {
+        if (gpType.contains("电力") || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("电信")
+                || gpType.contains("监控") || gpType.contains("移动") ||
+                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("路灯")) {
             //	3电力、电信、路灯管材不为空管、空沟。电缆根数不能为O或空值，出现时提示。
             if (!_textrure.equals("空管") || !_textrure.equals("空沟")) {
                 if (_amount.equals("0") || _amount.isEmpty()) {
-                    ToastUtil.show(getActivity(), "电缆根数不能为空或者为0或空值", Toast.LENGTH_SHORT);
+                    ToastyUtil.showInfoShort(getActivity(), "电缆根数不能为空或者为0或空值");
                     edtAmount.setError("必填项不能为空或0");
                     return false;
                 }
@@ -1547,7 +1614,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 edtAmount.setText("0");
 
                 if (_textrure.equals("空管") || _textrure.isEmpty()) {
-                    ToastUtil.show(getActivity(), "管材不能为空管", Toast.LENGTH_SHORT);
+                    ToastyUtil.showErrorShort(getActivity(), "管材不能为空管");
                     return false;
                 }
             }
@@ -1635,11 +1702,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         }
 
         //5电力、路灯管材不为空管、空沟时电压不能为不能为O或空值. 管材为空管、空沟时电压为空值，出现这些问题时提示
-        if (gpType.equals("电力-L") || gpType.equals("路灯-S")) {
+        if (gpType.contains("电力") || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("路灯")) {
             if (!_textrure.equals("空管") || !_textrure.equals("空沟")) {
                 String _volatage = spVolatage.getSelectedItem().toString();
                 if (_volatage.equals("0") || _volatage.length() == 0) {
-                    ToastUtil.show(getActivity(), "电压不能为空或者为0", Toast.LENGTH_SHORT);
+                    ToastyUtil.showInfoShort(getActivity(), "电压不能为空或者为0");
                 }
             } else {
                 spVolatage.setSelection(0, false);
@@ -1649,20 +1716,21 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     }
 
     /**
-     *多选
+     * 多选
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/7/10  15:12
+     * @date :2019/7/10  15:12
      */
     private void showDialog(final String[] data, final TextView textView, String title) {
         textView.setText("");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
         builder.setTitle(title);
-        Map<Integer,Boolean> map = new HashMap<Integer,Boolean>();
+        Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
         final boolean[] selectItems = new boolean[data.length];
         for (int i = 0; i < data.length; i++) {
             selectItems[i] = false;
-            map.put(i,false);
+            map.put(i, false);
         }
 
         /**
@@ -1679,7 +1747,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 if (isChecked) {
                     //选择的选项保存到sb中
 //                    sb.append(data[which] + "+");
-                    map.put(which,true);
+                    map.put(which, true);
                 }
 //                String s = sb.toString();
 //                String data = s.substring(0, s.length() - 1);
@@ -1700,7 +1768,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             public void onClick(DialogInterface dialog, int which) {
                 StringBuffer sb = new StringBuffer(100);
                 for (int i = 0; i < map.size(); i++) {
-                    if (map.get(i)){
+                    if (map.get(i)) {
                         sb.append(data[i] + "+");
                     }
                 }

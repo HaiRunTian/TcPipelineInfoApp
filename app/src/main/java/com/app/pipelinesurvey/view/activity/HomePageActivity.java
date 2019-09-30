@@ -23,7 +23,7 @@ import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.fragment.HomePageFragment;
 import com.app.pipelinesurvey.view.fragment.PersonalPageFragment;
 
@@ -43,7 +43,6 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
     private TextView tvTitle;
     //用户名
     private TextView tvLoginName;
-
     //标题栏
     private RelativeLayout layoutTitleBar;
     //底部radiobutton组
@@ -65,13 +64,11 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
     private RadioButton rb_personal;
     private PersonalPageFragment personalPageFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         initView();
-
 //        initAllData();
     }
 
@@ -99,7 +96,7 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
                 public void onClick(View v) {
                     currentUser = _editText.getText().toString();
                     if (currentUser.length() == 0) {
-                        ToastUtil.showShort(HomePageActivity.this, "真实姓名不能为空!");
+                        ToastyUtil.showInfoShort(HomePageActivity.this, "真实姓名不能为空!");
                         return;
                     }
                     _manager.put("name", currentUser);
@@ -115,28 +112,13 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        MyApplication.Ins().fixInputMethodManagerLeak(this);
-        ToastUtil.cancelToast();
+
     }
-    //    private void initAllData() {
-    //        String[] fnList = getResources().getStringArray(R.array.funtionlists);
-    //        for (String fnName : fnList) {
-    //            m_datalist.add(fnName);
-    //        }
-    //        ArrayAdapter<String> _adapter = new ArrayAdapter<String>(this, android.R.fragment_map_setting.simple_list_item_1, m_datalist);
-    //        //        autoTvQuickSearch.setAdapter(_adapter);
-    //    }
+
 
     private void initView() {
-        //        tvQuickSerch = (TextView) findViewById(R.id.tvQuickSerch);
-        //        tvQuickSerch.setOnClickListener(this);
-        //        tvSubmit = (TextView) findViewById(R.id.tvSubmit);
-        //        tvSubmit.setOnClickListener(this);
-        //        linearSearchBar = (LinearLayout) findViewById(R.id.layoutSearchBar);
+
         tvTitle = (TextView) findViewById(R.id.tvTitle);
-//        tvLoginName = (TextView) findViewById(R.id.tvLoginName);
-        //        autoTvQuickSearch = (AutoCompleteTextView) findViewById(R.id.autoTvQuickSearch);
-        //        autoTvQuickSearch.addTextChangedListener(this);
         layoutTitleBar = (RelativeLayout) findViewById(R.id.layoutTitleBar);
         radioGroupBottom = (RadioGroup) findViewById(R.id.radioGroupBottom);
         radioGroupBottom.setOnCheckedChangeListener(this);
@@ -211,7 +193,6 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
     private void hideFragment(FragmentTransaction transaction) {
         if (homePageFragment != null) {
             transaction.hide(homePageFragment);
-//            LogUtills.i("隐藏了homePageFragment");
         }
         if (personalPageFragment != null){
             transaction.hide(personalPageFragment);

@@ -1,6 +1,7 @@
 package com.app.pipelinesurvey.utils;
 
 import com.app.pipelinesurvey.bean.FileEntity;
+import com.app.pipelinesurvey.config.SuperMapConfig;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,10 +26,8 @@ public class FileUtils {
     private FileUtils() {
 
     }
-
     /**
      * 判断是否是文件并且返回
-     *
      * @param name
      * @return
      */
@@ -313,9 +312,11 @@ public class FileUtils {
             return null;
         }
         File _rootFile = new File(path);
+        if (!_rootFile.exists()) {
+            return list;
+        } ;
         File[] files = _rootFile.listFiles();
         List<File> _list = Arrays.asList(files);
-
         //按名称排序
         Collections.sort(_list, new Comparator<File>() {
             @Override
@@ -353,9 +354,10 @@ public class FileUtils {
 
     /**
      * 重命名文件名
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/7/3  16:56
+     * @date :2019/7/3  16:56
      */
     private static boolean updateFileName(String filePath, String newFileName) {
         File f = new File(filePath);
@@ -385,6 +387,48 @@ public class FileUtils {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 获取里面有多少个文件夹
+     *
+     * @param fileName
+     * @return
+     */
+    public int getFileCount(String fileName) {
+        int count = 0;
+        if (isDirExsit(fileName)) {
+            File file = new File(fileName);
+            File[] files = file.listFiles();
+            for (int _i = 0; _i < files.length; _i++) {
+                if (files[_i].isFile()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 获取文件夹里名字下表最大的一个
+     *
+     * @param fileName
+     * @return
+     */
+    public int getFileIndexMax(String fileName) {
+        int count = 0;
+        if (isDirExsit(fileName)) {
+            File file = new File(fileName);
+            File[] files = file.listFiles();
+            for (int _i = 0; _i < files.length; _i++) {
+                if (files[_i].isFile()) {
+                    String s = files[_i].getName().substring(files[_i].getName().lastIndexOf("-") + 1,files[_i].getName().lastIndexOf("."));
+                    int temp = Integer.valueOf(s);
+                    count = temp > count ? temp : count;
+                }
+            }
+        }
+        return count;
     }
 
 }

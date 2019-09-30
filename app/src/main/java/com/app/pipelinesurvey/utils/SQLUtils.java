@@ -21,8 +21,6 @@ public class SQLUtils {
      */
     public static int setStandardtable(ContentValues _values, String pointTable, String lineTable) {
         try {
-
-
             DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_STANDARD_INFO, _values);
             DatabaseHelpler.getInstance().execSQL(
                     "create table if not exists " + pointTable +

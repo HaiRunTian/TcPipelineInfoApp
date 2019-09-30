@@ -38,12 +38,15 @@ public class ComTool {
     }
 
     /**
-     *  获取管点编号  获取管点编号  查看point_setting表有用户设置的格式，（组号长度  组号位置 流水号长度 是否临时点 管点状态）
+     * 获取管点编号  获取管点编号  查看point_setting表有用户设置的格式
+     * （组号长度  组号位置 流水号长度 是否临时点 管点状态）
      */
     public String[] getPointNumber(String code, Boolean isTemp, String stats) {
         //查询数据库表
         String _groupName = "";
+        //组号位置
         int _groupLocal = 1;
+        //流水号长度
         int _serialNum = 1;
         //查询数据库point_setting表，配置信息
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
@@ -55,7 +58,6 @@ public class ComTool {
             //流水号长度
             _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
         }
-
 //        String _query = isTemp ? "exp_Num like 'T_%'" : "exp_Num Not like 'T_%'";
         String _query = isTemp ? "subsid = '临时点'" : "subsid != '临时点'";
         // 设置查询参数
@@ -66,14 +68,12 @@ public class ComTool {
         _parameter.setOrderBy(new String[]{"serialNum desc"});
         Recordset _reset = DataHandlerObserver.ins().QueryRecordsetByParameter(_parameter, true);
         int _index = 0;
-
+        //数据集不为空
         if (!_reset.isEmpty()) {
             _reset.moveFirst();
             //获取到流水号
             _index = _reset.getInt32("serialNum");
         }
-
-
         //流水号+1
         _index++;
         //重新编号
@@ -92,7 +92,8 @@ public class ComTool {
                 case 3:
                     _newExpNum = (isTemp ? "T_" : "") + code + SerialNum + _groupName;
                     break;
-                    default:break;
+                default:
+                    break;
             }
         } else {
             //没有组号  J0001
@@ -118,7 +119,8 @@ public class ComTool {
 
     /**
      * 返回流水号
-     *当用户自动更改了管点编号流水号后调用
+     * 当用户自动更改了管点编号流水号后调用
+     *
      * @Author HaiRun
      * @Time 2019/4/8 . 9:28
      */
@@ -129,7 +131,6 @@ public class ComTool {
         if (_pattern.matcher(expNum.substring(expNum.length() - 1)).find() && (!state.equals("正常"))) {
             expNum = expNum.substring(0, expNum.length() - 1);
         }
-
         //查询数据库表
         String _groupName = "";
         int _groupLocal = 1;
@@ -145,7 +146,6 @@ public class ComTool {
             _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
         }
         String _tempId = "";
-
         //组号位置 组号长度 管类代码长度
         if (_groupName.length() != 0) {
             //有组号
@@ -163,7 +163,5 @@ public class ComTool {
         _serialNum = Integer.valueOf(_tempId).intValue();
         return _serialNum;
     }
-
-
 
 }

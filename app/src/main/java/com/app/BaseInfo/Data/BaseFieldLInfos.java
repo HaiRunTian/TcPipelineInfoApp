@@ -43,7 +43,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     public BaseFieldLInfos(String name) {
         datasetName = name;
     }
-
     /**
      * 权属单位
      */
@@ -169,9 +168,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
      */
     public String voltage;
 
-
-
-
     @Override
     public boolean Init() {
         code = datasetName.substring(datasetName.length() - 1);
@@ -224,7 +220,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             TextStyle textStyle1 = new TextStyle();
             textStyle1.setForeColor(ColorByOxString(color[i]));
             textStyle1.setFontName("楷体");
-            textStyle1.setFontHeight(6.0);
+            textStyle1.setFontHeight(3.0);
             textStyle1.setSizeFixed(true);
             themeLabelItem1.setStyle(textStyle1);
             // 添加标签专题图子项到标签专题图对象中
@@ -283,7 +279,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         // 构造单值专题图并进行相应设置
         ThemeUnique _theme = new ThemeUnique();
         String tabName = "";
-        //TODO 根据标准名称 查找点配置表
+      /*  //TODO 根据标准名称 查找点配置表
         Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
         //查询此标准的点表名
         while (_cursorStand.moveToNext()) {
@@ -291,8 +287,8 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         }
         if (tabName.length() == 0) {
             LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
-        }
-        Cursor _cursor = DatabaseHelpler.getInstance().query(tabName,
+        }*/
+        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_LINE_SETTING,
                 new String[]{"typename", "symbolID", "width", "color"}, null, null, null, null, null);
         LogUtills.i("Sql:" + _cursor.toString());
         int _num = _cursor.getCount();
@@ -319,7 +315,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             LogUtills.i("Query Line Config Infomation: " + "Name;" + _name + ",Symbolid:" + _symbolId +
                     ",Width:" + _width + ",_color:" + _color);
         }
-        _cursorStand.close();
         _cursor.close();
 
         //这个要改
@@ -331,14 +326,14 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             GeoStyle _style = new GeoStyle();
             _style.setFillGradientMode(FillGradientMode.RADIAL);
             _style.setLineColor(ComTool.colorByOxString(_colors[i]));
-            _style.setLineWidth(_widths[i]);
+            _style.setLineWidth(0.2);
             _style.setLineSymbolID(_symbolIds[i]);
             _item.setStyle(_style);
             _theme.add(_item);
         }
 
         GeoStyle _defaultStyle = new GeoStyle();
-        _defaultStyle.setLineWidth(0.5);
+        _defaultStyle.setLineWidth(0.2);
         _defaultStyle.setLineColor(new Color(0, 255, 0));
         _defaultStyle.setLineSymbolID(0);
         _theme.setDefaultStyle(_defaultStyle);
@@ -373,7 +368,11 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 _field.set(_info, reset.getObject(_field.getName()));
             }
             // 枚举类型重新配置
-            _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            if (reset.getString("type").length() != 0) {
+                _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            }else {
+                _info.type = POINTTYPE.Type_None;
+            }
             return _info;
         } catch (Exception e) {
             LogUtills.e(e.toString());
@@ -414,7 +413,11 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 _field.set(_info, reset.getObject(_field.getName()));
             }
             // 枚举类型重新配置
-            _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            if (reset.getString("type").length() != 0) {
+                _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            }else {
+                _info.type = POINTTYPE.Type_None;
+            }
             return _info;
         } catch (Exception e) {
             return null;

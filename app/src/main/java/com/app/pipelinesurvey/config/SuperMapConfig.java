@@ -11,7 +11,6 @@ public class SuperMapConfig {
     /**
      * sd卡根路径
      */
-
     public static String SDCARD = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
     /**
      *  设为动态
@@ -47,14 +46,14 @@ public class SuperMapConfig {
     public static final String DEFAULT_DATA_PICTURE_PATH =  "Picture/";
     public static final String DEFAULT_DATA_SHP_PATH =  "Shp/";
     public static final String DEFAULT_DATA_SYMBOL_PATH = DEFAULT_DATA_PATH;
-    public static final String DEFAULT_DATA_SYMBOL_NAME = "MarkerLibrary2.sym";
+    public static final String DEFAULT_DATA_SYMBOL_NAME = "MarkerLibrary4.sym";
     public static final String DEFAULT_DATA_SYMBOL_LINE_NAME ="LineLibrary.lsl";
     public static final String APP_NAME ="管智绘";
+    public static final String DEFAULT_DATA_RECORD = "检测记录表/";
     /**
      *   当前打开地图的名字 当前工程名称
      */
     public static  String PROJECT_NAME ="";
-
     /**
      * 当前城市标准名称
      */

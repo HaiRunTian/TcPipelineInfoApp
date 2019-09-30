@@ -34,7 +34,7 @@ import java.lang.reflect.Field;
 
 public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBaseInf {
     /**
-     *  建构筑物
+     * 建构筑物
      */
     public String buildingStructures = "";
     /**
@@ -46,27 +46,27 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String endDirDepth = "";
     /**
-     *  物探组长
+     * 物探组长
      */
     public String expGroup = "";
     /**
-     *  调查日期
+     * 调查日期
      */
     public String exp_Date = "";
     /**
-     *  物探点号
+     * 物探点号
      */
     public String exp_Num = "";
     /**
-     *  点特征
+     * 点特征
      */
     public String feature = "";
     /**
-     *  自动编号
+     * 自动编号
      */
     public String id = "";
     /**
-     *  纬度
+     * 纬度
      */
     public double latitude = 0.0;
     /**
@@ -102,11 +102,11 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String situation = "";
     /**
-     *  起点方向埋深
+     * 起点方向埋深
      */
     public String startDirDepth = "";
     /**
-     *  状态
+     * 状态
      */
     public String state = "";
     /**
@@ -126,7 +126,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String symbolExpression = "";
     /**
-     *  给选中的样式使用
+     * 给选中的样式使用
      */
     public int symbolID = 0;
     /**
@@ -150,7 +150,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String wellDeep = "";
     /**
-     *  窨井淤泥 cm
+     * 窨井淤泥 cm
      */
     public String wellMud = "";
     /**
@@ -289,9 +289,10 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
 
     /**
      * 子类调用，单值符号专题图
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/6/20  16:08
+     * @date :2019/6/20  16:08
      */
     protected ThemeUnique createThemeUnique(String sysbolField, String[] keys, int[] _sids, String[] color, Size2D[] size2Ds) {
         ThemeUnique _theme = new ThemeUnique();
@@ -317,6 +318,10 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             _style.setFillBackColor(ColorByOxString(color[i]));
             //前景色
             _style.setFillForeColor(ColorByOxString(color[i]));
+            // 设置点的颜色
+            _style.setPointColor(ColorByOxString(color[i]));
+            //设置当前填充背景是否不透明。
+            _style.setFillBackOpaque(false);
             _style.setFillGradientMode(FillGradientMode.RADIAL);
             _style.setMarkerSymbolID(_sids[i]);
             _style.setLineWidth(0.1);
@@ -328,6 +333,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
 
     /**
      * 标签专题图
+     *
      * @auther HaiRun
      * created at 2018/8/15 10:30
      */
@@ -341,25 +347,28 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             // 为标签专题图的标签设置统一样式
             ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
             themeLabelItem1.setVisible(true);
-            LogUtills.i("Point themelable","name = " + pipeType[i] +"start  = "  +start[i] +  "end = "+ end[i]);
+            LogUtills.i("Point themelable", "name = " + pipeType[i] + "start  = " + start[i] + "end = " + end[i]);
             themeLabelItem1.setStart(start[i]);
             themeLabelItem1.setEnd(end[i]);
             TextStyle textStyle1 = new TextStyle();
             textStyle1.setForeColor(ColorByOxString(color[i]));
             textStyle1.setFontName("楷体");
-            textStyle1.setFontHeight(4.0);
-            textStyle1.setFontWidth(4.0);
-            textStyle1.setBold(false);
+            textStyle1.setFontHeight(2.8);
             textStyle1.setSizeFixed(true);
             themeLabelItem1.setStyle(textStyle1);
             // 添加标签专题图子项到标签专题图对象中
             themeLabelMap.addToTail(themeLabelItem1);
-            themeLabelMap.setOverlapAvoided(false);
+            themeLabelMap.setOverlapAvoided(true);
             themeLabelMap.setSmallGeometryLabeled(true);
             themeLabelMap.setOverLengthMode(OverLengthLabelMode.NEWLINE);
+            //设置是否流动显示标签。
             themeLabelMap.setFlowEnabled(true);
-            themeLabelMap.setOffsetX("12");
+            //设置当前标签专题图是否固定标记文本的偏移量。
             themeLabelMap.setOffsetFixed(true);
+            //参数为True表示以全方向文本避让,否则以四方向文本避让
+            themeLabelMap.setAllDirectionsOverlappedAvoided(true);
+            themeLabelMap.setOffsetX("15");
+            themeLabelMap.setOffsetY("15");
         }
         return themeLabelMap;
     }
@@ -385,12 +394,12 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     @Override
     public ThemeLabel createThemeLabel() {
-       return  null;
+        return null;
     }
 
     /**
-     *   标签专题图
-     *   测量收点 调用
+     * 标签专题图
+     * 测量收点 调用
      */
     public ThemeLabel createThemeLabel(String color) {
         LogUtills.i("begin " + this.getClass().getName() + "createThemeLabel....");
@@ -406,8 +415,8 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         TextStyle textStyle1 = new TextStyle();
         textStyle1.setForeColor(new Color(255, 10, 10));
         textStyle1.setFontName("楷体");
-        textStyle1.setFontHeight(3.0);
-        textStyle1.setFontWidth(3.0);
+        textStyle1.setFontHeight(3.5);
+        textStyle1.setFontWidth(3.5);
         textStyle1.setSizeFixed(true);
         themeLabelItem1.setStyle(textStyle1);
         // 添加标签专题图子项到标签专题图对象中
@@ -463,11 +472,16 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
                 _field.set(_info, reset.getObject(_field.getName()));
             }
             // 枚举类型重新配置
-            _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            if (reset.getString("type").length() != 0) {
+                _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            }else {
+                _info.type = POINTTYPE.Type_None;
+            }
             LogUtills.i("Generator The BaseFieldPInfos Successfully, ID=" + reset.getID());
             return _info;
         } catch (Exception e) {
             e.printStackTrace();
+            LogUtills.i("Generator The BaseFieldPInfos Fail" + e.toString());
             return null;
         }
     }
@@ -486,7 +500,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
                 return null;
             }
 
-             _info = PointFieldFactory.Create();
+            _info = PointFieldFactory.Create();
             if (_info == null) {
                 LogUtills.e("CreateFieldInfo Can Not Find The Layer Of " + reset.getString("datasetName"));
                 return null;
@@ -498,9 +512,9 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             Field _field = null;
             String _field_name = "";
             for (int i = 0; i < _fields.length; ++i) {
-                 _field = _fields[i];
+                _field = _fields[i];
                 //返回此 Field 对象表示的字段的名称。
-                 _field_name = _field.getName();
+                _field_name = _field.getName();
                 //不包含此字段
                 if (_infos.get(_field_name) == null || _field_name.equals("type")) {
                     //LogUtills.i(" Recodest No Contain The Field "+_field_name+", In BaseFieldPInfos");
@@ -510,7 +524,11 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
                 _field.set(_info, reset.getObject(_field.getName()));
             }
             // 枚举类型重新配置
-            _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            if (reset.getString("type").length() != 0) {
+                _info.type = POINTTYPE.valueOf(reset.getString("type"));
+            }else {
+                _info.type = POINTTYPE.Type_None;
+            }
             LogUtills.i("Generator The BaseFieldPInfos Successfully, ID=" + reset.getID());
 
             return _info;

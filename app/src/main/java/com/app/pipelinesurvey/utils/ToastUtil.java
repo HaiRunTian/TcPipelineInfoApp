@@ -88,7 +88,6 @@ public class ToastUtil {
         }
     }
 
-
     /**
      * 短时间显示Toast
      *

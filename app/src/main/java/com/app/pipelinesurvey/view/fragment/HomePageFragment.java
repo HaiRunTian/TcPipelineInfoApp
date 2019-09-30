@@ -1,6 +1,8 @@
 package com.app.pipelinesurvey.view.fragment;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,20 +19,31 @@ import android.widget.ViewFlipper;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.ViewPagerAdapter;
 
+import com.app.pipelinesurvey.config.SettingConfig;
+import com.app.pipelinesurvey.config.SharedPrefManager;
+import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.database.DatabaseHelpler;
+import com.app.pipelinesurvey.database.SQLConfig;
+import com.app.pipelinesurvey.utils.AssetsUtils;
+import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.GlideImageLoader;
+import com.app.pipelinesurvey.utils.ZipProgressUtil;
 import com.app.pipelinesurvey.view.activity.AppInfoActivity;
 import com.app.pipelinesurvey.view.activity.HelpActivity;
+import com.app.pipelinesurvey.view.activity.MapActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.BasicsActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.SymbolicActivity;
 import com.app.pipelinesurvey.view.activity.ProjectListActivity;
 
 import com.app.pipelinesurvey.view.activity.WebViewActivity;
 
+import com.app.utills.LogUtills;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerClickListener;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +81,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
      */
     private RadioGroup radioGroup;
 
-    private Button btnPrjList, btnSetting, btnAbout, btnNewSymbolic, btnBasics,btnHelp;
+    private Button btnPrjList, btnSetting, btnAbout, btnNewSymbolic, btnBasics, btnHelp, btnExample;
     /**
      * 返回的结果码
      */
@@ -111,6 +124,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         //关于
         btnAbout = view.findViewById(R.id.btnAbout);
         btnAbout.setOnClickListener(this);
+        btnExample = view.findViewById(R.id.btnExamble);
+        btnExample.setOnClickListener(this);
     }
 
     @Override
@@ -118,6 +133,40 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         super.onActivityCreated(savedInstanceState);
         initData();
         startBanner();
+        initExampleData();
+    }
+
+    private void initExampleData() {
+
+        if (!FileUtils.getInstance().isDirExsit(SuperMapConfig.DEFAULT_DATA_PATH + "nokeyuan.zip")) {
+            InputStream is = AssetsUtils.getInstance().open("nokeyuan.zip");
+            if (is != null) {
+                FileUtils.getInstance().copy(is, SuperMapConfig.DEFAULT_DATA_PATH + "nokeyuan.zip");
+            }
+
+            ZipProgressUtil.UnZipFile(SuperMapConfig.DEFAULT_DATA_PATH + "nokeyuan.zip", SuperMapConfig.DEFAULT_DATA_PATH, new ZipProgressUtil.ZipListener() {
+                @Override
+                public void zipStart() {
+
+                }
+
+                @Override
+                public void zipSuccess() {
+
+                }
+                @Override
+                public void zipProgress(int progress) {
+
+                }
+
+                @Override
+                public void zipFail() {
+
+                }
+            });
+        }
+
+
     }
 
     private void startBanner() {
@@ -235,8 +284,69 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
             case R.id.btnHelp:
                 startActivity(new Intent(getActivity(), HelpActivity.class));
                 break;
+            case R.id.btnExamble:
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                SuperMapConfig.PROJECT_NAME = "示例";
+                SuperMapConfig.PROJECT_CITY_NAME = "广州";
+                intent.putExtra("prjName", "示例");
+                if (!FileUtils.getInstance().isDirExsit(SuperMapConfig.DEFAULT_DATA_PATH + "示例")) {
+                    intent.putExtra("type", "sci");
+                    saveDataToDB("示例");
+                } else {
+                    intent.putExtra("type", "3");
+                }
+                startActivity(intent);
+                break;
             default:
                 break;
+        }
+    }
+
+    private void saveDataToDB(String prjName) {
+        inserSettingSql(prjName);
+        SharedPrefManager _manager = new SharedPrefManager(getActivity(),
+                SharedPrefManager.FILE_CONFIG);
+        String city = (String) _manager.getSharedPreference(SharedPrefManager.KEY_CITY, "");
+        ContentValues _values = new ContentValues();
+        //工程项目名称，工作空间名称、数据源名称
+        _values.put("Name", prjName);
+        //未合并登录模块，置留
+        _values.put("Creator", "");
+        _values.put("CteateTime", "");
+        _values.put("UpdateTime1", "");
+        _values.put("BaseMapPath", SuperMapConfig.DEFAULT_DATA_PATH + "nokeyuan2/nokeyuan.sci");
+        _values.put("City", "广州");
+        _values.put("GroupNum", "a");
+        _values.put("PipeLength", "30");
+        _values.put("SerialNum", 1);
+        _values.put("GroupLocal", 1);
+        DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_PROJECT_INFO, _values);
+
+        if (prjName.isEmpty()) {
+            //创建此工程路径的文件夹
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + prjName);
+            //创建照片文件夹picture
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + prjName + "/" + SuperMapConfig.DEFAULT_DATA_PICTURE_PATH);
+            //创建excel文件夹Picture
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + prjName + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
+            //创建shp文件夹Shp
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + prjName + "/" + SuperMapConfig.DEFAULT_DATA_SHP_PATH);
+            //创建shp文件夹Shp
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + prjName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
+        }
+    }
+
+    private void inserSettingSql(String prjName) {
+        //插入点线配置表
+        Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_SETTING, "where prj_name = '" + prjName + "'");
+        //如果点线配置表没有，则插入
+        if (cursor.getCount() == 0) {
+            SettingConfig.ins().getPipeContentValues(prjName);
+            SettingConfig.ins().getContentValues(prjName);
+            SettingConfig.ins().getLineContentValues(prjName);
+            ;
+
+
         }
     }
 

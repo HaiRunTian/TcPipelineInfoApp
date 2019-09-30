@@ -11,8 +11,6 @@ import android.content.pm.PackageManager;
 
 public class GetVersionNum {
 
-
-
     private static GetVersionNum s_getVersionNum = null;
 
     public  synchronized static GetVersionNum ins() {

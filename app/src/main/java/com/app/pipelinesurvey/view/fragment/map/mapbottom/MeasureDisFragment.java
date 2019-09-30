@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
@@ -31,9 +32,11 @@ import java.text.DecimalFormat;
 public class MeasureDisFragment extends Fragment implements View.OnClickListener, MeasureListener, MeasureStateListener {
     private Button btnReset;
     private Button btnWithdraw;
-    private LinearLayout m_layoutContainer;
     private TextView tvDistance;
     private MapControl m_mapControl;
+    private RadioButton rbtnDis;
+    private RadioButton rbtnArea;
+    private TextView tvMeasureItem;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +52,12 @@ public class MeasureDisFragment extends Fragment implements View.OnClickListener
         btnWithdraw = _view.findViewById(R.id.btnWithdraw);
         btnWithdraw.setOnClickListener(this);
         tvDistance = _view.findViewById(R.id.tvDistance);
-        m_layoutContainer = getActivity().findViewById(R.id.layoutMapContainer);
+        tvMeasureItem = _view.findViewById(R.id.measure_item);
+        rbtnDis = _view.findViewById(R.id.rbtn_dis);
+        rbtnArea = _view.findViewById(R.id.rbtn_area);
+        rbtnDis.setChecked(true);
+        rbtnArea.setOnClickListener(this);
+        rbtnDis.setOnClickListener(this);
         m_mapControl = WorkSpaceUtils.getInstance().getMapControl();
         m_mapControl.setStrokeWidth(0.3);
         m_mapControl.setStrokeColor(m_mapControl.getResources().getColor(R.color.red));
@@ -76,46 +84,71 @@ public class MeasureDisFragment extends Fragment implements View.OnClickListener
             case R.id.btnReset:
                 m_mapControl.setAction(Action.PAN);
                 tvDistance.setText("");
-                m_mapControl.setAction(Action.MEASURELENGTH);
+                if (rbtnDis.isChecked()) {
+                    m_mapControl.setAction(Action.MEASURELENGTH);
+                } else {
+                    m_mapControl.setAction(Action.MEASUREAREA);
+                }
+
                 break;
             //回退
             case R.id.btnWithdraw:
                 WorkSpaceUtils.getInstance().getMapControl().undo();
                 break;
-                default:break;
+            //面积
+            case R.id.rbtn_area:
+                tvDistance.setText("");
+                m_mapControl.setAction(Action.MEASUREAREA);
+                tvMeasureItem.setText("面积:");
+                break;
+            //距离
+            case R.id.rbtn_dis:
+                tvDistance.setText("");
+                m_mapControl.setAction(Action.MEASURELENGTH);
+                tvMeasureItem.setText("距离:");
+                break;
+            default:
+                break;
         }
     }
 
     /**
-    * 长度
-    * @auther HaiRun
-    * created at 2018/7/31 8:57
-    */
+     * 长度
+     *
+     * @auther HaiRun
+     * created at 2018/7/31 8:57
+     */
     @Override
     public void lengthMeasured(double v, Point point) {
         DecimalFormat df = new DecimalFormat("0.00");
-        if (v<1000) {
-            tvDistance.setText(" "+df.format(v)+"米");
+        if (v < 1000) {
+            tvDistance.setText(" " + df.format(v) + "米");
         } else {
-            tvDistance.setText(" "+df.format(v/1000)+"千米");
+            tvDistance.setText(" " + df.format(v / 1000) + "千米");
         }
     }
 
     /**
-    * 面积
-    * @auther HaiRun
-    * created at 2018/7/31 8:57
-    */
+     * 面积
+     * @auther HaiRun
+     * created at 2018/7/31 8:57
+     */
     @Override
     public void areaMeasured(double v, Point point) {
-
+        DecimalFormat df = new DecimalFormat("0.00");
+        if (v < 1000000) {
+            tvDistance.setText(" " + df.format(v) + "平方米");
+        } else {
+            tvDistance.setText(" " + df.format(v / 1000000) + "平方公里");
+        }
     }
 
     /**
-    * 角度
-    * @auther HaiRun
-    * created at 2018/7/31 8:56
-    */
+     * 角度
+     *
+     * @auther HaiRun
+     * created at 2018/7/31 8:56
+     */
     @Override
     public void angleMeasured(double v, Point point) {
 

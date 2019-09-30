@@ -78,7 +78,12 @@ public class Decompressor {
 //		}
 //	}
 
-	//第一个参数就是需要解压的文件，第二个就是解压的目录
+	/**
+	 * 第一个参数就是需要解压的文件，第二个就是解压的目录
+	 * @Params :
+	 * @author :HaiRun
+	 * @date   :2019/9/6  11:07
+	 */
 	public static boolean upZipFileDir(String zipFile, String folderPath,ZipListener listener) {
 		listener.zipStart();
 		long sumLength = 0;
@@ -88,7 +93,6 @@ public class Decompressor {
 			//转码为GBK格式，支持中文
 			 zfile = new ZipFile(zipFile,"GBK");
 			 ziplength = getZipTrueSize(zipFile);
-//			LogUtills.i("====文件的大小==", ziplength+"");
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

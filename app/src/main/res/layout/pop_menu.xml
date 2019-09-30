@@ -76,6 +76,7 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/menu_diatance"
         style="@style/mapactivity_menu_item_style">
@@ -86,34 +87,7 @@
 
         <TextView
             style="@style/mapactivity_menu_item_text_style"
-            android:text="@string/measure_distance" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/menu_area"
-        style="@style/mapactivity_menu_item_style">
-
-        <ImageView
-            style="@style/mapactivity_menu_item_img_style"
-            android:src="@mipmap/btn_map_area_80px" />
-
-        <TextView
-            style="@style/mapactivity_menu_item_text_style"
-            android:text="@string/measure_area" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/menu_angle"
-        style="@style/mapactivity_menu_item_style">
-
-        <ImageView
-            style="@style/mapactivity_menu_item_img_style"
-            android:src="@mipmap/btn_map_angle_80px" />
-
-        <TextView
-            style="@style/mapactivity_menu_item_text_style"
-            android:text="@string/measure_angle" />
+            android:text="测距" />
     </LinearLayout>
 
     <LinearLayout
@@ -126,7 +100,7 @@
 
         <TextView
             style="@style/mapactivity_menu_item_text_style"
-            android:text="@string/measure_xy" />
+            android:text="坐标" />
     </LinearLayout>
 
     <LinearLayout
@@ -141,6 +115,20 @@
             style="@style/mapactivity_menu_item_text_style"
             android:text="@string/count" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_layer"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_layer_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/layer" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/menu_export"

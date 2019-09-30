@@ -7,7 +7,6 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
-
     <include layout="@layout/layout_titlebar_pipe_table"/>
 
     <LinearLayout
@@ -17,13 +16,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
-
             <ListView
                 android:id="@+id/lvConfigItems"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:choiceMode="singleChoice"/>
-
         </LinearLayout>
 
         <TextView
@@ -38,7 +35,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
-
         </FrameLayout>
 
     </LinearLayout>

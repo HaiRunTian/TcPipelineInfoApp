@@ -17,6 +17,8 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -60,8 +62,10 @@ import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.ImportDataProgressUtil;
 import com.app.pipelinesurvey.utils.LicenseUtils;
 import com.app.pipelinesurvey.utils.ThreadUtils;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
+import com.app.pipelinesurvey.view.fragment.map.ExportDataFragment;
+import com.app.pipelinesurvey.view.fragment.map.LayerSettingFragment;
 import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureAngleFragment;
 import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureAreaFragment;
 import com.app.pipelinesurvey.view.fragment.map.mapbottom.MeasureDisFragment;
@@ -127,7 +131,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * 定位
      */
     private ImageButton imgBtnLocation;
-
     /**
      * 详细面板
      */
@@ -212,7 +215,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     private ProgressDialog m_progress;
     private String m_filePath;
     private String m_fileName;
-    private LoadingImgDialog m_loadingImgDialog;
+    //    private LoadingImgDialog m_loadingImgDialog;
     private int[] array = new int[2];
     private String tvLabel = "";
     private final int KEY_QUERY_POINT = 0;
@@ -233,7 +236,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     private ImageButton imgMap;
     private CallOut callOut;
     private final String CALLOUT = "measurePoint";
-
+    private ScaleView scaleView;
     @SuppressLint("HandlerLeak")
     private Handler m_handler = new Handler() {
         @Override
@@ -250,13 +253,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     m_progress.setMessage("工作空间打开成功");
                     m_progress.dismiss();
                     setLogSheet();
-
                     break;
                 case 3:
                     m_progress.setMessage("工作空间打开失败");
                     m_progress.dismiss();
                     break;
-
                 case 4:
                     initProgress();
                     //点表  读取excel 和生成数据集比较好耗时间 需要在子线程里进行
@@ -355,8 +356,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         Recordset _reSet = _ds.getRecordset(false, CursorType.STATIC);
         if (!_reSet.isEmpty()) {
             _reSet.moveLast();
-            double _x = _reSet.getDouble("SmX");
-            double _y = _reSet.getDouble("SmY");
+            double _x = _reSet.getDouble("longitude");
+            double _y = _reSet.getDouble("latitude");
             Point2D _point2D = new Point2D(_x, _y);
             double[] _scale = m_map.getVisibleScales();
             m_map.setScale(_scale[_scale.length - 2]);
@@ -405,13 +406,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     boolean wkExist = FileUtils.getInstance().isFileExsit(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".smwu");
                     if (wkExist) {
                         if (!m_workspace.open(_wkInfo)) {
-                            ToastUtil.showShort(MapActivity.this, "workspace open fail");
+                            ToastyUtil.showErrorShort(MapActivity.this, "workspace open fail");
                             return;
                         }
                     } else {
                         //创建工作空间
                         if (!m_workspace.save()) {
-                            ToastUtil.showShort(MapActivity.this, "workspace cteate fail");
+                            ToastyUtil.showErrorShort(MapActivity.this, "workspace cteate fail");
                             return;
                         }
                     }
@@ -493,12 +494,15 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             LogUtills.i("地理坐标系 " + _geoCoordSys.getName() + " type = " + _geoCoordSys.getType() + "=====" + m_PrjCoordSys.getName() + "--" + m_PrjCoordSys.getType());
                         } else {
                             m_map.getLayers().add(ds.getDatasets().get(0), true);
+//                            m_PrjCoordSys =  ds.getDatasets().get(0).getPrjCoordSys();
                             ds.getDatasets().get(0).setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
                         }
                         WorkSpaceUtils.getInstance().setWorkSpace(m_workspace);
                         WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
                         //创建数据集 生成专题图 加载到地图上 比较耗时
                         OperNotifyer.AddSystemLayers(_datasource);
+                        //压盖
+                        m_map.setAntialias(true);
                         m_map.setOverlapDisplayed(true);
                         m_map.save(m_prjId);
                         if ("google".equals(m_type)) {
@@ -594,15 +598,14 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         while (_cursor1.moveToNext()) {
             baseMapPath = _cursor1.getString(_cursor1.getColumnIndex("BaseMapPath"));
             //当前城市标准名称
-            String city = _cursor1.getString(_cursor1.getColumnIndex("City"));
-            SuperMapConfig.PROJECT_CITY_NAME = city;
         }
 
         //通过城市名称查询此城市的管类
-        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_TYPE, "where city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_PRJ_SHOW, "where prj_name = '" + SuperMapConfig.PROJECT_NAME + "' and show = 1");
         while (_cursor.moveToNext()) {
-            String pipeType = _cursor.getString(_cursor.getColumnIndex("pipe_type"));
+            String pipeType = _cursor.getString(_cursor.getColumnIndex("pipetype"));
             m_data_list.add(pipeType);
+            LogUtills.i("pipeType = ",pipeType);
         }
         m_adapter = new LayersSimpleArraryAdapter(MapActivity.this, R.layout.spinner_item_style_map, m_data_list);
         m_adapter.setDropDownViewResource(R.layout.spinner_item_dropdown_style);
@@ -623,6 +626,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         try {
             m_mapView = (MapView) $(R.id.mapView);
             m_mapControl = m_mapView.getMapControl();
+            scaleView = findViewById(R.id.scaleView);
+            scaleView.setMapView(m_mapView);
             //地图标注
             callOut = new CallOut(this);
             ImageView view = new ImageView(this);
@@ -670,7 +675,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             case R.id.imgBtnLocation:
                 hideBottomPanel();
                 if (!GpsUtils.isOPen(MapActivity.this)) {
-                    ToastUtil.showShort(MapActivity.this, "请先打开GPS定位功能");
+                    ToastyUtil.showInfoShort(MapActivity.this, "请先打开GPS定位功能");
                     GpsUtils.openGPS(MapActivity.this);
                     return;
                 }
@@ -786,7 +791,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         break;
                     //管点定位
                     case R.id.menu_query:
-                        itemText = "管点定位";
+                        itemText = "管点查询";
                         DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
                         DataHandlerObserver.ins().setAction(Action.PAN);
                         if (itemText.equals(labelText)) {
@@ -805,7 +810,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         break;
                     //测量收点
                     case R.id.menu_measure_point:
-                        itemText = "测量收点";
+                        itemText = "测量";
                         DataHandlerObserver.ins().setAction(Action.PAN);
                         if (itemText.equals(labelText)) {
                             toggleBottomPanel();
@@ -817,7 +822,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         break;
                     //测量距离
                     case R.id.menu_diatance:
-                        itemText = "测量距离";
+                        itemText = "测距";
                         if (itemText.equals(labelText)) {
                             toggleBottomPanel();
                             DataHandlerObserver.ins().setAction(Action.PAN);
@@ -828,36 +833,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereDistance);
                         }
                         break;
-                    //测量面积
-                    case R.id.menu_area:
-                        itemText = "测量面积";
-                        if (itemText.equals(labelText)) {
-                            toggleBottomPanel();
-                            DataHandlerObserver.ins().setAction(Action.PAN);
-                        } else {
-                            showBottomPanel();
-                            switchFragment(KEY_MEASURE_AREA);
-                            DataHandlerObserver.ins().setAction(Action.MEASUREAREA);
-                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereArea);
-                        }
-                        break;
-                    //测量角度
-                    case R.id.menu_angle:
-                        itemText = "测量角度";
-                        if (itemText.equals(labelText)) {
-                            toggleBottomPanel();
-                            DataHandlerObserver.ins().setAction(Action.PAN);
-                        } else {
-                            showBottomPanel();
-                            switchFragment(KEY_MEASURE_ANGE);
-                            DataHandlerObserver.ins().setAction(Action.MEASUREANGLE);
-                            DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_MeasereAngle);
-                        }
-                        break;
                     //测量坐标系
                     case R.id.menu_xy:
                         itemText = "测量坐标";
                         DataHandlerObserver.ins().setAction(Action.PAN);
+                        toggleBottomPanel2();
                         if (itemText.equals(labelText)) {
                             hideBottomPanel();
                         } else {
@@ -866,7 +846,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         break;
                     //工足量统计
                     case R.id.menu_count:
-                        itemText = "统计数据";
+                        itemText = "统计";
                         DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
                         DataHandlerObserver.ins().setAction(Action.PAN);
                         if (itemText.equals(labelText)) {
@@ -878,44 +858,53 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         break;
                     //数据导出
                     case R.id.menu_export:
+                        ExportDataFragment fragment2 = new ExportDataFragment();
+                        fragment2.show(getSupportFragmentManager(),"fragment");
                         DataHandlerObserver.ins().setAction(Action.PAN);
                         hideBottomPanel();
-                        new ExportDataUtils(MapActivity.this, m_workspace, m_prjId).exportData();
-                        itemText = "数据导出";
+//                        new ExportDataUtils(MapActivity.this, m_workspace, m_prjId).exportData();
+                        itemText = "导出";
                         break;
                     //数据导入
                     case R.id.menu_import:
                         DataHandlerObserver.ins().setAction(Action.PAN);
                         hideBottomPanel();
-                        if (m_loadingImgDialog == null) {
-                            m_loadingImgDialog = new LoadingImgDialog(MapActivity.this, R.mipmap.ic_logo);
-                        }
+//                        if (m_loadingImgDialog == null) {
+//                            m_loadingImgDialog = new LoadingImgDialog(MapActivity.this, R.mipmap.ic_logo);
+//                        }
                         startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
-                        itemText = "数据导入";
+                        itemText = "导入";
                         break;
                     case R.id.btnQuery:
 
+                        break;
+
+                    case R.id.menu_layer:
+                        DataHandlerObserver.ins().setAction(Action.PAN);
+                        hideBottomPanel();
+                        LayerSettingFragment fragment = new LayerSettingFragment();
+                        fragment.show(getSupportFragmentManager(), "layer");
+                        itemText = "测量";
                         break;
                     default:
                         break;
                 }
                 labelText = itemText;
                 tvAction.setText(itemText);
-                Toast.makeText(MapActivity.this, labelText, Toast.LENGTH_SHORT).show();
             }
         };
+
         contentView.findViewById(R.id.menu_point).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_line).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_query).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_line_point).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_measure_point).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_diatance).setOnClickListener(listener);
-        contentView.findViewById(R.id.menu_area).setOnClickListener(listener);
-        contentView.findViewById(R.id.menu_angle).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_xy).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_count).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_export).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_import).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_layer).setOnClickListener(listener);
     }
 
     /**
@@ -969,6 +958,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             m_map.refresh();
         }
     }
+
     /**
      * 切换底部面板显示
      */
@@ -983,6 +973,27 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.translate_bottom_in);
             layoutContainer.startAnimation(m_animation);
         }
+
+        if (layoutMeausre.getVisibility() == View.VISIBLE) {
+            layoutMeausre.setVisibility(View.GONE);
+            callOut.setVisibility(View.GONE);
+            m_mapControl.setMagnifierEnabled(false);
+            m_map.refresh();
+        }
+
+    }
+
+    /**
+     * 切换底部面板显示
+     */
+    private void toggleBottomPanel2() {
+        if (layoutContainer.getVisibility() == View.VISIBLE) {
+            m_animation = AnimationUtils.loadAnimation(MapActivity.this, R.anim.translate_bottom_out);
+            layoutContainer.startAnimation(m_animation);
+            layoutContainer.setVisibility(View.GONE);
+            m_mapControl.setAction(Action.PAN);
+        }
+
         if (layoutMeausre.getVisibility() == View.VISIBLE) {
             layoutMeausre.setVisibility(View.GONE);
             callOut.setVisibility(View.GONE);
@@ -1188,6 +1199,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
+
         try {
             if (m_map.isModified() || m_workspace.isModified()) {
                 m_map.save();
@@ -1286,4 +1299,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 //        m_mapView.addCallout(callOut);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
 }

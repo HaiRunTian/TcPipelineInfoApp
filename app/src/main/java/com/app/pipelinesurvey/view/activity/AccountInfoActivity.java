@@ -18,7 +18,7 @@ import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.bean.AccountInfo;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.iview.IAccountInfoView;
 
 import java.util.regex.Matcher;
@@ -94,7 +94,7 @@ public class AccountInfoActivity extends BaseActivity implements View.OnClickLis
                         _values.put("mobile", getPhone());
                         _values.put("company", getCompany());
                         DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_USER_INFO, _values);
-                        ToastUtil.showShort(this, "个人信息已保存");
+                        ToastyUtil.showSuccessShort(this, "个人信息已保存");
                         AccountInfo _accountInfo = new AccountInfo();
                         _accountInfo.setName(getName());
                         _accountInfo.setSex(getSex());
@@ -117,7 +117,7 @@ public class AccountInfoActivity extends BaseActivity implements View.OnClickLis
         Cursor _cursor = DatabaseHelpler.getInstance().rawQuery("select * from " +
                 SQLConfig.TABLE_NAME_USER_INFO + " where name = ?", new String[]{getName()});
         if (_cursor.moveToNext()) {
-            ToastUtil.showShortByQueue(this, "该名字已被占用，请重新输入");
+            ToastyUtil.showWarningShort(this, "该名字已被占用，请重新输入");
             return false;
         } else {
             return true;
@@ -177,7 +177,7 @@ public class AccountInfoActivity extends BaseActivity implements View.OnClickLis
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
             for (int i = start; i < end; i++) {
                 if (!isChinese(source.charAt(i))) {
-                    ToastUtil.showShort(AccountInfoActivity.this, "仅支持最长4位中文字符");
+                    ToastyUtil.showWarningShort(AccountInfoActivity.this, "仅支持最长4位中文字符");
                     return "";
                 }
             }
@@ -217,7 +217,7 @@ public class AccountInfoActivity extends BaseActivity implements View.OnClickLis
         if (_matcher.matches() && getPhone().length() == 11) {
             return true;
         } else {
-            ToastUtil.showShortByQueue(this, "请输入11位数字的电话号码");
+            ToastyUtil.showInfoShort(this, "请输入11位数字的电话号码");
             return false;
         }
     }
@@ -225,7 +225,7 @@ public class AccountInfoActivity extends BaseActivity implements View.OnClickLis
     //验证姓名
     public boolean checkName() {
         if (getName().length() == 0) {
-            ToastUtil.showShortByQueue(this, "请正确填写姓名");
+            ToastyUtil.showInfoShort(this, "请正确填写姓名");
             return false;
         } else {
             return true;

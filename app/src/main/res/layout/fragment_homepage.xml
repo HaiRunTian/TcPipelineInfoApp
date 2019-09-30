@@ -88,10 +88,11 @@
                         android:drawableTop="@mipmap/help_72"
                         android:text="@string/new_help" />
                     <Button
+                        android:id="@+id/btnExamble"
                        android:visibility="invisible"
                         style="@style/page_button_style"
                         android:drawableTop="@mipmap/help_72"
-                        android:text="@string/new_help" />
+                        android:text="@string/new_example" />
                     <Button
                         android:visibility="invisible"
                         style="@style/page_button_style"

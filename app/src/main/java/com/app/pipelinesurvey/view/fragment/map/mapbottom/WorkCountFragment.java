@@ -80,7 +80,6 @@ public class WorkCountFragment extends android.support.v4.app.Fragment implement
         m_tvM2 = m_rootView.findViewById(R.id.tvM2);
         m_tvEmptyM = m_rootView.findViewById(R.id.tvEmptyM);
         m_tvAllEmptyM = m_rootView.findViewById(R.id.tvAllEmptyM);
-
         m_tvDate = m_rootView.findViewById(R.id.tvDate2);
         initDatePicker();
         return m_rootView;

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -26,6 +27,8 @@ public class InitWindowSize {
 
     public  void initWindowSize(Activity context, Dialog dialog) {
         Window window = dialog.getWindow();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        window.setGravity(Gravity.TOP);
         WindowManager.LayoutParams windowParams = window.getAttributes();
         windowParams.dimAmount = 0.0f;
         windowParams.y = 100;
@@ -34,7 +37,23 @@ public class InitWindowSize {
         if (dialog != null) {
             DisplayMetrics dm = new DisplayMetrics();
             context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-            dialog.getWindow().setLayout((int) (dm.widthPixels * 0.9), (int) (dm.heightPixels * 0.9));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+    }
+
+    public  void initWindowSize(Activity context, Dialog dialog,int params) {
+        Window window = dialog.getWindow();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        window.setGravity(Gravity.CENTER);
+        WindowManager.LayoutParams windowParams = window.getAttributes();
+        windowParams.dimAmount = 0.0f;
+        windowParams.y = 100;
+        window.setAttributes(windowParams);
+        Dialog _dialog =dialog;
+        if (dialog != null) {
+            DisplayMetrics dm = new DisplayMetrics();
+            context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            dialog.getWindow().setLayout(params, params);
         }
     }
 
@@ -49,6 +68,9 @@ public class InitWindowSize {
             DisplayMetrics dm = new DisplayMetrics();
             context.getWindowManager().getDefaultDisplay().getMetrics(dm);
             dialog.getWindow().setLayout((int) (dm.widthPixels * width), (int) (dm.heightPixels * height));
+            dialog.setCanceledOnTouchOutside(false);
         }
     }
+
+
 }

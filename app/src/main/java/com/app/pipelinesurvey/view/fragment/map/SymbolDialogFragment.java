@@ -99,7 +99,6 @@ public class SymbolDialogFragment extends DialogFragment implements View.OnClick
            case  R.id.tvReturn:
             getDialog().dismiss();
             break;
-
             default:break;
         }
     }

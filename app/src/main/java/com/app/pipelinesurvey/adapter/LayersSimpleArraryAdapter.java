@@ -22,9 +22,9 @@ public class LayersSimpleArraryAdapter extends ArrayAdapter {
         this.setDropDownViewResource(R.layout.spinner_item_dropdown_style);
     }
 
-    @Override
-    public int getCount() {
-        int count = super.getCount();
-        return count > 0 ? count - 1 : count;
-    }
+//    @Override
+//    public int getCount() {
+//        int count = super.getCount();
+//        return count > 0 ? count - 1 : count;
+//    }
 }

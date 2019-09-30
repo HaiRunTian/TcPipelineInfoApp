@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.BaseActivity;
+import com.app.pipelinesurvey.config.SettingConfig;
 import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
@@ -24,15 +26,15 @@ import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.PermissionUtils;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
+import com.app.utills.LogUtills;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- *@author  HaiRun
- *
+ * @author HaiRun
+ * <p>
  * 新建工程  配置地图  保存数据库
  */
 public class ProjectInfoActivity extends BaseActivity implements View.OnClickListener {
@@ -71,9 +73,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
     private TextView tvBaseMapPath;
     private static final int RESULT_FILE = 1;
     private String baseMapPath;
-
     /**
-     *  在界面初始化后，用地图数据判断是新建项目还是打开原有项目，
+     * 在界面初始化后，用地图数据判断是新建项目还是打开原有项目，
      */
     private boolean mNewPrj;
     private final static int RESULCODE = 3;
@@ -81,15 +82,52 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
     private Spinner spGroupIndex, spCityStand, spSeriNum;
     private EditText edtGroupName, edtLineL;
     private String[] m_local;
-
+    private List<String> list;
+    private int from;
+    private Button btnSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_info);
-        PermissionUtils.initPermission(this,new PermissionUtils.PermissionHolder());
+        PermissionUtils.initPermission(this, new PermissionUtils.PermissionHolder());
         initView();
         initValue();
+        initEvent();
+    }
+
+    private void initEvent() {
+        spCityStand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //初始化城市标准名称
+                SuperMapConfig.PROJECT_CITY_NAME = list.get(position);
+                switch (position) {
+                    //广州 天驰
+                    case 0:
+                        SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_setting";
+                        SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_setting";
+                        break;
+                    //深圳
+                    case 1:
+                        SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_shenzhen";
+                        SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_shenzhen";
+                        break;
+                    //惠州
+                    case 2:
+                        SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_huizhou";
+                        SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_huizhou";
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void initValue() {
@@ -98,20 +136,17 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         int _groupLocal = -1;
         int _pipeLength = -1;
         String _groupNum = "";
-        int from = getIntent().getIntExtra("from", 2);
-
+        from = getIntent().getIntExtra("from", 2);
         //初始化城市标准sp
         Cursor _cursor1 = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "");
-        List _list = new ArrayList();
+        list = new ArrayList();
         while (_cursor1.moveToNext()) {
-            _list.add(_cursor1.getString(_cursor1.getColumnIndex("name")));
+            list.add(_cursor1.getString(_cursor1.getColumnIndex("name")));
         }
-        spCityStand.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, _list));
-
+        spCityStand.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, list));
         //初始化
         String[] m_local = getResources().getStringArray(R.array.exp_num_type);
         spGroupIndex.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, m_local));
-
         //初始化
         String[] _seriaNum = getResources().getStringArray(R.array.seriNum);
         spSeriNum.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, _seriaNum));
@@ -123,7 +158,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             tvProjectCreateTime.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT));
             tvLastestModifiedTime.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT));
             edtLineL.setText(_pipeLength != -1 ? String.valueOf(_pipeLength) : "30");
-
         } else if (from == 1) {
             //打开已有项目
             mNewPrj = false;
@@ -135,7 +169,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             m_prjId = getIntent().getStringExtra("proj_name");
             String create_time = null, last_time = null, baseMapPath = null;
             edtProjName.setText(m_prjId);
-
             //数据库查询
             Cursor _cursor = DatabaseHelpler.getInstance()
                     .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + m_prjId + "'");
@@ -161,7 +194,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             edtGroupName.setText(_groupNum);
             edtLineL.setText(_pipeLength != -1 ? String.valueOf(_pipeLength) : "30");
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spCityStand, _city);
-
             String _group = "";
             switch (_groupLocal) {
                 case 1:
@@ -201,7 +233,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         spSeriNum = findViewById(R.id.sp_serinum);
         edtGroupName = findViewById(R.id.edt_group);
         edtLineL = findViewById(R.id.edt_line_length);
-
+        btnSetting = findViewById(R.id.btn_setting);
+        btnSetting.setOnClickListener(this);
 
     }
 
@@ -211,13 +244,22 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             case R.id.tvReturn:
                 finish();
                 break;
-            case R.id.tvConfig:
+            //设置按钮
+            case R.id.btn_setting:
+                Intent intent = new Intent(this, SettingActivity.class);
+                intent.putExtra("status", from);
+                intent.putExtra("prjName", edtProjName.getText().toString().trim());
+                SuperMapConfig.PROJECT_NAME = edtProjName.getText().toString().trim();
+                startActivity(intent);
                 break;
             //保存数据，打开地图，如果没有添加地图，默认打开地图
             case R.id.btnOpen:
-                Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
-                _intent.putExtra("prjName", edtProjName.getText().toString().trim());
+                //判断是否要插入点线配置数据
+                String prjName = edtProjName.getText().toString().trim();
+                inserSettingSql(prjName);
 
+                Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
+                _intent.putExtra("prjName", prjName);
                 if (mNewPrj) {
                     //新项目 //用户没有选择切图，默认打开谷歌地图
                     if (tvBaseMapPath.getText().toString().length() == 0) {
@@ -229,7 +271,9 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                         //类型 1代表谷歌地图 sci 代表切片
                         _intent.putExtra("type", "sci");
                     }
-                    if (queryPrjName()){ return;}
+                    if (queryPrjName()) {
+                        return;
+                    }
                     saveDataToDB();
                 } else {
                     //无用 不是新建项目
@@ -246,7 +290,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             }
 
             break;
-
             //删除项目 //数据库删除 文件夹删除工作空间
             case R.id.btnDelete:
                 AlertDialog.Builder _dialog = new AlertDialog.Builder(this);
@@ -258,11 +301,9 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which) {
                         String[] whereArgs = {edtProjName.getText().toString()};
                         DatabaseHelpler.getInstance().delete(SQLConfig.TABLE_NAME_PROJECT_INFO, "Name = ?", whereArgs);
-                        ToastUtil.show(ProjectInfoActivity.this, "删除成功", Toast.LENGTH_SHORT);
+                        ToastyUtil.showSuccessShort(ProjectInfoActivity.this, "删除成功");
                         setResult(1);
                         finish();
-
-
                     }
                 });
                 _dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -280,6 +321,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
 
     /**
      * 查询数据库 ，如果项目名字相同，则不可创建此工程
+     *
      * @return
      */
     private boolean queryPrjName() {
@@ -287,16 +329,14 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         Cursor _cursor = DatabaseHelpler.getInstance()
                 .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + edtProjName.getText().toString() + "'");
         if (_cursor.getCount() > 0) {
-            ToastUtil.show(this, "工程名已存在，请重新命名工程名", Toast.LENGTH_SHORT);
+            ToastyUtil.showWarningShort(this, "工程名已存在，请重新命名工程名");
             return true;
         }
-        if (FileUtils.getInstance().isDirExsit(SuperMapConfig.DEFAULT_DATA_PATH + edtProjName.getText().toString())){
-            ToastUtil.show(this, "手机中此工程名文件夹已存在，请重新命名工程名", Toast.LENGTH_SHORT);
+        if (FileUtils.getInstance().isDirExsit(SuperMapConfig.DEFAULT_DATA_PATH + edtProjName.getText().toString())) {
+            ToastyUtil.showWarningShort(this, "手机中此工程名文件夹已存在，请重新命名工程名");
             return true;
         }
-
-
-        return  false;
+        return false;
     }
 
     /**
@@ -311,14 +351,14 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         DatabaseHelpler.getInstance().update(SQLConfig.TABLE_NAME_PROJECT_INFO, _contentValues, "Name = ?", new String[]{edtProjName.getText().toString()});
     }
 
-
     private void saveDataToDB() {
+        String prjName = edtProjName.getText().toString().trim();
         SharedPrefManager _manager = new SharedPrefManager(this,
                 SharedPrefManager.FILE_CONFIG);
         String city = (String) _manager.getSharedPreference(SharedPrefManager.KEY_CITY, "");
         ContentValues _values = new ContentValues();
         //工程项目名称，工作空间名称、数据源名称
-        _values.put("Name", edtProjName.getText().toString().trim());
+        _values.put("Name", prjName);
         //未合并登录模块，置留
         _values.put("Creator", "");
         _values.put("CteateTime", tvProjectCreateTime.getText().toString().trim());
@@ -342,9 +382,25 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
             //创建shp文件夹Shp
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_SHP_PATH);
+            //创建shp文件夹Shp
+            FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
         }
     }
 
+    private void inserSettingSql(String prjName) {
+        //插入点线配置表
+        Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_SETTING, "where prj_name = '" + prjName + "'");
+        //如果点线配置表没有，则插入
+        if (cursor.getCount() == 0) {
+            LogUtills.i("ddda", "0,重新插入");
+            SettingConfig.ins().getPipeContentValues(prjName);
+            SettingConfig.ins().getContentValues(prjName);
+            SettingConfig.ins().getLineContentValues(prjName);
+            ;
+
+
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -355,7 +411,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 String _fileName = data.getStringExtra("fileName");
                 baseMapPath = _filePath;
                 if (!_fileName.endsWith(".sci")) {
-                    ToastUtil.showLong(this, "请选择sci的底图类型文件");
+                    ToastyUtil.showWarningShort(this, "请选择sci的底图类型文件");
                     tvBaseMapPath.setText("");
                 } else {
                     tvBaseMapPath.setText(baseMapPath);

@@ -8,6 +8,7 @@ import com.app.pipelinesurvey.location.BaseGPS;
 import com.app.pipelinesurvey.utils.AssetsUtils;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.PullXMLUtil;
+import com.app.pipelinesurvey.utils.SharedPreferencesUtil;
 import com.app.utills.LogUtills;
 import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
 import com.squareup.leakcanary.LeakCanary;
@@ -38,7 +39,6 @@ public class MyApplication extends Application {
         //初始化数据库
         initDatabase();
         try {
-
             initConfig();
             SuperMapConfig.initFolders();
             //百度地图显示，定位用不到这个功能
@@ -73,6 +73,7 @@ public class MyApplication extends Application {
 
     private void initConfig() {
         AssetsUtils.init(context);
+        SharedPreferencesUtil.getInstance(this);
         if (configLicense()) {
 //            Environment.setLicensePath(SuperMapConfig.LIC_PATH);
 //            Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);

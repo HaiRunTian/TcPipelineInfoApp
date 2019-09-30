@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+    <!--数据库版本升级 7-->
+    <sql_create_table>
+        <!--各种管类在单个工程里是否显示-->
+        <sql_create>
+            create table pipe_prj_show (id integer primary key autoincrement,prj_name varchar,
+            pipetype varchar,code varchar,show integer,city varchar);
+        </sql_create>
+
+    </sql_create_table>
+
+</database>

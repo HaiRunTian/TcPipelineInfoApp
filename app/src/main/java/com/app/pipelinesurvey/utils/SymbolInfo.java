@@ -21,6 +21,7 @@ public class SymbolInfo {
     /**
      * appentant 附属物
      * feature  点特质
+     * type 管类
      *
      * @Author HaiRun
      * @Time 2019/4/23 . 11:24
@@ -28,10 +29,34 @@ public class SymbolInfo {
     public String getSymbol(String type, String appendant, String feature) {
         String _symbol = "";
         switch (type) {
+            //惠州模式
+            case "给水-JS":
+            case "雨水-YS":
+            case "污水-WS":
+            case "合流-PS":
+            case "燃气-RQ":
+            case "高压-LG":
+            case "低压-LD":
+            case "交通-LX":
+            case "监控-LJ":
+            case "电信-DX":
+            case "移动-DD":
+            case "联通-DL":
+            case "盈通-DY":
+            case "有视-DT":
+            case "军队-DB":
+            case "综合-ZH":
+            case "不明-BM":
+            case "其他-BM":
+            case "工业-GY":
+                _symbol = getHZSymbol(appendant, feature);
+                break;
+
             case "给水-J": {
                 _symbol = getJSymbol(appendant, feature);
             }
             break;
+
             case "雨水-Y":
             case "污水-W":
             case "排水-P": {
@@ -99,6 +124,28 @@ public class SymbolInfo {
         return _symbol;
     }
 
+    /**
+     * 惠州模式 获取点特征附属物
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/5  10:14
+     */
+    private String getHZSymbol(String appendant, String feature) {
+        String symbol = "";
+        switch (appendant) {
+            case "探测点":
+            case " ":
+            case "":
+                symbol = feature;
+                break;
+            default:
+                symbol = appendant;
+                break;
+        }
+        return symbol;
+    }
+
 
     /**
      * 深圳 信号
@@ -110,7 +157,7 @@ public class SymbolInfo {
         String _symbol = "";
         switch (appendant) {
             case "探测点":
-            case "":
+            case " ":
                 _symbol = feature;
                 break;
             default:
@@ -130,7 +177,7 @@ public class SymbolInfo {
         String _symbol = "";
         switch (appendant) {
             case "探测点":
-            case "":
+            case " ":
                 _symbol = feature;
                 break;
             default:
@@ -287,7 +334,6 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-
         }
         return _symbol;
     }
@@ -335,7 +381,6 @@ public class SymbolInfo {
                         break;
                 }
                 break;
-
         }
         return _symbol;
     }
@@ -706,7 +751,6 @@ public class SymbolInfo {
             case "放水口":
                 _symbol = "放水口";
                 break;
-
             case "探测点":
             default:
                 switch (feature) {

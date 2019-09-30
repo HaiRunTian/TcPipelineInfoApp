@@ -67,7 +67,6 @@ public class MeasureXYFragment extends Fragment implements View.OnClickListener 
         String y2 = df.format(point2D.getY());
         tvX.setText(x2);
         tvY.setText(y2);
-
     }
 
     @Override

@@ -6,8 +6,8 @@ android {
         applicationId "com.app.pipelinesurvey"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 28
-        versionName "1.3.8"
+        versionCode 36
+        versionName "1.4.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk { abiFilters "armeabi", "armeabi64-v8a","armeabi-v7a", "x86", "mips" }
@@ -55,7 +55,7 @@ android {
             //配置自定义打包名称 applicationVariants.all { variant ->
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "天驰管调通V-${variant.versionName}-${defaultConfig.versionCode}.apk"
+                    outputFileName = "管智绘-${variant.versionName}-${defaultConfig.versionCode}.apk"
                 }
             }
         }
@@ -106,4 +106,7 @@ dependencies {
     implementation files('libs/com.supermap.services_v1000.jar')
     implementation files('libs/com.supermap.mapping_v1000.jar')
     implementation files('libs/com.supermap.data_v1000.jar')
+    //toast
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+
 }

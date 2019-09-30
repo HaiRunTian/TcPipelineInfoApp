@@ -49,7 +49,6 @@ public class ExcelUtilsOfJxi {
     public static WritableCellFormat arial12format = null;
     public final static String UTF8_ENCODING = "UTF-8";
     public final static String GBK_ENCODING = "GBK";
-
     /**
      * 初始化excel
      */
@@ -94,9 +93,7 @@ public class ExcelUtilsOfJxi {
             if (!file.exists()) {
                 file.createNewFile();
             }
-
             workbook = Workbook.createWorkbook(file);
-
             //点
             WritableSheet sheet = workbook.createSheet(excelSheetName, 0);
             sheet.addCell((WritableCell) new Label(0, 0, fileName,
@@ -108,7 +105,6 @@ public class ExcelUtilsOfJxi {
             WritableSheet sheetL = workbook.createSheet(excelSheetNameL, 1);
             sheetL.addCell((WritableCell) new Label(0, 0, fileName,
                     arial14format));
-
             for (int col = 0; col < colNameL.size(); col++) {
                 sheetL.addCell(new Label(col, 0, colNameL.get(col), arial10format));
             }
@@ -209,7 +205,6 @@ public class ExcelUtilsOfJxi {
         return rows;
     }
 
-
     /**
      * 从Excel表中导入数据
      *
@@ -218,152 +213,40 @@ public class ExcelUtilsOfJxi {
      * @param sheet
      * @return
      */
-    public static List<BaseFieldInfos> read2DB(File f, int sheet) {
-        ArrayList<BaseFieldInfos> _pInfos = new ArrayList<BaseFieldInfos>();
+    public static  List<Map<String,Object>> read2DB(File f, int sheet) {
+        List<Map<String,Object>> list = new ArrayList<>();
         try {
             Workbook course = null;
             course = Workbook.getWorkbook(f);
             Cell cell = null;
-            if (sheet == 0) {
+//            if (sheet == 0) {
                 //点表
                 Sheet _sheetP = course.getSheet(sheet);
-                BaseFieldPInfos _info = null;
+//                BaseFieldPInfos _info = null;
                 int _rowsP = _sheetP.getRows();
                 //excel字段数组
                 Cell[] _cells = _sheetP.getRow(0);
-                //数组转为map
-                Map<String, Integer> _map = new HashMap<>();
-                for (int _i = 0; _i < _cells.length; _i++) {
-                    _map.put(_cells[_i].getContents(), _i);
-                }
+                //装键值对
+                Map<String,Object> map = null;
                 for (int i = 1; i < _rowsP; i++) {
-                    _info = PointFieldFactory.Create();
-                    Field[] _fields = _info.getClass().getFields();
-                    for (int _i = 0; _i < _fields.length; _i++) {
-                        Field _field = _fields[_i];
-                        String fileName = _field.getName();
-                        if (_map.get(fileName) == null) {
-                            continue;
-                        }
-                        String _type = _field.getType().getCanonicalName();
-                        switch (_type) {
-                            case "double":
-                                if (_sheetP.getCell(_map.get(fileName), i).getContents().length() != 0 ) {
-                                    _field.set(_info, Double.valueOf(_sheetP.getCell(_map.get(fileName), i).getContents()));
-                                } else {
-                                    if ("symbolSizeX".equals(fileName) || "symbolSizeY".equals(fileName)) {
-                                        _field.set(_info, 0.0);
-                                    } else {
-                                        //如果坐标系为0，跳出，处理下一条
-                                        continue;
-                                    }
-                                }
-                                break;
-                            case "java.lang.String":
-                                _field.set(_info, _sheetP.getCell(_map.get(fileName), i).getContents());
-                                break;
-                            case "int":
-                                if (_sheetP.getCell(_map.get(fileName), i).getContents().length() != 0) {
-                                    _field.set(_info, Integer.valueOf(_sheetP.getCell(_map.get(fileName), i).getContents()));
-                                } else {
-                                    _field.set(_info, 0);
-                                }
-                                break;
-                            case "com.app.BaseInfo.Data.POINTTYPE":
-                                _info.type = POINTTYPE.Type_All_A;
-                                break;
-                            case "long":
-                                break;
-                            case "float":
-                                break;
-                            case "short":
-                                break;
-                            case "boolean":
-                                break;
-                            default:
-                                _field.set(_info, _sheetP.getCell(_map.get(fileName), i).getContents());
-                                break;
-                        }
+                    map = new HashMap<>();
+                    Cell[] cells = _sheetP.getRow(i);
+                    LogUtills.i("长度",_cells.length + "======" + cells.length);
+                    for (int j = 0; j < _cells.length; j++) {
+                        LogUtills.i("字段值",_cells[j].getContents() + "========" + cells[j].getContents());
+                        map.put(_cells[j].getContents(),cells[j].getContents());
+
                     }
-                    _pInfos.add(_info);
+                    list.add(map);
                 }
-            } else if (sheet == 1) {
-                //线表
-                Sheet _sheetL = course.getSheet(sheet);
-                BaseFieldLInfos _infoL = null;
-                int _rowsL = _sheetL.getRows();
-                //excel字段数组
-                Cell[] _cells = _sheetL.getRow(0);
-                //数组转为map
-                Map<String, Integer> _map = new HashMap<>();
-                for (int _i = 0; _i < _cells.length; _i++) {
-                    _map.put(_cells[_i].getContents(), _i);
-                }
-                //遍历行
-                for (int i = 1; i < _rowsL; i++) {
-                    //1行一个bean对象
-                    _infoL = LineFieldFactory.Create();
-                    Field[] _fields = _infoL.getClass().getFields();
-                    for (int _i = 0; _i < _fields.length; _i++) {
-                        Field _field = _fields[_i];
-                        String fileName = _field.getName();
-                        if (_map.get(fileName) == null) {
-                            continue;
-                        }
-                        String _type = _field.getType().getCanonicalName();
-                        switch (_type) {
-                            case "double":
-                                if (_sheetL.getCell(_map.get(fileName), i).getContents().length() != 0) {
-                                    if ( !"0.000".equals(_sheetL.getCell(_map.get(fileName), i).getContents())){
-                                        _field.set(_infoL, Double.valueOf(_sheetL.getCell(_map.get(fileName), i).getContents()));
-                                    }else {
-                                        continue;
-                                    }
-                                } else {
-                                    //坐标为0，不导入
-                                    continue;
-                                }
-                                break;
-                            case "java.lang.String":
-                                _field.set(_infoL, _sheetL.getCell(_map.get(fileName), i).getContents());
-                                break;
-                            case "int":
-                                if (_sheetL.getCell(_map.get(fileName), i).getContents().length() != 0) {
-                                    _field.set(_infoL, Integer.valueOf(_sheetL.getCell(_map.get(fileName), i).getContents()));
-                                } else {
-                                    _field.set(_infoL, 0);
-                                }
-                                break;
-                            case "com.app.BaseInfo.Data.POINTTYPE":
-                                _infoL.type = POINTTYPE.Type_All_A;
-                                break;
-                            case "long":
-                                break;
-                            case "float":
-                                break;
-                            case "short":
-                                break;
-                            case "boolean":
-                                break;
-                            default:
-                                _field.set(_infoL, _sheetL.getCell(_map.get(fileName), i).getContents());
-                                break;
-                        }
-                    }
-                    _pInfos.add(_infoL);
-                }
-            }
             course.close();
-            //sheet.getRows() 获取excel总行数，即总数量
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-
-            LogUtills.i("excel", e.getMessage());
+            LogUtills.e("excel", e.getMessage());
         }
-
-        return _pInfos;
+        return list;
     }
 
 

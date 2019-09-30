@@ -48,10 +48,8 @@ public class OkHttpUtils {
     private String m_url2;
 
     public OkHttpUtils() {
+
     }
-
-
-
     /**
      * 单例模式  获取OkHttp实例
      *

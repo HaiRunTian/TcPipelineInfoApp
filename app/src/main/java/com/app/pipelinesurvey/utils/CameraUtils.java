@@ -377,7 +377,6 @@ public class CameraUtils {
 
     /**
      * 压缩图片
-     *
      * @param image
      * @return
      */
@@ -484,7 +483,6 @@ public class CameraUtils {
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
         //压缩好比例大小后再进行质量压缩
         return compressImage(bitmap);
-
     }
 
 }

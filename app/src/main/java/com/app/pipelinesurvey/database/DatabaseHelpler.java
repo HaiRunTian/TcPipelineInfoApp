@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 5;
+    private static final int VERSION = 8;
     /**
      * 建表语句
      */
@@ -96,25 +96,148 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
         //创建数据 广州模式表格和插入数据 版本号3
         createSqlAndInserDataForGZ(db);
-
         //更新点特征 附属物表 字段，添加字段city 并且赋值 广州 版本号4
         alterSqlAndInserDataForGZ(db);
-
         //创建深圳模式表格和插入数据 版本号4
         createSqlAndInserDataForSZ(db);
-        LogUtills.i("Sql onCreate","onCreate()");
-
+        LogUtills.i("Sql onCreate", "onCreate()");
         //版本号5 创建检测记录表
         createSql(db);
-
+        //版本号6 添加某些表字段  加入惠州模式
+        alterSqlAndInserDataForHZ(db);
+        ////创建惠州模式表格和插入数据 版本号6
+        createSqlAndInserDataForHZ(db);
+        //版本7 创建点配置 线配置
+        createSqlOf7(db);
+        //版本8
+        createSqlOf8(db);
 
     }
 
     /**
-     * 版本号5 创建检测记录表
+     * 数据库版本升级8
      * @Params :
      * @author :HaiRun
-     * @date   :2019/6/26  15:31
+     * @date   :2019/9/19  15:34
+     */
+    private void createSqlOf8(SQLiteDatabase db) {
+        //升级版本8
+        //创建表格
+        List<String> crateSql = InitDatabase.getCteateSql8(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
+        //更新表
+        List<String> list = InitDatabase.getAlterSqlOf8();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+
+    }
+
+    /**
+     * 数据库版本升级7
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/9/19  15:34
+     */
+    private void createSqlOf7(SQLiteDatabase db) {
+        //升级版本7
+        List<String> crateSql = InitDatabase.getCteateSql7(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
+
+        List<String> list = InitDatabase.getAlterSqlOf7();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 创建惠州模式表格和插入数据 版本号6
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/4  16:50
+     */
+    private void createSqlAndInserDataForHZ(SQLiteDatabase db) {
+        //升级版本6 新建惠州模式点线 配置表
+        List<String> crateSql = InitDatabase.getHuiZhouCteateSql(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
+
+        //升级版本6  插入惠州模式配置表
+        List<String> inserSqlShenzhen = InitDatabase.getHZInserSql(m_context);
+        //插入数据语句
+        for (String sql : inserSqlShenzhen) {
+            LogUtills.i(" Sql inner =", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql inner error ", e.getMessage());
+            }
+        }
+    }
+
+
+    /**
+     * 版本号6 添加某些表字段  加入惠州模式
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/4  16:50
+     */
+    private void alterSqlAndInserDataForHZ(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOfSix();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 版本号5 创建检测记录表
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/6/26  15:31
      */
     private void createSql(SQLiteDatabase db) {
         List<String> crateSql = InitDatabase.getCteateSqlOf5(m_context);
@@ -132,6 +255,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 更新点特征 附属物表 字段，添加字段city 并且赋值 广州 版本号4
+     *
      * @param db
      */
     private void alterSqlAndInserDataForGZ(SQLiteDatabase db) {
@@ -148,6 +272,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 创建数据 广州模式表格和插入数据
+     *
      * @param db
      */
     private void createSqlAndInserDataForGZ(SQLiteDatabase db) {
@@ -175,7 +300,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
     }
 
     /**
-     *   创建深圳模式表格和插入数据
+     * 创建深圳模式表格和插入数据
      */
     private void createSqlAndInserDataForSZ(SQLiteDatabase db) {
         //升级版本4 新建深圳模式点线 配置表
@@ -192,7 +317,6 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         }
 
         //升级版本4  插入深圳模式配置表
-
         List<String> inserSqlShenzhen = InitDatabase.getShenZhenInserSql(m_context);
         //插入数据语句
         for (String sql : inserSqlShenzhen) {
@@ -218,13 +342,22 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
                 alterSqlAndInserDataForGZ(db);
                 //创建深圳模式表格和插入数据 版本号4
                 createSqlAndInserDataForSZ(db);
-                LogUtills.i("Sql onUpdate","onUpdate()");
+                LogUtills.i("Sql onUpdate", "onUpdate()");
             case 4:
                 //创建现场检测记录表
                 createSql(db);
             case 5:
-
-                    break;
+                //版本号6 添加某些表字段  加入惠州模式
+                alterSqlAndInserDataForHZ(db);
+                ////创建惠州模式表格和插入数据 版本号6
+                createSqlAndInserDataForHZ(db);
+            case 6:
+                //版本7 创建点表线表配置
+                createSqlOf7(db);
+            case 7:
+                createSqlOf8(db);
+            case 8:
+                break;
 
             default:
                 break;
@@ -448,6 +581,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 原生查询
+     *
      * @param sqlString 查询条件
      * @return cursor Cursor对象
      * @datetime 2018-06-13  15:17.
@@ -456,7 +590,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         DatabaseHelpler databaseHelpler = dbMaps.get(currentDB);
         synchronized (databaseHelpler) {
             SQLiteDatabase database = databaseHelpler.getReadableDatabase();
-            Cursor cursor = database.rawQuery(sqlString,null);
+            Cursor cursor = database.rawQuery(sqlString, null);
             return cursor;
         }
     }

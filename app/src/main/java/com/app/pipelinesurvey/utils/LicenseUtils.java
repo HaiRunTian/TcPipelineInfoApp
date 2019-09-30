@@ -39,13 +39,13 @@ public class LicenseUtils {
     public boolean judgeLicese() {
         LicenseStatus _status = Environment.getLicenseStatus();
         if (!_status.isLicenseExsit()) {
-            ToastUtil.show(MyApplication.Ins(), "许可不存在", 1);
+            ToastyUtil.showWarningShort(MyApplication.Ins(), "许可不存在");
 
             return false;
 
         } else {
             if (!_status.isLicenseValid()) {
-                ToastUtil.show(MyApplication.Ins(), "许可证无效，请更新许可", 1);
+                ToastyUtil.showInfoShort(MyApplication.Ins(), "许可证无效，请更新许可");
 
                 return false;
             } else { //许可存在，判断时间
@@ -57,13 +57,12 @@ public class LicenseUtils {
                 int _day = (int) ((_endTime - _toadyTime) / 1000 / 60 / 60 / 24);
                 if (_day < 3) {
                     //如果软件试用时间低于三天，则跳出提示
-                    ToastUtil.show(MyApplication.Ins(), "软件试用时间还有" + _day + "天,请跟技术员联系！", 3);
+                    ToastyUtil.showWarningShort(MyApplication.Ins(), "软件试用时间还有" + _day + "天,请跟技术员联系！");
                 }
                 return true;
             }
         }
     }
-
 
     /**
      *  下载许可，暂时使用了怀阳高速许可证

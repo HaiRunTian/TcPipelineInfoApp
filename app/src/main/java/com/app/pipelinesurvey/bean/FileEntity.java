@@ -1,11 +1,15 @@
 package com.app.pipelinesurvey.bean;
 
+import org.apache.poi.ss.formula.functions.T;
+
 /**
  * Created by HaiRun on 2018/11/29 0029.
  * 读取手机文件夹bean
  */
 
-public class FileEntity {
+public class FileEntity  {
+
+
     public enum Type{
         FLODER,FILE
     }
@@ -23,7 +27,6 @@ public class FileEntity {
     public void setCheck(boolean check) {
         isCheck = check;
     }
-
     public String getFilePath() {
         return filePath;
     }
@@ -48,4 +51,6 @@ public class FileEntity {
     public void setFileType(Type fileType) {
         this.fileType = fileType;
     }
+
+
 }

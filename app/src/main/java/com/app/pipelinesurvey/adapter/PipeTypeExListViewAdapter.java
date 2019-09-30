@@ -109,7 +109,6 @@ public class PipeTypeExListViewAdapter extends BaseExpandableListAdapter {
         }
         _child.textview.setText(m_infoList.get(groupPosition).getChildInfoList().get(childPosition).getName());
         _child.cb.setChecked(m_infoList.get(groupPosition).getChildInfoList().get(childPosition).isCheck());
-
         return convertView;
     }
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.activity.linepoint.AddBasicsActivity;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public class BasicsDapter extends BaseAdapter {
                                         "name = ?", whereArgs);
                                 list.remove(position);
                                 notifyDataSetChanged();
-                                ToastUtil.show(context, "删除成功", Toast.LENGTH_SHORT);
+                                ToastyUtil.showSuccessShort(context, "删除成功");
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {

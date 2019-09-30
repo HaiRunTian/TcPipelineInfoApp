@@ -32,7 +32,6 @@ import android.widget.ListPopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.PointFieldFactory;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
@@ -50,9 +49,10 @@ import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
 import com.app.pipelinesurvey.utils.SymbolInfo;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.iview.IDrawPipePointView;
+import com.app.pipelinesurvey.view.iview.IQueryPipePointView;
 import com.app.pipelinesurvey.view.widget.AppendanSpinner;
 import com.app.pipelinesurvey.view.widget.FeaturePointsSpinner;
 import com.app.utills.LogUtills;
@@ -80,7 +80,7 @@ import java.util.regex.Pattern;
 /**
  * @author HaiRun
  */
-public class DrawPointInLineFragment extends DialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, AdapterView.OnItemClickListener, IDrawPipePointView, AdapterView.OnItemLongClickListener {
+public class DrawPointInLineFragment extends DialogFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, AdapterView.OnItemClickListener, IDrawPipePointView, IQueryPipePointView, AdapterView.OnItemLongClickListener {
     /**
      * 标题
      */
@@ -93,7 +93,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
      * 导入上一个数据
      */
     private Button btnPreviousOne;
-    ///
     //    private Spinner spPointRemark;//点备注
     /**
      * 点号1
@@ -265,7 +264,10 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     private String[] m_num;
     private View m_view;
     File m_pictureName;
-
+    private EditText edtX;
+    private EditText edtY;
+    private BaseFieldPInfos baseFieldPInfos;
+    private boolean importLast = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -278,8 +280,74 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         m_view = inflater.inflate(R.layout.activity_add_point_to_line, container, false);
         initView(m_view);
-
+        initlayoutView(m_view);
         return m_view;
+    }
+
+    /**
+     * 初始化每一行view,根据数据库表用户设置是否显示
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/8/23  16:58
+     */
+    private void initlayoutView(View m_view) {
+        View laayoutGpid = m_view.findViewById(R.id.layout_gpid);
+        View layoutFeature = m_view.findViewById(R.id.layout_feature);
+        View layoutAppendant = m_view.findViewById(R.id.layout_appendant);
+        View layout_well_size = m_view.findViewById(R.id.layout_well_size);
+        View layout_well_depth = m_view.findViewById(R.id.layout_well_depth);
+        View layout_well_water = m_view.findViewById(R.id.layout_well_water);
+        View layout_well_mud = m_view.findViewById(R.id.layout_well_mud);
+        View layout_well_lid_texture = m_view.findViewById(R.id.layout_well_lid_texture);
+        View layout_well_lid_size = m_view.findViewById(R.id.layout_well_lid_size);
+        View layout_state = m_view.findViewById(R.id.layout_state);
+        View layout_elevation = m_view.findViewById(R.id.layout_elevation);
+        View layout_depth = m_view.findViewById(R.id.layout_depth);
+        View layout_offset = m_view.findViewById(R.id.layout_offset);
+        View layout_building_structures = m_view.findViewById(R.id.layout_building_structures);
+        View layout_road_name = m_view.findViewById(R.id.layout_road_name);
+        View layout_point_remark = m_view.findViewById(R.id.layout_point_remark);
+        View layout_puzzle = m_view.findViewById(R.id.layout_puzzle);
+        View layout_x = m_view.findViewById(R.id.layout_x);
+        View layout_y = m_view.findViewById(R.id.layout_y);
+
+        //TODO 根据数据库表 判断view是否显示
+        String _gpType = getArguments().getString("gpType");
+        Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_SETTING, "where prj_name = '"
+                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + _gpType + "'");
+        while (cursor.moveToNext()){
+            int wellsize = cursor.getInt(cursor.getColumnIndex("wellsize"));
+            int welldepth = cursor.getInt(cursor.getColumnIndex("welldepth"));
+            int wellwater = cursor.getInt(cursor.getColumnIndex("wellwater"));
+            int wellmud = cursor.getInt(cursor.getColumnIndex("wellmud"));
+            int welllidtexture = cursor.getInt(cursor.getColumnIndex("welllidtexture"));
+            int welllidsize = cursor.getInt(cursor.getColumnIndex("welllidsize"));
+            int state = cursor.getInt(cursor.getColumnIndex("state"));
+            int elevation = cursor.getInt(cursor.getColumnIndex("elevation"));
+            int offset = cursor.getInt(cursor.getColumnIndex("offset"));
+            int building = cursor.getInt(cursor.getColumnIndex("building"));
+            int roadname = cursor.getInt(cursor.getColumnIndex("roadname"));
+            int pointremark = cursor.getInt(cursor.getColumnIndex("pointremark"));
+            int puzzle = cursor.getInt(cursor.getColumnIndex("puzzle"));
+            int x = cursor.getInt(cursor.getColumnIndex("x"));
+            int y = cursor.getInt(cursor.getColumnIndex("y"));
+            layout_well_size.setVisibility(wellsize == 1?View.VISIBLE:View.GONE);
+            layout_well_depth.setVisibility(welldepth == 1?View.VISIBLE:View.GONE);
+            layout_well_water.setVisibility(wellwater == 1?View.VISIBLE:View.GONE);
+            layout_well_mud.setVisibility(wellmud == 1?View.VISIBLE:View.GONE);
+            layout_well_lid_texture.setVisibility(welllidtexture == 1?View.VISIBLE:View.GONE);
+            layout_well_lid_size.setVisibility(welllidsize == 1?View.VISIBLE:View.GONE);
+            layout_state.setVisibility(state == 1?View.VISIBLE:View.GONE);
+            layout_elevation.setVisibility(elevation == 1?View.VISIBLE:View.GONE);
+            layout_offset.setVisibility(offset == 1?View.VISIBLE:View.GONE);
+            layout_building_structures.setVisibility(building == 1?View.VISIBLE:View.GONE);
+            layout_road_name.setVisibility(roadname == 1?View.VISIBLE:View.GONE);
+            layout_point_remark.setVisibility(pointremark == 1?View.VISIBLE:View.GONE);
+            layout_puzzle.setVisibility(puzzle == 1?View.VISIBLE:View.GONE);
+            layout_x.setVisibility(x == 1?View.VISIBLE:View.GONE);
+            layout_y.setVisibility(y == 1?View.VISIBLE:View.GONE);
+        }
+
     }
 
     private void initView(View view) {
@@ -322,6 +390,8 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         btnSave.setOnClickListener(this);
         edtOffset.addTextChangedListener(m_watcher);
         spSituation.setOnItemSelectedListener(this);
+        edtX = view.findViewById(R.id.edtX);
+        edtY = view.findViewById(R.id.edtY);
         initTakePicArea();
 
         TextView tvPointNum = view.findViewById(R.id.tvPointNum);
@@ -356,34 +426,30 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         tvTitle.setText("线中加点" + "(" + _gpType + ")");
         m_pointX = getArguments().getDouble("x", 0.0);
         m_pointY = getArguments().getDouble("y", 0.0);
+        edtX.setText(String.valueOf(m_pointX));
+        edtY.setText(String.valueOf(m_pointY));
         //管线SMID
         m_lineSmid = getArguments().getInt("smId", -1);
-
+        //点特征
         featurePointsList = SpinnerDropdownListManager.getData("feature", _gpType);
-//        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, featurePointsList);
-//        spFeaturePoints.setAdapter(m_adapter);
-//        spFeaturePoints.setSelection(featurePointsList.size()-1);
         spFeaturePoints.setMemoryCount(5);
         spFeaturePoints.setData(null, (ArrayList<String>) featurePointsList);
         SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spFeaturePoints," ");
-
+        //附属物
         appendantList = SpinnerDropdownListManager.getData("subsid", _gpType);
-//        m_adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item_text, appendantList);
-//        spAppendant.setAdapter(m_adapter);
-//        spAppendant.setSelection(appendantList.size()-1);
         spAppendant.setMemoryCount(5);
         spAppendant.setData(null, (ArrayList<String>) appendantList);
         SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spAppendant," ");
-
+        //管点备注
         pointRemarkList = SpinnerDropdownListManager.getData("pointRemark", _gpType);
         situationList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.situation));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
         spSituation.setAdapter(m_adapter);
-
+        //管点状态
         stateList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.state));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, stateList);
         spState.setAdapter(m_adapter);
-
+        //管材
         wellLidTextureList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.wellLidTexture));
 
     }
@@ -397,29 +463,22 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         _parameter.setCursorType(CursorType.STATIC);
         _parameter.setOrderBy(new String[]{"SmID asc"});
         Recordset _reSet = DataHandlerObserver.ins().QueryRecordsetByParameter(_parameter, true);
-
         if (!_reSet.isEmpty()) {
             _reSet.moveLast();
-            BaseFieldPInfos _baseFieldPInfos = BaseFieldPInfos.createFieldInfo(_reSet);
-            spSituation.setSelection(situationList.indexOf(_baseFieldPInfos.situation));
-            spAppendant.setSelection(appendantList.indexOf(_baseFieldPInfos.subsid));
-            spFeaturePoints.setSelection(featurePointsList.indexOf(_baseFieldPInfos.feature));
-            spState.setSelection(stateList.indexOf(_baseFieldPInfos.state));
-            spWellLidTexture.setSelection(wellLidTextureList.indexOf(_baseFieldPInfos.wellCoverMaterial));
-            importDataToView(edtWellSize, _baseFieldPInfos.wellCoverSize);
-            importDataToView(edtWellDepth, _baseFieldPInfos.wellDeep);
-            importDataToView(edtWellWater, _baseFieldPInfos.wellWater);
-            importDataToView(edtWellMud, _baseFieldPInfos.wellMud);
-            importDataToView(edtWellSize, _baseFieldPInfos.wellCoverSize);
-            importDataToView(edtElevation, _baseFieldPInfos.surf_H);
-            importDataToView(edtOffset, _baseFieldPInfos.pipeOffset);
-            importDataToView(edtBuildingStructures, _baseFieldPInfos.buildingStructures);
-            importDataToView(edtRoadName, _baseFieldPInfos.road);
-            importDataToView(edtPointRemark, _baseFieldPInfos.remark);
-            importDataToView(edtPuzzle, _baseFieldPInfos.puzzle);
-
+            baseFieldPInfos = BaseFieldPInfos.createFieldInfo(_reSet);
+            setSituation();
+            setAppendant();
+            setFeaturePoints();
+            setState();
+            setWellLidTexture();
+            setElevation();
+            setOffset();
+            setBuildingStructures();
+            setRoadName();
+            setPointRemark();
+            setPuzzle();
         } else {
-            ToastUtil.showShort(getActivity(), "您未录入过此类型管点数据");
+            ToastyUtil.showInfoShort(getActivity(), "您未录入过此类型管点数据");
         }
 
     }
@@ -436,7 +495,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog(),0.78,0.8);
+        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
 
     }
 
@@ -468,10 +527,13 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
 
             //管点编号状态
             case R.id.spSituation:
-                updateIdAndPointRemark();
-
+                //如果是导入上一个，可以不用处理
+                if (!importLast) {
+                    updateIdAndPointRemark();
+                }else {
+                    importLast = false;
+                }
                 break;
-
             default:
                 break;
         }
@@ -582,17 +644,17 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                 boolean _result = false;
                 //判断重号
                 if (ComTool.Ins().isSameNum(getGPId(), false)) {
-                    ToastUtil.showShort(getActivity(), "点号重复，请重新编号");
+                    ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
                     return;
                 }
                 if (edtDepth.getText().toString().length() == 0){
-                    ToastUtil.showShort(getActivity(), "深度必填");
+                    ToastyUtil.showErrorShort(getActivity(), "深度必填");
                     return;
 
                 }
                 _result = DataHandlerObserver.ins().createRecords2(generateBaseFieldInfo());
                 if (!_result) {
-                    ToastUtil.show(getActivity().getBaseContext(), "保存点数据失败...", Toast.LENGTH_SHORT);
+                    ToastyUtil.showErrorShort(getActivity().getBaseContext(), "保存点数据失败...");
                     return;
                 } else {
                     //查询刚添加点的记录集
@@ -605,7 +667,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         _lineRecordset.moveFirst();
                         Map<String, Object> _maps = OperNotifyer.getFieldMaps(_lineRecordset);
                         if (_maps.isEmpty()) {
-                            ToastUtil.show(getActivity(), "发生未知错误，请重新选择，线中加点", Toast.LENGTH_SHORT);
+                            ToastyUtil.showInfoShort(getActivity(), "发生未知错误，请重新选择，线中加点");
                             return;
                         }
                         GeoLine _geoLine = (GeoLine) _lineRecordset.getGeometry();
@@ -628,7 +690,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         _lineRecordset.edit();//benExpNum endExpNum
                         _lineRecordset.setGeometry(new GeoLine(_startPt));
                         if (!_lineRecordset.update()) {
-                            ToastUtil.showShort(getActivity(), "第一条线更新失败");
+                            ToastyUtil.showErrorShort(getActivity(), "第一条线更新失败");
                             return;
                         }
 
@@ -641,18 +703,18 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         //改变长度
                         _lineRecordset.setString("pipeLength", String.format("%.2f", _lineRecordset.getDouble("SmLength")));
                         if (!_lineRecordset.update()) {
-                            ToastUtil.showShort(getActivity(), "第一条线长度更新失败");
+                            ToastyUtil.showErrorShort(getActivity(), "第一条线长度更新失败");
                             return;
                         }
                         //第二条线记录集
                         Recordset _addNewRecordset = _lineDateset.getRecordset(true, CursorType.DYNAMIC);
                         _addNewRecordset.edit();
                         if (!_addNewRecordset.addNew(new GeoLine(_endPt), _maps)) {
-                            ToastUtil.showShort(getActivity(), "第二条线添加失败");
+                            ToastyUtil.showErrorShort(getActivity(), "第二条线添加失败");
                         }
 
                         if (!_addNewRecordset.update()) {
-                            ToastUtil.showShort(getActivity(), "第二条线更新失败");
+                            ToastyUtil.showErrorShort(getActivity(), "第二条线更新失败");
                         }
 
                         _addNewRecordset.edit();
@@ -665,7 +727,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         //改变长度
                         _addNewRecordset.setString("pipeLength", String.format("%.2f", _addNewRecordset.getDouble("SmLength")));
                         if (!_addNewRecordset.update()) {
-                            ToastUtil.showShort(getActivity(), "第二条线长度更新失败");
+                            ToastyUtil.showErrorShort(getActivity(), "第二条线长度更新失败");
                             return;
                         }
                         _reSet.close();
@@ -690,14 +752,8 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                 break;
             //导入上一个
             case R.id.btnPreviousOne:
-
-//                AlertDialogUtil.showDialog(getActivity(), "导入提示", "是否导入上一次输入的数据", true, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
+                importLast = true;
                 importData();
-//                    }
-//                });
-
                 break;
 
             //开启相机拍照
@@ -737,11 +793,12 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
 
         BaseFieldPInfos _info = null;
         String gpType = getArguments().getString("gpType");
-        String _layerType = gpType.trim().substring(gpType.length() - 1);
+        String _layerType = gpType.trim().substring(3);
         _info = PointFieldFactory.CreateInfo(gpType.substring(0, 2));
         if (_info == null){ return null;}
         _info.pipeType = gpType;
         _info.code = _layerType;
+        _info.shortCode = _layerType;
         _info.exp_Num = getGPId();
         _info.feature = getFeaturePoints();
         _info.subsid = getAppendant();
@@ -785,7 +842,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
             _info.serialNum = Integer.parseInt(m_num[1]);
         }
 
-        //查询数据每个标准点配置表 专题图符号大小
+      /*  //查询数据每个标准点配置表 专题图符号大小
         String tabName = SQLConfig.TABLE_DEFAULT_POINT_SETTING;
         Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
         //查询此标准的点表名
@@ -795,7 +852,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
 
         if (tabName.length() == 0) {
             LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
-        }
+        }*/
 
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
                 new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
@@ -810,26 +867,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         return _info;
     }
 
-    private void saveTemplet() {
-        PipePointInfo.getPipePointInfo().setGPId(getGPId());
-        PipePointInfo.getPipePointInfo().setSituation(getSituation());
-        PipePointInfo.getPipePointInfo().setFeaturePoints(getFeaturePoints());
-        PipePointInfo.getPipePointInfo().setAppendant(getAppendant());
-        PipePointInfo.getPipePointInfo().setWellSize(getWellSize());
-        PipePointInfo.getPipePointInfo().setWellDepth(getWellDepth());
-        PipePointInfo.getPipePointInfo().setWellWater(getWellWater());
-        PipePointInfo.getPipePointInfo().setWellMud(getWellMud());
-        PipePointInfo.getPipePointInfo().setWellLidTexture(getWellLidTexture());
-        PipePointInfo.getPipePointInfo().setWellLidSize(getWellLidSize());
-        PipePointInfo.getPipePointInfo().setState(getState());
-        PipePointInfo.getPipePointInfo().setElevation(getElevation());
-        PipePointInfo.getPipePointInfo().setOffset(getOffset());
-        PipePointInfo.getPipePointInfo().setBuildingStructures(getBuildingStructures());
-        PipePointInfo.getPipePointInfo().setRoadName(getRoadName());
-        PipePointInfo.getPipePointInfo().setPointRemark(getPointRemark());
-        PipePointInfo.getPipePointInfo().setPuzzle(getPuzzle());
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (view.getId() != -1) {
@@ -838,12 +875,181 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         } else {
             viewPicture(position);
         }
-
     }
 
     @Override
     public void setGPId() {
 
+    }
+
+    @Override
+    public void setSituation() {
+        String situation = baseFieldPInfos.situation;
+        if (situation.length() != 0) {
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spSituation, situation);
+        }
+    }
+
+    @Override
+    public void setFeaturePoints() {
+        String _featurePoint = baseFieldPInfos.feature;
+        if (_featurePoint.length() != 0) {
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spFeaturePoints, _featurePoint);
+        }
+    }
+
+    @Override
+    public void setAppendant() {
+        String _appendant = baseFieldPInfos.subsid;
+        if (_appendant.length() != 0) {
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spAppendant, _appendant);
+        }
+        //设置附属物是否可见
+        if (_appendant.contains("孔") || _appendant.contains("井") || _appendant.contains("篦")) {
+            if (linearAppendantPanel.getVisibility() != View.VISIBLE) {
+                linearAppendantPanel.setVisibility(View.VISIBLE);
+                if (animSwitch) {
+                    m_animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_autotv_show);
+                    linearAppendantPanel.startAnimation(m_animation);
+                }
+            }
+            setWellSize();
+            setWellDepth();
+            setWellWater();
+            setWellMud();
+            setWellLidTexture();
+            setWellLidSize();
+        } else {
+            linearAppendantPanel.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void setState() {
+        String _statue = baseFieldPInfos.state;
+        if (_statue.length() != 0) {
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spState, _statue);
+        }
+    }
+
+    @Override
+    public void setElevation() {
+        String _evevation = baseFieldPInfos.surf_H;
+        if (_evevation != null) {
+            edtElevation.setText(_evevation + "");
+        }
+    }
+
+    @Override
+    public void setOffset() {
+        String _offset_local = baseFieldPInfos.pipeOffset;
+        if (_offset_local.length() != 0) {
+            edtOffset.setText(_offset_local);
+        }
+    }
+
+    @Override
+    public void setBuildingStructures() {
+        String _buildingStructures = baseFieldPInfos.buildingStructures;
+        if (_buildingStructures.length() != 0) {
+            edtBuildingStructures.setText(_buildingStructures);
+        }
+    }
+
+    @Override
+    public void setRoadName() {
+        String _roadName = baseFieldPInfos.road;
+        if (_roadName.length() != 0) {
+            edtRoadName.setText(_roadName);
+        }
+    }
+
+    @Override
+    public void setPointRemark() {
+        String _pointRemark = baseFieldPInfos.remark;
+        if (_pointRemark.length() != 0) {
+            edtPointRemark.setText(_pointRemark);
+        }
+    }
+
+    @Override
+    public void setPuzzle() {
+        String _puzzle = baseFieldPInfos.puzzle;
+        if (_puzzle.length() != 0) {
+            edtPuzzle.setText(_puzzle);
+        }
+    }
+
+    @Override
+    public void setWellSize() {
+        String _wellSize = baseFieldPInfos.wellSize;
+        if (_wellSize.length() != 0) {
+            edtWellSize.setText(_wellSize);
+        }
+    }
+
+    @Override
+    public void setWellDepth() {
+        String _wellDepth = baseFieldPInfos.wellDeep;
+        if (!_wellDepth.isEmpty()) {
+            double s = Double.parseDouble(_wellDepth);
+            int temp = (int) (s * 100);
+            String depth = String.valueOf(temp);
+            edtWellDepth.setText(depth);
+        }
+    }
+
+    @Override
+    public void setWellWater() {
+        String _wellWater = baseFieldPInfos.wellWater;
+        if (!_wellWater.isEmpty()) {
+            double s = Double.parseDouble(_wellWater);
+            int temp = (int) (s * 100);
+            String depth = String.valueOf(temp);
+            edtWellWater.setText(depth);
+        }
+    }
+
+    @Override
+    public void setWellMud() {
+        String _wellMud = baseFieldPInfos.wellMud;
+        if (!_wellMud.isEmpty()) {
+            double s = Double.parseDouble(_wellMud);
+            int temp = (int) (s * 100);
+            String depth = String.valueOf(temp);
+            edtWellMud.setText(depth);
+        }
+    }
+
+    @Override
+    public void setWellLidTexture() {
+        String _wellLidTexture = baseFieldPInfos.wellCoverMaterial;
+        if (_wellLidTexture.length() != 0) {
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spWellLidTexture, _wellLidTexture);
+        }
+    }
+
+    @Override
+    public void setWellLidSize() {
+        String _wellLIdSize = baseFieldPInfos.wellCoverSize;
+        if (_wellLIdSize.length() != 0) {
+            edtWellLidSize.setText(_wellLIdSize);
+        }
+    }
+
+    @Override
+    public double getLongitude() {
+        return 0;
+    }
+
+    @Override
+    public double getLatitude() {
+        return 0;
+    }
+
+    @Override
+    public List<String> getPicturefromReSet() {
+        return null;
     }
 
     @Override
@@ -900,8 +1106,11 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     @Override
     public String getPointRemark() {
         String s = edtPointRemark.getText().toString().trim();
-        if (s.startsWith("-")){
+        if (s.startsWith("-")) {
             s = s.substring(1);
+        }
+        if (s.endsWith("-")){
+            s = s.substring(0,s.length()-1);
         }
         return s;
     }
@@ -1007,7 +1216,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         try {
             switch (requestCode) {
                 case CameraUtils.PHOTO_REQUEST_TAKEPHOTO:
-
                     picBitmap = BitmapFactory.decodeFile(m_pictureName.getAbsolutePath());
                     picBitmap = CameraUtils.comp(picBitmap);
                     if (picBitmap != null) {
@@ -1022,7 +1230,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         refreshGridviewAdapter();
 
                     } else {
-                        ToastUtil.show(getActivity(), "图片名不允许带特殊符号", Toast.LENGTH_SHORT);
+                        ToastyUtil.showInfoShort(getActivity(), "图片名不允许带特殊符号");
                     }
 
                     break;
@@ -1030,7 +1238,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                     break;
             }
         } catch (Exception e) {
-            ToastUtil.show(getActivity(), "new safety log error e:=" + e.getMessage(), Toast.LENGTH_SHORT);
+            ToastyUtil.showErrorShort(getActivity(), "new safety log error e:=" + e.getMessage());
         }
     }
 
@@ -1039,37 +1247,40 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
      *  刷新图片区域gridview
      */
     private void refreshGridviewAdapter() {
-        simpleAdapter = new SimpleAdapter(getActivity(), imageItem,
-                R.layout.layout_griditem_addpic, new String[]{"itemImage", "remark"}, new int[]{R.id.imageView1, R.id.tvPicName});
-        simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(final View view, final Object data, String textRepresentation) {
-                if (view instanceof ImageView && data instanceof Bitmap) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {//绑定视图
-                            ImageView i = (ImageView) view;
-                            i.setImageBitmap((Bitmap) data);
-                        }
-                    });
-                    return true;
-                } else if (view instanceof TextView) {
-                    TextView tv = (TextView) view;
-                    tv.setText(textRepresentation);
-                    return true;
+        if (simpleAdapter == null) {
+            simpleAdapter = new SimpleAdapter(getActivity(), imageItem,
+                    R.layout.layout_griditem_addpic, new String[]{"itemImage", "remark"}, new int[]{R.id.imageView1, R.id.tvPicName});
+            simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                @Override
+                public boolean setViewValue(final View view, final Object data, String textRepresentation) {
+                    if (view instanceof ImageView && data instanceof Bitmap) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {//绑定视图
+                                ImageView i = (ImageView) view;
+                                i.setImageBitmap((Bitmap) data);
+                            }
+                        });
+                        return true;
+                    } else if (view instanceof TextView) {
+                        TextView tv = (TextView) view;
+                        tv.setText(textRepresentation);
+                        return true;
+                    }
+                    return false;
                 }
-
-                return false;
-            }
-        });
-        //主线程绑定adapter刷新数据
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                grdPicCon.setAdapter(simpleAdapter);
-                simpleAdapter.notifyDataSetChanged();
-            }
-        });
+            });
+            //主线程绑定adapter刷新数据
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    grdPicCon.setAdapter(simpleAdapter);
+                    simpleAdapter.notifyDataSetChanged();
+                }
+            });
+        }else {
+            simpleAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -1079,35 +1290,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         picFiles = new ArrayList<>();
         picNames = new ArrayList<>();
         imageItem = new ArrayList<HashMap<String, Object>>();
-        ///
-//        grdPicCon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                viewPicture(position);
-//            }
-//        });
-//        grdPicCon.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//                MyAlertDialog.showAlertDialog(AddPointToLineActivity.getActivity(), "删除提示", "确定删除改照片？", "确定", "取消", true,
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                FileUtils.getInstance().deleteFile(picFiles.get(position)); //从手机卡删除
-//                                imageItem.remove(position);
-//                                picNames.remove(position);
-//                                picFiles.remove(position);
-//                                refreshGridviewAdapter();
-//                            }
-//                        }, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                return true;
-//            }
-//        });
     }
 
 
@@ -1131,9 +1313,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
             if (_temp.length() == 0) {
                 _temp = "0";
             }
-
             double str = Double.parseDouble(_temp);
-
             edtElevation.setText(String.format("%.3f", str));
         }
 
@@ -1172,7 +1352,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                 return "";
             }
         } catch (Exception e) {
-            ToastUtil.showShort(getActivity(), "error " + e.getMessage());
+            ToastyUtil.showInfoShort(getActivity(), "error " + e.getMessage());
         }
         return "";
     }

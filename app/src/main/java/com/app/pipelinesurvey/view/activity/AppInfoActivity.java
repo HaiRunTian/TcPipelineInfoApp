@@ -12,7 +12,7 @@ import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.presenter.AppInfoUpdatePresenter;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.GetVersionNum;
-import com.app.pipelinesurvey.utils.ToastUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.iview.IAppInfoUpdateView;
 
 public class AppInfoActivity extends BaseActivity implements IAppInfoUpdateView {
@@ -85,11 +85,11 @@ public class AppInfoActivity extends BaseActivity implements IAppInfoUpdateView 
                 tvLastUpdate.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT));
             }
         });
-        ToastUtil.showShort(this,"当前信息为最新");
+        ToastyUtil.showInfoShort(this,"当前信息为最新");
     }
 
     @Override
     public void showUpdatedFailed(String msg) {
-        ToastUtil.showShort(this, msg);
+        ToastyUtil.showErrorShort(this, msg);
     }
 }

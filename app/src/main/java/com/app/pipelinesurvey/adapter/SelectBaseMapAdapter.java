@@ -71,7 +71,7 @@ public class SelectBaseMapAdapter extends BaseAdapter {
             holder.img.setImageResource(R.mipmap.ic_folder_64px);
             holder.cb.setVisibility(View.GONE);
         }else {
-            if (m_entity.getFileName().endsWith(".sci") || m_entity.getFileName().endsWith(".SCI")){
+            if (m_entity.getFileName().endsWith(".sci") || m_entity.getFileName().endsWith(".SCI") ||m_entity.getFileName().endsWith(".json") ){
                 holder.img.setImageResource(R.mipmap.ic_map_base_map_48px);
                 holder.cb.setVisibility(View.VISIBLE);
                 holder.cb.setChecked(m_entity.isCheck());
