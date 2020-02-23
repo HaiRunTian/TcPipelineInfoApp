@@ -49,6 +49,12 @@ public class SymbolDialogFragment extends DialogFragment implements View.OnClick
         return m_view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
+    }
+
     private void initViews() {
         TextView tvReturn = m_view.findViewById(R.id.tvReturn);
         tvReturn.setOnClickListener(this);
@@ -90,7 +96,7 @@ public class SymbolDialogFragment extends DialogFragment implements View.OnClick
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
+//        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override

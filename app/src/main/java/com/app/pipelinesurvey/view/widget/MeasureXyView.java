@@ -106,7 +106,6 @@ public class MeasureXyView extends ImageView {
      * @param event
      * @return
      */
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);

@@ -11,5 +11,5 @@
         android:layout_height="wrap_content"
         android:hint="@string/input_realname_hint"
         android:maxLines="1"
-        android:textSize="@dimen/title"/>
+        android:textSize="@dimen/sp_16"/>
 </LinearLayout>

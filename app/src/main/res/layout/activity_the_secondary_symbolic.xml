@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/big"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:text="类型选择"/>

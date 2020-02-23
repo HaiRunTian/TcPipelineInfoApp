@@ -7,6 +7,6 @@
     android:fontFamily="monospace"
     android:gravity="center"
     android:padding="6dp"
-    android:textSize="@dimen/text">
+    android:textSize="@dimen/sp_14">
 
 </TextView>

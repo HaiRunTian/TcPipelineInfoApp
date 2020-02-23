@@ -31,8 +31,7 @@ import com.app.utills.LogUtills;
  * @author HaiRun
  * @time 2019/9/9.14:20
  */
-public class
-SettingActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class SettingActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private RadioGroup rg;
     private FrameLayout frameLayout;

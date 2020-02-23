@@ -2,19 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-    android:layout_marginLeft="10dp">
+    android:layout_marginLeft="@dimen/dp_10">
 
     <TextView
         android:id="@+id/tvGroup"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dp_40"
         android:gravity="center"
         android:text="组号设置："/>
 
     <EditText
         android:id="@+id/edtGroup"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_140"
         android:layout_toRightOf="@+id/tvGroup"
         android:gravity="center"/>
     <TextView

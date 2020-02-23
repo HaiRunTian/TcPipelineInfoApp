@@ -8,23 +8,23 @@
         android:id="@+id/layoutPipeType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
         android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="@dimen/dp_5"
             android:text="@string/pipe_type"/>
 
         <Spinner
             android:id="@+id/spPipeType"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_30"
             android:background="@drawable/shape_btn_shadow_bg"
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp"/>
+            android:paddingBottom="@dimen/dp_2"
+            android:paddingTop="@dimen/dp_2"/>
     </LinearLayout>
 
     <LinearLayout
@@ -44,16 +44,16 @@
         android:id="@+id/btnAddPointAtrr"
         style="@style/ButtonStyle02"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:drawableLeft="@mipmap/ic_add2_32px"
-        android:drawablePadding="2dp"
-        android:padding="5dp"
+        android:drawablePadding="@dimen/dp_2"
+        android:padding="@dimen/dp_5"
         android:text="@string/add_point_attr"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_10"
         android:background="@color/grey05"
         android:gravity="center">
 
@@ -67,13 +67,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="@dimen/dp_5">
 
         <TextView
             android:id="@+id/tvID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="@dimen/dp_10"
             android:text="ID"
             android:textColor="@color/grey02"
             android:textStyle="bold"/>

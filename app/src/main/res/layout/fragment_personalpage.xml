@@ -31,11 +31,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/dp_10"
                 >
 
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical">
 
                     <TextView
@@ -51,12 +51,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/ic_map_tv_right_nor_32px"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/dp_10"
                         />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical">
 
                     <TextView
@@ -73,11 +73,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/ic_map_tv_right_nor_32px"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/dp_10"
                         />
                 </LinearLayout>
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical">
 
                     <TextView
@@ -98,7 +98,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical">
 
                     <TextView
@@ -114,12 +114,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/ic_map_tv_right_nor_32px"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/dp_10"
                         />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical">
 
                     <TextView
@@ -135,7 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/ic_map_tv_right_nor_32px"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/dp_10"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -145,10 +145,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/dp_10"
                 >
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical"
                     >
                     <TextView
@@ -163,7 +163,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
-                    android:padding="5dp"
+                    android:padding="@dimen/dp_5"
                     style="@style/LinearCenterVertical">
 
                     <TextView
@@ -174,7 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/ic_map_tv_right_nor_32px"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/dp_10"
                         />
                 </LinearLayout>
 

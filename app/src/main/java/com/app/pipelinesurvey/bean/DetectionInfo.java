@@ -28,9 +28,8 @@ public class DetectionInfo implements Parcelable {
     public String groupMember2;
     public String date;
     public String remark;
-
-
     public DetectionInfo() {
+
     }
 
     protected DetectionInfo(Parcel in) {

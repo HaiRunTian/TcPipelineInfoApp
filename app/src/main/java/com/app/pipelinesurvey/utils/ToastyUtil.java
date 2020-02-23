@@ -92,5 +92,16 @@ public class ToastyUtil {
         Toasty.warning(context, warning, Toast.LENGTH_SHORT, true).show();
     }
 
+    /**
+     * toast  info  shrot
+     * @params :context
+     * @author :HaiRun
+     * @date   :2019/7/9  9:31
+     */
+    public static void showWarningLong(Context context,String warning){
+        initToasty();
+        Toasty.warning(context, warning, Toast.LENGTH_LONG, true).show();
+    }
+
 
 }

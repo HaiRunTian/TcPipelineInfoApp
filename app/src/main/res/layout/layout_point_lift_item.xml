@@ -14,7 +14,7 @@
         android:gravity="center"
         android:layout_marginRight="10dp"
         android:text="广州"
-        android:textSize="@dimen/big_p2"
+        android:textSize="@dimen/sp_22"
         />
     <TextView
         android:id="@+id/okImg"

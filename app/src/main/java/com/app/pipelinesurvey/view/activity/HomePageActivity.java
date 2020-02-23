@@ -17,25 +17,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.BaseActivity;
-import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.fragment.HomePageFragment;
 import com.app.pipelinesurvey.view.fragment.PersonalPageFragment;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-//import com.app.pipelinesurvey.view.fragment.MapFragment;
 
 /**
  * @描述 HomePageActivity 主页面
- * @作者 Kevin
  * @创建日期 2018-05-29  15:55.
  */
 public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, TextWatcher {
@@ -75,12 +68,7 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Map<String, Object> _map = MyApplication.quitPrompt(this, intervalTime);
-//        if (_map.get("isQuit").equals(true)) {
-//            super.onBackPressed();
-//        } else {
-//            intervalTime = (long) _map.get("intervalTime");
-//        }
+
     }
 
     private void initData() {

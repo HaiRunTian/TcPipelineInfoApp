@@ -28,7 +28,7 @@
             android:layout_toRightOf="@+id/tv"
             android:layout_marginLeft="15dp"
             android:text="标准配置"
-            android:textSize="@dimen/big_p3"
+            android:textSize="@dimen/sp_24"
             android:textColor="@color/white"
             />
         <TextView

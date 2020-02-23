@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.supermap.mapping.MapView
         android:id="@+id/mapView"
@@ -12,35 +12,80 @@
     <com.supermap.mapping.ScaleView
         android:id="@+id/scaleView"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/dp_30"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
 
     <Spinner
-        android:spinnerMode="dropdown"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="3dp"
         android:id="@+id/spLayers"
-        android:layout_width="80dp"
-        android:layout_height="22dp"
-        android:dropDownWidth="80dp"
-        android:background="@drawable/shape_sp_bg"/>
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_22"
+        android:layout_marginLeft="@dimen/dp_3"
+        android:layout_marginTop="@dimen/dp_3"
+        android:background="@drawable/shape_sp_bg"
+        android:dropDownWidth="@dimen/dp_80"
+        android:spinnerMode="dropdown" />
 
     <TextView
-        android:textSize="@dimen/tiny2"
-        android:gravity="center"
-        android:text="漫游"
-        android:textColor="@color/white"
         android:id="@+id/tvAction"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/shape_btn_cricle"
         android:clickable="true"
         android:elevation="3dp"
+        android:gravity="center"
         android:src="@drawable/selector_action"
-        android:background="@drawable/shape_btn_cricle"/>
+        android:text="漫游"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_10" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/cb_con"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tvAction">
+
+        <CheckBox
+            android:textSize="@dimen/sp_12"
+            android:id="@+id/cb_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加"></CheckBox>
+
+        <CheckBox
+            android:textSize="@dimen/sp_12"
+            android:id="@+id/cb_query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cb_add"
+            android:text="编辑"></CheckBox>
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/cb_con_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tvAction">
+
+        <CheckBox
+            android:textSize="@dimen/sp_12"
+            android:id="@+id/cb_add_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加"></CheckBox>
+
+        <CheckBox
+            android:textSize="@dimen/sp_12"
+            android:id="@+id/cb_query_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cb_add_line"
+            android:text="编辑"></CheckBox>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layoutBottom"
@@ -53,7 +98,7 @@
             android:id="@+id/layoutButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp">
+            android:padding="@dimen/dp_5">
 
             <RelativeLayout
                 android:id="@+id/layoutBtnLocation"
@@ -64,47 +109,47 @@
 
                 <ImageButton
                     android:id="@+id/imgBtnLocation"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginTop="@dimen/dp_3"
                     android:background="@drawable/shape_btn_cricle"
+                    android:scaleType="fitXY"
                     android:src="@drawable/selector_local" />
 
                 <ImageButton
-                    android:visibility="visible"
                     android:id="@+id/imgMapChange"
-                    android:layout_width="30dp"
-                    android:scaleType="fitXY"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="@dimen/dp_3"
+                    android:layout_marginRight="@dimen/dp_5"
                     android:background="@drawable/shape_btn_cricle"
-                    android:src="@drawable/selector_btn_map" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/selector_btn_map"
+                    android:visibility="visible" />
 
                 <ImageButton
                     android:id="@+id/imgbtnNone"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_50"
                     android:layout_below="@+id/imgBtnLocation"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:visibility="invisible" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/txMapScale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgbtnNone"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginTop="@dimen/dp_15"
                     android:background="@color/grey05"
                     android:text="@string/scale"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/tiny" />
+                    android:textSize="@dimen/sp_8"
+                    android:visibility="gone" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -114,33 +159,31 @@
     <LinearLayout
         android:id="@+id/layoutMapContainer"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="@dimen/dp_180"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="2dp"
         android:background="@drawable/shape_btn_shadow_bg"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
+
     </LinearLayout>
 
     <com.app.pipelinesurvey.view.widget.MeasureXyView
-        android:visibility="gone"
+        android:id="@+id/measureXyView"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@mipmap/ic_map_measure_arrow"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/measureXyView"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/layoutMeausre"
-        android:visibility="gone"
-        android:background="@drawable/shape_btn_shadow_bg"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical">
+        android:layout_height="@dimen/dp_100"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_btn_shadow_bg"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -149,77 +192,75 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/tvx"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginLeft="@dimen/dp_5"
                     android:gravity="center_vertical"
                     android:text="@string/current_X"
-                    android:textSize="@dimen/small"
-                    />
+                    android:textSize="@dimen/sp_12" />
 
                 <EditText
-                    android:enabled="false"
-                    style="@style/EdtStyle01"
                     android:id="@+id/edtX"
-                    android:textSize="@dimen/small"/>
+                    style="@style/EdtStyle01"
+                    android:enabled="false"
+                    android:textSize="@dimen/sp_12" />
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/tvy"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
                     android:text="@string/current_Y"
-                    android:textSize="@dimen/small"/>
+                    android:textSize="@dimen/sp_12" />
 
                 <EditText
-                    android:enabled="false"
                     android:id="@+id/edtY"
                     style="@style/EdtStyle01"
-                    android:textSize="@dimen/small"/>
+                    android:enabled="false"
+                    android:textSize="@dimen/sp_12" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Switch
-                android:textOn="关"
-                android:textOff="编辑"
-                android:background="@drawable/selector_btn_check_edit"
+                android:id="@+id/swOpen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/swOpen"/>
+                android:background="@drawable/selector_btn_check_edit"
+                android:textOff="编辑"
+                android:textOn="关" />
 
             <Button
-                android:text="@string/query"
+                android:id="@+id/btnQuery"
                 style="@style/fragment_btn_style"
-                android:id="@+id/btnQuery"/>
+                android:text="@string/query" />
         </LinearLayout>
 
     </LinearLayout>
-
-
 
 </RelativeLayout>

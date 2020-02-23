@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="注册号" />
+
+        <EditText
+            android:id="@+id/edtRegister"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_toRightOf="@+id/tvRegister"
+            android:gravity="center_vertical"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tvNum"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="注册码" />
+
+        <EditText
+            android:id="@+id/edtNUm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_toRightOf="@+id/tvNum"
+            android:gravity="center_vertical"
+            android:hint="长按粘贴"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+
+</LinearLayout>

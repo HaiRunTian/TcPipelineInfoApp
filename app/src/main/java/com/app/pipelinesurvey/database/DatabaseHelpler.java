@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 8;
+    private static final int VERSION = 12;
     /**
      * 建表语句
      */
@@ -111,7 +111,105 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         createSqlOf7(db);
         //版本8
         createSqlOf8(db);
+        //版本9
+        insertSqlOf9(db);
+        //版本10
+        createSqlAndAlter(db);
+        //版本11
+        createSqlAndInserDataForZB(db);
+        //版本12
+        alterDataZB(db);
 
+    }
+
+    /**
+     * 更新正本清源雨水
+     * @Params :
+     * @author :HaiRun
+     * @date   :2020/1/6  10:45
+     */
+    private void alterDataZB(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf12();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 版本11 加入正本清源模式
+     * @Params :
+     * @author :HaiRun
+     * @date   :2019/12/25  15:47
+     */
+    private void createSqlAndInserDataForZB(SQLiteDatabase db) {
+        //创建表格
+        List<String> crateSql = InitDatabase.getZhengBenCteateSql(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
+
+        //插入表格
+        List<String> list = InitDatabase.getZhengBenInserSql(m_context);
+        for (String sql : list) {
+            LogUtills.i(" Sql insert=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql insert ", e.getMessage());
+            }
+        }
+    }
+
+    private void createSqlAndAlter(SQLiteDatabase db) {
+        //创建表格
+        List<String> crateSql = InitDatabase.getCteateSql10(m_context);
+        if (crateSql != null) {
+            for (String sql : crateSql) {
+                LogUtills.i(" Sql   cteate=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql create error ", e.getMessage());
+                }
+            }
+        }
+
+        //工程表添加字段
+        List<String> list = InitDatabase.getAlterSqlOf10();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+
+    private void insertSqlOf9(SQLiteDatabase db) {
+        //更新表
+        List<String> list = InitDatabase.getInsertSqlOf9(m_context);
+        for (String sql : list) {
+            LogUtills.i(" Sql insert=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql insert ", e.getMessage());
+            }
+        }
     }
 
     /**
@@ -357,8 +455,15 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             case 7:
                 createSqlOf8(db);
             case 8:
+                insertSqlOf9(db);
+            case 9:
+                createSqlAndAlter(db);
+            case 10:
+                createSqlAndInserDataForZB(db);
+            case 11:
+                alterDataZB(db);
+            case 12:
                 break;
-
             default:
                 break;
         }

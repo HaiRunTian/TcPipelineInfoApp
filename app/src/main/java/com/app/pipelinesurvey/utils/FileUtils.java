@@ -1,7 +1,8 @@
 package com.app.pipelinesurvey.utils;
 
-import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.bean.FileEntity;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -212,7 +213,6 @@ public class FileUtils {
                 return false;
             }
         }
-
         try {
             InputStream fis = src;
             FileOutputStream fos = new FileOutputStream(des);
@@ -410,7 +410,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件夹里名字下表最大的一个
+     * 获取文件夹里名字下标最大的一个
      *
      * @param fileName
      * @return
@@ -423,7 +423,12 @@ public class FileUtils {
             for (int _i = 0; _i < files.length; _i++) {
                 if (files[_i].isFile()) {
                     String s = files[_i].getName().substring(files[_i].getName().lastIndexOf("-") + 1,files[_i].getName().lastIndexOf("."));
-                    int temp = Integer.valueOf(s);
+                    int temp = 0;
+                    try {
+                        temp = Integer.valueOf(s);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     count = temp > count ? temp : count;
                 }
             }

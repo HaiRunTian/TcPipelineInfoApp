@@ -69,7 +69,7 @@ public class MapSettingFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
     }
 
     /**
@@ -105,7 +105,7 @@ public class MapSettingFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
+//        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override

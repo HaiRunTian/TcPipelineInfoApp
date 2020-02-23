@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+    <!--数据库版本升级 10-->
+    <sql_create_table>
+        <!--外检模式 点修改好保持在点记录表-->
+        <sql_create>
+            create table point_update (id integer primary key autoincrement,prjName varchar,
+            expNum varchar,state varchar,dateTime varchar);
+        </sql_create>
+
+        <!--外检模式 线修改好保持在点记录表-->
+        <sql_create>
+            create table line_update (id integer primary key autoincrement,prjName
+            varchar,lineId integer, benExpNum varchar,endExpNum varchar,state varchar,dateTime varchar);
+        </sql_create>
+
+    </sql_create_table>
+
+</database>

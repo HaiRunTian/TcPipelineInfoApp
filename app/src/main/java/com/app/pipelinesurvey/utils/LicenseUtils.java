@@ -9,7 +9,9 @@ import com.supermap.data.Environment;
 import com.supermap.data.LicenseStatus;
 import com.supermap.data.LicenseType;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import okhttp3.Request;
@@ -83,5 +85,20 @@ public class LicenseUtils {
 
             }
         });
+    }
+
+    /**
+     *    配置许可文件
+     */
+    public boolean configLicense() {
+        String license = SuperMapConfig.LIC_PATH + SuperMapConfig.LIC_NAME;
+        File m_licenseFile = new File(license);
+        if (!m_licenseFile.exists()) {
+            InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.LIC_NAME);
+            if (is != null) {
+                return  FileUtils.getInstance().copy(is, SuperMapConfig.FULL_LIC_PATH);
+            }
+        }
+        return true;
     }
 }

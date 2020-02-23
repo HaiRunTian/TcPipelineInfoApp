@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <!--工程编码-->
             <LinearLayout style="@style/LinearCenterVertical">

@@ -18,6 +18,8 @@ public enum MAPACTIONTYPE2 {
         Action_MeasereAngle,
         Action_MeasereXY,
         Action_QueryPoint,
+        Action_AddPoint,
+        Action_AddLine,
         Action_QueryLine,
         Action_GetStartPoint,
         Action_GetEndPoint,

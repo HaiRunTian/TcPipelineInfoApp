@@ -8,7 +8,7 @@
     <ViewFlipper
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/dp_30"
         android:autoStart="true"
         android:background="@android:color/white"
         android:flipInterval="3000"
@@ -18,18 +18,18 @@
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/dp_200"
         app:image_scale_type="center_inside"
         app:indicator_drawable_selected="@drawable/shape_banner_itme_press"
         app:indicator_drawable_unselected="@drawable/shape_banner_itme_nor"
-        app:indicator_margin="5dp" />
+        app:indicator_margin="@dimen/dp_5" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/shape_gradient_bg2"
-        android:padding="2dp">
+        android:padding="@dimen/dp_2">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -52,6 +52,8 @@
                         android:drawableTop="@mipmap/ic_prjlist2_72px"
                         android:text="@string/prj_list_1" />
 
+
+
                     <Button
                         android:id="@+id/btnSetting"
                         style="@style/page_button_style"
@@ -64,50 +66,55 @@
                         android:drawableTop="@mipmap/symbolic_72"
                         android:text="@string/new_symbolic" />
 
-
                     <Button
                         android:id="@+id/btnBasics"
                         style="@style/page_button_style"
                         android:drawableTop="@mipmap/ic_setting2__72px"
                         android:text="@string/new_base" />
-
                     <Button
                         android:id="@+id/btnAbout"
                         style="@style/page_button_style"
                         android:drawableTop="@mipmap/ic_about_72px"
                         android:text="@string/about" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <Button
                         android:id="@+id/btnHelp"
                         style="@style/page_button_style"
                         android:drawableTop="@mipmap/help_72"
                         android:text="@string/new_help" />
+
+
+                    <Button
+                        style="@style/page_button_style"
+                        android:drawableTop="@mipmap/help_72"
+                        android:text="@string/new_help"
+                        android:visibility="invisible" />
+
                     <Button
                         android:id="@+id/btnExamble"
-                       android:visibility="invisible"
                         style="@style/page_button_style"
-                        android:drawableTop="@mipmap/help_72"
-                        android:text="@string/new_example" />
+                        android:drawableTop="@mipmap/ic_prjlist2_72px"
+                        android:text="@string/new_example"
+                        android:visibility="invisible" />
+
                     <Button
-                        android:visibility="invisible"
                         style="@style/page_button_style"
                         android:drawableTop="@mipmap/help_72"
-                        android:text="@string/new_help" />
+                        android:text="@string/new_help"
+                        android:visibility="invisible" />
+
                     <Button
-                        android:visibility="invisible"
                         style="@style/page_button_style"
                         android:drawableTop="@mipmap/help_72"
-                        android:text="@string/new_help" />
-                    <Button
-                        android:visibility="invisible"
-                        style="@style/page_button_style"
-                        android:drawableTop="@mipmap/help_72"
-                        android:text="@string/new_help" />
+                        android:text="@string/new_help"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 

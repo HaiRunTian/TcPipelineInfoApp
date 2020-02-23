@@ -16,18 +16,15 @@ public interface IDrawPipeLineView {
      */
     void setEndPoint();
 
-
     /**
      *获取管线点号
      */
     String getStartPoint();
 
-
     /**
      *获取连接点号
      */
     String getEndPoint();
-
 
     /**
      *获取起点埋深

@@ -1,7 +1,6 @@
 package com.app.pipelinesurvey.bean;
-
 /**
- * Created by Kevin on 2018-06-07.
+ * Created
  */
 
 public class PipeLineInfo {

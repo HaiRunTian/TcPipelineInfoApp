@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="（温馨提示:长按图片可以删除已添加图片)"
-        android:textSize="@dimen/text"
+        android:textSize="@dimen/sp_14"
         android:textColor="@color/grey04"
         android:gravity="center" />
 </LinearLayout>

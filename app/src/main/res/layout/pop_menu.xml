@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/menu_pop_bg"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/dp_3">
 
     <LinearLayout
         android:id="@+id/menu_point"
@@ -59,6 +59,20 @@
         <TextView
             style="@style/mapactivity_menu_item_text_style"
             android:text="@string/point_in_line" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_change_type"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_measure_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="@string/change_type" />
 
     </LinearLayout>
 

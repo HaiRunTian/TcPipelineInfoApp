@@ -7,14 +7,14 @@
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="@dimen/dp_6"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/dp_6"
             android:text="@string/work_count" />
 
         <include layout="@layout/layout_seperate_line_h" />
@@ -25,15 +25,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout1"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_6"
         android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="@dimen/dp_6"
             android:text="当天工作量：" />
 
         <TextView
@@ -49,9 +49,9 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/tvDate2"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
             android:alpha="0.5"
             android:background="@color/grey01" />
     </RelativeLayout>
@@ -89,7 +89,7 @@
             android:id="@+id/tvPipeLength"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="@dimen/dp_30"
             android:layout_toRightOf="@id/tvGe"
             android:text="管线: " />
 
@@ -141,7 +141,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout3"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="@dimen/dp_5"
         android:text="总工作量" />
 
     <RelativeLayout

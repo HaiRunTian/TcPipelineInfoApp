@@ -19,11 +19,9 @@ public class FileEntity  {
     private Type fileType; //文件类型
     private boolean isCheck; //是否被选中
 
-
     public boolean isCheck() {
         return isCheck;
     }
-
     public void setCheck(boolean check) {
         isCheck = check;
     }

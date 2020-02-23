@@ -26,7 +26,8 @@ import java.text.DecimalFormat;
  * 测量角度
  */
 
-public class MeasureAngleFragment extends Fragment implements View.OnClickListener, MeasureListener, MeasureStateListener {
+public class
+MeasureAngleFragment extends Fragment implements View.OnClickListener, MeasureListener, MeasureStateListener {
     private Button btnReset;
     private Button btnWithdraw;
     private LinearLayout m_layoutContainer;
@@ -36,6 +37,7 @@ public class MeasureAngleFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -45,6 +47,7 @@ public class MeasureAngleFragment extends Fragment implements View.OnClickListen
         btnReset = _view.findViewById(R.id.btnReset);
         btnReset.setOnClickListener(this);
         btnWithdraw = _view.findViewById(R.id.btnWithdraw);
+
         btnWithdraw.setOnClickListener(this);
         tvDistance = _view.findViewById(R.id.tvDistance);
         m_layoutContainer = getActivity().findViewById(R.id.layoutMapContainer);

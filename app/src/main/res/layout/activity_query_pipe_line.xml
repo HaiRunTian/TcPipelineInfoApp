@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,12 +75,12 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp">
+                    android:layout_marginLeft="@dimen/dp_5">
 
                     <ImageButton
                         android:id="@+id/imgbtnExchange"
-                        android:layout_width="40dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_60"
                         android:layout_centerInParent="true"
                         android:alpha="0.6"
                         android:background="@drawable/selector_btn_exchange"
@@ -102,9 +102,10 @@
                 <EditText
                     android:id="@+id/edtStartBurialDepth"
                     style="@style/EdtStyle02"
-                    android:digits="0123456789"
+                    android:digits="0123456789-"
                     android:gravity="center_vertical"
                     android:inputType="numberDecimal"
+                    android:maxLength="5"
                     android:textColor="@drawable/selector_edt_enabled_state"
                     android:theme="@style/CustomEdittext02" />
 
@@ -126,9 +127,10 @@
                 <EditText
                     android:id="@+id/edtEndBurialDepth"
                     style="@style/EdtStyle02"
-                    android:digits="0123456789"
+                    android:digits="0123456789-"
                     android:gravity="center_vertical"
                     android:inputType="numberDecimal"
+                    android:maxLength="5"
                     android:textColor="@drawable/selector_edt_enabled_state"
                     android:theme="@style/CustomEdittext02" />
 
@@ -137,6 +139,32 @@
                     android:text="@string/unit_cm" />
 
             </LinearLayout>
+
+            <!--管底高差-->
+            <LinearLayout
+                android:id="@+id/layout_top_bottom"
+                style="@style/LinearCenterVertical">
+
+                <TextView
+                    android:id="@+id/tvTopBottom"
+                    style="@style/TextViewStyle02_3"
+                    android:text="@string/end_top_bottom" />
+
+                <EditText
+                    android:id="@+id/edtTopBottom"
+                    style="@style/EdtStyle02"
+                    android:digits="0123456789"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:inputType="numberDecimal"
+                    android:theme="@style/CustomEdittext02" />
+
+                <TextView
+                    style="@style/TextViewStyle02_2"
+                    android:text="@string/unit_cm" />
+
+            </LinearLayout>
+
 
             <!--埋深-->
             <LinearLayout
@@ -195,9 +223,9 @@
                 <Spinner
                     android:id="@+id/spEmbeddedWay"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_weight="1"
-                    android:dropDownWidth="120dp"
+                    android:dropDownWidth="@dimen/dp_120"
                     android:entries="@array/embeddedway" />
             </LinearLayout>
 
@@ -213,9 +241,9 @@
                 <Spinner
                     android:id="@+id/spTextrure"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_weight="1"
-                    android:dropDownWidth="120dp" />
+                    android:dropDownWidth="@dimen/dp_120" />
 
             </LinearLayout>
 
@@ -230,32 +258,13 @@
                     style="@style/TextViewStyle02_3"
                     android:text="@string/pipe_size" />
 
-                <LinearLayout
-                    android:id="@+id/layoutPipeSizeEdt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_btn_shadow_bg"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
-
-                    <EditText
-                        android:id="@+id/edtPipeSize"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:digits="0123456789"
-                        android:inputType="numberDecimal"
-                        android:singleLine="true"
-                        android:textColor="@drawable/selector_edt_enabled_state"
-                        android:theme="@style/CustomEdittext02" />
-
-                    <ImageView
-                        android:id="@+id/imgvPipeSize"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_down" />
-                </LinearLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/edtPipeSize"
+                    style="@style/EdtStyle02"
+                    android:digits="0123456789"
+                    android:gravity="center_vertical"
+                    android:inputType="numberDecimal"
+                    android:theme="@style/CustomEdittext02" />
 
                 <TextView
                     style="@style/TextViewStyle02_2"
@@ -286,8 +295,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:text="X" />
 
                 <EditText
@@ -310,11 +319,11 @@
                 android:id="@+id/layoutDLLDPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginBottom="@dimen/dp_5"
                 android:background="@drawable/shape_gradient_bg2"
                 android:orientation="vertical"
-                android:padding="5dp">
+                android:padding="@dimen/dp_5">
 
                 <!--孔数-->
                 <LinearLayout
@@ -422,8 +431,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:text="X" />
 
                 <EditText
@@ -450,7 +459,7 @@
                 <Spinner
                     android:id="@+id/spVoltage"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_weight="1"
                     android:dropDownWidth="120dp" />
 
@@ -472,9 +481,9 @@
                 <Spinner
                     android:id="@+id/spState"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_weight="1"
-                    android:dropDownWidth="120dp"
+                    android:dropDownWidth="@dimen/dp_120"
                     android:entries="@array/state" />
 
 
@@ -492,9 +501,9 @@
                 <Spinner
                     android:id="@+id/spPressure"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_weight="1"
-                    android:dropDownWidth="120dp" />
+                    android:dropDownWidth="@dimen/dp_120" />
 
             </LinearLayout>
 
@@ -502,7 +511,7 @@
             <LinearLayout
                 android:id="@+id/layout_owner_ship_unit"
                 style="@style/LinearCenterVertical"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="@dimen/dp_8">
 
                 <TextView
                     style="@style/TextViewStyle02_3"
@@ -513,7 +522,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_btn_shadow_bg"
-                    android:padding="5dp">
+                    android:padding="@dimen/dp_5">
 
                     <EditText
                         android:id="@+id/edtOwnershipUnit"
@@ -539,7 +548,7 @@
             <LinearLayout
                 android:id="@+id/layout_line_remark"
                 style="@style/LinearCenterVertical"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="@dimen/dp_8">
 
                 <TextView
                     style="@style/TextViewStyle02_3"
@@ -550,7 +559,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_btn_shadow_bg"
-                    android:padding="5dp">
+                    android:padding="@dimen/dp_5">
 
                     <EditText
                         android:id="@+id/edtLineRemark"
@@ -591,9 +600,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
+                android:layout_height="@dimen/dp_45"
+                android:layout_marginTop="@dimen/dp_40"
+                android:layout_marginBottom="@dimen/dp_40"
                 android:gravity="center"
                 android:orientation="horizontal">
 

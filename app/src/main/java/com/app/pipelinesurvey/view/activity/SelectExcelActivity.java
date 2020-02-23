@@ -94,7 +94,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
     private void initData() {
         m_list = new ArrayList<>();
         //根目录
-        m_folderName = SuperMapConfig.SDCARD;
+        m_folderName = SuperMapConfig.FILE_PATH;
         m_list = FileUtils.getInstance().findAllFile(m_folderName, m_list);
         m_adapter = new SelectBaseMapAdapter(this, m_list);
         m_listView.setAdapter(m_adapter);

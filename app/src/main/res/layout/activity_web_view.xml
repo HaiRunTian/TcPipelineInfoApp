@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/big"
+            android:textSize="@dimen/sp_18"
             android:textStyle="bold"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center"

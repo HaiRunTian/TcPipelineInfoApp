@@ -16,7 +16,7 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/dp_40"
             android:text="管类设置"/>
 
         <ImageButton

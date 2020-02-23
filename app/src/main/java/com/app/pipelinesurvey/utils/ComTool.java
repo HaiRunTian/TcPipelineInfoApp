@@ -42,6 +42,7 @@ public class ComTool {
      * （组号长度  组号位置 流水号长度 是否临时点 管点状态）
      */
     public String[] getPointNumber(String code, Boolean isTemp, String stats) {
+
         //查询数据库表
         String _groupName = "";
         //组号位置
@@ -49,6 +50,7 @@ public class ComTool {
         //流水号长度
         int _serialNum = 1;
         //查询数据库point_setting表，配置信息
+
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
         while (_cursor.moveToNext()) {
             //获取组号
@@ -58,6 +60,7 @@ public class ComTool {
             //流水号长度
             _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
         }
+
 //        String _query = isTemp ? "exp_Num like 'T_%'" : "exp_Num Not like 'T_%'";
         String _query = isTemp ? "subsid = '临时点'" : "subsid != '临时点'";
         // 设置查询参数
@@ -66,18 +69,30 @@ public class ComTool {
         _parameter.setCursorType(CursorType.STATIC);
         //降序
         _parameter.setOrderBy(new String[]{"serialNum desc"});
-        Recordset _reset = DataHandlerObserver.ins().QueryRecordsetByParameter(_parameter, true);
+
+        //数据量多，会耗时
         int _index = 0;
-        //数据集不为空
-        if (!_reset.isEmpty()) {
-            _reset.moveFirst();
-            //获取到流水号
-            _index = _reset.getInt32("serialNum");
+        String SerialNum = "";
+        if (MaxExpNumID.getInstance().getId() == 0 || !SuperMapConfig.PROJECT_NAME.equals(MaxExpNumID.getInstance().getPrjName())) {
+            Recordset _reset = DataHandlerObserver.ins().QueryRecordsetByParameter(_parameter, true);
+
+            //数据集不为空
+            if (!_reset.isEmpty()) {
+                _reset.moveFirst();
+                //获取到流水号
+                _index = _reset.getInt32("serialNum");
+            }
+            //流水号+1
+            MaxExpNumID.getInstance().setId(_index);
+            _index++;
+            SerialNum = String.format("%0" + _serialNum + "d", _index);
+            MaxExpNumID.getInstance().setPrjName(SuperMapConfig.PROJECT_NAME);
+        } else {
+            SerialNum = String.format("%0" + _serialNum + "d", MaxExpNumID.getInstance().getId() + 1);
         }
-        //流水号+1
-        _index++;
+
         //重新编号
-        String SerialNum = String.format("%0" + _serialNum + "d", _index);
+//        String SerialNum = String.format("%0" + _serialNum + "d", _index);
         LogUtills.i("SerialNum:" + SerialNum);
         String _newExpNum = "";
         // 有组号
@@ -98,6 +113,81 @@ public class ComTool {
         } else {
             //没有组号  J0001
             _newExpNum = (isTemp ? "T_" : "") + code + SerialNum;
+        }
+
+        return new String[]{_newExpNum, SerialNum};
+    }
+
+    /**
+     * 临时点
+     * 获取管点编号  获取管点编号  查看point_setting表有用户设置的格式
+     * （组号长度  组号位置 流水号长度 是否临时点 管点状态）
+     */
+    public String[] getPointNumber(String code, String stats) {
+
+        //查询数据库表
+        String _groupName = "";
+        //组号位置
+        int _groupLocal = 1;
+        //流水号长度
+        int _serialNum = 1;
+        //查询数据库point_setting表，配置信息
+
+        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
+        while (_cursor.moveToNext()) {
+            //获取组号
+            _groupName = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
+            //组号位置
+            _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
+            //流水号长度
+            _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
+        }
+
+        String _query = "subsid = '临时点'";
+        // 设置查询参数
+        QueryParameter _parameter = new QueryParameter();
+        _parameter.setAttributeFilter(_query);
+        _parameter.setCursorType(CursorType.STATIC);
+        //降序
+        _parameter.setOrderBy(new String[]{"serialNum desc"});
+        Long startTime = System.currentTimeMillis();
+        //数据量多，会耗时
+        int _index = 0;
+        String SerialNum = "";
+        Recordset _reset = DataHandlerObserver.ins().QueryRecordsetByParameter(_parameter, true);
+        Long endTiem = System.currentTimeMillis();
+        //数据集不为空
+        if (!_reset.isEmpty()) {
+            _reset.moveFirst();
+            //获取到流水号
+            _index = _reset.getInt32("serialNum");
+        }
+        _index++;
+
+        SerialNum = String.format("%0" + _serialNum + "d", _index);
+
+        //重新编号
+//        String SerialNum = String.format("%0" + _serialNum + "d", _index);
+        LogUtills.i("SerialNum:" + SerialNum);
+        String _newExpNum = "";
+        // 有组号
+        if (_groupName.length() != 0) {
+            switch (_groupLocal) {
+                case 1:
+                    _newExpNum = "T_" + code + _groupName + SerialNum;
+                    break;
+                case 2:
+                    _newExpNum = "T_" + _groupName + code + SerialNum;
+                    break;
+                case 3:
+                    _newExpNum = "T_" + code + SerialNum + _groupName;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            //没有组号  J0001
+            _newExpNum = "T_" + code + SerialNum;
         }
 
         return new String[]{_newExpNum, SerialNum};
@@ -147,6 +237,9 @@ public class ComTool {
         }
         String _tempId = "";
         //组号位置 组号长度 管类代码长度
+        if (expNum.contains("T_")){
+            expNum = expNum.substring(2);
+        }
         if (_groupName.length() != 0) {
             //有组号
             if (_groupLocal == 1 || _groupLocal == 2) {

@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/big_p3"
+            android:textSize="@dimen/sp_24"
             android:textColor="@color/white"
             android:text="@string/choose_template"/>
 
@@ -34,7 +34,7 @@
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:clickable="true"
-            android:textSize="@dimen/big"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/grey04"
             android:background="@drawable/selector_btn_default"
             android:text="@string/enter"/>

@@ -24,6 +24,7 @@ import com.supermap.data.Recordset;
 import com.supermap.mapping.Layer;
 import com.supermap.mapping.Map;
 import com.supermap.mapping.MapControl;
+import com.supermap.mapping.Selection;
 
 import java.util.List;
 
@@ -71,14 +72,13 @@ public class QueryPointLocalFragment extends Fragment implements View.OnClickLis
             case R.id.btnSubmit:
                 //模糊查询 忽略大小写 全部转换为小写
                 String sqlLower = "lower(exp_Num) like '%'||lower('" + edtPointId.getText().toString() + "')||'%'";
-//                String sqlUpper = "upper(exp_Num) like '%'||upper('" + edtPointId.getText().toString() + "')||'%'";
-                LogUtills.i(sqlLower);
-                Recordset _reSet = DataHandlerObserver.ins().queryRecordsetBySql(sqlLower, false);
+
+                Recordset _reSet = DataHandlerObserver.ins().queryRecordsetBySql(sqlLower, true);
+                LogUtills.i("记录集长度 = " + _reSet.getRecordCount());
                 if (!_reSet.isEmpty()) {
                     _reSet.moveFirst();
+                    _reSet.edit();
                     MapControl _mapControl = WorkSpaceUtils.getInstance().getMapControl();
-                    //设置选择样式
-                    DataHandlerObserver.ins().setPtSelectionHighLigh(_reSet);
                     Map _map = _mapControl.getMap();
                     double _x = _reSet.getDouble("longitude");
                     double _y = _reSet.getDouble("latitude");

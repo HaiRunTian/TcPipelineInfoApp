@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,6 +33,7 @@ import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.LineFieldFactory;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
+import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.bean.PipeLineInfo;
@@ -169,7 +171,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     /**
      * 管径
      */
-    private EditText edtPipeSize;
+    private AutoCompleteTextView edtPipeSize;
     /**
      * 宽
      */
@@ -197,7 +199,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     /**
      * 管径下拉按钮
      */
-    private ImageView imgvPipeSize;
+//    private ImageView imgvPipeSize;
     /**
      * 交换点号
      */
@@ -209,7 +211,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     /**
      * 管径编辑布局
      */
-    private LinearLayout layoutPipeSizeEdt;
+//    private LinearLayout layoutPipeSizeEdt;
     /**
      * 状态数据
      */
@@ -279,10 +281,16 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     private TextView tvHoleCount;
     private TextView tvUsedHole;
     private TextView tvAmount;
+    private EditText edtTopBottom;
+    //起点高程
+    private int startH;
+    //终点高程
+    private int endH;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
 //        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
 //        refWatcher.watch(this);
     }
@@ -326,9 +334,9 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
         //TODO  根据数据库表 判断是否显示view
         String type = getArguments().getString("gpType");
-        Cursor cursor =  DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_LINE_SETTING,"where prj_name = '"
-                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + type +  "'");
-        while (cursor.moveToNext()){
+        Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_LINE_SETTING, "where prj_name = '"
+                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + type + "'");
+        while (cursor.moveToNext()) {
             int start_depth = cursor.getInt(cursor.getColumnIndex("start_depth"));
             int end_depth = cursor.getInt(cursor.getColumnIndex("end_depth"));
             int pipe_length = cursor.getInt(cursor.getColumnIndex("pipe_length"));
@@ -349,25 +357,25 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             int line_remark = cursor.getInt(cursor.getColumnIndex("line_remark"));
             int puzzle = cursor.getInt(cursor.getColumnIndex("puzzle"));
 
-            layout_start_depth.setVisibility(start_depth == 1?View.VISIBLE:View.GONE);
-            layout_end_depth.setVisibility(end_depth == 1?View.VISIBLE:View.GONE);
-            layout_pipe_length.setVisibility(pipe_length == 1?View.VISIBLE:View.GONE);
-            layout_bureal_diff.setVisibility(bureal_diff == 1?View.VISIBLE:View.GONE);
-            layout_embedded_way.setVisibility(embedded_way == 1?View.VISIBLE:View.GONE);
-            layout_texture.setVisibility(texture == 1?View.VISIBLE:View.GONE);
-            layoutPipeSize.setVisibility(pipe_size == 1?View.VISIBLE:View.GONE);
-            layoutSection.setVisibility(secttion == 1?View.VISIBLE:View.GONE);
-            layout_hole_count.setVisibility(hole_count == 1?View.VISIBLE:View.GONE);
-            layout_used_count.setVisibility(used_count == 1?View.VISIBLE:View.GONE);
-            layout_amount.setVisibility(amount == 1?View.VISIBLE:View.GONE);
-            layout_aperture.setVisibility(aperture == 1?View.VISIBLE:View.GONE);
-            layout_row_col.setVisibility(row_col == 1?View.VISIBLE:View.GONE);
-            layout_voltage.setVisibility(voltage == 1?View.VISIBLE:View.GONE);
-            layout_state.setVisibility(state == 1?View.VISIBLE:View.GONE);
-            layout_pressure.setVisibility(pressure == 1?View.VISIBLE:View.GONE);
-            layout_owner_ship_unit.setVisibility(owner_ship_unit == 1?View.VISIBLE:View.GONE);
-            layout_line_remark.setVisibility(line_remark == 1?View.VISIBLE:View.GONE);
-            layout_puzzle.setVisibility(puzzle == 1?View.VISIBLE:View.GONE);
+            layout_start_depth.setVisibility(start_depth == 1 ? View.VISIBLE : View.GONE);
+            layout_end_depth.setVisibility(end_depth == 1 ? View.VISIBLE : View.GONE);
+            layout_pipe_length.setVisibility(pipe_length == 1 ? View.VISIBLE : View.GONE);
+            layout_bureal_diff.setVisibility(bureal_diff == 1 ? View.VISIBLE : View.GONE);
+            layout_embedded_way.setVisibility(embedded_way == 1 ? View.VISIBLE : View.GONE);
+            layout_texture.setVisibility(texture == 1 ? View.VISIBLE : View.GONE);
+            layoutPipeSize.setVisibility(pipe_size == 1 ? View.VISIBLE : View.GONE);
+            layoutSection.setVisibility(secttion == 1 ? View.VISIBLE : View.GONE);
+            layout_hole_count.setVisibility(hole_count == 1 ? View.VISIBLE : View.GONE);
+            layout_used_count.setVisibility(used_count == 1 ? View.VISIBLE : View.GONE);
+            layout_amount.setVisibility(amount == 1 ? View.VISIBLE : View.GONE);
+            layout_aperture.setVisibility(aperture == 1 ? View.VISIBLE : View.GONE);
+            layout_row_col.setVisibility(row_col == 1 ? View.VISIBLE : View.GONE);
+            layout_voltage.setVisibility(voltage == 1 ? View.VISIBLE : View.GONE);
+            layout_state.setVisibility(state == 1 ? View.VISIBLE : View.GONE);
+            layout_pressure.setVisibility(pressure == 1 ? View.VISIBLE : View.GONE);
+            layout_owner_ship_unit.setVisibility(owner_ship_unit == 1 ? View.VISIBLE : View.GONE);
+            layout_line_remark.setVisibility(line_remark == 1 ? View.VISIBLE : View.GONE);
+            layout_puzzle.setVisibility(puzzle == 1 ? View.VISIBLE : View.GONE);
 
         }
         cursor.close();
@@ -404,7 +412,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         imgvOwnershipUnit = (ImageView) view.findViewById(R.id.imgvOwnershipUnit);
         imgvOwnershipUnit.setOnClickListener(this);
         edtOwnershipUnit = (EditText) view.findViewById(R.id.edtOwnershipUnit);
-        edtPipeSize = (EditText) view.findViewById(R.id.edtPipeSize);
+        edtPipeSize = (AutoCompleteTextView) view.findViewById(R.id.edtPipeSize);
         edtSectionWidth = (EditText) view.findViewById(R.id.edtSectionWidth);
         edtSectionHeight = (EditText) view.findViewById(R.id.edtSectionHeight);
         edtPipeLength = (EditText) view.findViewById(R.id.edtPipeLength);
@@ -416,13 +424,15 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         edtRow = (EditText) view.findViewById(R.id.edtRow);
         edtCol = (EditText) view.findViewById(R.id.edtCol);
         edtPuzzle = (EditText) view.findViewById(R.id.edtPuzzle);
-        imgvPipeSize = (ImageView) view.findViewById(R.id.imgvPipeSize);
-        imgvPipeSize.setOnClickListener(this);
-        layoutPipeSizeEdt = (LinearLayout) view.findViewById(R.id.layoutPipeSizeEdt);
+//        imgvPipeSize = (ImageView) view.findViewById(R.id.imgvPipeSize);
+//        imgvPipeSize.setOnClickListener(this);
+//        layoutPipeSizeEdt = (LinearLayout) view.findViewById(R.id.layoutPipeSizeEdt);
         btnPreviousOne = (Button) view.findViewById(R.id.btnPreviousOne);
         btnPreviousOne.setOnClickListener(this);
         btnSave = (Button) view.findViewById(R.id.btnRemove);
         btnSave.setOnClickListener(this);
+        //管底高差
+        edtTopBottom = view.findViewById(R.id.edtTopBottom);
         //设置必填项*号
         //权属单位
         tvOwnershipUnit = view.findViewById(R.id.tvOwnershipUnit);
@@ -491,6 +501,15 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             _startReset.dispose();
             getDialog().dismiss();
         }
+        //起点高程
+        String surf_h = m_startPInfo.surf_H;
+        if (surf_h.isEmpty()) {
+            surf_h = "0";
+        }
+        //转成double 厘米转成米
+        double starth = Double.valueOf(surf_h) * 100;
+
+        startH = (int) starth;
 
         //终点记录集
         Recordset _endReset = DataHandlerObserver.ins().queryRecordsetBySmid(m_endSmId, true, false);
@@ -505,6 +524,15 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             _endReset.dispose();
             getDialog().dismiss();
         }
+        //终点高程
+        String surf_h1 = m_endPInfo.surf_H;
+
+        if (surf_h1.isEmpty()) {
+            surf_h1 = "0";
+        }
+        //转成double 厘米转成米
+        double endh = Double.valueOf(surf_h1) * 100;
+        endH = (int) endh;
         //获取管线长度
         double _len = getPipeLen(_startReset, _endReset);
         //起点点号
@@ -618,6 +646,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     BaseFieldPInfos tempP = m_startPInfo;
                     m_startPInfo = m_endPInfo;
                     m_endPInfo = tempP;
+                    //管底高差交换
+                    int i = startH;
+                    startH = endH;
+                    endH = i;
+
                     //埋深修改
                     temp = edtStartBurialDepth.getText().toString();
                     edtStartBurialDepth.setText(edtEndBurialDepth.getText().toString());
@@ -653,28 +686,29 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     }
                     break;
 
-                case R.id.imgvPipeSize:
-                    if (gpType.contains("煤气") || gpType.contains("燃气")) {
-                        if (spTextrure.getSelectedItem().toString().equals("钢") && gpType.equals("煤气")) {
-                            _popupWindow = new ListPopupWindow(getActivity());
-                            _popupWindow.setWidth(layoutPipeSizeEdt.getWidth() - 5);
-                            m_adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item_text, pipeSizeList);
-                            _popupWindow.setAdapter(m_adapter);
-                            _popupWindow.setAnchorView(edtPipeSize);
-                            _popupWindow.setModal(true);
-                            _popupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    edtPipeSize.setText(pipeSizeList.get(position));
-                                    _popupWindow.dismiss();
-                                }
-                            });
-                            _popupWindow.show();
-                        }
+                //管径
+//                case R.id.imgvPipeSize:
+                   /* if (gpType.contains("煤气") || gpType.contains("燃气")) {
+//                        if (spTextrure.getSelectedItem().toString().equals("钢") && (gpType.equals("煤气") || gpType.equals("燃气"))) {
+                        _popupWindow = new ListPopupWindow(getActivity());
+                        _popupWindow.setWidth(layoutPipeSizeEdt.getWidth() - 5);
+                        m_adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item_text, pipeSizeList);
+                        _popupWindow.setAdapter(m_adapter);
+                        _popupWindow.setAnchorView(edtPipeSize);
+                        _popupWindow.setModal(true);
+                        _popupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                edtPipeSize.setText(pipeSizeList.get(position));
+                                _popupWindow.dismiss();
+                            }
+                        });
+                        _popupWindow.show();
+//                        }
                     } else {
                         ToastyUtil.showInfoShort(getActivity(), "当前管类没有管径数据列表");
-                    }
-                    break;
+                    }*/
+//                    break;
 
                 default:
                     break;
@@ -700,17 +734,17 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             }
         }
 
-        //埋深不能超过20米
-        if (Double.valueOf(getStartBurialDepth()) > 20.0) {
-            ToastyUtil.showInfoShort(getActivity(), "起点埋深超过20米，请检查数据");
-            return false;
-        }
-
-        //埋深不能超过20米
-        if (Double.valueOf(getEndBurialDepth()) > 20.0) {
-            ToastyUtil.showInfoShort(getActivity(), "终点埋深超过20米，请检查数据");
-            return false;
-        }
+//        //埋深不能超过20米
+//        if (Double.valueOf(getStartBurialDepth()) > 20.0) {
+//            ToastyUtil.showInfoShort(getActivity(), "起点埋深超过20米，请检查数据");
+//            return false;
+//        }
+//
+//        //埋深不能超过20米
+//        if (Double.valueOf(getEndBurialDepth()) > 20.0) {
+//            ToastyUtil.showInfoShort(getActivity(), "终点埋深超过20米，请检查数据");
+//            return false;
+//        }
 
         //排水类管线，埋设方式为方沟，管线材料不能为塑料
         if ("排水".equals(gpType.substring(0, 2))) {
@@ -772,6 +806,10 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             _info.totalHole = getHoleCount();
             _info.usedHole = getUsedHoleCount();
             _info.holeDiameter = getAperture();
+            if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                OperSql.getSingleton().inserLine(getStartPoint(), getEndPoint(), 0, "新增管线");
+                _info.Edit = "外检-新增" + getState();
+            }
             _info.state = getState();
             _info.remark = getLineRemark();
             _info.puzzle = getPuzzle();
@@ -782,8 +820,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             } else {
                 _info.labelTag = "-" + _info.pipeType.toLowerCase() + "-" + ds + "-" + _info.material.toString();
             }
+            LogUtills.e(_info.toString());
         } catch (Exception e) {
             LogUtills.e(e.getMessage());
+            LogUtills.e(_info.toString());
+            return null;
         }
         return _info;
 
@@ -856,25 +897,24 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         textureList = SpinnerDropdownListManager.getData("lineTexture", gpType);
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, textureList);
         spTextrure.setAdapter(m_adapter);
-
         //管线备注
         lineRemarkList = SpinnerDropdownListManager.getData("lineRemark", gpType);
-
         //管线状态
         stateList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.state));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, stateList);
         spState.setAdapter(m_adapter);
-
         //埋深方式
         embeddedWayList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.embeddedway));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, embeddedWayList);
         spEmbeddedWay.setAdapter(m_adapter);
 
         //管径
-        if (gpType.contains("煤气") || gpType.contains("燃气")) {
-            //管径
-            pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
-        }
+//        if (gpType.contains("煤气") || gpType.contains("燃气")) {
+        //管径
+        pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
+        edtPipeSize.setThreshold(1);
+        edtPipeSize.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
+//        }
 
         //权属单位
         if (gpType.contains("煤气") || gpType.contains("燃气")) {
@@ -894,12 +934,35 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         spPressure.setAdapter(m_adapter);
         spPressure.setSelection(pressureList.size() - 1);
 
+        /*//显示隐藏属性面板
+        switch (gpType) {
+            case "电力":
+            case "路灯":
+            case "电信":
+            case "有视":
+            case "军队":
+            case "交通":
+            case "高压":
+            case "低压":
+            case "监控":
+            case "移动":
+            case "联通":
+            case "盈通":
+                layoutDLLDPanel.setVisibility(View.VISIBLE);
+                break;
+            default:
+                layoutDLLDPanel.setVisibility(View.GONE);
+                break;
+        }*/
         //显示隐藏属性面板
         if (gpType.contains("电力") || gpType.contains("路灯")
                 || gpType.contains("电信") || gpType.contains("有视")
                 || gpType.contains("军队") || gpType.contains("交通")
                 || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("监控") || gpType.contains("移动") ||
-                gpType.contains("联通") || gpType.contains("盈通")) {
+                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("供电") ||gpType.contains("信号")
+                ||gpType.contains("铁通")||gpType.contains("吉通")||gpType.contains("网通")||gpType.contains("盈通")
+                ||gpType.contains("军用")||gpType.contains("保密")||gpType.contains("其他")||gpType.contains("监控")
+                ||gpType.contains("电通")||gpType.contains("广通")||gpType.contains("广电")) {
             layoutDLLDPanel.setVisibility(View.VISIBLE);
         } else {
             layoutDLLDPanel.setVisibility(View.GONE);
@@ -940,7 +1003,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     public void onStart() {
         super.onStart();
         //初始化窗口大小
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
+//        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override
@@ -1034,19 +1097,35 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
         @Override
         public void afterTextChanged(Editable s) {
-            String num1Str = edtStartBurialDepth.getText().toString();
-            String num2Str = edtEndBurialDepth.getText().toString();
-            if (num1Str.length() == 0) {
-                num1Str = "0";
-            }
-            if (num2Str.length() == 0) {
-                num2Str = "0";
-            }
+            //埋深差值
+            try {
+                String num1Str = edtStartBurialDepth.getText().toString();
+                String num2Str = edtEndBurialDepth.getText().toString();
+                if (num1Str.length() == 0) {
+                    num1Str = "0";
+                }
+                if (num2Str.length() == 0) {
+                    num2Str = "0";
+                }
+                int num2 = 0;
+                int num1 = 0;
+                if (!num1Str.equals("-") || !num1Str.equals("--")) {
+                    num1 = Integer.parseInt(num1Str);
+                }
+                if (!num2Str.equals("-") || !num1Str.equals("--")) {
+                    num2 = Integer.parseInt(num2Str);
+                }
 
-            int num2 = Integer.parseInt(num2Str);
-            int num1 = Integer.parseInt(num1Str);
-            int result = num1 - num2;
-            edtBurialDifference.setText(String.valueOf(result));
+                int result = num1 - num2;
+                edtBurialDifference.setText(String.valueOf(result));
+
+                //管底高差 （起点高程 - 起点埋深） - （终点高程 - 终点埋深）
+                int temp = (startH - num1) - (endH - num2);
+                LogUtills.i(startH + "---" + endH + "----" + num1 + "-----" + num2);
+                edtTopBottom.setText(String.valueOf(temp));
+            } catch (Exception e) {
+//                ToastyUtil.showErrorShort(getActivity(),e.toString());
+            }
         }
     };
 
@@ -1098,35 +1177,42 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         String temp = edtStartBurialDepth.getText().toString();
 
         if (temp.length() > 0) {
+            String sign = "";
+            if (temp.contains("-")) {
+                sign = "-";
+                temp = temp.substring(1);
+            }
             int s = Integer.parseInt(temp);
             //厘米单位转换成米
             DecimalFormat df2 = new DecimalFormat("###.00");
             if (temp.length() > 2) {
-                return df2.format(s / 100d);
+                return sign + df2.format(s / 100d);
             } else {
-                return "0" + df2.format(s / 100d);
+                return sign + "0" + df2.format(s / 100d);
             }
         }
-        return "0";
-
+        return "0.00";
     }
 
     @Override
     public String getEndBurialDepth() {
-
         String temp = edtEndBurialDepth.getText().toString();
         if (temp.length() > 0) {
+            String sign = "";
+            if (temp.contains("-")) {
+                sign = "-";
+                temp = temp.substring(1);
+            }
             int s = Integer.parseInt(temp);
             DecimalFormat df2 = new DecimalFormat("###.00");
             if (temp.length() > 2) {
-                return df2.format(s / 100d);
+                return sign + df2.format(s / 100d);
             } else {
-                return "0" + df2.format(s / 100d);
+                return sign + "0" + df2.format(s / 100d);
             }
         } else {
-            return "0";
+            return "0.00";
         }
-
     }
 
     @Override
@@ -1148,7 +1234,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         } else if (temp.length() > 0) {
             return "0" + df2.format(s / 100d);
         } else {
-            return "0";
+            return "0.00";
         }
     }
 
@@ -1244,10 +1330,14 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     public void setStartBurialDepth() {
         String _startBurialDepth = m_startPInfo.depth;
         if (_startBurialDepth != null && !_startBurialDepth.isEmpty()) {
+            String sign = "";
+            if (_startBurialDepth.contains("-")) {
+                sign = "-";
+                _startBurialDepth = _startBurialDepth.substring(1);
+            }
             double s = Double.parseDouble(_startBurialDepth);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtStartBurialDepth.setText(depth);
+            double temp = s * 100;
+            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp));
         }
     }
 
@@ -1258,10 +1348,14 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     public void setEndBurialDepth() {
         String _ednBurialDepth = m_baseFileLInfo.endDeep;
         if (_ednBurialDepth != null) {
+            String sign = "";
+            if (_ednBurialDepth.contains("-")) {
+                sign = "-";
+                _ednBurialDepth = _ednBurialDepth.substring(1);
+            }
             double s = Double.parseDouble(_ednBurialDepth);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtEndBurialDepth.setText(depth);
+            double temp = s * 100;
+            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp));
         }
     }
 
@@ -1284,9 +1378,8 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         String _burialDifference = m_baseFileLInfo.burialDifference;
         if (_burialDifference != null) {
             double s = Double.parseDouble(_burialDifference);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtBurialDifference.setText(depth);
+            double temp = s * 100;
+            edtBurialDifference.setText(new DecimalFormat().format(temp));
         }
     }
 

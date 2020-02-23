@@ -40,8 +40,8 @@ public class PointAttrConfigFragment extends Fragment implements AdapterView.OnI
     private PointConfigItemListBaseAdapter m_adapter;
     //    public static final String TABLE_GZ = "pipe_type_gz";
     //    public static final String TABLE_HZ = "pipe_type_hz";
-    public static final String CITY_GZ = "广州";
-    public static final String CITY_HZ = "惠州";
+//    public static final String CITY_GZ = "广州";
+//    public static final String CITY_HZ = "惠州";
     private String currentCity;
     private static final int REQUEST_ADD_POINT_ATTR = 1;
     public static final String ITEM_CLICK = "ITEM_CLICK";

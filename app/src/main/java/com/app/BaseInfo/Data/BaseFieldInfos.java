@@ -28,6 +28,7 @@ public abstract class BaseFieldInfos implements Parcelable {
     //分段表达式
     public double rangeExpression = 1;
     public String pipeType = "";
+    public String Edit = "";
     public abstract boolean Init();
 
 

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <LinearLayout
                 style="@style/LinearCenterVertical">
@@ -51,7 +51,7 @@
                         android:id="@+id/radioSexMale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="@dimen/dp_5"
                         android:enabled="false"
                         android:checked="true"
                         android:text="@string/male"/>

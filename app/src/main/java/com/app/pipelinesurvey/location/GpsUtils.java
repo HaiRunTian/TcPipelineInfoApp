@@ -40,7 +40,6 @@ public class GpsUtils {
      * @param context
      */
     public static final void openGPS(final Context context) {
-
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setMessage("要使用定位功能，请打开GPS连接");
         dialog.setPositiveButton("设置", new DialogInterface.OnClickListener() {

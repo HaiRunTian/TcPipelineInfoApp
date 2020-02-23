@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
-                android:textSize="@dimen/big"
+                android:textSize="@dimen/sp_18"
                 android:gravity="center"
                 android:text="@string/symbol"/>
         </LinearLayout>
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="暂无标准设置"
-        android:textSize="@dimen/big_p3"
+        android:textSize="@dimen/sp_24"
         android:textColor="@color/grey01"
         android:gravity="center"
         android:visibility="visible"

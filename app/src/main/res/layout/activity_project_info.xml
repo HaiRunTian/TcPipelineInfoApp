@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingBottom="15dp"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:paddingTop="5dp">
+        android:paddingLeft="@dimen/dp_50"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_50"
+        android:paddingBottom="@dimen/dp_15">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="@dimen/dp_5">
 
             <TextView
                 style="@style/TextViewStyle1"
@@ -105,13 +105,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/tvBaseMapPath"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
+            android:layout_height="@dimen/dp_40"
+            android:layout_margin="@dimen/dp_5"
             android:drawableLeft="@mipmap/ic_map_base_map_48px"
             android:gravity="center_vertical"
             android:hint="请选择sci底图文件加载"
@@ -122,21 +122,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/tv_city_stand"
             style="@style/TextViewStyle1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
-            android:padding="3dp"
+            android:padding="@dimen/dp_3"
             android:text="城市标准" />
 
         <Spinner
             android:id="@+id/sp_city_stand"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"
             android:spinnerMode="dropdown">
 
@@ -146,68 +146,64 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
-
         <TextView
             style="@style/TextViewStyle1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
-            android:padding="3dp"
+            android:padding="@dimen/dp_3"
             android:text="工程设置" />
 
         <Button
-            android:layout_marginTop="5dp"
-            style="@style/activity_btn_style_2"
-            android:background="@drawable/selector_btn_all_2"
-            android:text="设置"
             android:id="@+id/btn_setting"
-            android:layout_alignParentRight="true">
+            style="@style/activity_btn_style_2"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@drawable/selector_btn_all_2"
+            android:text="设置">
 
         </Button>
     </RelativeLayout>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/tv_group_local"
             style="@style/TextViewStyle1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
-            android:padding="3dp"
+            android:padding="@dimen/dp_3"
             android:text="组号位置:" />
 
         <Spinner
             android:id="@+id/sp_group_local"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"
             android:entries="@array/exp_num_type"
-            android:spinnerMode="dropdown">
-        </Spinner>
+            android:spinnerMode="dropdown"></Spinner>
     </RelativeLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/tv_serinum"
             style="@style/TextViewStyle1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
-            android:padding="3dp"
+            android:padding="@dimen/dp_3"
             android:text="管点位数:" />
 
         <Spinner
             android:id="@+id/sp_serinum"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"
             android:entries="@array/seriNum"
             android:spinnerMode="dropdown">
@@ -215,69 +211,91 @@
         </Spinner>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+
+        <TextView
+            android:id="@+id/tv_mode"
+            style="@style/TextViewStyle1"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center"
+            android:padding="@dimen/dp_3"
+            android:text="项目模式:" />
+
+        <Spinner
+            android:id="@+id/sp_mode"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
+            android:layout_alignParentRight="true"
+            android:entries="@array/mode"
+            android:spinnerMode="dropdown">
+
+        </Spinner>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/tv_group"
             style="@style/TextViewStyle1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
-            android:padding="3dp"
+            android:padding="@dimen/dp_3"
             android:text="组别设置:" />
 
         <EditText
-            android:lines="1"
             android:id="@+id/edt_group"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_40"
             android:layout_toLeftOf="@+id/tvG"
-            android:gravity="center" />
+            android:gravity="center"
+            android:lines="1" />
 
         <TextView
             android:id="@+id/tvG"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_5"
             android:gravity="center"
-            android:text="组"
-            android:layout_marginRight="5dp"/>
+            android:text="组" />
 
     </RelativeLayout>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/tv_line_length"
             style="@style/TextViewStyle1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
             android:gravity="center"
-            android:padding="3dp"
+            android:padding="@dimen/dp_3"
             android:text="管线长度:" />
 
         <EditText
-            android:lines="1"
             android:id="@+id/edt_line_length"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_40"
             android:layout_toLeftOf="@id/tvUnit"
-            android:gravity="center" />
+            android:gravity="center"
+            android:lines="1" />
 
         <TextView
             android:id="@+id/tvUnit"
-            android:layout_width="20dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_5"
             android:gravity="center"
-            android:text="m"
-            android:layout_marginRight="5dp"/>
+            android:text="m" />
 
     </RelativeLayout>
 
@@ -287,14 +305,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/dp_40"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/dp_5"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp">
-
+            android:paddingLeft="@dimen/dp_2"
+            android:paddingRight="@dimen/dp_2">
 
             <Button
                 android:id="@+id/btnDelete"
@@ -305,7 +322,7 @@
             <Button
                 android:id="@+id/btnOpen"
                 style="@style/activity_btn_style"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="@dimen/dp_40"
                 android:background="@drawable/selector_btn_all"
                 android:text="@string/open" />
 

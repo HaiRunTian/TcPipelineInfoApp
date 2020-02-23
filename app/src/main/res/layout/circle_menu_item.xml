@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:maxEms="4"
-        android:textSize="@dimen/tiny2"
+        android:textSize="@dimen/sp_10"
         android:singleLine="true"
         android:text="餐票" />
 

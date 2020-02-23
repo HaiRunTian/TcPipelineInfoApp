@@ -93,6 +93,7 @@ public class BasicsDapter extends BaseAdapter {
                 return true;
             }
         });
+
         viewHolder.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +105,7 @@ public class BasicsDapter extends BaseAdapter {
         });
         return convertView;
     }
+
     class ViewHolder{
         private TextView tv;
         ViewHolder(View view){

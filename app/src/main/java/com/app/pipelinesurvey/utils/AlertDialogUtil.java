@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.pipelinesurvey.R;
+
 /**
  * @author
  */
@@ -30,7 +32,7 @@ public class AlertDialogUtil {
     }
 
     public static AlertDialog showDialog(Context context, String title, String msg, int iconId, View view,
-                                  boolean cancelable, DialogInterface.OnClickListener onOkClickListener) {
+                                         boolean cancelable, DialogInterface.OnClickListener onOkClickListener) {
         ViewGroup _viewGroup = (ViewGroup) view.getParent();
         if (_viewGroup != null) {
             _viewGroup.removeAllViews();
@@ -49,6 +51,22 @@ public class AlertDialogUtil {
                     }
                 })
                 .setPositiveButton("确定", onOkClickListener)
+                .create();
+        _dialog.show();
+        return _dialog;
+    }
+
+
+    public static AlertDialog showDialog(Context context, String title, String msg,boolean cancelable, DialogInterface.OnClickListener onClickListener, DialogInterface.OnClickListener onClickListener2, DialogInterface.OnClickListener onClickListener3) {
+        AlertDialog _dialog = new AlertDialog
+                .Builder(context)
+                .setIcon(R.mipmap.ic_logo)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(cancelable)
+                .setPositiveButton("QQ",onClickListener)
+                .setNegativeButton("管智绘", onClickListener2)
+                .setNeutralButton("微信",onClickListener3)
                 .create();
         _dialog.show();
         return _dialog;

@@ -120,6 +120,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
     }
 
     @Nullable
@@ -134,7 +135,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     private void initData() {
         m_list = new ArrayList<>();
 //        SuperMapConfig.SDCARD = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
-        String pathOfQQ = SuperMapConfig.SDCARD + "/tencent/QQfile_recv";
+        String pathOfQQ =  SuperMapConfig.FILE_PATH ;
         m_list = FileUtils.getInstance().findAllFile(pathOfQQ, m_list);
         m_folderName = pathOfQQ;
         m_tvTitle.setText(pathOfQQ);
@@ -175,7 +176,7 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
+//        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override
@@ -274,8 +275,8 @@ public class UnzipFragment extends DialogFragment implements View.OnClickListene
             } else if (m_itemPosition == position) {
                 for (FileEntity file : m_list) {
                     file.setCheck(false);
-
                 }
+
                 m_itemPosition = -1;
             } else if (m_itemPosition != position) {
                 for (FileEntity file : m_list) {

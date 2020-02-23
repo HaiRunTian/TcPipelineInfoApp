@@ -74,17 +74,17 @@ public class MyApplication extends Application {
     private void initConfig() {
         AssetsUtils.init(context);
         SharedPreferencesUtil.getInstance(this);
-        if (configLicense()) {
-//            Environment.setLicensePath(SuperMapConfig.LIC_PATH);
-//            Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
-//            Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
-//            Environment.initialization(this);
-        }
+//        if (configLicense()) {
+////            Environment.setLicensePath(SuperMapConfig.LIC_PATH);
+////            Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
+////            Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
+////            Environment.initialization(this);
+//        }
     }
 
-    /**
+   /* *//**
      *    配置许可文件
-     */
+     *//*
     private boolean configLicense() {
         String license = SuperMapConfig.LIC_PATH + SuperMapConfig.LIC_NAME;
         File m_licenseFile = new File(license);
@@ -95,7 +95,7 @@ public class MyApplication extends Application {
             }
         }
         return true;
-    }
+    }*/
 
 
     /**

@@ -26,7 +26,7 @@ public class PermissionUtils {
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.WRITE_SETTINGS
+            Manifest.permission.WRITE_SETTINGS,
     };
     /**
      * 初始化权限

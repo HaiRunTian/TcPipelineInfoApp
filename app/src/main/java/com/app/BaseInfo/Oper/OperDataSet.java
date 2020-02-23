@@ -138,7 +138,9 @@ public class OperDataSet {
                 _p2ds.add(new Point2D(endLongitude, endLatitude));
                 GeoLine _geoLine = new GeoLine(_p2ds);
                 boolean ok = _result.addNew(_geoLine, map);
+
                 _result.setInt32("sysId", _result.getID());
+
                 //标签专题图颜色显示字段
                 String pipeType = (String) map.get("pipeType");
                 String pipeSize = (String) map.get("pipeSize");

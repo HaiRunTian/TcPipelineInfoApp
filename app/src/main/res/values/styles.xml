@@ -11,7 +11,7 @@
     <!--无标题栏主题-->
     <style name="NoTitleBarActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textViewStyle">@style/DefaultTextViewStyle</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="colorPrimary">@color/blue14</item>
         <item name="colorPrimaryDark">@color/blue14</item>
     </style>
@@ -19,7 +19,7 @@
     <!--系统默认textview样式-->
     <style name="DefaultTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="colorPrimary">@color/blue14</item>
         <item name="colorPrimaryDark">@color/blue14</item>
 
@@ -28,13 +28,13 @@
     <!--textview样式1-->
     <style name="TextViewStyle1" parent="android:Widget.TextView">
         <item name="android:textColor">@color/grey01</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/sp_14</item>
     </style>
 
     <!--默认自定义spinner样式-->
     <style name="DefaultSpinnerStyle">
         <item name="android:background">@drawable/selector_spinner</item>
-        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingLeft">@dimen/dp_5</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
@@ -42,15 +42,15 @@
     <!--默认标题栏样式-->
     <style name="DefaultTitleBarStyle">
         <item name="android:background">@drawable/shape_gradient_bg</item>
-        <item name="android:padding">3dp</item>
+        <item name="android:padding">@dimen/dp_3</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
     </style>
 
     <!--标题栏文本样式-->
     <style name="TitleBarTextStyle">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/big</item>
+        <item name="android:textSize">@dimen/sp_18</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
@@ -60,7 +60,7 @@
     <!--标题栏右侧文本样式-->
     <style name="TitleBarRightTextStyle">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
@@ -68,9 +68,9 @@
 
     <!--自定义按钮样式1-->
     <style name="ButtonStyle01">
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColor">@color/grey04</item>
         <item name="android:layout_marginBottom">5dp</item>
@@ -79,38 +79,39 @@
 
     <!--自定义按钮样式2-->
     <style name="ButtonStyle02">
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_width">@dimen/dp_60</item>
+        <item name="android:layout_height">@dimen/dp_25</item>
         <item name="android:textColor">@color/grey04</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:background">@drawable/selector_btn_default</item>
-        <item name="android:textSize">@dimen/tiny2</item>
+        <item name="android:textSize">@dimen/sp_10</item>
     </style>
 
     <!--自定义按钮样式测量收点界面隐藏已测标识2-1-->
     <style name="ButtonStyle02_1">
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_width">@dimen/dp_60</item>
+        <item name="android:layout_height">@dimen/dp_25</item>
         <item name="android:textColor">@color/grey04</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:background">@drawable/selector_btn_default</item>
-        <item name="android:textSize">@dimen/tiny2</item>
+        <item name="android:textSize">@dimen/sp_10</item>
     </style>
+
     <!--自定义按钮样式测量收点界面隐藏已测标识2-1-->
     <style name="ButtonStyle02_2">
-        <item name="android:layout_width">70dp</item>
-        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_width">@dimen/dp_70</item>
+        <item name="android:layout_height">@dimen/dp_25</item>
         <item name="android:textColor">@color/grey04</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:background">@drawable/selector_btn_default</item>
-        <item name="android:textSize">@dimen/tiny2</item>
+        <item name="android:textSize">@dimen/sp_10</item>
     </style>
 
     <!--标题栏左侧图标样式-->
     <style name="TitleBarLeftIconStyle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">25dp</item>
-        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_height">@dimen/dp_25</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
 
@@ -119,10 +120,10 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginRight">@dimen/dp_5</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textColor">@drawable/selector_text_color__submit</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -133,7 +134,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@color/grey04</item>
         <item name="android:gravity">center</item>
         <item name="android:button">@null</item>
@@ -146,10 +147,10 @@
 
     <!--自定义地图功能栏radiobutton样式-->
     <style name="RadiobuttonStyle02">
-        <item name="android:layout_width">35dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">@dimen/dp_35</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:button">@null</item>
-        <item name="android:textSize">@dimen/tiny</item>
+        <item name="android:textSize">@dimen/sp_8</item>
         <item name="android:textColor">@drawable/selector_radio_text_color</item>
         <item name="android:drawablePadding">1dp</item>
         <item name="android:layout_marginBottom">2dp</item>
@@ -171,16 +172,16 @@
         <item name="colorControlNormal">@color/blue12</item>
         <item name="colorControlActivated">@color/blue12</item>
         <item name="android:alpha">0.8</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="EdtStyle01">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
         <item name="android:gravity">left</item>
-        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textColorHint">@color/blue13</item>
         <item name="android:lineSpacingExtra">10dp</item>
         <item name="android:textColor">@color/blue13</item>
@@ -190,7 +191,7 @@
 
     <style name="EdtStyle02">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
@@ -209,8 +210,8 @@
     </style>
 
     <style name="EdtStyle02_3">
-        <item name="android:paddingLeft">6dp</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:paddingLeft">@dimen/dp_6</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">2</item>
         <item name="android:layout_height">wrap_content</item>
@@ -218,7 +219,7 @@
     </style>
 
     <style name="EdtStyle02_disable">
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
@@ -227,59 +228,59 @@
     </style>
 
     <style name="EdtStyle03">
-        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_width">@dimen/dp_100</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
     </style>
 
     <style name="TextViewStyle02">
-        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_width">@dimen/dp_60</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:paddingLeft">1dp</item>
     </style>
 
     <style name="TextViewStyle02_1">
-        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_width">@dimen/dp_40</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="TextViewStyle02_2">
-        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_width">@dimen/dp_25</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">bottom</item>
     </style>
 
     <style name="TextViewStyle02_3">
-        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_width">@dimen/dp_70</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:paddingLeft">2dp</item>
     </style>
 
     <style name="TextViewStyle02_4">
-        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_width">@dimen/dp_80</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">0dp</item>
-        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:paddingLeft">2dp</item>
     </style>
 
     <style name="ButtonStyle03">
-        <item name="android:layout_width">120dp</item>
-        <item name="android:layout_height">45dp</item>
-        <item name="android:textSize">@dimen/big_p1</item>
+        <item name="android:layout_width">@dimen/dp_120</item>
+        <item name="android:layout_height">@dimen/dp_45</item>
+        <item name="android:textSize">@dimen/sp_20</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -296,7 +297,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginTop">@dimen/dp_4</item>
     </style>
 
     <style name="DialogActivityStyle" parent="Theme.AppCompat.Light.Dialog">
@@ -329,13 +330,13 @@
     </style>
 
     <style name="sp_style">
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
     <style name="DialogStyleActivity" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowFullscreen">true</item>
-        <item name="android:height">100dp</item>
-        <item name="android:width">120dp</item>
+        <item name="android:height">@dimen/dp_100</item>
+        <item name="android:width">@dimen/dp_120</item>
         <!--设置dialog的背景-->
         <item name="android:windowBackground">@color/white</item>
         <!--设置Dialog的windowFrame框为无-->
@@ -360,66 +361,66 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:textSize">@dimen/small</item>
-        <item name="android:paddingTop">15dp</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:paddingTop">@dimen/dp_15</item>
         <item name="android:textColor">@color/black02</item>
         <item name="android:background">@drawable/shape_homepage_btn</item>
     </style>
 
     <style name="activity_btn_style">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">@dimen/dp_100</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@drawable/selector_text_color_2</item>
     </style>
 
     <style name="activity_btn_style_2">
-        <item name="android:layout_width">80dp</item>
-        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">@dimen/dp_80</item>
+        <item name="android:layout_height">@dimen/dp_30</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textColor">@drawable/selector_text_color_2</item>
     </style>
 
     <style name="fragment_btn_style">
-        <item name="android:layout_width">70dp</item>
-        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_width">@dimen/dp_70</item>
+        <item name="android:layout_height">@dimen/dp_28</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@drawable/selector_text_color_2</item>
         <item name="android:background">@drawable/selector_btn_all</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
     </style>
     <style name="fragment_btn_style_2">
-        <item name="android:layout_width">120dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">@dimen/dp_120</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@drawable/selector_text_color_2</item>
         <item name="android:background">@drawable/selector_btn_all</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
     </style>
 
     <!--管点管线配置表左边图标-->
     <style name="activity_point_all_icon_left">
-        <item name="android:layout_width">14dp</item>
-        <item name="android:layout_height">14dp</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_width">@dimen/dp_14</item>
+        <item name="android:layout_height">@dimen/dp_14</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
     </style>
 
     <!--管点管线配置表左边标题textview-->
     <style name="activity_point_all_itme_tv_style">
-        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_width">@dimen/dp_80</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textColor">@color/black01</item>
     </style>
 
@@ -429,13 +430,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginTop">@dimen/dp_7</item>
     </style>
 
     <!--地图功能菜单 图片-->
     <style name="mapactivity_menu_item_img_style">
-        <item name="android:layout_width">25dp</item>
-        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_width">@dimen/dp_25</item>
+        <item name="android:layout_height">@dimen/dp_25</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -445,7 +446,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">1dp</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/sp_10</item>
         <item name="android:textColor">@color/grey02</item>
         <item name="android:gravity">center</item>
     </style>
@@ -463,9 +464,9 @@
 
     <style name="activity_setting_rbtn_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/selector_rbtn_setting</item>
     </style>

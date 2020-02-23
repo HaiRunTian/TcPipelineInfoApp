@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <LinearLayout style="@style/LinearCenterVertical">
 
@@ -34,10 +34,10 @@
                     <TextView
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="@dimen/dp_20"
                         android:layout_gravity="center"
                         android:text="@string/line_setting_name"
-                        android:textSize="15dp" />
+                        android:textSize="@dimen/sp_15" />
                 </LinearLayout>
 
                 <EditText
@@ -64,7 +64,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="@dimen/dp_20"
                         android:layout_gravity="center"
                         android:text="@string/point_setting_pipe_type"
                         android:textSize="15dp" />
@@ -94,10 +94,10 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="@dimen/dp_20"
                         android:layout_gravity="center"
                         android:text="@string/line_setting_typeCode"
-                        android:textSize="15dp" />
+                        android:textSize="@dimen/sp_15" />
                 </LinearLayout>
 
                 <EditText
@@ -126,10 +126,10 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="@dimen/dp_20"
                         android:layout_gravity="center"
                         android:text="@string/appendant_yes_not"
-                        android:textSize="15dp" />
+                        android:textSize="@dimen/sp_15" />
                 </LinearLayout>
 
                 <EditText
@@ -156,10 +156,10 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="20dp"
+                        android:layout_height="@dimen/dp_20"
                         android:layout_gravity="center"
                         android:text="@string/line_setting_remark"
-                        android:textSize="15dp" />
+                        android:textSize="@dimen/sp_15" />
                 </LinearLayout>
 
 
@@ -178,13 +178,13 @@
     <TextView
         android:id="@+id/tvSubmit"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="@dimen/dp_35"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/dp_10"
         android:background="@drawable/symbolic_item"
         android:gravity="center"
         android:text="保存"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="@dimen/sp_18"
         android:visibility="visible" />
 </LinearLayout>

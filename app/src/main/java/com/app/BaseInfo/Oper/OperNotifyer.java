@@ -93,7 +93,6 @@ public class OperNotifyer {
         // 创建矢量数据集
         DatasetVector datasetVector = datasets.create(datasetVectorInfo);
         if (datasetVector == null) {
-//            ToastyUtil.showErrorShort(MyApplication.Ins(),"创建数据集失败");
             LogUtills.i("数据集创建失败");
         }
         //数据集添加到图层
@@ -186,7 +185,7 @@ public class OperNotifyer {
             //设置该图层标签专题图
             Layer _resultLayer = map.getLayers().add(dv, _theme, true);
             //设置最小可见
-            _resultLayer.setMinVisibleScale(1/1000.0);
+            _resultLayer.setMinVisibleScale(1/3500.0);
             _resultLayer.setVisible(true);
 //            _resultLayer.setSymbolScalable(true);
             //设置该图层单值专题图 符号库
@@ -200,7 +199,6 @@ public class OperNotifyer {
             _style.setMarkerSymbolID(((BaseFieldPInfos) info).symbolID);
             _selection.setStyle(_style);
             _resultLayer.setVisible(true);
-            _resultLayer.setMinVisibleScale(1/1000.0);
             _resultLayer.setSymbolScalable(true);
             map.refresh();
         }

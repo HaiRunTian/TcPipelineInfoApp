@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/layout_titlebar_project_list"></include>
 
-    <TextView
-        android:visibility="gone"
-        android:text="暂时没有工程，请创建"
-        android:id="@+id/tvNoPrj"
-        android:gravity="center"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/lvProjectList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tvNoPrj"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="暂时没有工程，请创建"
+            android:visibility="gone" />
+
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avLoading"
+            android:layout_centerInParent="true"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicatorColor="@color/blue03"
+            app:indicatorName="BallPulseIndicator" />
+
+        <ListView
+            android:id="@+id/lvProjectList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tvNoPrj" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

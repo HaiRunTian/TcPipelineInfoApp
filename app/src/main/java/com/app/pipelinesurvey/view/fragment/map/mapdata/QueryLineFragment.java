@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,11 +24,13 @@ import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.LineFieldFactory;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
+import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
@@ -48,6 +51,7 @@ import com.supermap.data.GeoLine;
 import com.supermap.data.Point2D;
 import com.supermap.data.Point2Ds;
 import com.supermap.data.Recordset;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -82,17 +86,17 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     private EditText edtOwnershipUnit;
     private EditText edtLineRemark;
     private EditText edtPuzzle;
-    private EditText edtPipeSize;
+    private AutoCompleteTextView edtPipeSize;
     private EditText edtSectionWidth;
     private EditText edtSectionHeight;
     private ImageView imgvLineRemark;
     private LinearLayout layoutPipeSize, layoutSection;
     private ImageButton imgbtnExchange;
     private ImageView imgvOwnershipUnit;
-    private ImageView imgvPipeSize;
+    //    private ImageView imgvPipeSize;
     private LinearLayout layoutOwnershipUnit;
     private LinearLayout layoutDLLDPanel;
-    private LinearLayout layoutPipeSizeEdt;
+//    private LinearLayout layoutPipeSizeEdt;
     /**
      * 状态数据
      */
@@ -170,10 +174,16 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     private TextView tvHoleCount;
     private TextView tvUsedHole;
     private TextView tvAmount;
+    //起点高程
+    private int startH;
+    //终点高程
+    private int endH;
+    private EditText edtTopBottom;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
 //        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
 //        refWatcher.watch(this);
     }
@@ -189,9 +199,10 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
 
     /**
      * 初始化每一行view,根据数据库表用户设置是否显示
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/8/23  16:58
+     * @date :2019/8/23  16:58
      */
     private void initLayoutView(View m_view) {
         View layout_start_depth = m_view.findViewById(R.id.layout_start_depth);
@@ -214,10 +225,10 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         View layout_line_remark = m_view.findViewById(R.id.layout_line_remark);
         View layout_puzzle = m_view.findViewById(R.id.layout_puzzle);
 
-        //TODO  根据数据库表 判断是否显示view
+        // 根据数据库表 判断是否显示view
         String type = getArguments().getString("gpType");
-        Cursor cursor =  DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_LINE_SETTING,"where prj_name = '"
-                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + type +  "'");
+        Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_LINE_SETTING, "where prj_name = '"
+                + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + type + "'");
         while (cursor.moveToNext()) {
             int start_depth = cursor.getInt(cursor.getColumnIndex("start_depth"));
             int end_depth = cursor.getInt(cursor.getColumnIndex("end_depth"));
@@ -306,9 +317,9 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         edtRow = view.findViewById(R.id.edtRow);
         edtCol = view.findViewById(R.id.edtCol);
         edtPuzzle = view.findViewById(R.id.edtPuzzle);
-        imgvPipeSize = view.findViewById(R.id.imgvPipeSize);
+/*        imgvPipeSize = view.findViewById(R.id.imgvPipeSize);
         imgvPipeSize.setOnClickListener(this);
-        layoutPipeSizeEdt = view.findViewById(R.id.layoutPipeSizeEdt);
+        layoutPipeSizeEdt = view.findViewById(R.id.layoutPipeSizeEdt);*/
         btnDelLine = view.findViewById(R.id.btnRemove);
         btnDelLine.setOnClickListener(this);
         btnSave = view.findViewById(R.id.btnSave);
@@ -319,7 +330,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         btnGetEndPoint = (Button) view.findViewById(R.id.btnGetEndPoint);
         btnGetStartPoint.setOnClickListener(this);
         btnGetEndPoint.setOnClickListener(this);
-
+        edtTopBottom = view.findViewById(R.id.edtTopBottom);
         //设置必填项*号
         //如果是电信，权属单位提示必填
         tvOwnershipUnit = view.findViewById(R.id.tvOwnershipUnit);
@@ -358,7 +369,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     }
 
     private void initValue() {
-
         Bundle _bundle = getArguments();
         //动作状态  1查询线  2 重新获取起点  3重新获取终点
         int _actionType = _bundle.getInt("actionType", 0);
@@ -409,7 +419,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             m_reSet.edit();
             //用于修改记录集当前位置的几何对象，覆盖原来的几何对象，成功则返回true。
             if (!m_reSet.setGeometry(new GeoLine(m_point2Ds))) {
-                ToastyUtil.showErrorShort(getActivity(),"重新选择起点更新失败");
+                ToastyUtil.showErrorShort(getActivity(), "重新选择起点更新失败");
                 return;
             }
             if (!m_reSet.update()) {
@@ -458,18 +468,20 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             }
 
             //如果是电信管类，权属单位必填，显示星号
-            if (gpType.contains("电信")||gpType.contains("监控")||gpType.contains("移动")||gpType.contains("联通")||gpType.contains("盈通")) {
+            if (gpType.contains("电信") || gpType.contains("监控") || gpType.contains("移动") || gpType.contains("联通") || gpType.contains("盈通")) {
                 setViewDrawable(tvOwnershipUnit);
             }
 
             //如果是电力路灯管类，电压压力必填，显示星号
-            if (gpType.contains("电力") || gpType.contains("路灯")){
+            if (gpType.contains("电力") || gpType.contains("路灯")) {
                 setViewDrawable(tvVoltage);
             }
         }
 
-        tvTitle.setText("编辑线" + "(" + gpType + ")");
+        //设置高低管逆差
+        setTopBottom();
 
+        tvTitle.setText("编辑线" + "(" + gpType + ")");
         //管线材料
         textureList = SpinnerDropdownListManager.getData("lineTexture", gpType);
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, textureList);
@@ -485,9 +497,11 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, embeddedWayList);
         spEmbeddedWay.setAdapter(m_adapter);
 
-        if (gpType.contains("煤气") || gpType.contains("燃气")) {
-            pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
-        }
+//        if (gpType.contains("煤气") || gpType.contains("燃气")) {
+        pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
+        edtPipeSize.setThreshold(1);
+
+        edtPipeSize.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
 
         volatageList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.voltage));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, volatageList);
@@ -498,12 +512,34 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, pressureList);
         spPressure.setAdapter(m_adapter);
         spPressure.setSelection(pressureList.size() - 1);
-        //显示隐藏属性面板
+      /*  //显示隐藏属性面板
+        switch (gpType) {
+            case "电力":
+            case "路灯":
+            case "电信":
+            case "有视":
+            case "军队":
+            case "交通":
+            case "高压":
+            case "低压":
+            case "监控":
+            case "移动":
+            case "联通":
+            case "盈通":
+                layoutDLLDPanel.setVisibility(View.VISIBLE);
+                break;
+            default:
+                layoutDLLDPanel.setVisibility(View.GONE);
+                break;
+        }*/
         if (gpType.contains("电力") || gpType.contains("路灯")
                 || gpType.contains("电信") || gpType.contains("有视")
                 || gpType.contains("军队") || gpType.contains("交通")
-                || gpType.contains("高压")|| gpType.contains("低压")|| gpType.contains("监控")|| gpType.contains("移动")||
-                gpType.contains("联通")|| gpType.contains("盈通")) {
+                || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("监控") || gpType.contains("移动") ||
+                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("供电") ||gpType.contains("信号")
+                ||gpType.contains("铁通")||gpType.contains("吉通")||gpType.contains("网通")||gpType.contains("盈通")
+                ||gpType.contains("军用")||gpType.contains("保密")||gpType.contains("其他")||gpType.contains("监控")
+                ||gpType.contains("电通")||gpType.contains("广通")||gpType.contains("广电")) {
             layoutDLLDPanel.setVisibility(View.VISIBLE);
         } else {
             layoutDLLDPanel.setVisibility(View.GONE);
@@ -511,49 +547,89 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
 
         if (gpType.contains("煤气") || gpType.contains("燃气")) {
             pipeUnitList = getResources().getStringArray(R.array.ownershipUnit_rq_mq);
-        } else if (gpType.contains("电信")||gpType.contains("移动")||gpType.contains("联通")||gpType.contains("监控")||gpType.contains("盈通")) {
+        } else if (gpType.contains("电信") || gpType.contains("移动") || gpType.contains("联通") || gpType.contains("监控") || gpType.contains("盈通")) {
             pipeUnitList = getResources().getStringArray(R.array.ownershipUnit);
         }
+        //初始化view
         setValueToView();
+    }
+
+    /**
+     * 设置高低管逆差
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/12/4  9:54
+     */
+    private void setTopBottom() {
+        //设置高低逆差
+        //起点
+        Recordset reStartPoint = DataHandlerObserver.ins().queryRecordsetByExpNum(m_startpointID, false);
+        Recordset reEndPoint = DataHandlerObserver.ins().queryRecordsetByExpNum(m_endPointID, false);
+        if (!reStartPoint.isEmpty()) {
+            //起点高程
+            String surf_h = reStartPoint.getString("surf_H");
+            if (surf_h.isEmpty()) {
+                surf_h = "0";
+            }
+            //转成double 厘米转成米
+            double starth = Double.valueOf(surf_h) * 100;
+
+            startH = (int) starth;
+        }
+
+        if (!reEndPoint.isEmpty()) {
+            //起点高程
+            String surf_h = reEndPoint.getString("surf_H");
+            if (surf_h.isEmpty()) {
+                surf_h = "0";
+            }
+            //转成double 厘米转成米
+            double starth = Double.valueOf(surf_h) * 100;
+
+            endH = (int) starth;
+        }
+        reStartPoint.close();
+        reEndPoint.close();
+        reStartPoint.dispose();
+        reEndPoint.dispose();
     }
 
     private void setValueToView() {
         try {
-        setStartPoint();         //设置管线点号
-        setEndPoint();           //设置连接点号
-        setStartBurialDepth();   //设置起点埋深
-        setEndBurialDepth();     //设置终点埋深
-        setPipeLength();         //设置管线长度
-        setEmbeddedWay();        //设置埋设方式
-        setPipeTexture();        //设置管线材质
-        setPipeSize();           //设置管径大小
-        setSectionWidth();       //设置断面宽
-        setSectionHeight();      //设置断面高
-        setHoleCount();          //设置总孔数
-        setUsedHoleCount();      //设置已用孔数
-        setAmount();             //设置电缆总数
-        setAperture();           //设置套管孔径
-        setRow();                //设置行
-        setCol();                //设置列
-        setVoltage();            //设置电缆电压
-        setState();              //设置管线状态
-        setPressure();           //设置管道压力
-        setOwnershipUnit();      //设置权属单位
-        setLineRemark();         //设置管线备注
-        setPuzzle();             //设置疑难问题
-        }catch (Exception e){
+            setStartPoint();         //设置管线点号
+            setEndPoint();           //设置连接点号
+            setStartBurialDepth();   //设置起点埋深
+            setEndBurialDepth();     //设置终点埋深
+            setPipeLength();         //设置管线长度
+            setEmbeddedWay();        //设置埋设方式
+            setPipeTexture();        //设置管线材质
+            setPipeSize();           //设置管径大小
+            setSectionWidth();       //设置断面宽
+            setSectionHeight();      //设置断面高
+            setHoleCount();          //设置总孔数
+            setUsedHoleCount();      //设置已用孔数
+            setAmount();             //设置电缆总数
+            setAperture();           //设置套管孔径
+            setRow();                //设置行
+            setCol();                //设置列
+            setVoltage();            //设置电缆电压
+            setState();              //设置管线状态
+            setPressure();           //设置管道压力
+            setOwnershipUnit();      //设置权属单位
+            setLineRemark();         //设置管线备注
+            setPuzzle();             //设置疑难问题
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
+//        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
-
 
     @Override
     public void onDestroy() {
@@ -563,7 +639,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             m_reSet.dispose();
         }
     }
-
 
     @Override
     public void onClick(View v) {
@@ -584,22 +659,31 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                     return;
                 } else {
                     //更新点数据集起点深度值
-                    boolean _fistPoint = DataHandlerObserver.ins().updateRecordSetBySql("exp_Num = '" + getStartPoint() + "'", getStartBurialDepth());
+                    boolean fistPoint = DataHandlerObserver.ins().updateRecordSetBySql("exp_Num = '" + getStartPoint() + "'", getStartBurialDepth());
                     //更新点数据集起点深度值
-                    boolean _secondPoint = DataHandlerObserver.ins().updateRecordSetBySql("exp_Num = '" + getEndPoint() + "'", getEndBurialDepth());
-                    if (_fistPoint && _secondPoint) {
-                        LogUtills.i("save point depth ", "ok");
+                    boolean secondPoint = DataHandlerObserver.ins().updateRecordSetBySql("exp_Num = '" + getEndPoint() + "'", getEndBurialDepth());
+                    if (!fistPoint) {
+                        ToastyUtil.showErrorShort(getActivity(), "起点埋深更改失败");
+                    }
+                    if (!secondPoint) {
+                        ToastyUtil.showErrorShort(getActivity(), "终点埋深更改失败");
                     }
                     getDialog().dismiss();
                 }
                 break;
-
+            //删除线
             case R.id.btnRemove:
                 AlertDialogUtil.showDialog(getActivity(), "警告提示！", "是否确定删除管线？", true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (m_reSet.getRecordCount() > 0 && !m_reSet.isEmpty()) {
+                            int sysId = m_reSet.getInt32("sysId");
                             if (m_reSet.delete()) {
+                                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                    OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, sysId, "删除管线");
+//                                    OperSql.getSingleton().inserPoint(m_startpointID,"删除管线" + m_startpointID + "->" + m_endPointID);
+//                                    OperSql.getSingleton().inserPoint(m_endPointID,"删除管线" + m_startpointID + "->" + m_endPointID);
+                                }
                                 WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
                                 getDialog().dismiss();
                             } else {
@@ -615,6 +699,10 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 String temp = getStartPoint();
                 edtStartPoint.setText(getEndPoint());
                 edtEndPoint.setText(temp);
+                //管底高差交换
+                int i = startH;
+                startH = endH;
+                endH = i;
                 //起点与终点埋深
                 temp = edtStartBurialDepth.getText().toString();
                 edtStartBurialDepth.setText(edtEndBurialDepth.getText().toString());
@@ -635,6 +723,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 getDialog().dismiss();
                 break;
 
+          /*  //管径大小
             case R.id.imgvPipeSize:
                 if (gpType.contains("煤气") || gpType.contains("燃气")) {
                     _popupWindow = new ListPopupWindow(getActivity());
@@ -654,13 +743,13 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 } else {
                     ToastyUtil.showInfoShort(getActivity(), "当前管类没有管径数据列表");
                 }
-                break;
+                break;*/
 
             //权属单位
             case R.id.imgvOwnershipUnit:
 
                 if (gpType.contains("煤气") || gpType.contains("燃气") || gpType.contains("电信")
-                        ||gpType.contains("监控")||gpType.contains("移动")||gpType.contains("联通")||gpType.contains("盈通")) {
+                        || gpType.contains("监控") || gpType.contains("移动") || gpType.contains("联通") || gpType.contains("盈通")) {
                     showDialog(pipeUnitList, edtOwnershipUnit, "权属单位列表");
 
                 } else {
@@ -756,6 +845,13 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
 
     }
 
+    /**
+     * 坐标系对换
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/12/5  9:36
+     */
     private void exchangePoint() {
         m_reSet.moveFirst();
         m_reSet.edit();
@@ -782,71 +878,103 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         GeoLine _geoLine1 = new GeoLine(_point2Ds1);
         boolean isOk = m_reSet.setGeometry(_geoLine1);
         if (!m_reSet.update()) {
-            LogUtills.i("line change point fail");
+            ToastyUtil.showErrorShort(getActivity(), "交换失败");
+        } else {
+            OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "起点和终点交换");
+            updateRecordset();
         }
         _geoLine.dispose();
         _geoLine1.dispose();
     }
 
-
     private BaseFieldLInfos generateBaseFieldInfo() {
+
         BaseFieldLInfos _info = null;
-        String gpType = getArguments().getString("gpType");
-        _info = LineFieldFactory.CreateInfo(gpType.substring(0, 2));
-        if (_info == null) {
-            LogUtills.e("DrawPipeLineActivity Create BaseFieldPInfos Fail...");
+        try {
+            String gpType = getArguments().getString("gpType");
+            _info = LineFieldFactory.CreateInfo(gpType.substring(0, 2));
+            if (_info == null) {
+                LogUtills.e("DrawPipeLineActivity Create BaseFieldPInfos Fail...");
+                return null;
+            }
+
+            _info.benExpNum = getStartPoint();
+            _info.endExpNum = getEndPoint();
+            _info.startLatitude = m_reSet.getDouble("startLatitude");
+            _info.startLongitude = m_reSet.getDouble("startLongitude");
+            _info.endLatitude = m_reSet.getDouble("endLatitude");
+            _info.endLongitude = m_reSet.getDouble("endLongitude");
+            _info.exp_Date = m_baseInfo.exp_Date;
+            _info.benDeep = getStartBurialDepth();
+            _info.endDeep = getEndBurialDepth();
+            _info.buried = getEmbeddedWay();
+            _info.pipeSize = getPipeSize();
+            if (getSectionWidth().isEmpty() || getSectionWidth().length() == 0) {
+                _info.d_S = "";
+            } else {
+                _info.d_S = getSectionWidth() + "X" + getSectionHeight();
+            }
+            _info.pipeLength = getPipeLength();
+
+            if (getRow().isEmpty() || getRow().length() == 0) {
+                _info.rowXCol = "";
+            } else {
+                _info.rowXCol = getRow() + "X" + getCol();
+            }
+            _info.cabNum = getAmount();
+            _info.voltage = getVoltage();
+            _info.pressure = getPressure();
+            _info.material = getTextrure();
+            _info.belong = getOwnershipUnit();
+            _info.totalHole = getHoleCount();
+            _info.usedHole = getUsedHoleCount();
+            _info.holeDiameter = getAperture();
+            //外检模式
+            if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "管线修改");
+                _info.Edit = "外检-数据修改-" + getState();
+                updateRecordset();
+            }
+            _info.state = getState();
+            _info.remark = getLineRemark();
+            //_info.remark = "";
+            //_info.id = ;
+            _info.puzzle = getPuzzle();
+            _info.burialDifference = getBurialDifference();
+            String ds = (_info.pipeSize.toString().trim().length() == 0) ? _info.d_S : _info.pipeSize;
+            _info.labelTag = String.valueOf(m_smId) + "-" + _info.pipeType.toLowerCase() + "-" + ds + "-" + _info.material.toString();
+            _info.sysId = m_smId;
+            LogUtills.e(_info.toString());
+        } catch (Exception e) {
+            ToastyUtil.showErrorShort(getActivity(), e.toString());
             return null;
         }
-
-        _info.benExpNum = getStartPoint();
-        _info.endExpNum = getEndPoint();
-        _info.startLatitude = m_reSet.getDouble("startLatitude");
-        _info.startLongitude = m_reSet.getDouble("startLongitude");
-        _info.endLatitude = m_reSet.getDouble("endLatitude");
-        _info.endLongitude = m_reSet.getDouble("endLongitude");
-        _info.exp_Date = m_baseInfo.exp_Date;
-        _info.benDeep = getStartBurialDepth();
-        _info.endDeep = getEndBurialDepth();
-        _info.buried = getEmbeddedWay();
-        _info.pipeSize = getPipeSize();
-        if (getSectionWidth().isEmpty() || getSectionWidth().length() == 0) {
-            _info.d_S = "";
-        } else {
-            _info.d_S = getSectionWidth() + "X" + getSectionHeight();
-        }
-        _info.pipeLength = getPipeLength();
-
-       /* if (_info.endExpNum.contains("T_"))
-            _info.pipeType = "临时-O";*/
-
-        if (getRow().isEmpty() || getRow().length() == 0) {
-            _info.rowXCol = "";
-        } else {
-            _info.rowXCol = getRow() + "X" + getCol();
-        }
-        _info.cabNum = getAmount();
-        _info.voltage = getVoltage();
-        _info.pressure = getPressure();
-        _info.material = getTextrure();
-        _info.belong = getOwnershipUnit();
-        _info.totalHole = getHoleCount();
-        _info.usedHole = getUsedHoleCount();
-        _info.holeDiameter = getAperture();
-        _info.state = getState();
-        _info.remark = getLineRemark();
-        //_info.remark = "";
-        //_info.id = ;
-        _info.puzzle = getPuzzle();
-        _info.burialDifference = getBurialDifference();
-        String ds = (_info.pipeSize.toString().trim().length() == 0)? _info.d_S : _info.pipeSize;
-        _info.labelTag = String.valueOf(m_smId) + "-" + _info.pipeType.toLowerCase() + "-" + ds + "-" + _info.material.toString();
-        _info.sysId = m_smId;
-
-//        LogUtills.i("complete generateBaseFieldInfo.....(ps.x,ps.y),(pe.x,pe.y) =( " + _info.startLongitude + "," + _info.startLatitude + "),(" + _info.endLongitude + "," + _info.endLatitude + ")");
-//        LogUtills.i("修改管线Smid = ", String.valueOf(m_smId));
         return _info;
 
+    }
 
+    /**
+     * 外检模式  点记录集Edit状态
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/12/18  10:30
+     */
+    private void updateRecordset() {
+        Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(m_startpointID, true);
+        if (!recordset.isEmpty()) {
+            recordset.setString("Edit", "外检-管线数据修改");
+            recordset.update();
+        }
+        Recordset recordset2 = DataHandlerObserver.ins().queryRecordsetByExpNum(m_startpointID, true);
+        if (!recordset2.isEmpty()) {
+            recordset2.setString("Edit", "外检-管线数据修改");
+            recordset2.update();
+        }
+        recordset.close();
+        recordset2.close();
+        recordset.dispose();
+        recordset2.dispose();
     }
 
     private void setViewEdit(boolean state) {
@@ -856,7 +984,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         spVolatage.setEnabled(state);
         spState.setEnabled(state);
         btnGetStartPoint.setEnabled(state);
-
         btnGetEndPoint.setEnabled(state);
         imgbtnExchange.setEnabled(state);
         edtStartBurialDepth.setEnabled(state);
@@ -874,10 +1001,8 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         edtPipeSize.setEnabled(state);
         edtSectionWidth.setEnabled(state);
         edtSectionHeight.setEnabled(state);
-//        isEdit = state;
 
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -921,7 +1046,8 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                         setViewDrawableNull(tvUsedHole);
 
                         break;
-                        default:break;
+                    default:
+                        break;
                 }
                 break;
             //            case R.id.spLineRemark:
@@ -931,7 +1057,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 break;
         }
     }
-
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -951,18 +1076,34 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-            String num1Str = edtStartBurialDepth.getText().toString();
-            String num2Str = edtEndBurialDepth.getText().toString();
-            if (num1Str.length() == 0) {
-                num1Str = "0";
+            try {
+
+                String num1Str = edtStartBurialDepth.getText().toString();
+                String num2Str = edtEndBurialDepth.getText().toString();
+                if (num1Str.length() == 0) {
+                    num1Str = "0";
+                }
+                if (num2Str.length() == 0) {
+                    num2Str = "0";
+                }
+                int num2 = 0;
+                int num1 = 0;
+                if (!num1Str.equals("-") || !num1Str.equals("--")) {
+                    num1 = Integer.parseInt(num1Str);
+                }
+                if (!num2Str.equals("-") || !num1Str.equals("--")) {
+                    num2 = Integer.parseInt(num2Str);
+                }
+                int result = (num1 - num2);
+                edtBurialDifference.setText(String.valueOf(result));
+
+                //设置高低逆差
+                //管底高差 （起点高程 - 起点埋深） - （终点高程 - 终点埋深）
+                int temp = (startH - num1) - (endH - num2);
+                edtTopBottom.setText(String.valueOf(temp));
+            } catch (Exception e) {
+//                ToastyUtil.showErrorShort(getActivity(), e.toString());
             }
-            if (num2Str.length() == 0) {
-                num2Str = "0";
-            }
-            double num2 = Double.parseDouble(num2Str);
-            double num1 = Double.parseDouble(num1Str);
-            int result = (int) (num1 - num2);
-            edtBurialDifference.setText(String.valueOf(result));
         }
     };
 
@@ -998,15 +1139,21 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     public String getStartBurialDepth() {
         String temp = edtStartBurialDepth.getText().toString();
         if (temp.length() > 0 && !temp.equals("0.00")) {
+            String sign = "";
+            if (temp.contains("-")) {
+                sign = "-";
+                temp = temp.substring(1);
+            }
             int s = Integer.parseInt(temp);
             DecimalFormat df2 = new DecimalFormat("####.00");
+
             if (temp.length() > 2) {
-                return df2.format(s / 100d);
+                return sign + df2.format(s / 100d);
             } else {
-                return "0" + df2.format(s / 100d);
+                return sign + "0" + df2.format(s / 100d);
             }
         } else {
-            return "0";
+            return "0.00";
         }
     }
 
@@ -1014,17 +1161,21 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     public String getEndBurialDepth() {
         String temp = edtEndBurialDepth.getText().toString();
         if (temp.length() > 0 && !temp.equals("0.00")) {
+            String sign = "";
+            if (temp.contains("-")) {
+                sign = "-";
+                temp = temp.substring(1);
+            }
             int s = Integer.parseInt(temp);
             DecimalFormat df2 = new DecimalFormat("####.00");
             if (temp.length() > 2) {
-                return df2.format(s / 100d);
+                return sign + df2.format(s / 100d);
             } else {
-                return "0" + df2.format(s / 100d);
+                return sign + "0" + df2.format(s / 100d);
             }
         } else {
-            return "0";
+            return "0.00";
         }
-
     }
 
     @Override
@@ -1044,7 +1195,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 return "0" + df2.format(s / 100d);
             }
         } else {
-            return "0";
+            return "0.00";
         }
 
     }
@@ -1141,10 +1292,16 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     public void setStartBurialDepth() {
         String _startBurialDepth = m_baseInfo.benDeep;
         if (_startBurialDepth != null) {
+            String sign = "";
+            if (_startBurialDepth.contains("-")) {
+                sign = "-";
+                _startBurialDepth = _startBurialDepth.substring(1);
+            }
             double s = Double.parseDouble(_startBurialDepth);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtStartBurialDepth.setText(depth);
+            double temp = s * 100;
+            new DecimalFormat("#.00").format(temp);
+//            String depth = String.valueOf(temp);
+            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp));
         }
     }
 
@@ -1155,10 +1312,14 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     public void setEndBurialDepth() {
         String _ednBurialDepth = m_baseInfo.endDeep;
         if (_ednBurialDepth != null) {
+            String sign = "";
+            if (_ednBurialDepth.contains("-")) {
+                sign = "-";
+                _ednBurialDepth = _ednBurialDepth.substring(1);
+            }
             double s = Double.parseDouble(_ednBurialDepth);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtEndBurialDepth.setText(depth);
+            double temp = s * 100;
+            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp));
         }
     }
 
@@ -1181,9 +1342,9 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         String _burialDifference = m_baseInfo.burialDifference;
         if (_burialDifference != null) {
             double s = Double.parseDouble(_burialDifference);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtBurialDifference.setText(depth);
+            double temp = s * 100;
+//            String depth = String.valueOf(temp);
+            edtBurialDifference.setText(new DecimalFormat().format(temp));
         }
     }
 
@@ -1228,7 +1389,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     @Override
     public void setSectionHeight() {
         String _sectionH = m_baseInfo.d_S;
-
         if (_sectionH.length() > 0 && _sectionH.contains("X")) {
             int _index = _sectionH.indexOf("X");
             String _temp = _sectionH.substring(_index + 1);
@@ -1390,11 +1550,11 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         textView.setText("");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
         builder.setTitle(title);
-        Map<Integer,Boolean> map = new HashMap<Integer,Boolean>();
+        Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
         final boolean[] selectItems = new boolean[data.length];
         for (int i = 0; i < data.length; i++) {
             selectItems[i] = false;
-            map.put(i,false);
+            map.put(i, false);
         }
         /**
          * 第一个参数指定我们要显示的一组下拉多选框的数据集合
@@ -1410,7 +1570,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 if (isChecked) {
                     //选择的选项保存到sb中
 //                    sb.append(data[which] + "+");
-                    map.put(which,true);
+                    map.put(which, true);
                 }
 //                String s = sb.toString();
 //                String data = s.substring(0, s.length() - 1);
@@ -1431,7 +1591,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             public void onClick(DialogInterface dialog, int which) {
                 StringBuffer sb = new StringBuffer(100);
                 for (int i = 0; i < map.size(); i++) {
-                    if (map.get(i)){
+                    if (map.get(i)) {
                         sb.append(data[i] + "+");
                     }
                 }
@@ -1451,11 +1611,12 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
 
     /**
      * 设置TextView右边星号
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/6/24  16:25
+     * @date :2019/6/24  16:25
      */
-    private void setViewDrawable(TextView textView){
+    private void setViewDrawable(TextView textView) {
         Drawable drawable = getResources().getDrawable(R.drawable.ic_must_fill_16);
         drawable.setBounds(0, 0, 20, 20);
         textView.setCompoundDrawables(null, null, drawable, null);
@@ -1471,6 +1632,5 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     private void setViewDrawableNull(TextView textView) {
         textView.setCompoundDrawables(null, null, null, null);
     }
-
 
 }

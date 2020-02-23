@@ -43,7 +43,6 @@ public class CameraUtils {
     public static final String IMAGE_UNSPECIFIED = "image/*";
     public static File file;
 
-
     /**
      * 只拍照不裁剪
      *

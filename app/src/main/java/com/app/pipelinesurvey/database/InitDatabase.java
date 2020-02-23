@@ -259,7 +259,6 @@ public class InitDatabase {
 
     /**
      * 版本  8 点线配置表插入一个管类
-     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -312,4 +311,104 @@ public class InitDatabase {
         return null;
     }
 
+    public static List<String> getInsertSqlOf9(Context context){
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("database_db_9.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 版本  10 点线配置表插入一个管类
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/12/11  10:48
+     */
+    public static List<String> getAlterSqlOf10() {
+        //存放sql语句
+        List<String> _list = new ArrayList<>();
+        //给先添加的字段填入数据show
+        //点特征添加show字段
+        String sqlAlterProjectInfo = "alter table project_info add column mode varchar";
+
+        _list.add(sqlAlterProjectInfo);
+        return _list;
+    }
+
+    /**
+     * 版本升级10 创建点 线 外检模式表 项目
+     */
+    public static List<String> getCteateSql10(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("database_db_10.xml"), "sql_create_table", "sql_create");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * 版本升级11 创建正本清源模式点表线表
+     */
+    public static List<String> getZhengBenCteateSql(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("zhengben_db_11.xml"), "sql_create_table", "sql_create");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 版本升级11 插入正本清源模式各表数据
+     */
+    public static List<String> getZhengBenInserSql(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("zhengben_db_11.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 版本  8 点线配置表插入一个管类
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf12() {
+        //存放sql语句
+        List<String> _list = new ArrayList<>();
+
+        String sqlUpdate = "update default_line_zhengben set typename = '雨水-YS' where typeCode = 'YS'";
+
+
+        _list.add(sqlUpdate);
+        return _list;
+    }
 }

@@ -161,7 +161,26 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      * 窨井水深 cm
      */
     public String wellWater = "";
-
+    //排水扯旗
+    public double ExpX = 0.000;
+    public double ExpY = 0.000;
+    public double MapX = 0.000;
+    public double MapY = 0.000;
+    public String Explain1 = "";
+    public double PsCheQiX = 0.000;
+    public double PsCheQiY = 0.000;
+    public String PsCheQiLeftR = "";
+    public double ExpCheQiY = 0.000;
+    public double ExpCheQiX = 0.000;
+    public double ExplainX = 0.000;
+    public double ExplainY = 0.000;
+    public double ExplaninAng = 0.0;
+    public double PpdAng = 0.0;
+    public double PpdX = 0.0;
+    public double PpdY = 0.0;
+    public double DotleadAng = 0.0;
+    //标记测量点号 0 = 未测量  1：已测量
+    public String MeasuerPoint = "0";
     public BaseFieldPInfos() {
     }
 
@@ -222,6 +241,25 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         parcel.writeString(shortCode);
         parcel.writeString(submitName);
         parcel.writeInt(sysId);
+        parcel.writeDouble(ExpX);
+        parcel.writeDouble(ExpY);
+        parcel.writeDouble(MapX);
+        parcel.writeDouble(MapY);
+        parcel.writeString(Explain1);
+        parcel.writeDouble(PsCheQiX);
+        parcel.writeDouble(PsCheQiY);
+        parcel.writeString(PsCheQiLeftR);
+        parcel.writeDouble(ExpCheQiY);
+        parcel.writeDouble(ExpCheQiX);
+        parcel.writeDouble(ExplainX);
+        parcel.writeDouble(ExplainY);
+        parcel.writeDouble(ExplaninAng);
+        parcel.writeDouble(PpdAng);
+        parcel.writeDouble(PpdX);
+        parcel.writeDouble(PpdY);
+        parcel.writeDouble(DotleadAng);
+        parcel.writeString(MeasuerPoint);
+        parcel.writeString(Edit);
     }
 
     /**
@@ -270,6 +308,26 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             _field.shortCode = source.readString();
             _field.submitName = source.readString();
             _field.sysId = source.readInt();
+            _field.ExpX = source.readDouble();
+            _field.ExpY = source.readDouble();
+            _field.MapX = source.readDouble();
+            _field.MapY = source.readDouble();
+            _field.Explain1 = source.readString();
+            _field.PsCheQiX = source.readDouble();
+            _field.PsCheQiY = source.readDouble();
+            _field.PsCheQiLeftR = source.readString();
+            _field.ExpCheQiY = source.readDouble();
+            _field.ExpCheQiX = source.readDouble();
+            _field.ExplainX = source.readDouble();
+            _field.ExplainY = source.readDouble();
+            _field.ExplaninAng = source.readDouble();
+            _field.PpdAng = source.readDouble();
+            _field.PpdX = source.readDouble();
+            _field.PpdY = source.readDouble();
+            _field.DotleadAng = source.readDouble();
+            _field.MeasuerPoint = source.readString();
+            _field.Edit = source.readString();
+
             return _field;
         }
 
@@ -353,7 +411,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             TextStyle textStyle1 = new TextStyle();
             textStyle1.setForeColor(ColorByOxString(color[i]));
             textStyle1.setFontName("楷体");
-            textStyle1.setFontHeight(2.8);
+            textStyle1.setFontHeight(3.5);
             textStyle1.setSizeFixed(true);
             themeLabelItem1.setStyle(textStyle1);
             // 添加标签专题图子项到标签专题图对象中
@@ -458,6 +516,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             //返回一个包含某些 Field 对象的数组，这些对象反映此 Class 对象所表示的类或接口的所有可访问公共字段。
             Field[] _fields = _info.getClass().getFields();
             //返回记录集里的字段信息集合对象。
+            reset.moveFirst();
             FieldInfos _infos = reset.getFieldInfos();
             for (int i = 0; i < _fields.length; ++i) {
                 Field _field = _fields[i];
@@ -465,7 +524,10 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
                 String _field_name = _field.getName();
                 //不包含此字段
                 if (_infos.get(_field_name) == null || _field_name.equals("type")) {
-                    //LogUtills.i(" Recodest No Contain The Field "+_field_name+", In BaseFieldPInfos");
+                    continue;
+                }
+                //指定对象变量上此 Field 对象表示的字段设置为指定的新值。
+                if (reset.getObject(_field.getName()) == null) {
                     continue;
                 }
                 //指定对象变量上此 Field 对象表示的字段设置为指定的新值。
@@ -511,6 +573,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
             FieldInfos _infos = reset.getFieldInfos();
             Field _field = null;
             String _field_name = "";
+
             for (int i = 0; i < _fields.length; ++i) {
                 _field = _fields[i];
                 //返回此 Field 对象表示的字段的名称。
@@ -521,6 +584,9 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
                     continue;
                 }
                 //指定对象变量上此 Field 对象表示的字段设置为指定的新值。
+                if (reset.getObject(_field.getName()) == null){
+                    continue;
+                }
                 _field.set(_info, reset.getObject(_field.getName()));
             }
             // 枚举类型重新配置

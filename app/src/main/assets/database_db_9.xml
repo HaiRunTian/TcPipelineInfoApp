@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+
+    <!--数据库版本升级 9-->
+    <sql_insert_table>
+        <!--管材添加临时点管材-->
+        <sql_init_table_pipe_texture>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','砼','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铸铁','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','塑料','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','陶瓷','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','玻璃钢','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铜','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铝','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','空管','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','空沟','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','光纤','广州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铜/光','广州')</sql>
+
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','砼','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','钢','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铸铁','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','塑料','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','陶瓷','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','玻璃钢','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铜','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铝','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','空管','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','空沟','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','光纤','深圳')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铜/光','深圳')</sql>
+
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','砼','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','钢','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铸铁','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','塑料','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','陶瓷','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','玻璃钢','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铜','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铝','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','空管','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','空沟','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','光纤','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('临时-O','铜/光','惠州')</sql>
+        </sql_init_table_pipe_texture>
+
+        <!--管点备注添加分流-->
+        <sql_init_table_point_remark>
+            <sql>insert into point_remark(pipe_type,remark,city) values('污水-W','分流','广州')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('雨水-Y','分流','广州')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('排水-P','分流','广州')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('临时-O','分流','广州')</sql>
+
+            <sql>insert into point_remark(pipe_type,remark,city) values('污水-W','分流','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('雨水-Y','分流','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('合流-H','分流','深圳')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('临时-O','分流','深圳')</sql>
+
+            <sql>insert into point_remark(pipe_type,remark,city) values('污水-WS','分流','惠州')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('雨水-YS','分流','惠州')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('合流-PS','分流','惠州')</sql>
+            <sql>insert into point_remark(pipe_type,remark,city) values('临时-O','分流','惠州')</sql>
+        </sql_init_table_point_remark>
+
+    </sql_insert_table>
+
+
+</database>

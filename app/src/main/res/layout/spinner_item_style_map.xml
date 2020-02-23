@@ -5,6 +5,6 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:textColor="@color/white"
-    android:textSize="@dimen/small">
+    android:textSize="@dimen/sp_12">
 
 </TextView>

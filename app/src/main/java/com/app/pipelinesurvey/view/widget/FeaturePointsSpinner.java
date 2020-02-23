@@ -124,7 +124,6 @@ public class FeaturePointsSpinner extends AppCompatSpinner {
                 memorySpinnerAdapter.addData(normalList);
                 memorySpinnerAdapter.notifyDataSetChanged();
                 spinner.setSelection(0);
-
                 try {
                     String memoryString = MemorySpinnerUtils.SceneList2String(newMemoryList);
                     MemoryCache.get(mContext).put(KEY_DATA, memoryString);

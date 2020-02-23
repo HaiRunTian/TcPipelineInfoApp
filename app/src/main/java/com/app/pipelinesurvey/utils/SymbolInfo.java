@@ -2,6 +2,8 @@ package com.app.pipelinesurvey.utils;
 
 import android.support.annotation.NonNull;
 
+import com.app.pipelinesurvey.config.SuperMapConfig;
+
 /**
  * @author HaiRun
  * @time 2019/4/23.11:22
@@ -27,8 +29,74 @@ public class SymbolInfo {
      * @Time 2019/4/23 . 11:24
      */
     public String getSymbol(String type, String appendant, String feature) {
+        String city = SuperMapConfig.PROJECT_CITY_NAME;
         String _symbol = "";
-        switch (type) {
+        if (!city.equals("广州")) {
+            _symbol = getHZSymbol(appendant, feature);
+        } else {
+            switch (type) {
+                case "给水-J":
+                    _symbol = getJSymbol(appendant, feature);
+                    break;
+                case "雨水-Y":
+                case "污水-W":
+                case "排水-P": {
+                    _symbol = getYWPSymbol(appendant, feature);
+                }
+                break;
+
+                case "交通-X":
+                case "电信-D": {
+                    _symbol = getXDSymblo(appendant, feature);
+                }
+                break;
+
+                case "电力-L": {
+                    _symbol = getLSymbol(appendant, feature);
+                }
+                break;
+
+                case "燃气-R":
+                case "煤气-M": {
+                    _symbol = getRMSymbol(appendant, feature);
+                }
+                break;
+
+                case "路灯-S": {
+                    _symbol = getSSymbol(appendant, feature);
+
+                }
+                break;
+
+                case "有视-T": {
+                    _symbol = getTSymbol(appendant, feature);
+
+                }
+                break;
+                case "军队-B": {
+                    _symbol = getBSymbol(appendant, feature);
+
+                }
+                break;
+                case "工业-G": {
+                    _symbol = getGSymbol(appendant, feature);
+
+                }
+                break;
+
+                case "不明-N":
+                case "其它-Q": {
+                    _symbol = getNQSymbol(appendant, feature);
+                }
+                break;
+                default:
+                    _symbol = "探测点";
+                    break;
+
+            }
+        }
+
+      /*  switch (type) {
             //惠州模式
             case "给水-JS":
             case "雨水-YS":
@@ -51,13 +119,28 @@ public class SymbolInfo {
             case "工业-GY":
                 _symbol = getHZSymbol(appendant, feature);
                 break;
-
-            case "给水-J": {
-                _symbol = getJSymbol(appendant, feature);
-            }
-            break;
-
+            //广州 深圳
+            case "给水-J":
             case "雨水-Y":
+            case "污水-W":
+            case "排水-P":
+            case "交通-X":
+            case "电信-D":
+            case "电力-L":
+            case "燃气-R":
+            case "煤气-M":
+            case "路灯-S":
+            case "有视-T":
+            case "军队-B":
+            case "工业-G":
+            case "不明-N":
+            case "其它-Q":
+            case "路灯-LS":
+            case "信号-XH": {
+                _symbol = getHZSymbol(appendant, feature);
+            }
+            break;*/
+              /*  case "雨水-Y":
             case "污水-W":
             case "排水-P": {
                 _symbol = getYWPSymbol(appendant, feature);
@@ -116,18 +199,80 @@ public class SymbolInfo {
             break;
             case "信号-XH": {
                 _symbol = getXHSymbol(appendant, feature);
-            }
-            default:
+            }*/
+         /*   default:
                 _symbol = "探测点";
                 break;
-        }
+*/
+          /*  case "雨水-Y":
+            case "污水-W":
+            case "排水-P": {
+                _symbol = getYWPSymbol(appendant, feature);
+            }
+            break;
+
+            case "交通-X":
+            case "电信-D": {
+                _symbol = getXDSymblo(appendant, feature);
+            }
+            break;
+
+            case "电力-L": {
+                _symbol = getLSymbol(appendant, feature);
+            }
+            break;
+
+            case "燃气-R":
+            case "煤气-M": {
+                _symbol = getRMSymbol(appendant, feature);
+            }
+            break;
+
+            case "路灯-S": {
+                _symbol = getSSymbol(appendant, feature);
+
+            }
+            break;
+
+            case "有视-T": {
+                _symbol = getTSymbol(appendant, feature);
+
+            }
+            break;
+            case "军队-B": {
+                _symbol = getBSymbol(appendant, feature);
+
+            }
+            break;
+            case "工业-G": {
+                _symbol = getGSymbol(appendant, feature);
+
+            }
+            break;
+
+            case "不明-N":
+            case "其它-Q": {
+                _symbol = getNQSymbol(appendant, feature);
+//                _symbol = "探测点";
+            }
+            break;
+
+            case "路灯-LS": {
+                _symbol = getLSSymblol(appendant, feature);
+            }
+            break;
+            case "信号-XH": {
+                _symbol = getXHSymbol(appendant, feature);
+            }*/
+
+//        }
         return _symbol;
     }
 
     /**
      * 惠州模式 获取点特征附属物
      *
-     * @Params :
+     * @Params :appendant 附属物 feature点特征
      * @author :HaiRun
      * @date :2019/9/5  10:14
      */
@@ -137,7 +282,11 @@ public class SymbolInfo {
             case "探测点":
             case " ":
             case "":
-                symbol = feature;
+                if (feature.trim().isEmpty()) {
+                    symbol = "探测点";
+                } else {
+                    symbol = feature;
+                }
                 break;
             default:
                 symbol = appendant;
@@ -145,7 +294,6 @@ public class SymbolInfo {
         }
         return symbol;
     }
-
 
     /**
      * 深圳 信号
@@ -158,6 +306,7 @@ public class SymbolInfo {
         switch (appendant) {
             case "探测点":
             case " ":
+            case "":
                 _symbol = feature;
                 break;
             default:
@@ -197,10 +346,8 @@ public class SymbolInfo {
         String _symbol;
         switch (appendant) {
             case "阀门":
-                _symbol = "阀门";
-                break;
             case "消防栓":
-                _symbol = "消防栓";
+                _symbol = appendant;
                 break;
             case "水表":
             case "水表井":
@@ -265,10 +412,9 @@ public class SymbolInfo {
                 _symbol = "窨井";
                 break;
             case "放水器":
-                _symbol = "放水器";
-                break;
             case "调压箱":
-                _symbol = "调压箱";
+            case "凝水缸":
+                _symbol = appendant;
                 break;
             default:
                 switch (feature) {
@@ -292,9 +438,7 @@ public class SymbolInfo {
                         _symbol = "探测点";
                         break;
                 }
-
                 break;
-
         }
         return _symbol;
     }
@@ -303,13 +447,12 @@ public class SymbolInfo {
         String _symbol;
         switch (appendant) {
             case "人孔井":
-                _symbol = "人孔井";
-                break;
             case "手孔井":
-                _symbol = "手孔井";
-                break;
             case "接线箱":
-                _symbol = "接线箱";
+            case "信号灯":
+            case "摄像头":
+            case "红绿灯":
+                _symbol = appendant;
                 break;
             default:
                 switch (feature) {

@@ -89,7 +89,6 @@ public class MeasureDisFragment extends Fragment implements View.OnClickListener
                 } else {
                     m_mapControl.setAction(Action.MEASUREAREA);
                 }
-
                 break;
             //回退
             case R.id.btnWithdraw:

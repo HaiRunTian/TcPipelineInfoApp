@@ -47,7 +47,12 @@ public class PointFieldFactory {
         return new TheTotalPoint();
     }
 
-    //创建临时点
+    /**
+     * 创建临时点
+     * @Params :
+     * @author :HaiRun
+     * @date   :2020/1/3  9:10
+     */
     public static BaseFieldPInfos createTempInfo(Point2D pt, String type, String code) {
         //创建临时点
         BaseFieldPInfos _tempPt = new TheTotalPoint();
@@ -60,14 +65,13 @@ public class PointFieldFactory {
         _tempPt.code = "O";
         //样式
         _tempPt.symbolExpression = "O-临时";
-        String[] _num = ComTool.Ins().getPointNumber(code, true, "");
+        String[] _num = ComTool.Ins().getPointNumber(code,  "");
         _tempPt.id = _num[0];
         _tempPt.serialNum = Integer.parseInt(_num[1]);
         _tempPt.exp_Num = _num[0];
         _tempPt.symbol = "探测点";
         _tempPt.latitude = pt.getY();
         _tempPt.longitude = pt.getX();
-
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
         if (_cursor.moveToNext()) {
             _tempPt.expGroup = _cursor.getString(_cursor.getColumnIndex("GroupNum"));

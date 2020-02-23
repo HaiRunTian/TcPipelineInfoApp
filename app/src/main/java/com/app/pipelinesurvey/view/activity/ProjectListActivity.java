@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,7 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
     private ProjectListAdapter m_listAdapter;
     private TextView tvNoPrj;
     private final static int REQUEST_OK = 1;
+    private AVLoadingIndicatorView avLoadingIndicatorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,8 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
         lvProjectList = (ListView) findViewById(R.id.lvProjectList);
         lvProjectList.setOnItemClickListener(this);
         lvProjectList.setOnItemLongClickListener(this);
+        avLoadingIndicatorView = findViewById(R.id.avLoading);
+        avLoadingIndicatorView.hide();
     }
 
     @Override
@@ -100,9 +106,9 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tvNewProject:
+                avLoadingIndicatorView.show();
                 startActivityForResult(new Intent(this, ProjectInfoActivity.class)
                         .putExtra("from", 0), REQUEST_OK);
-
                 break;
             default:
                 break;
@@ -131,10 +137,10 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        avLoadingIndicatorView.show();
         startActivityForResult(new Intent(this, ProjectInfoActivity.class).
                 putExtra("proj_name", list_Prj.get(position))
                 .putExtra("from", 1), REQUEST_OK);
-
     }
 
     @Override
@@ -164,9 +170,16 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                 } catch (Exception e) {
                     LogUtills.i(e.toString());
                 }
+                tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");
             }
-            tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");
 
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    avLoadingIndicatorView.hide();
+                }
+            }, 1000);
+//            avLoadingIndicatorView.hide();
         }
     }
 
@@ -217,6 +230,5 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
         _dialog.show();
         return true;
     }
-
 
 }

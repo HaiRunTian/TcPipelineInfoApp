@@ -43,6 +43,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     public BaseFieldLInfos(String name) {
         datasetName = name;
     }
+
     /**
      * 权属单位
      */
@@ -167,6 +168,15 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
      * 电压
      */
     public String voltage;
+    /**
+     * 排水扯起
+     */
+    public double PsCheQiBenX = 0.000;
+    public double PsCheQiBenY = 0.000;
+    public double PsCheQiEndX = 0.000;
+    public double PsCheQiEndY = 0.000;
+    public String PsCheQiBenLe = "";
+    public String PsCheQiEndLe = "";
 
     @Override
     public boolean Init() {
@@ -182,13 +192,15 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     }
 
     @Override
-    public void setId(String preStr, int index) { }
+    public void setId(String preStr, int index) {
+    }
 
     /**
      * 标签专题图  子类已覆盖
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/6/20  16:09
+     * @date :2019/6/20  16:09
      */
     @Override
     public ThemeLabel createThemeLabel() {
@@ -197,9 +209,10 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
 
     /**
      * 单值专题图
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/6/20  16:10
+     * @date :2019/6/20  16:10
      */
     public ThemeLabel createThemeLabel(String[] pipeType, String[] color, double[] start, double[] end) {
         ThemeLabel themeLabelMap = new ThemeLabel();
@@ -238,9 +251,10 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
 
     /**
      * 单值专题图
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/6/20  16:13
+     * @date :2019/6/20  16:13
      */
     @Override
     public ThemeUnique createThemeUnique() {
@@ -279,15 +293,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         // 构造单值专题图并进行相应设置
         ThemeUnique _theme = new ThemeUnique();
         String tabName = "";
-      /*  //TODO 根据标准名称 查找点配置表
-        Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
-        //查询此标准的点表名
-        while (_cursorStand.moveToNext()) {
-            tabName = _cursorStand.getString(_cursorStand.getColumnIndex("linesettintable"));
-        }
-        if (tabName.length() == 0) {
-            LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
-        }*/
+
         Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_LINE_SETTING,
                 new String[]{"typename", "symbolID", "width", "color"}, null, null, null, null, null);
         LogUtills.i("Sql:" + _cursor.toString());
@@ -342,6 +348,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
 
     /**
      * Recordset 转bean
+     *
      * @param reset
      * @return
      */
@@ -365,12 +372,17 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 if (_infos.get(_field_name) == null || _field_name.equals("type")) {
                     continue;
                 }
+
+                if (reset.getObject(_field.getName()) == null) {
+                    continue;
+                }
+
                 _field.set(_info, reset.getObject(_field.getName()));
             }
             // 枚举类型重新配置
             if (reset.getString("type").length() != 0) {
                 _info.type = POINTTYPE.valueOf(reset.getString("type"));
-            }else {
+            } else {
                 _info.type = POINTTYPE.Type_None;
             }
             return _info;
@@ -389,12 +401,14 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     public static BaseFieldLInfos createFieldInfo(Recordset reset, int status) {
         try {
             if (reset.isEmpty()) {
+                LogUtills.e("CreateFieldInfo Recordset Is Empty...");
                 return null;
             }
             BaseFieldLInfos _info = null;
             _info = LineFieldFactory.Create();
 
             if (_info == null) {
+                LogUtills.e("CreateFieldInfo Can Not Find The Layer Of " + reset.getString("datasetName"));
                 return null;
             }
             Field[] _fields = _info.getClass().getFields();
@@ -403,11 +417,16 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             String _field_name = "";
 
             for (int i = 0; i < _fields.length; ++i) {
-                 _field = _fields[i];
+                _field = _fields[i];
                 //字段名
-                 _field_name = _field.getName();
+                _field_name = _field.getName();
                 //不包含此字段
                 if (_infos.get(_field_name) == null || _field_name.equals("type")) {
+                    continue;
+                }
+
+                //指定对象变量上此 Field 对象表示的字段设置为指定的新值。
+                if (reset.getObject(_field.getName()) == null) {
                     continue;
                 }
                 _field.set(_info, reset.getObject(_field.getName()));
@@ -415,11 +434,13 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             // 枚举类型重新配置
             if (reset.getString("type").length() != 0) {
                 _info.type = POINTTYPE.valueOf(reset.getString("type"));
-            }else {
+            } else {
                 _info.type = POINTTYPE.Type_None;
             }
+            LogUtills.i("Generator The BaseFieldLInfos Successfully, ID=" + reset.getID());
             return _info;
         } catch (Exception e) {
+            LogUtills.e("Generator The BaseFieldLinfos Faile, ID=" + reset.getID() + e.toString());
             return null;
         }
     }
@@ -469,6 +490,13 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         parcel.writeString(shortCode);
         parcel.writeString(submitName);
         parcel.writeInt(sysId);
+        parcel.writeDouble(PsCheQiBenX);
+        parcel.writeDouble(PsCheQiBenY);
+        parcel.writeDouble(PsCheQiEndX);
+        parcel.writeDouble(PsCheQiEndY);
+        parcel.writeString(PsCheQiBenLe);
+        parcel.writeString(PsCheQiEndLe);
+        parcel.writeString(Edit);
     }
 
     /**
@@ -500,6 +528,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _field.pipeLength = source.readString();
             _field.pipeSize = source.readString();
             _field.pressure = source.readString();
+
             _field.puzzle = source.readString();
             _field.remark = source.readString();
             _field.rowXCol = source.readString();
@@ -517,7 +546,13 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _field.shortCode = source.readString();
             _field.submitName = source.readString();
             _field.sysId = source.readInt();
-
+            _field.PsCheQiBenX = source.readDouble();
+            _field.PsCheQiBenY = source.readDouble();
+            _field.PsCheQiEndX = source.readDouble();
+            _field.PsCheQiEndY = source.readDouble();
+            _field.PsCheQiBenLe = source.readString();
+            _field.PsCheQiEndLe = source.readString();
+            _field.Edit = source.readString();
             return _field;
         }
 
@@ -529,4 +564,55 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     };
 
 
+    @Override
+    public String toString() {
+        return "BaseFieldLInfos{" +
+                "belong='" + belong + '\'' +
+                ", benDeep='" + benDeep + '\'' +
+                ", benExpNum='" + benExpNum + '\'' +
+                ", burialDifference='" + burialDifference + '\'' +
+                ", buried='" + buried + '\'' +
+                ", cabNum='" + cabNum + '\'' +
+                ", d_S='" + d_S + '\'' +
+                ", endDeep='" + endDeep + '\'' +
+                ", endExpNum='" + endExpNum + '\'' +
+                ", endLatitude=" + endLatitude +
+                ", endLongitude=" + endLongitude +
+                ", exp_Date='" + exp_Date + '\'' +
+                ", holeDiameter='" + holeDiameter + '\'' +
+                ", id='" + id + '\'' +
+                ", labelTag='" + labelTag + '\'' +
+                ", material='" + material + '\'' +
+                ", measureDate='" + measureDate + '\'' +
+                ", measureStart='" + measureStart + '\'' +
+                ", measureEnd='" + measureEnd + '\'' +
+                ", pipeLength='" + pipeLength + '\'' +
+                ", pipeSize='" + pipeSize + '\'' +
+                ", pressure='" + pressure + '\'' +
+                ", puzzle='" + puzzle + '\'' +
+                ", remark='" + remark + '\'' +
+                ", rowXCol='" + rowXCol + '\'' +
+                ", startLatitude=" + startLatitude +
+                ", startLongitude=" + startLongitude +
+                ", state='" + state + '\'' +
+                ", totalHole='" + totalHole + '\'' +
+                ", usedHole='" + usedHole + '\'' +
+                ", voltage='" + voltage + '\'' +
+                ", PsCheQiBenX=" + PsCheQiBenX +
+                ", PsCheQiBenY=" + PsCheQiBenY +
+                ", PsCheQiEndX=" + PsCheQiEndX +
+                ", PsCheQiEndY=" + PsCheQiEndY +
+                ", PsCheQiBenLe='" + PsCheQiBenLe + '\'' +
+                ", PsCheQiEndLe='" + PsCheQiEndLe + '\'' +
+                ", submitName='" + submitName + '\'' +
+                ", datasetName='" + datasetName + '\'' +
+                ", type=" + type +
+                ", sysId=" + sysId +
+                ", code='" + code + '\'' +
+                ", shortCode='" + shortCode + '\'' +
+                ", rangeExpression=" + rangeExpression +
+                ", pipeType='" + pipeType + '\'' +
+                ", edit='" + Edit + '\'' +
+                '}';
+    }
 }

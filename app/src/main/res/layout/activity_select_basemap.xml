@@ -16,7 +16,7 @@
         android:background="@color/grey06"
         android:drawableLeft="@mipmap/ic_btn_return_press_32px"
         android:gravity="center_vertical"
-        android:padding="10dp"
+        android:padding="@dimen/dp_10"
         android:text="/SD" />
 
     <LinearLayout
@@ -41,7 +41,7 @@
         android:id="@+id/btnReturn"
         style="@style/activity_btn_style"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/dp_5"
         android:background="@drawable/selector_btn_all"
         android:text="返回" />
 

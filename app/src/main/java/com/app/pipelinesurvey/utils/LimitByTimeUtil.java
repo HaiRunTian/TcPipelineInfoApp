@@ -1,6 +1,8 @@
 package com.app.pipelinesurvey.utils;
 
 
+import android.content.Context;
+
 import com.app.pipelinesurvey.view.iview.IGetNetTime;
 import com.app.utills.LogUtills;
 
@@ -11,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author HaiRun
@@ -21,12 +24,17 @@ import java.util.TimeZone;
 public class LimitByTimeUtil {
 
     private static LimitByTimeUtil instance = null;
-
-    public synchronized static LimitByTimeUtil ins() {
+    private Context context;
+    public synchronized static LimitByTimeUtil ins(Context context) {
         if (instance == null) {
-            instance = new LimitByTimeUtil();
+            instance = new LimitByTimeUtil(context);
+
         }
         return instance;
+    }
+
+    public LimitByTimeUtil(Context context) {
+        this.context = context;
     }
 
     /**
@@ -43,8 +51,8 @@ public class LimitByTimeUtil {
         Date endTime = null;
         try {
             nowTime = new SimpleDateFormat(format).parse(currTime);
-            startTime = new SimpleDateFormat(format).parse("2019-01-01 00:00:00");
-            endTime = new SimpleDateFormat(format).parse("2020-01-01 00:00:00");
+            startTime = new SimpleDateFormat(format).parse("2020-01-01 00:00:00");
+            endTime = new SimpleDateFormat(format).parse("2020-12-31 23:59:59");
 
             LogUtills.i("LimitByTimeUtil", nowTime.toString() + "-------" + startTime.toString() + "------" + endTime.toString());
             if (nowTime.getTime() == startTime.getTime()
@@ -62,6 +70,17 @@ public class LimitByTimeUtil {
             end.setTime(endTime);
 
             if (date.after(begin) && date.before(end)) {
+                long time = nowTime.getTime();
+                long time1 = endTime.getTime();
+                long temp = time1 - time;
+                LogUtills.i("LimitByTimeUtil",time +"--------" + time1 + "----------" + temp);
+                //10天时间
+                long jumpTime = 1000 * 60 * 60 * 24 * 10;
+                if (temp < jumpTime) {
+                    int i = (int) (temp / (60 * 60 * 24 *1000));
+//                    LogUtills.i("LimitByTimeUtil","剩余时间 = " + i + "天");
+                    ToastyUtil.showWarningLong(context, "软件使用时间还有" + i + "天到期，请联系技术人员");
+                }
                 return true;
             } else {
                 return false;
@@ -111,8 +130,5 @@ public class LimitByTimeUtil {
         }).start();
 
     }
-//
-//    private void setTime(String str) {
-//        currTime = str;
-//    }
+
 }

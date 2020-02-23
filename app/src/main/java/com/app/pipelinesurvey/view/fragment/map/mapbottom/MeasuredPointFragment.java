@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.widget.CustomDatePicker;
 import com.supermap.data.CursorType;
@@ -40,7 +41,7 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
     /**
      * 显示或测量点标记
      */
-    private Button btnHideMeasuredFlag;
+    private Button btnHideMeasuredFlag, btnWaitCheck;
     /**
      * 面板容器
      */
@@ -114,7 +115,9 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
         m_tvPipeSum2 = _view.findViewById(R.id.tvPipeSum2);
         m_tvM = _view.findViewById(R.id.tvM);
         m_tvM2 = _view.findViewById(R.id.tvM2);
+        btnWaitCheck = _view.findViewById(R.id.btnWaitCheck);
         m_tvDate.setOnClickListener(this);
+        btnWaitCheck.setOnClickListener(this);
         initDatePicker();
         return _view;
     }
@@ -166,9 +169,6 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
         DatasetVector _ds = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
         //通过sql查询当天测量收点的数量
         Recordset _reset = _ds.query("exp_Date = '" + m_tvDate.getText().toString() + "'", CursorType.STATIC);
-//        String time = m_tvDate.getText().toString();
-//        String sql = "exp_Date between '" + time + " 00:00' and '" + time + " 59:59'";
-//        Recordset _reset = _ds.query(sql, CursorType.STATIC);
         if (!_reset.isEmpty()) {
             checkPointDate = _reset.getRecordCount();
         }
@@ -176,8 +176,6 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
 
         //查询当天已测量收点管线的总长度
         String sql2 = "measureStart = '1' and measureEnd = '1' and measureDate = '" + m_tvDate.getText().toString() + "'";
-//        String sql2 = "(measureStart = '1' and measureEnd = '1') and (measureDate between '" +
-//                m_tvDate.getText().toString() + " 00:00' and '" + m_tvDate.getText().toString() + " 59:59')";
         Recordset recordSet = DataHandlerObserver.ins().QueryRecordsetBySql(sql2, false, false);
         if (!recordSet.isEmpty()) {
             recordSet.moveFirst();
@@ -188,7 +186,7 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
         }
 
         //显示
-        m_tvPoint.setText(checkPointDate+"");
+        m_tvPoint.setText(checkPointDate + "");
         DecimalFormat df = new DecimalFormat("0.00");
         if (pipeLengthDate < 1000) {
             m_tvPipeSum.setText(df.format(pipeLengthDate) + "");
@@ -217,7 +215,6 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
         int _waitCheckPoint = 0;
         //总测量的长度
         double checkLength = 0.0;
-
 
         //读取出除去临时点的所有数据集
         Recordset _reSet = DataHandlerObserver.ins().QueryRecordsetBySql("subsid != '临时点'", true, false);
@@ -249,7 +246,7 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
 
         //显示
         m_waitCheck.setText(_meaPointCount - _checkPoint + "");
-        m_tvAllPoint.setText(_checkPoint+"");
+        m_tvAllPoint.setText(_checkPoint + "");
         DecimalFormat df = new DecimalFormat("0.00");
 
         if (checkLength < 1000) {
@@ -258,7 +255,6 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
             m_tvPipeSum2.setText(df.format(checkLength / 1000) + "");
             m_tvM2.setText("千米");
         }
-
 
         recordSet.close();
         recordSet.dispose();
@@ -275,7 +271,6 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.btnHideMeasuredFlag:
                 Layer _layer = WorkSpaceUtils.getInstance().getMapControl().getMap().getLayers().get("P_" + SuperMapConfig.Layer_Measure + "@" + SuperMapConfig.DEFAULT_WORKSPACE_NAME);
                 Layer _layerThemeLabel = WorkSpaceUtils.getInstance().getMapControl().getMap().getLayers().get("P_" + SuperMapConfig.Layer_Measure + "@" + SuperMapConfig.DEFAULT_WORKSPACE_NAME + "#1");
@@ -284,8 +279,8 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
                     _layer.setVisible(false);
                     _layerTheme.setVisible(false);
                     _layerThemeLabel.setVisible(false);
-
                     btnHideMeasuredFlag.setText("显示已测标识");
+
                 } else {
                     _layer.setVisible(true);
                     _layerTheme.setVisible(true);
@@ -299,6 +294,22 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
                 // 日期格式为yyyy-MM-dd
                 m_customDatePicker.show(m_tvDate.getText().toString());
 //                initCountForDate();
+                break;
+                //显示未测点号列表
+            case R.id.btnWaitCheck:
+                Recordset recordset = DataHandlerObserver.ins().queryRecordsetBySql("MeasuerPoint != '1'", false);
+                if (!recordset.isEmpty()){
+                    StringBuffer stringBuffer = new StringBuffer("未测点号:");
+                    while (!recordset.isEOF()){
+                        String exp_num = recordset.getString("exp_Num");
+                        stringBuffer.append(exp_num+",");
+                        recordset.moveNext();
+                    }
+                    ToastyUtil.showWarningLong(getActivity(),stringBuffer.substring(0,stringBuffer.length()-1).toString());
+                }else {
+                    ToastyUtil.showSuccessShort(getActivity(),"全部测量完成");
+                }
+
                 break;
             default:
                 break;

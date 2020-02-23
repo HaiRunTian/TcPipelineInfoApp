@@ -6,11 +6,11 @@ android {
         applicationId "com.app.pipelinesurvey"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 36
-        versionName "1.4.6"
+        versionCode 51
+        versionName "1.6.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        ndk { abiFilters "armeabi", "armeabi64-v8a","armeabi-v7a", "x86", "mips" }
+        ndk { abiFilters "armeabi", "armeabi64-v8a", "armeabi-v7a", "x86", "mips" }
 
     }
     dexOptions {
@@ -23,6 +23,7 @@ android {
     //打包签名
     signingConfigs {
         debug {
+
         }
 
         release {// 自己的签名文件
@@ -34,20 +35,21 @@ android {
     }
 
     buildTypes {
-        debug {
-            minifyEnabled false
-            signingConfig signingConfigs.debug
-        }
+//        debug {
+//            minifyEnabled true
+//            signingConfig signingConfigs.debug
+//            shrinkResources true
+//        }
 
         release {
             //不显示Log
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            // Zipalign优化
+         /*   buildConfigField "boolean", "LOG_DEBUG", "false"
+//            // Zipalign优化
             zipAlignEnabled true
-            // 混淆
-            minifyEnabled false
-            // 移除无用的resource文件
-//            shrinkResources true
+////            // 混淆
+            minifyEnabled true
+////            // 移除无用的resource文件
+            shrinkResources true*/
             // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //签名
@@ -73,7 +75,6 @@ android {
     }
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
@@ -96,17 +97,24 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //图片轮播框架
     implementation 'com.youth.banner:banner:1.4.8'
+    //eventbus
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.caption:netmonitorlibrary:1.0.0'
     //PDF查看
     implementation 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
+    //poi excel
     implementation files('libs/poi-3.9.jar')
+    //spinner
     implementation 'com.clj.memoryspinner:memoryspinner:1.1.0'
+    //弹窗
     implementation 'com.github.pinguo-zhouwei:CustomPopwindow:2.1.1'
+    //超图
     implementation files('libs/com.supermap.services_v1000.jar')
     implementation files('libs/com.supermap.mapping_v1000.jar')
     implementation files('libs/com.supermap.data_v1000.jar')
     //toast
     implementation 'com.github.GrenderG:Toasty:1.4.2'
+    //进度条
+    implementation 'com.wang.avi:library:2.1.3'
 
 }

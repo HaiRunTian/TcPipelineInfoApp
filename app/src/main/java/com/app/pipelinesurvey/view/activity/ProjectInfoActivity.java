@@ -23,12 +23,14 @@ import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
+import com.app.pipelinesurvey.utils.AssetsUtils;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.PermissionUtils;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
     private boolean mNewPrj;
     private final static int RESULCODE = 3;
     private String m_prjId;
-    private Spinner spGroupIndex, spCityStand, spSeriNum;
+    private Spinner spGroupIndex, spCityStand, spSeriNum, spMode;
     private EditText edtGroupName, edtLineL;
     private String[] m_local;
     private List<String> list;
@@ -118,6 +120,11 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                         SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_huizhou";
                         SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_huizhou";
                         break;
+                    //惠州
+                    case 3:
+                        SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_zhengben";
+                        SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_zhengben";
+                        break;
                     default:
                         break;
                 }
@@ -136,6 +143,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         int _groupLocal = -1;
         int _pipeLength = -1;
         String _groupNum = "";
+        String mode = "";
         from = getIntent().getIntExtra("from", 2);
         //初始化城市标准sp
         Cursor _cursor1 = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "");
@@ -150,6 +158,10 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         //初始化
         String[] _seriaNum = getResources().getStringArray(R.array.seriNum);
         spSeriNum.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, _seriaNum));
+        //工程模式初始化
+        String[] modes = getResources().getStringArray(R.array.mode);
+        spMode.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, modes));
+
         if (from == 0) {
             //新建项目
             mNewPrj = true;
@@ -186,6 +198,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
                 //管线长度
                 _pipeLength = _cursor.getInt(_cursor.getColumnIndex("PipeLength"));
+                //工程模式
+                mode = _cursor.getString(_cursor.getColumnIndex("mode"));
             }
 
             tvProjectCreateTime.setText(create_time.length() > 0 ? create_time : "");
@@ -194,6 +208,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             edtGroupName.setText(_groupNum);
             edtLineL.setText(_pipeLength != -1 ? String.valueOf(_pipeLength) : "30");
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spCityStand, _city);
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spMode,mode);
             String _group = "";
             switch (_groupLocal) {
                 case 1:
@@ -235,6 +250,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         edtLineL = findViewById(R.id.edt_line_length);
         btnSetting = findViewById(R.id.btn_setting);
         btnSetting.setOnClickListener(this);
+        spMode = findViewById(R.id.sp_mode);
 
     }
 
@@ -254,8 +270,9 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 break;
             //保存数据，打开地图，如果没有添加地图，默认打开地图
             case R.id.btnOpen:
-                //判断是否要插入点线配置数据
+
                 String prjName = edtProjName.getText().toString().trim();
+                //判断是否要插入点线配置数据
                 inserSettingSql(prjName);
 
                 Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
@@ -281,6 +298,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                     updataTime();
                 }
                 startActivity(_intent);
+                //全局，记住当前项目模式 常规 外检
+                SuperMapConfig.PrjMode = spMode.getSelectedItem().toString();
                 finish();
                 break;
 
@@ -370,6 +389,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         _values.put("PipeLength", edtLineL.getText().toString().trim());
         _values.put("SerialNum", spSeriNum.getSelectedItem().toString());
         _values.put("GroupLocal", spGroupIndex.getSelectedItemPosition() + 1);
+        _values.put("mode",spMode.getSelectedItem().toString());
         DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_PROJECT_INFO, _values);
 
         if (!edtProjName.getText().toString().isEmpty()) {
@@ -384,6 +404,11 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_SHP_PATH);
             //创建shp文件夹Shp
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
+            //复制现场检测记录表
+            InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_RECORD_NAME);
+            if (is != null) {
+                FileUtils.getInstance().copy(is, SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME);
+            }
         }
     }
 
@@ -392,11 +417,9 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_SETTING, "where prj_name = '" + prjName + "'");
         //如果点线配置表没有，则插入
         if (cursor.getCount() == 0) {
-            LogUtills.i("ddda", "0,重新插入");
             SettingConfig.ins().getPipeContentValues(prjName);
             SettingConfig.ins().getContentValues(prjName);
             SettingConfig.ins().getLineContentValues(prjName);
-            ;
 
 
         }

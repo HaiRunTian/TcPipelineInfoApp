@@ -9,18 +9,18 @@
     <TextView
         android:id="@+id/childPipeName"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_10"
         android:gravity="center"
         android:text="电力"
-        android:textSize="@dimen/text"/>
+        android:textSize="@dimen/sp_14"/>
 
     <CheckBox
         android:id="@+id/cbChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="@dimen/dp_10"/>
 
 
 </RelativeLayout>

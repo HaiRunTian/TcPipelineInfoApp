@@ -46,10 +46,11 @@ public class SuperMapConfig {
     public static final String DEFAULT_DATA_PICTURE_PATH =  "Picture/";
     public static final String DEFAULT_DATA_SHP_PATH =  "Shp/";
     public static final String DEFAULT_DATA_SYMBOL_PATH = DEFAULT_DATA_PATH;
-    public static final String DEFAULT_DATA_SYMBOL_NAME = "MarkerLibrary4.sym";
+    public static final String DEFAULT_DATA_SYMBOL_NAME = "MarkerLibrary10.sym";
     public static final String DEFAULT_DATA_SYMBOL_LINE_NAME ="LineLibrary.lsl";
     public static final String APP_NAME ="管智绘";
     public static final String DEFAULT_DATA_RECORD = "检测记录表/";
+    public static final String DEFAULT_DATA_RECORD_NAME = "现场检测记录表.xls";
     /**
      *   当前打开地图的名字 当前工程名称
      */
@@ -81,9 +82,14 @@ public class SuperMapConfig {
     public static String User_Group_Index ="";
     //查询范围
     public static double User_Query_Point_Size = 3.0;
-
+    /** 工程模式 1.常规 2.外检*/
+    public static String PrjMode = "常规";
+    public static final String OUTCHECK = "外检";
     public static void setWorkspaceName(String string ){
         DEFAULT_WORKSPACE_NAME = string;
     }
+    public static final String QQ_FILE_PATH = SDCARD + "/tencent/QQfile_recv";
+    public static final String WECHAT_FILE_PATH = SDCARD + "/tencent/MicroMsg/Download";
+    public static  String FILE_PATH = "";
 
 }

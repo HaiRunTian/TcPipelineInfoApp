@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/dp_10">
 
             <!--物探点号-->
             <LinearLayout
@@ -35,9 +35,9 @@
                 <Spinner
                     android:id="@+id/spSituation"
                     style="@style/sp_style"
-                    android:layout_width="120dp"
-                    android:layout_height="30dp"
-                    android:dropDownWidth="120dp" />
+                    android:layout_width="@dimen/dp_120"
+                    android:layout_height="@dimen/dp_30"
+                    android:dropDownWidth="@dimen/dp_120" />
 
             </LinearLayout>
 
@@ -55,20 +55,20 @@
                     android:id="@+id/spFeaturePoints"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:spinnerMode="dropdown"
                     app:msDropItemBackgroundColor="@android:color/white"
                     app:msDropItemText="全部选项"
                     app:msDropItemTextColor="@color/black"
-                    app:msDropItemTextSize="@dimen/text"
+                    app:msDropItemTextSize="@dimen/sp_14"
                     app:msDropTitleBackgroundColor="@color/colorAccent"
                     app:msDropTitleText="常用选项"
                     app:msDropTitleTextColor="@android:color/white"
-                    app:msDropTitleTextSize="@dimen/text"
+                    app:msDropTitleTextSize="@dimen/sp_14"
                     app:msItemTextColor="@android:color/black"
-                    app:msItemTextSize="@dimen/text" />
+                    app:msItemTextSize="@dimen/sp_14" />
 
             </LinearLayout>
 
@@ -86,20 +86,20 @@
                     android:id="@+id/spAppendant"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/dp_4"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:spinnerMode="dropdown"
                     app:msDropItemBackgroundColor="@android:color/white"
                     app:msDropItemText="全部选项"
                     app:msDropItemTextColor="@color/black"
-                    app:msDropItemTextSize="@dimen/text"
+                    app:msDropItemTextSize="@dimen/sp_14"
                     app:msDropTitleBackgroundColor="@color/colorAccent"
                     app:msDropTitleText="常用选项"
                     app:msDropTitleTextColor="@android:color/white"
-                    app:msDropTitleTextSize="@dimen/text"
+                    app:msDropTitleTextSize="@dimen/sp_14"
                     app:msItemTextColor="@android:color/black"
-                    app:msItemTextSize="@dimen/text" />
+                    app:msItemTextSize="@dimen/sp_14" />
 
             </LinearLayout>
 
@@ -109,11 +109,11 @@
                 android:id="@+id/linearAppendantPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginBottom="@dimen/dp_5"
                 android:background="@drawable/shape_gradient_bg2"
                 android:orientation="vertical"
-                android:padding="5dp"
+                android:padding="@dimen/dp_5"
                 android:visibility="gone">
 
                 <!--窨井规格，深度-->
@@ -149,12 +149,12 @@
                         android:theme="@style/CustomEdittext02" />
 
                     <TextView
-                        android:layout_width="30dp"
+                        android:layout_width="@dimen/dp_30"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="@dimen/dp_3"
                         android:text="@string/unit_cm"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/sp_12" />
 
                 </LinearLayout>
 
@@ -175,12 +175,12 @@
                         android:theme="@style/CustomEdittext02" />
 
                     <TextView
-                        android:layout_width="30dp"
+                        android:layout_width="@dimen/dp_30"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="@dimen/dp_3"
                         android:text="@string/unit_cm"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/sp_12" />
                 </LinearLayout>
 
                 <!--淤泥-->
@@ -200,12 +200,12 @@
 
                     <TextView
                         android:id="@+id/tvUnitWellMud"
-                        android:layout_width="30dp"
+                        android:layout_width="@dimen/dp_30"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="@dimen/dp_3"
                         android:text="@string/unit_cm"
-                        android:textSize="@dimen/small" />
+                        android:textSize="@dimen/sp_12" />
 
                 </LinearLayout>
 
@@ -223,9 +223,9 @@
                         android:id="@+id/spWellLidTexture"
                         style="@style/sp_style"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="@dimen/dp_30"
                         android:layout_weight="1"
-                        android:dropDownWidth="120dp"
+                        android:dropDownWidth="@dimen/dp_120"
                         android:entries="@array/wellLidTexture" />
                 </LinearLayout>
 
@@ -245,8 +245,23 @@
                         android:inputType="numberSigned"
                         android:theme="@style/CustomEdittext02" />
 
-
                 </LinearLayout>
+
+                <!--规格-->
+                <LinearLayout
+                    android:id="@+id/layout_dc"
+                    style="@style/LinearCenterVertical">
+
+                    <TextView
+                        style="@style/TextViewStyle02_3"
+                        android:text="@string/well_dc" />
+
+                    <CheckBox
+                        android:id="@+id/cb_dc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
 
             </LinearLayout>
             <!--状态，高程-->
@@ -263,9 +278,9 @@
                     android:id="@+id/spState"
                     style="@style/sp_style"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_weight="1"
-                    android:dropDownWidth="120dp" />
+                    android:dropDownWidth="@dimen/dp_120" />
 
             </LinearLayout>
             <!--状态，高程-->
@@ -285,12 +300,12 @@
                     android:theme="@style/CustomEdittext02" />
 
                 <TextView
-                    android:layout_width="30dp"
+                    android:layout_width="@dimen/dp_30"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="3dp"
+                    android:paddingLeft="@dimen/dp_3"
                     android:text="@string/unit_m"
-                    android:textSize="@dimen/small" />
+                    android:textSize="@dimen/sp_12" />
             </LinearLayout>
             <!--深度-->
             <LinearLayout
@@ -310,12 +325,12 @@
 
                 <TextView
 
-                    android:layout_width="30dp"
+                    android:layout_width="@dimen/dp_30"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="3dp"
+                    android:paddingLeft="@dimen/dp_3"
                     android:text="@string/unit_cm"
-                    android:textSize="@dimen/small" />
+                    android:textSize="@dimen/sp_12" />
             </LinearLayout>
             <!--管偏-->
             <LinearLayout
@@ -374,7 +389,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_btn_shadow_bg"
-                    android:padding="5dp">
+                    android:padding="@dimen/dp_5">
 
                     <EditText
                         android:id="@+id/edtPointRemark"
@@ -450,9 +465,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_40"
+                android:layout_marginBottom="@dimen/dp_40"
                 android:gravity="center"
                 android:orientation="horizontal">
 

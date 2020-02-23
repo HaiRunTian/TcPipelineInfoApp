@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/TitleBarTextStyle"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/dp_5"
                 android:text="@string/about"/>
 
         </LinearLayout>
@@ -38,9 +38,9 @@
 
         <LinearLayout
             android:id="@+id/layoutLogo"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/dp_200"
             android:layout_height="wrap_content"
-            android:paddingBottom="80dp"
+            android:paddingBottom="@dimen/dp_80"
             android:orientation="vertical"
             android:layout_centerInParent="true">
 
@@ -59,37 +59,37 @@
                     android:id="@+id/tvAppName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/big"
-                    android:layout_marginTop="5dp"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_5"
                     android:layout_centerInParent="true"
                     android:text="@string/app_name"/>
 
                 <TextView
                     android:id="@+id/tvVersionName"
-                    android:layout_width="30dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="1dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_marginLeft="@dimen/dp_2"
                     android:gravity="center"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="@dimen/dp_15"
                     android:layout_toRightOf="@id/tvAppName"
                     android:background="@drawable/shape_rectangle_light_black"
                     android:text="@string/version_num"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/small"/>
+                    android:textSize="@dimen/sp_12"/>
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/dp_5"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/update_date"
-                    android:textSize="@dimen/small"/>
+                    android:textSize="@dimen/sp_12"/>
                 <TextView
                     android:id="@+id/tvLastUpdate"
                     android:layout_width="0dp"
@@ -98,7 +98,7 @@
                     android:gravity="center"
                     android:text="2018-06-22 16:16:32"
                     android:textColor="@color/black02"
-                    android:textSize="@dimen/small"/>
+                    android:textSize="@dimen/sp_12"/>
 
             </LinearLayout>
 
@@ -106,8 +106,8 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:layout_centerHorizontal="true"
             android:visibility="invisible"
             android:layout_below="@id/layoutLogo"/>
@@ -116,14 +116,14 @@
             android:id="@+id/tvGetUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:layout_marginTop="20dp"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_20"
             android:layout_below="@id/progressBar"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/small"
+            android:textSize="@dimen/sp_12"
             android:textColor="@color/green03"
             android:text="获取最新"
             android:background="@drawable/selector_btn_exchange"/>
@@ -133,22 +133,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="@dimen/dp_20">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="版权所有：广州市天驰测绘技术有限公司"
                 android:textColor="@color/black02"
-                android:textSize="@dimen/small"/>
+                android:textSize="@dimen/sp_12"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/dp_5"
                 android:gravity="center"
                 android:text="开发单位：广州市天驰测绘技术有限公司"
                 android:textColor="@color/black02"
-                android:textSize="@dimen/small"/>
+                android:textSize="@dimen/sp_12"/>
         </LinearLayout>
 
     </RelativeLayout>

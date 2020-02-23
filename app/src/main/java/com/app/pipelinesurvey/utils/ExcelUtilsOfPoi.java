@@ -46,7 +46,7 @@ import java.util.Map;
  * @time 2019/6/19.14:42
  */
 public class ExcelUtilsOfPoi {
-    private static String[] title = new String[]{"序号", "检测日期", "点号", "完成工作量", "检测方法", "检测图幅", "作业组长", "组员1", "组员2", "备注"};
+//    private static String[] title = new String[]{"序号", "检测日期", "点号", "完成工作量", "检测方法", "检测图幅", "作业组长", "组员1", "组员2", "备注"};
 
     /**
      * 创建excel表
@@ -70,16 +70,16 @@ public class ExcelUtilsOfPoi {
         int[] width = new int[]{5, 11, 13, 20, 30, 8, 8, 8, 8, 8};
 //        fileName = SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + "/检测记录表.xls";
         FileOutputStream outputStream = null;
-        Workbook workbook = null;
-        workbook = createWorkbook();
-        SparseArray<CellStyle> borderedStyle = createBorderedStyle(workbook);
-        Sheet sheet = workbook.createSheet("现场检测记录表");
-        for (int i = 0; i < width.length; i++) {
-            sheet.setColumnWidth(i, width[i] * 256);
-        }
-        //设置复杂excel表头
-        setCellStyle(borderedStyle, sheet, list.get(0));
         try {
+            FileInputStream is = new FileInputStream(new File(fileName));
+            Workbook workbook = new HSSFWorkbook(is);
+            SparseArray<CellStyle> borderedStyle = createBorderedStyle(workbook);
+            Sheet sheet = workbook.getSheetAt(0);
+//            for (int i = 0; i < width.length; i++) {
+//                sheet.setColumnWidth(i, width[i] * 256);
+//            }
+            //设置复杂excel表头
+            setCellStyle(sheet, list.get(0));
             //填入数据
             if (list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
@@ -148,7 +148,79 @@ public class ExcelUtilsOfPoi {
      * @author :HaiRun
      * @date :2019/7/1  14:25
      */
-    private static void setCellStyle(SparseArray<CellStyle> borderedStyle, Sheet sheet, DetectionInfo info) {
+    private static void setCellStyle(Sheet sheet, DetectionInfo info) {
+
+        //第五行1
+        Row row5 = sheet.createRow(4);
+        Cell cell5 = row5.createCell(0);
+        cell5.setCellValue("工程编码：" + info.getPrjCode());
+        mergingCells(sheet, CellRangeAddress.valueOf("$A$5:$C$5"));
+
+        //第五行 2
+        Cell cell52 = row5.createCell(3);
+        cell52.setCellValue("工程名称：" + info.getPrjName());
+        mergingCells(sheet, CellRangeAddress.valueOf("$D$5:$E$5"));
+
+        //第五行 3
+        Cell cell53 = row5.createCell(5);
+        cell53.setCellValue("工程地点：" + info.getPrjSite());
+        mergingCells(sheet, CellRangeAddress.valueOf("$F$5:$H$5"));
+
+        //第五行 4
+        Cell cell54 = row5.createCell(8);
+        cell54.setCellValue("原始记录文件：");
+        mergingCells(sheet, CellRangeAddress.valueOf("$I$5:$J$5"));
+
+        //第六行1
+        Row row6 = sheet.createRow(5);
+        Cell cell61 = row6.createCell(0);
+        cell61.setCellValue("仪器名称：" + info.getApparatusName1());
+        mergingCells(sheet, CellRangeAddress.valueOf("$A$6:$C$6"));
+        //第六行2
+        Cell cell62 = row6.createCell(3);
+        cell62.setCellValue("仪器编号：" + info.getApparatusCode1());
+        //第六行3
+        Cell cell63 = row6.createCell(4);
+        cell63.setCellValue("仪器名称：" + info.getApparatusName2() + "");
+        //第六行4
+        Cell cell64 = row6.createCell(5);
+        cell64.setCellValue("仪器编号：" + info.getApparatusCode2() + "");
+        mergingCells(sheet, CellRangeAddress.valueOf("$F$6:$H$6"));
+        //第六行5
+        Cell cell65 = row6.createCell(8);
+        cell65.setCellValue(info.getOriginal() + "");
+        mergingCells(sheet, CellRangeAddress.valueOf("$I$6:$J$6"));
+
+        //第七行1
+        Row row7 = sheet.createRow(6);
+        Cell cell71 = row7.createCell(0);
+        cell71.setCellValue("检测标准：" + info.getDetectionStandard());
+        mergingCells(sheet, CellRangeAddress.valueOf("$A$7:$E$7"));
+        //第七行2
+        Cell cell72 = row7.createCell(5);
+        cell72.setCellValue("备注：" + info.getRemark() + "");
+        mergingCells(sheet, CellRangeAddress.valueOf("$F$7:$J$7"));
+
+        //第8行
+        Row row8 = sheet.createRow(7);
+        Cell cell81 = row8.createCell(0);
+        cell81.setCellValue("检测标准：" + info.getDetectionStandard());
+        mergingCells(sheet, CellRangeAddress.valueOf("$A$8:$E$8"));
+        //第七行2
+        Cell cell82 = row8.createCell(5);
+        cell82.setCellValue("备注：" + info.getRemark() + "");
+        mergingCells(sheet, CellRangeAddress.valueOf("$F$8:$J$8"));
+
+    }
+
+    /**
+     * 设置复制excel表头
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/7/1  14:25
+     */
+/*    private static void setCellStyle(SparseArray<CellStyle> borderedStyle, Sheet sheet, DetectionInfo info) {
         //第一行
         Row row1 = sheet.createRow(0);
         row1.setHeight((short) (256 * 1.6));
@@ -287,8 +359,7 @@ public class ExcelUtilsOfPoi {
             cell10.setCellStyle(borderedStyle.get(2));
             cell10.setCellValue(title[i]);
         }
-    }
-
+    }*/
     private static void setCloumLine(SparseArray<CellStyle> borderedStyle, Row row) {
         for (int i = 0; i < 10; i++) {
             row.createCell(i).setCellStyle(borderedStyle.get(1));
@@ -332,6 +403,83 @@ public class ExcelUtilsOfPoi {
                 Cell cell = row.createCell(i);
                 cell.setCellStyle(borderedStyle.get(2));
                 cell.setCellValue(colNameL.get(i));
+            }
+
+            outputStream = new FileOutputStream(fileName);
+            workbook.write(outputStream);
+        } catch (Exception e) {
+            LogUtills.e("ExcelUtilsOfPoi ---------" + e.toString());
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 方法描述：初始化Excel表头
+     * 外检模式
+     * @param colNameP  点表字段集合
+     * @param colNameL  线表字段集合
+     * @param pointName 点表名字
+     * @param lineName  线表名字
+     * @Params : fileName excel文件名
+     * @author :HaiRun
+     * @date :2019/6/19  16:27
+     */
+    public static void initExcelOfOut(String fileName, List<String> colNameP, List<String> colNameL,List<String> colNamePoint
+            ,List<String> colNameLine, String pointName, String lineName, String point, String line) {
+        FileOutputStream outputStream = null;
+        Workbook workbook = null;
+        try {
+            workbook = createWorkbook();
+            SparseArray<CellStyle> borderedStyle = createBorderedStyle(workbook);
+
+            //建立新的point sheet对象 excel表单
+            Sheet sheetPoint = workbook.createSheet(pointName);
+            //在sheet里创建第一行，参数为行索引  0~65535直接
+            Row row1 = sheetPoint.createRow(0);
+            //创建单元格 0~255
+            for (int i = 0; i < colNameP.size(); i++) {
+                Cell cell = row1.createCell(i);
+                cell.setCellStyle(borderedStyle.get(2));
+                cell.setCellValue(colNameP.get(i));
+            }
+            //建立新的line sheet对象 excel表单
+            Sheet sheetLine = workbook.createSheet(lineName);
+            //在sheet里创建第一行，参数为行索引  0~65535直接
+            Row row = sheetLine.createRow(0);
+            //创建单元格 0~255
+            for (int i = 0; i < colNameL.size(); i++) {
+                Cell cell = row.createCell(i);
+                cell.setCellStyle(borderedStyle.get(2));
+                cell.setCellValue(colNameL.get(i));
+            }
+            //创建第三张表
+            Sheet point2 = workbook.createSheet(point);
+            //在sheet里创建第一行，参数为行索引  0~65535直接
+            Row row2 = point2.createRow(0);
+            //创建单元格 0~255
+            for (int i = 0; i < colNamePoint.size(); i++) {
+                Cell cell = row2.createCell(i);
+                cell.setCellStyle(borderedStyle.get(2));
+                cell.setCellValue(colNamePoint.get(i));
+            }
+
+            //创建第四张表
+            Sheet line2 = workbook.createSheet(line);
+            //在sheet里创建第一行，参数为行索引  0~65535直接
+            Row row3 = line2.createRow(0);
+            //创建单元格 0~255
+            for (int i = 0; i < colNameLine.size(); i++) {
+                Cell cell = row3.createCell(i);
+                cell.setCellStyle(borderedStyle.get(2));
+                cell.setCellValue(colNameLine.get(i));
             }
 
             outputStream = new FileOutputStream(fileName);
@@ -608,14 +756,14 @@ public class ExcelUtilsOfPoi {
             workbook = new HSSFWorkbook(is);
             //点表
             Sheet sheetPoint = workbook.getSheetAt(sheet);
-            BaseFieldPInfos infos = null;
+//            BaseFieldPInfos infos = null;
             //获取表的行数
             int rowsP = sheetPoint.getPhysicalNumberOfRows();
             //获取第一行
             Row row = sheetPoint.getRow(0);
             //获取第一行列数
             int columnCount = row.getPhysicalNumberOfCells();
-            LogUtills.i("行数",rowsP  +"------------" + columnCount );
+            LogUtills.i("行数", rowsP + "------------" + columnCount);
             //遍历行数
             for (int i = 1; i < rowsP; i++) {
                 Map<String, Object> map = new HashMap<>();
@@ -633,14 +781,13 @@ public class ExcelUtilsOfPoi {
                 }
                 pInfos.add(map);
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             LogUtills.e("FileNotFoundException" + e.toString());
         } catch (IOException e) {
             e.printStackTrace();
             LogUtills.e("IOException" + e.toString());
-        }finally {
+        } finally {
             try {
                 is.close();
             } catch (IOException e) {

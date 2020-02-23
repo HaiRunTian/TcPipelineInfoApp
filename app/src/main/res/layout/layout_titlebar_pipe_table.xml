@@ -15,7 +15,7 @@
         <TextView
             android:id="@+id/tvTitle"
             style="@style/TitleBarTextStyle"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="@dimen/dp_5"
             android:text="----"/>
 
     </LinearLayout>

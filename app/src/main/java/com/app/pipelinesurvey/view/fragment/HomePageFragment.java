@@ -1,6 +1,7 @@
 package com.app.pipelinesurvey.view.fragment;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.app.pipelinesurvey.config.SharedPrefManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
+import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.AssetsUtils;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.GlideImageLoader;
@@ -31,6 +33,7 @@ import com.app.pipelinesurvey.utils.ZipProgressUtil;
 import com.app.pipelinesurvey.view.activity.AppInfoActivity;
 import com.app.pipelinesurvey.view.activity.HelpActivity;
 import com.app.pipelinesurvey.view.activity.MapActivity;
+import com.app.pipelinesurvey.view.activity.SelectExcelActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.BasicsActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.SymbolicActivity;
 import com.app.pipelinesurvey.view.activity.ProjectListActivity;
@@ -126,6 +129,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         btnAbout.setOnClickListener(this);
         btnExample = view.findViewById(R.id.btnExamble);
         btnExample.setOnClickListener(this);
+
     }
 
     @Override
@@ -133,7 +137,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         super.onActivityCreated(savedInstanceState);
         initData();
         startBanner();
-        initExampleData();
+//        initExampleData();
     }
 
     private void initExampleData() {
@@ -154,6 +158,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                 public void zipSuccess() {
 
                 }
+
                 @Override
                 public void zipProgress(int progress) {
 
@@ -271,9 +276,33 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                 getActivity().startActivityForResult(_intent, REQUESTCODE);
                 break;
             case R.id.btnSetting:
-//
-                UnzipFragment _fragment = new UnzipFragment();
-                _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+
+                AlertDialogUtil.showDialog(getActivity(), "解压文件","请选择就解压的文件", false, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SuperMapConfig.FILE_PATH = SuperMapConfig.QQ_FILE_PATH;
+                        UnzipFragment _fragment = new UnzipFragment();
+                        _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SuperMapConfig.FILE_PATH = SuperMapConfig.DEFAULT_DATA_PATH;
+                        UnzipFragment _fragment = new UnzipFragment();
+                        _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SuperMapConfig.FILE_PATH = SuperMapConfig.WECHAT_FILE_PATH;
+                        UnzipFragment _fragment = new UnzipFragment();
+                        _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+                        dialog.dismiss();
+                    }
+                });
+
                 break;
             case R.id.btnAbout:
                 startActivity(new Intent(getActivity(), AppInfoActivity.class));
@@ -297,6 +326,11 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                 }
                 startActivity(intent);
                 break;
+
+//            case R.id.btnQv:
+//
+//                break;
+
             default:
                 break;
         }

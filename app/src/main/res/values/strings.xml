@@ -34,6 +34,7 @@
     <string name="current_Y">Y坐标:</string>
     <string name="reset">重置</string>
     <string name="new_help">帮助文档</string>
+    <string name="new_qv">QV检测</string>
     <string name="new_example">示例</string>
     <string name="withdraw">回退</string>
     <string name="hide_panel">隐藏该面板</string>
@@ -62,6 +63,7 @@
     <string name="draw_line">线</string>
     <string name="draw_point_in_line">管线加点</string>
     <string name="measure_point">测量</string>
+    <string name="change_type">管类</string>
     <string name="count">统计</string>
     <string name="layer">图层</string>
     <string name="pointSize">地图切换</string>
@@ -69,6 +71,7 @@
     <string name="measureed_point">已测点数：</string>
     <string name="show_unmeasure_point">显示未测点</string>
     <string name="hide_measured_point">隐藏已测标识</string>
+    <string name="hide_wait_point">显示未测点号</string>
     <string name="query_point">管点查询</string>
     <string name="local_point">查询</string>
     <string name="work_count">工作量统计</string>
@@ -128,6 +131,7 @@
     <string name="road_name">道路名称</string>
     <string name="well_lid_texture">井盖材质</string>
     <string name="well_lid_size">井盖规格</string>
+    <string name="well_dc">直流地面</string>
     <string name="building_structures">建构筑物</string>
     <string name="longitude">经度</string>
     <string name="latitude">纬度</string>
@@ -158,6 +162,7 @@
     <string name="end_pointid">连接点号</string>
     <string name="start_burial_depth">起点埋深</string>
     <string name="end_burial_depth">终点埋深</string>
+    <string name="end_top_bottom">管底高差</string>
     <string name="burial_difference">埋深差值</string>
     <string name="pipe_length">管段长度</string>
     <string name="embedded_way">埋设方式</string>

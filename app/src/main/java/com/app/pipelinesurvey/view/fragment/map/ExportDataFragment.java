@@ -12,6 +12,7 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
+import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.ExportDataUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.view.activity.MapActivity;
@@ -60,6 +61,10 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
                 getDialog().dismiss();
             }
         });
+
+        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)){
+            btnSelect.setText("导出外检");
+        }
     }
 
     @Override
@@ -132,12 +137,23 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
         switch (v.getId()) {
             //导出部分数据
             case R.id.btn_export_select:
-                new ExportDataUtils(getActivity()).exportData(tvStart.getText().toString(), tvEnd.getText().toString());
+                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                    String sql = "subsid != '临时点'and Edit like '外检%'";
+                    new ExportDataUtils(getActivity()).exportOutCheckData(sql);
+                } else {
+                    new ExportDataUtils(getActivity()).exportData(tvStart.getText().toString(), tvEnd.getText().toString());
+                }
                 getDialog().dismiss();
+
                 break;
             //导出全部数据
             case R.id.btn_export_all:
-                new ExportDataUtils(getActivity()).exportData();
+                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                    String sql = "subsid != '临时点'";
+                    new ExportDataUtils(getActivity()).exportOutCheckData(sql);
+                } else {
+                    new ExportDataUtils(getActivity()).exportData();
+                }
                 getDialog().dismiss();
                 break;
             case R.id.tvStart:

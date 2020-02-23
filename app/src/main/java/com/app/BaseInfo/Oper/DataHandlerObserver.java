@@ -1,9 +1,12 @@
 package com.app.BaseInfo.Oper;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
+
 import com.app.BaseInfo.Data.BaseFieldInfos;
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
@@ -20,7 +23,6 @@ import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.activity.MapActivity;
 import com.app.pipelinesurvey.view.fragment.map.mapdata.DrawLineFragment;
 import com.app.pipelinesurvey.view.fragment.map.mapdata.DrawPointFragment;
-import com.app.pipelinesurvey.view.fragment.map.mapdata.DrawPointFragment2;
 import com.app.pipelinesurvey.view.fragment.map.mapdata.DrawPointInLineFragment;
 import com.app.pipelinesurvey.view.fragment.map.mapdata.QueryLineFragment;
 import com.app.pipelinesurvey.view.fragment.map.mapdata.QueryPointFragment;
@@ -45,7 +47,9 @@ import com.supermap.mapping.Action;
 import com.supermap.mapping.Layer;
 import com.supermap.mapping.MapControl;
 import com.supermap.mapping.Selection;
+
 import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -192,10 +196,11 @@ public class DataHandlerObserver {
                                 //添加点与查询点同个APP动作
                                 case Action_CreatePoint: {
                                     //查询记录集
+                                    long startTime = System.currentTimeMillis();
+                                    LogUtills.i("Time1 = ", startTime + "");
                                     Recordset _result = queryPointByMouseXMouseY3(motionEvent.getX(), motionEvent.getY());
                                     //如果记录集为空，创建管点
                                     if (_result == null || _result.isEmpty()) {
-
                                         //赋值上次时间点
                                         mLastTime = System.currentTimeMillis();
                                         //弹出加点属性界面
@@ -212,25 +217,81 @@ public class DataHandlerObserver {
                                         _bundle.putInt("smId", -1);
                                         _fragment.setArguments(_bundle);
                                         _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "point");
+                                        long endTime = System.currentTimeMillis() - startTime;
+                                        LogUtills.i("Time1 = ", endTime + "");
                                     } else {
                                         //查询点 点编辑
                                         mPointSmid = _result.getID();
                                         //设置选中状态并返回点bean
                                         BaseFieldPInfos _infosP = setPtSelectionHighLigh(_result);
                                         //设置地图界面图层样式
-                                        setSplayerType(_infosP);
+//                                        setSplayerType(_infosP);
                                         //弹出点查询属性界面
                                         QueryPointFragment _fragment = new QueryPointFragment();
                                         Bundle _bundle = new Bundle();
-                                        _bundle.putString("gpType", mCurrentLayerName);
+                                        _bundle.putString("gpType", _infosP.pipeType);
                                         _bundle.putInt("smId", mPointSmid);
                                         _bundle.putParcelable("info", _infosP);
                                         _fragment.setArguments(_bundle);
                                         _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryPoint");
+                                        Selection selection = getPtThemeLayerByName2().getSelection();
+                                        selection.clear();
                                         if (_result != null) {
                                             _result.close();
                                             _result.dispose();
                                         }
+                                    }
+                                }
+
+                                break;
+
+                                //仅仅加点
+                                case Action_AddPoint: {
+                                    //赋值上次时间点
+                                    mLastTime = System.currentTimeMillis();
+                                    //弹出加点属性界面
+                                    DrawPointFragment _fragment = new DrawPointFragment();
+                                    Point _pt = new Point();
+                                    _pt.setX((int) motionEvent.getX());
+                                    _pt.setY((int) motionEvent.getY());
+                                    Point2D _reP = mMapCtrl.getMap().pixelToMap(_pt);
+                                    //bundle 传对象
+                                    Bundle _bundle = new Bundle();
+                                    _bundle.putString("gpType", mCurrentLayerName);
+                                    _bundle.putDouble("x", _reP.getX());
+                                    _bundle.putDouble("y", _reP.getY());
+                                    _bundle.putInt("smId", -1);
+                                    _fragment.setArguments(_bundle);
+                                    _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "point");
+                                }
+                                break;
+
+                                //仅仅查询
+                                case Action_QueryPoint: {
+                                    Recordset _result = queryPointByMouseXMouseY3(motionEvent.getX(), motionEvent.getY());
+                                    if (!_result.isEmpty()) {
+                                        //查询点 点编辑
+                                        mPointSmid = _result.getID();
+                                        //设置选中状态并返回点bean
+                                        BaseFieldPInfos _infosP = setPtSelectionHighLigh(_result);
+                                        //设置地图界面图层样式
+//                                        setSplayerType(_infosP);
+                                        //弹出点查询属性界面
+                                        QueryPointFragment _fragment = new QueryPointFragment();
+                                        Bundle _bundle = new Bundle();
+                                        _bundle.putString("gpType", _infosP.pipeType);
+                                        _bundle.putInt("smId", mPointSmid);
+                                        _bundle.putParcelable("info", _infosP);
+                                        _fragment.setArguments(_bundle);
+                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryPoint");
+                                        Selection selection = getPtThemeLayerByName2().getSelection();
+                                        selection.clear();
+                                        if (_result != null) {
+                                            _result.close();
+                                            _result.dispose();
+                                        }
+                                    } else {
+                                        ToastyUtil.showInfoShort(mContext, "请继续选择");
                                     }
                                 }
                                 break;
@@ -258,8 +319,7 @@ public class DataHandlerObserver {
                                                 LogUtills.e("Qurey Line Property Faild " + _resultLine.getID());
                                             }
                                             //设置地图界面图层样式
-                                            setSplayerType(_infoL);
-
+//                                            setSplayerType(_infoL);
                                             //弹出线查询属性界面
                                             QueryLineFragment _fragment = new QueryLineFragment();
                                             Bundle bundle = new Bundle();
@@ -268,7 +328,7 @@ public class DataHandlerObserver {
                                             //线smid
                                             bundle.putInt("smId", _smid);
                                             //线类型
-                                            bundle.putString("gpType", mCurrentLayerName);
+                                            bundle.putString("gpType", _infoL.pipeType);
                                             //类型  1 代表正常查询线   2代表重新获取起点 3代表重新获取终点
                                             bundle.putInt("actionType", 1);
                                             //点号 用来区分 重新获取起点 终点  传送过去的点号编号
@@ -371,6 +431,82 @@ public class DataHandlerObserver {
                                     if (_result != null) {
                                         _result.close();
                                         _result.dispose();
+                                    }
+                                }
+                                break;
+
+                                //仅仅加线
+                                case Action_AddLine: {
+                                    //查询是否选中点并返回点记录集
+                                    Recordset _resultPoint = queryPointByMouseXMouseY3(motionEvent.getX(), motionEvent.getY());
+                                    //没有查询到点 继续查询线
+                                    if (!_resultPoint.isEmpty()) {
+                                        //查询到点
+                                        String _startPId = _resultPoint.getString("exp_Num");
+                                        //判断起点是否是临时点，临时点不能作为起点
+                                        if (_startPId.contains("T_")) {
+                                            ToastyUtil.showWarningShort(mContext, "临时点不能作为起始点");
+                                            LogUtills.w("Temp Point Can Not As Line Start Point");
+                                            return false;
+                                        }
+                                        //设置管点选中样式并且返回点bean
+                                        BaseFieldPInfos _pInfos = setPtSelectionHighLigh(_resultPoint);
+                                        mSmIDs.add(_resultPoint.getID());
+                                        _resultPoint.close();
+                                        _resultPoint.dispose();
+                                        ToastyUtil.showInfoShort(mContext, "选择中点：" + _startPId);
+                                        //设置地图界面管类Spinner图层选中样式
+                                        setSplayerType(_pInfos);
+                                        //进入创建线第二个点的状态
+                                        mActionType2 = MAPACTIONTYPE2.Action_CreateLineDirectPoint;
+                                    } else {
+                                        ToastyUtil.showInfoShort(mContext, "没有选择点对象");
+                                    }
+                                }
+                                break;
+
+                                //仅仅编辑线
+                                case Action_QueryLine: {
+                                    //查询是否选中线并返回线记录集
+                                    Recordset _resultLine = queryLineByMouseXMouseY2(motionEvent.getX(), motionEvent.getY());
+                                    //如果选中线
+                                    if (!_resultLine.isEmpty()) {
+                                        //每次查询到线，把之前的记录clear掉，保持一条记录
+                                        mSmIDsL.clear();
+                                        mSmIDsL.add(_resultLine.getID());
+                                        //把线记录集移到第一条记录
+                                        _resultLine.moveFirst();
+                                        //获取线的SMID
+                                        int _smid = _resultLine.getID();
+                                        //设置线选中样式并且返回线bean
+                                        BaseFieldLInfos _infoL = setLrSelectionHighLigh(_resultLine);
+                                        if (_infoL == null) {
+                                            LogUtills.e("Qurey Line Property Faild " + _resultLine.getID());
+                                        }
+                                        //设置地图界面图层样式
+//                                        setSplayerType(_infoL);
+                                        //弹出线查询属性界面
+                                        QueryLineFragment _fragment = new QueryLineFragment();
+                                        Bundle bundle = new Bundle();
+                                        //线对象
+                                        bundle.putParcelable("_infoL", _infoL);
+                                        //线smid
+                                        bundle.putInt("smId", _smid);
+                                        //线类型
+                                        bundle.putString("gpType", _infoL.pipeType);
+                                        //类型  1 代表正常查询线   2代表重新获取起点 3代表重新获取终点
+                                        bundle.putInt("actionType", 1);
+                                        //点号 用来区分 重新获取起点 终点  传送过去的点号编号
+                                        bundle.putString("exp_Num", "0");
+                                        //点smid
+                                        bundle.putInt("SmIDP", -1);
+                                        _fragment.setArguments(bundle);
+                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
+                                        //关闭释放线记录集
+                                        _resultLine.close();
+                                        _resultLine.dispose();
+                                    } else {
+                                        ToastyUtil.showInfoShort(mContext, "没有查询到对象");
                                     }
                                 }
                                 break;
@@ -512,11 +648,14 @@ public class DataHandlerObserver {
                                         }
                                         _sLResets.moveNext();
                                     }
-                                    ToastyUtil.showSuccessShort(
-
-                                            mContext, "更新线位置成功，点号:" + _pSInfo.exp_Num);
+                                    ToastyUtil.showSuccessShort(mContext, "更新线位置成功，点号:" + _pSInfo.exp_Num);
                                     setMapActionType(MAPACTIONTYPE2.Action_CreatePoint);
                                     setPtSelectionHighLigh(_sReset);
+                                    Selection _selection = getPtThemeLayerByName2().getSelection();
+                                    _selection.clear();
+                                    if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                        OperSql.getSingleton().inserPoint(_pSInfo.exp_Num, "移动管点");
+                                    }
                                     //关闭释放数据集
                                     _sReset.close();
                                     _sReset.dispose();
@@ -577,6 +716,9 @@ public class DataHandlerObserver {
                                     bundle.putInt("SmIDP", _result.getID());
                                     _fragment.setArguments(bundle);
                                     _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
+                                    if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                        OperSql.getSingleton().inserLine(_infoL.benExpNum, _infoL.endExpNum, mSmIDsL.get(mSmIDsL.size() - 1), "重新获取起点" + _exp_Num + "->" + _infoL.endExpNum);
+                                    }
                                     _result.close();
                                     _result.dispose();
 
@@ -616,7 +758,6 @@ public class DataHandlerObserver {
                                         ToastyUtil.showWarningShort(mContext, "两点已经有线了，不可重线");
                                         return false;
                                     }
-
                                     BaseFieldLInfos _infoL = setLrSelectionHighLigh(queryRecordsetBySmid(mSmIDsL.get(0), false, false));
                                     //跳转
                                     QueryLineFragment _fragment = new QueryLineFragment();
@@ -635,7 +776,9 @@ public class DataHandlerObserver {
                                     bundle.putInt("SmIDP", _result.getID());
                                     _fragment.setArguments(bundle);
                                     _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
-
+                                    if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                        OperSql.getSingleton().inserLine(_infoL.benExpNum, _infoL.endExpNum, mSmIDsL.get(mSmIDsL.size() - 1), "重新获取终点" + _infoL.benExpNum + "->" + _exp_Num);
+                                    }
                                     _result.close();
                                     _result.dispose();
                                 }
@@ -658,23 +801,41 @@ public class DataHandlerObserver {
 
                                     Recordset _reSet = QueryRecordsetMesureBySql("exp_Num = '" + infos.exp_Num + "'", true);
                                     if (!_reSet.isEmpty()) {
-                                        _reSet.delete();
-                                        //取消测量收点  改变线已经测量过的标记 0未测量  1已测量
-                                        //查询起点和编号连接的点
-                                        Recordset lineSetStart = QueryRecordsetBySql("benExpNum ='" + infos.exp_Num + "'", false, true);
-                                        updateLineMeasureType(lineSetStart, "0", true);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                        builder.setTitle("删除提示")
+                                                .setMessage("是否取消已经测量好的点号" + infos.exp_Num + "?")
+                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        _reSet.delete();
+                                                        //取消测量收点  改变线已经测量过的标记 0未测量  1已测量
+                                                        //查询点数据集，是否已经测量
+                                                        Recordset recordset = queryRecordsetByExpNum(infos.exp_Num, true);
+                                                        updatePointMeasureType(recordset,"0");
+                                                        //查询起点和编号连接的点
+                                                        Recordset lineSetStart = QueryRecordsetBySql("benExpNum ='" + infos.exp_Num + "'", false, true);
+                                                        updateLineMeasureType(lineSetStart, "0", true);
 
-                                        //查询终点和编号连接的点
-                                        Recordset lineSetEnd = QueryRecordsetBySql("endExpNum ='" + infos.exp_Num + "'", false, true);
-                                        updateLineMeasureType(lineSetEnd, "0", false);
+                                                        //查询终点和编号连接的点
+                                                        Recordset lineSetEnd = QueryRecordsetBySql("endExpNum ='" + infos.exp_Num + "'", false, true);
+                                                        updateLineMeasureType(lineSetEnd, "0", false);
 
-                                        lineSetStart.close();
-                                        lineSetEnd.close();
-                                        _reSet.close();
-                                        _reSet.dispose();
-                                        lineSetStart.dispose();
-                                        lineSetEnd.dispose();
-                                        mMapCtrl.getMap().refresh();
+                                                        lineSetStart.close();
+                                                        lineSetEnd.close();
+                                                        _reSet.close();
+                                                        _reSet.dispose();
+                                                        lineSetStart.dispose();
+                                                        lineSetEnd.dispose();
+                                                        mMapCtrl.getMap().refresh();
+                                                    }
+                                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        });
+                                        builder.create().show();
+
                                         return false;
                                     }
 
@@ -693,10 +854,11 @@ public class DataHandlerObserver {
                                         LogUtills.i("create measure point fail");
                                     } else {
                                         //测量成功后，标记线的起点或者终点已经测量
+                                        Recordset recordset = queryRecordsetByExpNum(infos.exp_Num, true);
+                                        updatePointMeasureType(recordset,"1");
                                         //查询起点和编号连接的点
                                         Recordset lineSetStart = QueryRecordsetBySql("benExpNum ='" + infos.exp_Num + "'", false, true);
                                         updateLineMeasureType(lineSetStart, "1", true);
-
                                         //查询终点和编号连接的点
                                         Recordset lineSetEnd = QueryRecordsetBySql("endExpNum ='" + infos.exp_Num + "'", false, true);
                                         updateLineMeasureType(lineSetEnd, "1", false);
@@ -755,6 +917,21 @@ public class DataHandlerObserver {
     }
 
     /**
+     * 测量收点，更新点的测量时间点
+     *
+     * @param recordSet
+     */
+    private void updatePointMeasureType(Recordset recordSet, String statue) {
+        if (!recordSet.isEmpty()) {
+            recordSet.edit();
+            recordSet.setString("MeasuerPoint", statue);
+            if (!recordSet.update()){
+                ToastyUtil.showErrorShort(mContext,"测量点号失败");
+            }
+        }
+    }
+
+    /**
      * 改变地图界面图层
      *
      * @Author HaiRun
@@ -807,7 +984,6 @@ public class DataHandlerObserver {
         return datasetVector.query(sqlStr, isEdit ? CursorType.DYNAMIC : CursorType.STATIC);
     }
 
-
     /**
      * 通过QueryParameter 语句查询记录集
      *
@@ -856,7 +1032,7 @@ public class DataHandlerObserver {
      */
     public BaseFieldPInfos setPtSelectionHighLigh(Recordset result) {
         BaseFieldPInfos _infosP = BaseFieldPInfos.createFieldInfo(result);
-        LogUtills.i("poitn",_infosP.toString());
+        LogUtills.i("poitn", _infosP.toString());
         //设置选中状态
         Selection _selection = getPtThemeLayerByName2().getSelection();
         boolean isOk = _selection.fromRecordset(result);
@@ -1063,7 +1239,6 @@ public class DataHandlerObserver {
         return _temp;
     }
 
-
     /**
      * 获取线图层
      *
@@ -1094,8 +1269,7 @@ public class DataHandlerObserver {
         return _temp;
     }
 
-
-    private Layer getPtThemeLayerByName2() {
+    public Layer getPtThemeLayerByName2() {
         //标签专题图图层名字
         String _targetName = "P_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.DEFAULT_WORKSPACE_NAME + "#2";
         Layer _temp = mMapCtrl.getMap().getLayers().get(_targetName);
@@ -1266,7 +1440,7 @@ public class DataHandlerObserver {
         _result.setDouble("rangeExpression", PipeThemelabelUtil.Ins().getThemeItemValue(pInfos.pipeType.substring(0, 2)));
         //标签专题图字体显示字段
         String ds = (pInfos.pipeSize.trim().length() != 0) ? pInfos.pipeSize : pInfos.d_S;
-        _result.setString("labelTag",pInfos.pipeType.substring(pInfos.pipeType.lastIndexOf("-") + 1) + "-" + ds + "-" + pInfos.material);
+        _result.setString("labelTag", pInfos.pipeType.substring(pInfos.pipeType.lastIndexOf("-") + 1) + "-" + ds + "-" + pInfos.material);
         _result.update();
         // 关闭记录集，释放几何对象、记录集
         _result.close();
@@ -1305,7 +1479,6 @@ public class DataHandlerObserver {
         //SQL语句决定了只能查点
         return QueryRecordsetByParameter(_parameter, true);
     }
-
 
     /**
      * 通过smid查询数据集
@@ -1385,7 +1558,6 @@ public class DataHandlerObserver {
         //返回一个记录集
         return _dv.query(new int[]{_reset.getID()}, CursorType.STATIC);
     }
-
 
     /**
      * 根据地图比例尺设置缓冲范围
@@ -1474,5 +1646,4 @@ public class DataHandlerObserver {
         }
         return _dv.query(new int[]{_index}, CursorType.DYNAMIC);
     }
-
 }

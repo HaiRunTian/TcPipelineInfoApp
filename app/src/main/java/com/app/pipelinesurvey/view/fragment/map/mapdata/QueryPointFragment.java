@@ -1,6 +1,7 @@
 package com.app.pipelinesurvey.view.fragment.map.mapdata;
 
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +23,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -35,6 +38,7 @@ import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Data.PointFieldFactory;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
+import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
@@ -44,8 +48,10 @@ import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.CameraUtils;
 import com.app.pipelinesurvey.utils.ComTool;
+import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
+import com.app.pipelinesurvey.utils.MaxExpNumID;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
 import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
 import com.app.pipelinesurvey.utils.SymbolInfo;
@@ -65,6 +71,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -187,6 +194,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     private String[] m_num = new String[]{};
     private View m_view;
     File m_pictureName;
+    /**
+     * 原始点号
+     */
     private String initPointExp = "";
     private int _smId;
     /**
@@ -195,10 +205,21 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     private boolean firstInit = true;
     private EditText edtX;
     private EditText edtY;
+    private TextView tvWellSize;
+    private TextView tvWellLidTexture;
+    private View layout_well_size;
+    private View layout_well_depth;
+    private View layout_well_water;
+    private View layout_well_mud;
+    private View layout_well_lid_texture;
+    private View layout_well_lid_size;
+    private View layout_dc;
+    private CheckBox cbDc;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Light_NoActionBar_Fullscreen);
     }
 
     @Nullable
@@ -212,20 +233,22 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
     /**
      * 初始化每一行view,根据数据库表用户设置是否显示
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/8/23  16:58
+     * @date :2019/8/23  16:58
      */
     private void initlayoutView(View m_view) {
         View laayoutGpid = m_view.findViewById(R.id.layout_gpid);
         View layoutFeature = m_view.findViewById(R.id.layout_feature);
         View layoutAppendant = m_view.findViewById(R.id.layout_appendant);
-        View layout_well_size = m_view.findViewById(R.id.layout_well_size);
-        View layout_well_depth = m_view.findViewById(R.id.layout_well_depth);
-        View layout_well_water = m_view.findViewById(R.id.layout_well_water);
-        View layout_well_mud = m_view.findViewById(R.id.layout_well_mud);
-        View layout_well_lid_texture = m_view.findViewById(R.id.layout_well_lid_texture);
-        View layout_well_lid_size = m_view.findViewById(R.id.layout_well_lid_size);
+        layout_well_size = m_view.findViewById(R.id.layout_well_size);
+        layout_well_depth = m_view.findViewById(R.id.layout_well_depth);
+        layout_well_water = m_view.findViewById(R.id.layout_well_water);
+        layout_well_mud = m_view.findViewById(R.id.layout_well_mud);
+        layout_well_lid_texture = m_view.findViewById(R.id.layout_well_lid_texture);
+        layout_well_lid_size = m_view.findViewById(R.id.layout_well_lid_size);
+        layout_dc = m_view.findViewById(R.id.layout_dc);
         View layout_state = m_view.findViewById(R.id.layout_state);
         View layout_elevation = m_view.findViewById(R.id.layout_elevation);
         View layout_depth = m_view.findViewById(R.id.layout_depth);
@@ -241,7 +264,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         String _gpType = getArguments().getString("gpType");
         Cursor cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_POINT_SETTING, "where prj_name = '"
                 + SuperMapConfig.PROJECT_NAME + "' and pipetype = '" + _gpType + "'");
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             int wellsize = cursor.getInt(cursor.getColumnIndex("wellsize"));
             int welldepth = cursor.getInt(cursor.getColumnIndex("welldepth"));
             int wellwater = cursor.getInt(cursor.getColumnIndex("wellwater"));
@@ -257,21 +280,21 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             int puzzle = cursor.getInt(cursor.getColumnIndex("puzzle"));
             int x = cursor.getInt(cursor.getColumnIndex("x"));
             int y = cursor.getInt(cursor.getColumnIndex("y"));
-            layout_well_size.setVisibility(wellsize == 1?View.VISIBLE:View.GONE);
-            layout_well_depth.setVisibility(welldepth == 1?View.VISIBLE:View.GONE);
-            layout_well_water.setVisibility(wellwater == 1?View.VISIBLE:View.GONE);
-            layout_well_mud.setVisibility(wellmud == 1?View.VISIBLE:View.GONE);
-            layout_well_lid_texture.setVisibility(welllidtexture == 1?View.VISIBLE:View.GONE);
-            layout_well_lid_size.setVisibility(welllidsize == 1?View.VISIBLE:View.GONE);
-            layout_state.setVisibility(state == 1?View.VISIBLE:View.GONE);
-            layout_elevation.setVisibility(elevation == 1?View.VISIBLE:View.GONE);
-            layout_offset.setVisibility(offset == 1?View.VISIBLE:View.GONE);
-            layout_building_structures.setVisibility(building == 1?View.VISIBLE:View.GONE);
-            layout_road_name.setVisibility(roadname == 1?View.VISIBLE:View.GONE);
-            layout_point_remark.setVisibility(pointremark == 1?View.VISIBLE:View.GONE);
-            layout_puzzle.setVisibility(puzzle == 1?View.VISIBLE:View.GONE);
-            layout_x.setVisibility(x == 1?View.VISIBLE:View.GONE);
-            layout_y.setVisibility(y == 1?View.VISIBLE:View.GONE);
+            layout_well_size.setVisibility(wellsize == 1 ? View.VISIBLE : View.GONE);
+            layout_well_depth.setVisibility(welldepth == 1 ? View.VISIBLE : View.GONE);
+            layout_well_water.setVisibility(wellwater == 1 ? View.VISIBLE : View.GONE);
+            layout_well_mud.setVisibility(wellmud == 1 ? View.VISIBLE : View.GONE);
+            layout_well_lid_texture.setVisibility(welllidtexture == 1 ? View.VISIBLE : View.GONE);
+            layout_well_lid_size.setVisibility(welllidsize == 1 ? View.VISIBLE : View.GONE);
+            layout_state.setVisibility(state == 1 ? View.VISIBLE : View.GONE);
+            layout_elevation.setVisibility(elevation == 1 ? View.VISIBLE : View.GONE);
+            layout_offset.setVisibility(offset == 1 ? View.VISIBLE : View.GONE);
+            layout_building_structures.setVisibility(building == 1 ? View.VISIBLE : View.GONE);
+            layout_road_name.setVisibility(roadname == 1 ? View.VISIBLE : View.GONE);
+            layout_point_remark.setVisibility(pointremark == 1 ? View.VISIBLE : View.GONE);
+            layout_puzzle.setVisibility(puzzle == 1 ? View.VISIBLE : View.GONE);
+            layout_x.setVisibility(x == 1 ? View.VISIBLE : View.GONE);
+            layout_y.setVisibility(y == 1 ? View.VISIBLE : View.GONE);
         }
 
     }
@@ -321,6 +344,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, wellLidTextureList);
         spWellLidTexture.setAdapter(m_adapter);
         setValueToView();
+
     }
 
     private void setValueToView() {
@@ -368,8 +392,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void initView(View view) {
@@ -408,6 +430,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         tv = view.findViewById(R.id.layout);
         edtX = view.findViewById(R.id.edtX);
         edtY = view.findViewById(R.id.edtY);
+        cbDc = view.findViewById(R.id.cb_dc);
         initShowPicArea();
         btnOpenCamera.setOnClickListener(this);
         btnSave.setOnClickListener(this);
@@ -429,6 +452,23 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         setViewDrawable(tvAppendant);
         TextView tvFeaturePoints = view.findViewById(R.id.tvFeaturePoints);
         setViewDrawable(tvFeaturePoints);
+        //窨井规格  立管规格
+        tvWellSize = view.findViewById(R.id.tvWellSize);
+        //窨井 立管材质
+        tvWellLidTexture = view.findViewById(R.id.tvWellLidTexture);
+
+        cbDc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    if (getPointRemark().contains("直流地面")) {
+                        edtPointRemark.setText(getPointRemark().replace(",直流地面", ""));
+                    }
+                } else {
+                    edtPointRemark.setText(getWellLidTexture() + getWellSize() + ",直流地面");
+                }
+            }
+        });
     }
 
     @Override
@@ -438,26 +478,39 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             case R.id.linearReturn:
                 getDialog().dismiss();
                 break;
+
             //提交 保存 如果修改了管类，则要删除原先点，
             case R.id.tvSubmit:
             case R.id.btnSave:
                 boolean _result = false;
                 //编辑保存数据数据
+                //判断重号
+                if (!initPointExp.equals(getGPId())) {
+                    if (ComTool.Ins().isSameNum(getGPId(), false)) {
+                        ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
+                        return;
+                    }
+                }
                 _result = DataHandlerObserver.ins().editRecords(generateBaseFieldInfo());
                 if (!_result) {
                     ToastyUtil.showErrorShort(getActivity(), "保存点数据失败");
                     return;
                 } else {
+                    //如果管线点号修改了
                     if (!initPointExp.equals(getGPId())) {
+                        int id = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
+                        MaxExpNumID.getInstance().setId(id);
+                        //更新与此点相关的线
                         updaLine();
                     }
                     getDialog().dismiss();
                 }
+                WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
                 break;
 
             //删除点 删除线
             case R.id.btnRemove:
-                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "是否确定删除管点？", true, new DialogInterface.OnClickListener() {
+                AlertDialogUtil.showDialog(getActivity(), "警告提示！", "是否确定删除管点" + getGPId() + "？若是删除，和此点相连的管线也会删除，请确认。", true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         _smId = m_bundle.getInt("smId", 0);
@@ -470,31 +523,58 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                         _reSet.edit();
                         if (_reSet.delete()) {
                             _reSet.update();
-                            ToastyUtil.showSuccessShort(getActivity(), "删除点成功");
-                            getDialog().dismiss();
-
+//                            ToastyUtil.showSuccessShort(getActivity(), "删除点成功");
                             //线 此点作为终点
                             Recordset _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + getGPId() + "'", false, true);
                             if (!_resetL.isEmpty()) {
+                                //外检模式需要添加更改记录表
+                                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                    while (!_resetL.isEOF()) {
+                                        String benExpNum = _resetL.getString("benExpNum");
+                                        int sysId = _resetL.getInt32("sysId");
+                                        OperSql.getSingleton().inserLine(benExpNum, getGPId(), sysId, "删除管线");
+                                        _resetL.moveNext();
+                                    }
+                                }
                                 _resetL.deleteAll();
                                 _resetL.update();
                             }
-
                             // 线 此点作为起点
                             _resetL = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + getGPId() + "'", false, true);
                             if (!_resetL.isEmpty()) {
+                                //外检模式需要添加更改记录表
+                                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                    while (!_resetL.isEOF()) {
+                                        String endExpNum = _resetL.getString("endExpNum");
+                                        int sysId = _resetL.getInt32("sysId");
+                                        OperSql.getSingleton().inserLine(getGPId(), endExpNum, sysId, "删除管线");
+
+                                        _resetL.moveNext();
+                                    }
+                                }
                                 _resetL.deleteAll();
                                 _resetL.update();
                             }
                             _resetL.close();
                             _resetL.dispose();
 
+                            //外检模式保存删除点线数据到对应到两张表
+                            if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                OperSql.getSingleton().inserPoint(initPointExp, "删除管点");
+                            }
+                            getDialog().dismiss();
                         } else {
                             ToastyUtil.showErrorShort(getActivity(), "删除点失败");
                         }
 
                         _reSet.close();
                         _reSet.dispose();
+                        int serialNum = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
+                        int id = MaxExpNumID.getInstance().getId();
+                        //删除最大号
+                        if (serialNum == id) {
+                            MaxExpNumID.getInstance().setId(id - 1);
+                        }
                         WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
                     }
                 });
@@ -511,6 +591,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     m_num = ComTool.Ins().getPointNumber(m_gpType.substring(m_gpType.indexOf("-") + 1), false, "");
                     String _endExpNum = getGPId();
                     edtGpId.setText(m_num[0]);
+                    MaxExpNumID.getInstance().setId(Integer.parseInt(m_num[1]));
                     //更新线
                     Recordset _recordset = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + _endExpNum + "'", false, true);
                     if (!_recordset.isEmpty()) {
@@ -567,7 +648,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      * 更新线的起点和终点
      */
     private void updaLine() {
-
+        //更新起点
         Recordset reSetbenExpNum = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + initPointExp + "'", false, true);
         if (!reSetbenExpNum.isEmpty()) {
             reSetbenExpNum.moveFirst();
@@ -575,13 +656,21 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 reSetbenExpNum.edit();
                 reSetbenExpNum.setString("benExpNum", getGPId());
                 if (!reSetbenExpNum.update()) {
-                    LogUtills.i("线起点更新失败");
+                    ToastyUtil.showWarningLong(getActivity(), "线起点点更新失败");
                 }
+                //外检模式需要添加更改记录表
+                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                    String endExpNum = reSetbenExpNum.getString("endExpNum");
+                    int sysId = reSetbenExpNum.getInt32("sysId");
+                    OperSql.getSingleton().inserLine(initPointExp, endExpNum, sysId, "移动管点-起点点号修改");
+                }
+
                 reSetbenExpNum.moveNext();
             }
         }
         reSetbenExpNum.close();
 
+        //更新终点
         Recordset reSetendExpNum = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + initPointExp + "'", false, true);
         if (!reSetendExpNum.isEmpty()) {
             reSetendExpNum.moveFirst();
@@ -589,13 +678,20 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 reSetendExpNum.edit();
                 reSetendExpNum.setString("endExpNum", getGPId());
                 if (!reSetendExpNum.update()) {
-                    LogUtills.i("线终点更新失败");
+                    ToastyUtil.showWarningLong(getActivity(), "线终点更新失败");
+                }
+                //外检模式需要添加更改记录表
+                if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                    String benExpNum = reSetendExpNum.getString("benExpNum");
+                    int sysId = reSetendExpNum.getInt32("sysId");
+                    OperSql.getSingleton().inserLine(benExpNum, initPointExp, sysId, "移动管点-终点点号修改");
                 }
                 reSetendExpNum.moveNext();
             }
         }
         reSetendExpNum.close();
     }
+
 
     private BaseFieldPInfos generateBaseFieldInfo() {
         BaseFieldPInfos _info = null;
@@ -620,6 +716,16 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.wellWater = getWellWater();
             _info.wellMud = getWellMud();
             _info.road = getRoadName();
+            //外检模式保存删除点线数据到对应到两张表
+            if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                //记录点
+                if (initPointExp.equals(getGPId())) {
+                    OperSql.getSingleton().inserPoint(initPointExp, "外检-数据修改");
+                } else {
+                    OperSql.getSingleton().inserPoint(initPointExp, "外检-点号修改-" + initPointExp + "->" + getGPId());
+                }
+                _info.Edit = "外检-修改管点-" + getState();
+            }
             _info.state = getState();
             _info.exp_Date = m_basePInfo.exp_Date;
             _info.wellCoverMaterial = getWellLidTexture();
@@ -638,11 +744,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.situation = getSituation();
             _info.sysId = m_smid[0];
             _info.symbol = SymbolInfo.Ins().getSymbol(gpType, getAppendant(), getFeaturePoints());
-            //如果管类代码有两位，截取第一位
-            //管类代码 深圳和广州之前没区分
-            if (_layerType.length() == 2 && (SuperMapConfig.PROJECT_CITY_NAME.equals("广州") || SuperMapConfig.PROJECT_CITY_NAME.equals("深圳"))){
-                _layerType = _layerType.substring(0, 1);
-            }
             _info.symbolExpression = _layerType + "-" + _info.symbol;
             _info.depth = m_basePInfo.depth;
             //是否是临时点转实点
@@ -663,18 +764,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 }
             }
 
-           /* //查询数据每个标准点配置表 专题图符号大小
-            String tabName = SQLConfig.TABLE_DEFAULT_POINT_SETTING;
-            Cursor _cursorStand = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "where name = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
-            //查询此标准的点表名
-            while (_cursorStand.moveToNext()) {
-                tabName = _cursorStand.getString(_cursorStand.getColumnIndex("pointsettingtablesymbol"));
-            }
-
-            if (tabName.length() == 0) {
-                LogUtills.i("begin " + this.getClass().getName() + "tabName = null ");
-            }*/
-
             Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_DEFAULT_POINT_SETTING,
                     new String[]{"symbolID", "scaleX", "scaleY"}, "name=?", new String[]{_info.symbolExpression.trim().toString()}, null, null, null);
             LogUtills.i("Sql:" + _cursor.getCount());
@@ -684,8 +773,28 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 _info.symbolSizeY = _cursor.getDouble(_cursor.getColumnIndex("scaleY"));
             }
 
+            _info.ExpX = m_basePInfo.ExpX;
+            _info.ExpY = m_basePInfo.ExpY;
+            _info.MapX = m_basePInfo.MapX;
+            _info.MapY = m_basePInfo.MapY;
+            _info.Explain1 = m_basePInfo.Explain1;
+            _info.PsCheQiX = m_basePInfo.PsCheQiX;
+            _info.PsCheQiY = m_basePInfo.PsCheQiY;
+            _info.PsCheQiLeftR = m_basePInfo.PsCheQiLeftR;
+            _info.ExpCheQiY = m_basePInfo.ExpCheQiY;
+            _info.ExpCheQiX = m_basePInfo.ExpCheQiX;
+            _info.ExplainX = m_basePInfo.ExplainX;
+            _info.ExplainY = m_basePInfo.ExplainY;
+            _info.ExplaninAng = m_basePInfo.ExplaninAng;
+            _info.PpdAng = m_basePInfo.PpdAng;
+            _info.PpdX = m_basePInfo.PpdX;
+            _info.PpdY = m_basePInfo.PpdY;
+            _info.DotleadAng = m_basePInfo.DotleadAng;
+            _info.MeasuerPoint = m_basePInfo.MeasuerPoint;
+
+            LogUtills.i(_info.toString());
         } catch (Exception e) {
-            LogUtills.i(e.getMessage());
+            LogUtills.e(e.getMessage());
         }
         return _info;
     }
@@ -737,12 +846,34 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             case R.id.spAppendant:
                 String itemStr = spAppendant.getSelectedItem().toString();
                 //附属物取“孔”“井”时铺开隐藏面板
-                if (itemStr.contains("孔") || itemStr.contains("井") || itemStr.contains("篦")) {
+                if (itemStr.contains("孔") || itemStr.contains("井") || itemStr.contains("篦") || itemStr.contains("立管")) {
                     if (linearAppendantPanel.getVisibility() != View.VISIBLE) {
                         linearAppendantPanel.setVisibility(View.VISIBLE);
                         if (animSwitch) {
                             m_animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_autotv_show);
                             linearAppendantPanel.startAnimation(m_animation);
+                        }
+                    }
+                    if (itemStr.contains("立管")) {
+                        tvWellSize.setText("立管规格");
+                        tvWellLidTexture.setText("立管材质");
+                        if (layout_well_depth.getVisibility() != View.GONE) {
+                            layout_well_depth.setVisibility(View.GONE);
+                            layout_well_water.setVisibility(View.GONE);
+                            layout_well_mud.setVisibility(View.GONE);
+                            layout_well_lid_size.setVisibility(View.GONE);
+                            layout_dc.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+
+                        tvWellSize.setText("窨井规格");
+                        tvWellLidTexture.setText("窨井材质");
+                        if (layout_well_depth.getVisibility() != View.VISIBLE) {
+                            layout_well_depth.setVisibility(View.VISIBLE);
+                            layout_well_water.setVisibility(View.VISIBLE);
+                            layout_well_mud.setVisibility(View.VISIBLE);
+                            layout_well_lid_size.setVisibility(View.VISIBLE);
+                            layout_dc.setVisibility(View.GONE);
                         }
                     }
                 } else {
@@ -760,7 +891,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     updateIdAndPointRemark();
                 }
                 break;
-
 
             default:
                 break;
@@ -912,9 +1042,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         String str = edtElevation.getText().toString();
         if (str.length() > 0) {
             double d = Double.valueOf(str);
+            //保留三位小数
             return String.format("%.3f", d);
         } else {
-            return "";
+            return "0.000";
         }
     }
 
@@ -939,8 +1070,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (s.startsWith("-")) {
             s = s.substring(1);
         }
-        if (s.endsWith("-")){
-            s = s.substring(0,s.length()-1);
+        if (s.endsWith("-")) {
+            s = s.substring(0, s.length() - 1);
         }
         return s;
     }
@@ -1035,7 +1166,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spAppendant, _appendant);
         }
         //设置附属物是否可见
-        if (_appendant.contains("孔") || _appendant.contains("井") || _appendant.contains("篦")) {
+        if (_appendant.contains("孔") || _appendant.contains("井") || _appendant.contains("篦") || _appendant.contains("立管")) {
             if (linearAppendantPanel.getVisibility() != View.VISIBLE) {
                 linearAppendantPanel.setVisibility(View.VISIBLE);
                 if (animSwitch) {
@@ -1049,6 +1180,27 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             setWellMud();
             setWellLidTexture();
             setWellLidSize();
+            if (_appendant.contains("立管")) {
+                tvWellSize.setText("立管规格");
+                tvWellLidTexture.setText("立管材质");
+                if (layout_well_depth.getVisibility() != View.GONE) {
+                    layout_well_depth.setVisibility(View.GONE);
+                    layout_well_water.setVisibility(View.GONE);
+                    layout_well_mud.setVisibility(View.GONE);
+                    layout_well_lid_size.setVisibility(View.GONE);
+                    layout_dc.setVisibility(View.VISIBLE);
+                }
+            } else {
+                tvWellSize.setText("窨井规格");
+                tvWellLidTexture.setText("窨井材质");
+                if (layout_well_depth.getVisibility() != View.VISIBLE) {
+                    layout_well_depth.setVisibility(View.VISIBLE);
+                    layout_well_water.setVisibility(View.VISIBLE);
+                    layout_well_mud.setVisibility(View.VISIBLE);
+                    layout_well_lid_size.setVisibility(View.VISIBLE);
+                    layout_dc.setVisibility(View.GONE);
+                }
+            }
         } else {
             linearAppendantPanel.setVisibility(View.GONE);
         }
@@ -1120,6 +1272,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (_pointRemark.length() != 0) {
             edtPointRemark.setText(_pointRemark);
         }
+
+        if (_pointRemark.contains("直流地面")) {
+            cbDc.setChecked(true);
+        }
     }
 
     /**
@@ -1152,9 +1308,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         String _wellDepth = m_basePInfo.wellDeep;
         if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtWellDepth.setText(depth);
+            double temp = s * 100;
+            edtWellDepth.setText(new DecimalFormat().format(temp));
         }
     }
 
@@ -1166,9 +1321,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         String _wellWater = m_basePInfo.wellWater;
         if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtWellWater.setText(depth);
+            double temp = s * 100;
+            edtWellWater.setText(new DecimalFormat().format(temp));
         }
     }
 
@@ -1180,9 +1334,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         String _wellMud = m_basePInfo.wellMud;
         if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
-            int temp = (int) (s * 100);
-            String depth = String.valueOf(temp);
-            edtWellMud.setText(depth);
+            double temp = s * 100;
+            edtWellMud.setText(new DecimalFormat().format(temp));
         }
     }
 
@@ -1376,7 +1529,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onStart() {
         super.onStart();
-        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
+//        InitWindowSize.ins().initWindowSize(getActivity(), getDialog());
     }
 
     @Override
@@ -1461,12 +1614,33 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     public void onMoonEvent(String s) {
         String itemStr = s;
         //附属物取“孔”“井”时铺开隐藏面板
-        if (itemStr.contains("孔") || itemStr.contains("井") || itemStr.contains("篦")) {
+        if (itemStr.contains("孔") || itemStr.contains("井") || itemStr.contains("篦") || itemStr.contains("立管")) {
             if (linearAppendantPanel.getVisibility() != View.VISIBLE) {
                 linearAppendantPanel.setVisibility(View.VISIBLE);
                 if (animSwitch) {
                     m_animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_autotv_show);
                     linearAppendantPanel.startAnimation(m_animation);
+                }
+            }
+            if (itemStr.contains("立管")) {
+                tvWellSize.setText("立管规格");
+                tvWellLidTexture.setText("立管材质");
+                if (layout_well_depth.getVisibility() != View.GONE) {
+                    layout_well_depth.setVisibility(View.GONE);
+                    layout_well_water.setVisibility(View.GONE);
+                    layout_well_mud.setVisibility(View.GONE);
+                    layout_well_lid_size.setVisibility(View.GONE);
+                    layout_dc.setVisibility(View.VISIBLE);
+                }
+            } else {
+                tvWellSize.setText("窨井规格");
+                tvWellLidTexture.setText("窨井材质");
+                if (layout_well_depth.getVisibility() != View.VISIBLE) {
+                    layout_well_depth.setVisibility(View.VISIBLE);
+                    layout_well_water.setVisibility(View.VISIBLE);
+                    layout_well_mud.setVisibility(View.VISIBLE);
+                    layout_well_lid_size.setVisibility(View.VISIBLE);
+                    layout_dc.setVisibility(View.GONE);
                 }
             }
         } else {

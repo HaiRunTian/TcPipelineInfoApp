@@ -20,7 +20,7 @@
             android:src="@mipmap/ic_add_3"/>
 
         <TextView
-            android:textSize="@dimen/tiny"
+            android:textSize="@dimen/sp_8"
             android:text="照片名字"
             android:layout_below="@+id/imageView1"
             android:id="@+id/tvPicName"

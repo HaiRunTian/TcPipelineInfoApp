@@ -38,7 +38,7 @@
         android:layout_width="70dp"
         android:layout_height="30dp"
         android:textColor="@drawable/selector_text_color_2"
-        android:textSize="@dimen/text"
+        android:textSize="@dimen/sp_14"
         android:background="@drawable/selector_btn_all"
         android:text="确定"  />
 

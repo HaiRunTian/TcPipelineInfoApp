@@ -85,8 +85,10 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
         WindowManager.LayoutParams p = this.getWindow().getAttributes();  //获取对话框当前的参数值
         p.height = (int) (d.getHeight() * 0.94);   //高度设置为屏幕的1.0
         p.width = (int) (d.getWidth() * 0.90);    //宽度设置为屏幕的0.8
-        p.alpha = 1.0f;      //设置本身透明度
-        p.dimAmount = 0.0f;      //设置黑暗度
+        //设置本身透明度
+        p.alpha = 1.0f;
+        //设置黑暗度
+        p.dimAmount = 0.0f;
         this.getWindow().setAttributes(p);
     }
     private void initData() {
@@ -182,7 +184,8 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
             m_handler.sendEmptyMessage(0);
         } else if (m_folderName.endsWith(".sci") || m_folderName.endsWith(".SCI") ||m_folderName.endsWith(".json")) {
 
-            if (m_itemPosition == -1) { //未选择变选中
+            //未选择变选中
+            if (m_itemPosition == -1) {
                 m_list.get(position).setCheck(true);
                 m_itemPosition = position;
             } else if (m_itemPosition == position) {
