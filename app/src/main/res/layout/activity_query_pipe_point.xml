@@ -530,6 +530,10 @@
 
             </LinearLayout>
 
+            <FrameLayout
+                android:layout_below="@+id/edt_15"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_300" />
         </LinearLayout>
     </ScrollView>
 

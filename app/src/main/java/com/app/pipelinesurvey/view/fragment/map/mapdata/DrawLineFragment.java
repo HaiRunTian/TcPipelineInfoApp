@@ -27,37 +27,31 @@ import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.LineFieldFactory;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.bean.PipeLineInfo;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
-import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
+import com.app.pipelinesurvey.view.fragment.map.ps.DrawPsLineFragment;
 import com.app.pipelinesurvey.view.iview.IDrawPipeLineView;
 import com.app.pipelinesurvey.view.iview.IQueryPipeLineView;
 import com.app.utills.LogUtills;
-import com.squareup.leakcanary.RefWatcher;
 import com.supermap.data.CursorType;
 import com.supermap.data.QueryParameter;
 import com.supermap.data.Recordset;
 import com.supermap.mapping.Layer;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Map;
 
@@ -286,6 +280,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     private int startH;
     //终点高程
     private int endH;
+    private Button btnAddPs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -440,6 +435,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         tvHoleCount = view.findViewById(R.id.tvHoleCount);
         tvUsedHole = view.findViewById(R.id.tvUsedHole);
         tvAmount = view.findViewById(R.id.tvAmount);
+        btnAddPs = view.findViewById(R.id.btnPs);
+        btnAddPs.setOnClickListener(this);
+        if ("1".equals(SuperMapConfig.PS_OUT_CHECK)){
+            btnAddPs.setVisibility(View.VISIBLE);
+        }
         //起点点号
         TextView tvStartPoint = view.findViewById(R.id.tvStartPoint);
         setViewDrawable(tvStartPoint);
@@ -684,6 +684,23 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     } else {
                         ToastyUtil.showInfoShort(getActivity(), "当前管类没有权属单位数据列表");
                     }
+                    break;
+                //排水外检
+                case R.id.btnPs:
+                    DrawPsLineFragment drawLineFragment = new DrawPsLineFragment();
+                    Bundle bundle = new Bundle();
+
+                    bundle.putParcelable("startPoint",m_startPInfo);
+                    bundle.putParcelable("endPointInfo",m_endPInfo);
+                    bundle.putString("bePoint",m_startPInfo.exp_Num);
+                    bundle.putString("endPoint",m_endPInfo.exp_Num);
+                    bundle.putString("beDeep",getStartBurialDepth());
+                    bundle.putString("endDeep",getEndBurialDepth());
+                    bundle.putString("textrure",getTextrure());
+                    bundle.putString("pipeSize",getPipeSize());
+                    drawLineFragment.setArguments(bundle);
+                    drawLineFragment.show(getActivity().getSupportFragmentManager().beginTransaction(),"psLine");
+
                     break;
 
                 //管径

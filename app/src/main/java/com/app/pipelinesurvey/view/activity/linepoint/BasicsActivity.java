@@ -52,6 +52,7 @@ public class BasicsActivity extends AppCompatActivity implements View.OnClickLis
         tv_adjunct.setOnClickListener(this);
         tv_feature = ((RadioButton) findViewById(R.id.tv_feature));
         tv_feature.setOnClickListener(this);
+
     }
 
     @Override

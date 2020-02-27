@@ -405,7 +405,11 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 return null;
             }
             BaseFieldLInfos _info = null;
-            _info = LineFieldFactory.Create();
+            if (status == 1){
+                _info = LineFieldFactory.Create("PsCheckLine");
+            }else {
+                _info = LineFieldFactory.Create();
+            }
 
             if (_info == null) {
                 LogUtills.e("CreateFieldInfo Can Not Find The Layer Of " + reset.getString("datasetName"));

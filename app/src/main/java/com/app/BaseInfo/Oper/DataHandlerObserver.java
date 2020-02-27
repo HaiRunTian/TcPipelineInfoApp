@@ -811,7 +811,7 @@ public class DataHandlerObserver {
                                                         //取消测量收点  改变线已经测量过的标记 0未测量  1已测量
                                                         //查询点数据集，是否已经测量
                                                         Recordset recordset = queryRecordsetByExpNum(infos.exp_Num, true);
-                                                        updatePointMeasureType(recordset,"0");
+                                                        updatePointMeasureType(recordset, "0");
                                                         //查询起点和编号连接的点
                                                         Recordset lineSetStart = QueryRecordsetBySql("benExpNum ='" + infos.exp_Num + "'", false, true);
                                                         updateLineMeasureType(lineSetStart, "0", true);
@@ -855,7 +855,7 @@ public class DataHandlerObserver {
                                     } else {
                                         //测量成功后，标记线的起点或者终点已经测量
                                         Recordset recordset = queryRecordsetByExpNum(infos.exp_Num, true);
-                                        updatePointMeasureType(recordset,"1");
+                                        updatePointMeasureType(recordset, "1");
                                         //查询起点和编号连接的点
                                         Recordset lineSetStart = QueryRecordsetBySql("benExpNum ='" + infos.exp_Num + "'", false, true);
                                         updateLineMeasureType(lineSetStart, "1", true);
@@ -925,8 +925,8 @@ public class DataHandlerObserver {
         if (!recordSet.isEmpty()) {
             recordSet.edit();
             recordSet.setString("MeasuerPoint", statue);
-            if (!recordSet.update()){
-                ToastyUtil.showErrorShort(mContext,"测量点号失败");
+            if (!recordSet.update()) {
+                ToastyUtil.showErrorShort(mContext, "测量点号失败");
             }
         }
     }
@@ -1252,6 +1252,17 @@ public class DataHandlerObserver {
             return null;
         }
         return _temp;
+    }
+
+    /**
+     * 获取Ps线图层
+     *
+     * @return
+     */
+    public DatasetVector getPsLrDatasetVector() {
+        DatasetVector datasetVector = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace().getDatasources()
+                .get(0).getDatasets().get("L_" + SuperMapConfig.Layer_PS);
+        return datasetVector;
     }
 
     /**
@@ -1646,4 +1657,120 @@ public class DataHandlerObserver {
         }
         return _dv.query(new int[]{_index}, CursorType.DYNAMIC);
     }
+
+    /**
+     * 添加排水外检
+     * @Params :
+     * @author :HaiRun
+     * @date   :2020/2/25  9:35
+     */
+    public boolean addPsRecords(BaseFieldLInfos pInfos) {
+        if (pInfos == null) {
+            LogUtills.e("Create The Line Find The BaseFieldLInfos Is Null...");
+            return false;
+        }
+        DatasetVector _dv =  getPsLrDatasetVector();
+        FieldInfos _infos = _dv.getFieldInfos();
+        Recordset _result = _dv.getRecordset(true, CursorType.DYNAMIC);
+        _result.moveFirst();
+        _result.edit(); //锁定编辑的记录
+        java.util.Map<String, Object> _values = OperNotifyer.getFieldMaps(pInfos);
+        java.util.Map<String, Object> _new_values = new HashMap();
+        Set set = _values.entrySet();
+        Iterator iterator = set.iterator();
+        while (iterator.hasNext()) {
+            java.util.Map.Entry mapentry = (java.util.Map.Entry) iterator.next();
+            if (_infos.get(mapentry.getKey().toString()) == null) {
+                LogUtills.i("Can Not Get Field Name = " + mapentry.getKey().toString());
+                continue;
+            }
+            if (mapentry.getKey().toString().equals("type")) {
+                _new_values.put(mapentry.getKey().toString(), mapentry.getValue().toString());
+                continue;
+            }
+            _new_values.put(mapentry.getKey().toString(), mapentry.getValue());
+        }
+        Point2Ds _p2ds = new Point2Ds();
+        _p2ds.add(new Point2D(pInfos.startLongitude, pInfos.startLatitude));
+        _p2ds.add(new Point2D(pInfos.endLongitude, pInfos.endLatitude));
+        GeoLine _geoLine = new GeoLine(_p2ds);
+        _result.addNew(_geoLine, _new_values);
+        _result.setInt32("sysId", _result.getID());
+//        String _labelTag = String.valueOf(_result.getID()) + pInfos.labelTag;
+//        _result.setString("labelTag", _labelTag);
+        //标签专题图颜色显示字段
+        _result.setDouble("rangeExpression", PipeThemelabelUtil.Ins().getThemeItemValue(pInfos.pipeType.substring(0, 2)));
+        //标签专题图字体显示字段
+        String ds = (pInfos.pipeSize.trim().length() != 0) ? pInfos.pipeSize : pInfos.d_S;
+        _result.setString("labelTag", pInfos.pipeType.substring(pInfos.pipeType.lastIndexOf("-") + 1) + "-" + ds + "-" + pInfos.material);
+        _result.update();
+        // 关闭记录集，释放几何对象、记录集
+        _result.close();
+        _result.dispose();
+        _geoLine.dispose();
+        return true;
+    }
+
+    /**
+     * 编辑Ps管线
+     * @Params :
+     * @author :HaiRun
+     * @date   :2020/2/25  9:58
+     */
+    public boolean editPsRecords(BaseFieldLInfos pInfos) {
+        if (pInfos == null) {
+            LogUtills.e("Edit BaseFieldLInfos Faild, BaseFieldLInfos Is Null....");
+            return false;
+        }
+
+        DatasetVector _dv = getPsLrDatasetVector();
+        FieldInfos _infos = _dv.getFieldInfos();
+        int[] _smids = new int[]{pInfos.sysId};
+        Recordset _result = _dv.query(_smids, CursorType.DYNAMIC);
+        _result.moveFirst();
+        if (_result.isEmpty()) {
+            return false;
+        }
+        //锁定编辑的记录
+        _result.edit();
+        java.util.Map<String, Object> _values = OperNotifyer.getFieldMaps(pInfos);
+        Set set = _values.entrySet();
+        Iterator iterator = set.iterator();
+        while (iterator.hasNext()) {
+            java.util.Map.Entry mapentry = (java.util.Map.Entry) iterator.next();
+            if (_infos.get(mapentry.getKey().toString()) == null) {
+                continue;
+            }
+            if (mapentry.getKey().toString().equals("type")) {
+                _result.setObject(mapentry.getKey().toString(), mapentry.getValue().toString());
+                continue;
+            }
+            _result.setObject(mapentry.getKey().toString(), mapentry.getValue());
+        }
+
+        //更新线，有可能起点终点更换了位置，所以哟啊重新设置起点终点坐标
+        Point2Ds _p2ds = new Point2Ds();
+        _p2ds.add(new Point2D(pInfos.startLongitude, pInfos.startLatitude));
+        _p2ds.add(new Point2D(pInfos.endLongitude, pInfos.endLatitude));
+        if (!_result.setGeometry(new GeoLine(_p2ds))) {
+            ToastyUtil.showErrorShort(mContext, "线更改失败");
+            return false;
+        }
+        if (!_result.update()) {
+            ToastyUtil.showErrorShort(mContext, "线更加失败");
+            return false;
+        }
+        //更改线长度
+        _result.edit();
+        _result.setString("pipeLength", String.format("%.2f", _result.getDouble("SmLength")));
+        if (!_result.update()) {
+            ToastyUtil.showErrorShort(mContext, "线长度更新失败");
+            return false;
+        }
+        //关闭记录集，释放几何对象、记录集
+        _result.close();
+        _result.dispose();
+        return true;
+    }
+
 }

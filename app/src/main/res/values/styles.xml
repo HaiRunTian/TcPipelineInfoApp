@@ -397,7 +397,7 @@
         <item name="android:layout_margin">@dimen/dp_5</item>
     </style>
     <style name="fragment_btn_style_2">
-        <item name="android:layout_width">@dimen/dp_120</item>
+        <item name="android:layout_width">@dimen/dp_100</item>
         <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -469,6 +469,26 @@
         <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/selector_rbtn_setting</item>
+    </style>
+
+    <style name="TextViewStyle02_5">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">@dimen/dp_70</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:paddingLeft">2dp</item>
+    </style>
+
+    <style name="EdtStyle04">
+        <item name="android:gravity">right</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:drawableRight">@mipmap/icon_edt_right_32x</item>
     </style>
     
 </resources>

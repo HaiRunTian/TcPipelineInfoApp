@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 12;
+    private static final int VERSION = 13;
     /**
      * 建表语句
      */
@@ -119,6 +119,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         createSqlAndInserDataForZB(db);
         //版本12
         alterDataZB(db);
+        //版本13
+        alterData13(db);
 
     }
 
@@ -130,6 +132,24 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     private void alterDataZB(SQLiteDatabase db) {
         List<String> list = InitDatabase.getAlterSqlOf12();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 版本12 更新工程信息表 添加一个PsCheck字段
+     * @Params :
+     * @author :HaiRun
+     * @date   :2020/2/24  10:59
+     */
+    private void alterData13(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf13();
         for (String sql : list) {
             LogUtills.i(" Sql alter or update=", sql);
             try {
@@ -463,6 +483,8 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             case 11:
                 alterDataZB(db);
             case 12:
+                alterData13(db);
+            case 13:
                 break;
             default:
                 break;

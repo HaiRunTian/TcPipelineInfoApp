@@ -56,13 +56,14 @@
         <Button
             style="@style/fragment_btn_style_2"
             android:id="@+id/btn_export_select"
-            android:text="导出部分"/>
+            android:text="部分"/>
 
         <Button
            android:layout_toRightOf="@+id/btn_export_select"
             android:id="@+id/btn_export_all"
             style="@style/fragment_btn_style_2"
-            android:text="导出全部"/>
+            android:text="全部"/>
+
 
     </RelativeLayout>
 

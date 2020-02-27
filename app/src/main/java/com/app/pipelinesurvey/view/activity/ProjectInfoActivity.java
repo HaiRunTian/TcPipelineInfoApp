@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +88,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
     private List<String> list;
     private int from;
     private Button btnSetting;
+    private Switch aSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +146,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         int _pipeLength = -1;
         String _groupNum = "";
         String mode = "";
+        String psCheck = "";
         from = getIntent().getIntExtra("from", 2);
         //初始化城市标准sp
         Cursor _cursor1 = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "");
@@ -200,15 +203,23 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 _pipeLength = _cursor.getInt(_cursor.getColumnIndex("PipeLength"));
                 //工程模式
                 mode = _cursor.getString(_cursor.getColumnIndex("mode"));
+                //排水外检
+                psCheck = _cursor.getString(_cursor.getColumnIndex("PsCheck"));
+                SuperMapConfig.PS_OUT_CHECK = psCheck;
             }
 
+            if ("1".equals(psCheck)){
+                aSwitch.setChecked(true);
+            }else {
+                aSwitch.setChecked(false);
+            }
             tvProjectCreateTime.setText(create_time.length() > 0 ? create_time : "");
             tvLastestModifiedTime.setText(last_time.length() > 0 ? last_time : "");
             tvBaseMapPath.setText(baseMapPath.length() > 0 ? baseMapPath : "");
             edtGroupName.setText(_groupNum);
             edtLineL.setText(_pipeLength != -1 ? String.valueOf(_pipeLength) : "30");
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spCityStand, _city);
-            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spMode,mode);
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spMode, mode);
             String _group = "";
             switch (_groupLocal) {
                 case 1:
@@ -225,6 +236,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             }
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spGroupIndex, _group);
             SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spSeriNum, String.valueOf(_serialNum));
+            aSwitch.setFocusable(false);
         }
     }
 
@@ -251,6 +263,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         btnSetting = findViewById(R.id.btn_setting);
         btnSetting.setOnClickListener(this);
         spMode = findViewById(R.id.sp_mode);
+        aSwitch = findViewById(R.id.switch1);
 
     }
 
@@ -270,7 +283,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 break;
             //保存数据，打开地图，如果没有添加地图，默认打开地图
             case R.id.btnOpen:
-
                 String prjName = edtProjName.getText().toString().trim();
                 //判断是否要插入点线配置数据
                 inserSettingSql(prjName);
@@ -389,7 +401,15 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         _values.put("PipeLength", edtLineL.getText().toString().trim());
         _values.put("SerialNum", spSeriNum.getSelectedItem().toString());
         _values.put("GroupLocal", spGroupIndex.getSelectedItemPosition() + 1);
-        _values.put("mode",spMode.getSelectedItem().toString());
+        _values.put("mode", spMode.getSelectedItem().toString());
+
+        //是否启用排水检测
+        if (aSwitch.isChecked()){
+            _values.put("PsCheck","1");
+            SuperMapConfig.PS_OUT_CHECK = "1";
+        }else {
+            _values.put("PsCheck","0");
+        }
         DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_PROJECT_INFO, _values);
 
         if (!edtProjName.getText().toString().isEmpty()) {
@@ -402,12 +422,21 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
             //创建shp文件夹Shp
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_SHP_PATH);
-            //创建shp文件夹Shp
+            //创建现场检测记录表文件夹
             FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
             //复制现场检测记录表
             InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_RECORD_NAME);
             if (is != null) {
                 FileUtils.getInstance().copy(is, SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME);
+            }
+            if (aSwitch.isChecked()) {
+                //创建排水检测记录表文件夹
+                FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD);
+                //复制排水检测记录表
+                InputStream isPs = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                if (isPs != null) {
+                    FileUtils.getInstance().copy(isPs, SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                }
             }
         }
     }
@@ -420,7 +449,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             SettingConfig.ins().getPipeContentValues(prjName);
             SettingConfig.ins().getContentValues(prjName);
             SettingConfig.ins().getLineContentValues(prjName);
-
 
         }
     }

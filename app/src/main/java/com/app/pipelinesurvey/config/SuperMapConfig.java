@@ -50,7 +50,9 @@ public class SuperMapConfig {
     public static final String DEFAULT_DATA_SYMBOL_LINE_NAME ="LineLibrary.lsl";
     public static final String APP_NAME ="管智绘";
     public static final String DEFAULT_DATA_RECORD = "检测记录表/";
+    public static final String DEFAULT_DATA_PS_RECORD = "排水检测/";
     public static final String DEFAULT_DATA_RECORD_NAME = "现场检测记录表.xls";
+    public static final String DEFAULT_DATA_PS_RECORD_NAME = "现场管道检测每日记录表.xls";
     /**
      *   当前打开地图的名字 当前工程名称
      */
@@ -76,6 +78,7 @@ public class SuperMapConfig {
     public static final String Layer_Temp = "临时_0";
     //
     public static final String Layer_Total = "All";
+    public static final String Layer_PS = "PS";
     //管点查询，范围设定
     public  static double Query_Buffer =5;
     //用户配置 组号 默认为空
@@ -85,11 +88,14 @@ public class SuperMapConfig {
     /** 工程模式 1.常规 2.外检*/
     public static String PrjMode = "常规";
     public static final String OUTCHECK = "外检";
+    //排水外检 1：是   0：否
+    public static String PS_OUT_CHECK = "0";
     public static void setWorkspaceName(String string ){
         DEFAULT_WORKSPACE_NAME = string;
     }
     public static final String QQ_FILE_PATH = SDCARD + "/tencent/QQfile_recv";
     public static final String WECHAT_FILE_PATH = SDCARD + "/tencent/MicroMsg/Download";
     public static  String FILE_PATH = "";
+    public static String ROAD_NAME = "";
 
 }

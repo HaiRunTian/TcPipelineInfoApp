@@ -3,6 +3,7 @@ package com.app.BaseInfo.Oper;
 import com.app.BaseInfo.Data.BaseFieldInfos;
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
+import com.app.BaseInfo.Data.Line.PsCheckLine;
 import com.app.BaseInfo.Data.Line.TheTotalLine;
 import com.app.BaseInfo.Data.Point.MeasurePoint;
 import com.app.BaseInfo.Data.Point.TheTotalPoint;
@@ -54,6 +55,7 @@ public class OperNotifyer {
         _infos.add(new TheTotalPoint());
         _infos.add(new TheTotalLine());
         _infos.add(new MeasurePoint());
+        _infos.add(new PsCheckLine());
         for (int i = 0; i < _infos.size(); ++i) {
             DatasetVector _resultDv = CreateDataset(ds, _infos.get(i));
             //设置数据集的投影坐标系
@@ -204,6 +206,10 @@ public class OperNotifyer {
         }
 
         if (info instanceof BaseFieldLInfos) {
+            //对象是排水外检，则不加入图层
+            if (info instanceof PsCheckLine){
+                return;
+            }
 
             BaseFieldLInfos _temp_info = (BaseFieldLInfos) info;
             ThemeLabel _theme = _temp_info.createThemeLabel();
@@ -275,4 +281,5 @@ public class OperNotifyer {
             return null;
         }
     }
+
 }

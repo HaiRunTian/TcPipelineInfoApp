@@ -42,10 +42,12 @@ import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
+import com.app.pipelinesurvey.view.fragment.map.ps.QueryPsLineFragment;
 import com.app.pipelinesurvey.view.iview.IDrawPipeLineView;
 import com.app.pipelinesurvey.view.iview.IQueryPipeLineView;
 import com.app.utills.LogUtills;
 import com.squareup.leakcanary.RefWatcher;
+import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
 import com.supermap.data.GeoLine;
 import com.supermap.data.Point2D;
@@ -179,6 +181,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     //终点高程
     private int endH;
     private EditText edtTopBottom;
+    private Button btnDownFlow, btnDownReflux;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -338,7 +341,15 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         tvHoleCount = view.findViewById(R.id.tvHoleCount);
         tvUsedHole = view.findViewById(R.id.tvUsedHole);
         tvAmount = view.findViewById(R.id.tvAmount);
-
+        btnDownFlow = view.findViewById(R.id.btn_down_flow);
+        btnDownReflux = view.findViewById(R.id.btn_reflux);
+        btnDownFlow.setOnClickListener(this);
+        btnDownReflux.setOnClickListener(this);
+        //排水检测容器view
+        View viewById = view.findViewById(R.id.layout_ps);
+        if ("1".equals(SuperMapConfig.PS_OUT_CHECK)){
+            viewById.setVisibility(View.VISIBLE);
+        }
         //起点点号
         TextView tvStartPoint = view.findViewById(R.id.tvStartPoint);
         setViewDrawable(tvStartPoint);
@@ -536,10 +547,10 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 || gpType.contains("电信") || gpType.contains("有视")
                 || gpType.contains("军队") || gpType.contains("交通")
                 || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("监控") || gpType.contains("移动") ||
-                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("供电") ||gpType.contains("信号")
-                ||gpType.contains("铁通")||gpType.contains("吉通")||gpType.contains("网通")||gpType.contains("盈通")
-                ||gpType.contains("军用")||gpType.contains("保密")||gpType.contains("其他")||gpType.contains("监控")
-                ||gpType.contains("电通")||gpType.contains("广通")||gpType.contains("广电")) {
+                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("供电") || gpType.contains("信号")
+                || gpType.contains("铁通") || gpType.contains("吉通") || gpType.contains("网通") || gpType.contains("盈通")
+                || gpType.contains("军用") || gpType.contains("保密") || gpType.contains("其他") || gpType.contains("监控")
+                || gpType.contains("电通") || gpType.contains("广通") || gpType.contains("广电")) {
             layoutDLLDPanel.setVisibility(View.VISIBLE);
         } else {
             layoutDLLDPanel.setVisibility(View.GONE);
@@ -721,6 +732,47 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             case R.id.btnGetEndPoint:
                 DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_GetEndPoint);
                 getDialog().dismiss();
+                break;
+            //排水检测 顺流
+            case R.id.btn_down_flow: {
+                String sql = "benExpNum = '" + getStartPoint() + "' and endExpNum = '" + getEndPoint() + "' and flow = '顺'";
+                Recordset query = DataHandlerObserver.ins().getPsLrDatasetVector().query(sql, CursorType.STATIC);
+                Bundle bundle = new Bundle();
+                QueryPsLineFragment fragment = new QueryPsLineFragment();
+                if (query.isEmpty()) {
+                    ToastyUtil.showInfoLong(getActivity(), "你还未录入此管线的顺流检测");
+                    bundle.putString("type", "0");
+                    bundle.putParcelable("info", m_baseInfo);
+                    bundle.putString("flow","顺");
+                } else {
+                    int id = query.getID();
+                    bundle.putString("type", "1");
+                    bundle.putInt("smid", id);
+                }
+                fragment.setArguments(bundle);
+                fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "line");
+            }
+            break;
+            //排水检测 逆流
+            case R.id.btn_reflux: {
+                String sql = "benExpNum = '" + getStartPoint() + "' and endExpNum = '" + getEndPoint() + "' and flow = '逆'";
+                Recordset query = DataHandlerObserver.ins().getPsLrDatasetVector().query(sql, CursorType.STATIC);
+                Bundle bundle = new Bundle();
+                QueryPsLineFragment fragment = new QueryPsLineFragment();
+                if (query.isEmpty()) {
+                    ToastyUtil.showInfoLong(getActivity(), "你还未录入此管线的顺流检测");
+                    bundle.putString("type", "0");
+                    bundle.putParcelable("info", m_baseInfo);
+                    bundle.putString("flow","逆");
+                } else {
+                    int id = query.getID();
+                    bundle.putString("type", "1");
+                    bundle.putInt("smid", id);
+                }
+                fragment.setArguments(bundle);
+                fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "line");
+            }
+
                 break;
 
           /*  //管径大小

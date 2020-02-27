@@ -667,5 +667,23 @@
         <item></item>
     </string-array>
 
+    <string-array name="defectCode">
+        <item>PL-破裂</item>
+        <item>BX-变形</item>
+        <item>FS-腐蚀</item>
+        <item>CK-错口</item>
+        <item>QF-起伏</item>
+        <item>TJ-脱节</item>
+        <item>TL-接口材料脱落</item>
+        <item>AJ-支管暗接</item>
+        <item>CR-异物穿入</item>
+        <item>SL-渗漏</item>
+        <item>CJ-沉积</item>
+        <item>JG-结垢</item>
+        <item>ZW-障碍物</item>
+        <item>CQ-残墙坝根</item>
+        <item>SG-树根</item>
+        <item>FZ-浮渣</item>
+    </string-array>
 
 </resources>

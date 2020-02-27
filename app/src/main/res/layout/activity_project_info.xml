@@ -146,6 +146,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
+
         <TextView
             style="@style/TextViewStyle1"
             android:layout_width="@dimen/dp_80"
@@ -155,6 +156,7 @@
             android:text="工程设置" />
 
         <Button
+            android:layout_marginRight="@dimen/dp_5"
             android:id="@+id/btn_setting"
             style="@style/activity_btn_style_2"
             android:layout_alignParentRight="true"
@@ -176,7 +178,7 @@
             android:layout_height="@dimen/dp_40"
             android:gravity="center"
             android:padding="@dimen/dp_3"
-            android:text="组号位置:" />
+            android:text="组号位置" />
 
         <Spinner
             android:id="@+id/sp_group_local"
@@ -198,7 +200,7 @@
             android:layout_height="@dimen/dp_40"
             android:gravity="center"
             android:padding="@dimen/dp_3"
-            android:text="管点位数:" />
+            android:text="管点位数" />
 
         <Spinner
             android:id="@+id/sp_serinum"
@@ -222,7 +224,7 @@
             android:layout_height="@dimen/dp_40"
             android:gravity="center"
             android:padding="@dimen/dp_3"
-            android:text="项目模式:" />
+            android:text="项目模式" />
 
         <Spinner
             android:id="@+id/sp_mode"
@@ -246,7 +248,7 @@
             android:layout_height="@dimen/dp_40"
             android:gravity="center"
             android:padding="@dimen/dp_3"
-            android:text="组别设置:" />
+            android:text="组别设置" />
 
         <EditText
             android:id="@+id/edt_group"
@@ -278,7 +280,7 @@
             android:layout_height="@dimen/dp_40"
             android:gravity="center"
             android:padding="@dimen/dp_3"
-            android:text="管线长度:" />
+            android:text="管线长度" />
 
         <EditText
             android:id="@+id/edt_line_length"
@@ -296,6 +298,31 @@
             android:layout_marginRight="@dimen/dp_5"
             android:gravity="center"
             android:text="m" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+
+        <TextView
+            android:id="@+id/tv_ps"
+            style="@style/TextViewStyle1"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center"
+            android:padding="@dimen/dp_3"
+            android:text="排水外检" />
+
+        <Switch
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_alignParentRight="true"
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否启用排水外检" />
+
 
     </RelativeLayout>
 

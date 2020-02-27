@@ -25,6 +25,7 @@ import com.supermap.data.CursorType;
 import com.supermap.data.DataConversion;
 import com.supermap.data.Dataset;
 import com.supermap.data.DatasetVector;
+import com.supermap.data.Datasource;
 import com.supermap.data.FieldInfos;
 import com.supermap.data.Recordset;
 import com.supermap.data.Workspace;
@@ -44,8 +45,7 @@ import java.util.Map;
  * @Time 2019/3/6.21:06
  */
 
-public class
-ExportDataUtils {
+public class ExportDataUtils {
     private Workspace m_workspace;
     private Context m_context;
     private String m_prjId;
@@ -57,6 +57,8 @@ ExportDataUtils {
     private List<BaseFieldLInfos> m_lineListChild = new ArrayList<>();
     // 管线
     private List<List<Object>> m_lineListGroup = new ArrayList<>();
+    // 排水检测管线
+    private List<List<String>> psListGroup = new ArrayList<>();
     private List<String> m_excelFiledNameP;
     private List<String> m_excelFiledNameL;
     /**
@@ -121,15 +123,17 @@ ExportDataUtils {
                 DatasetVector _dsVectorL = (DatasetVector) DataHandlerObserver.ins().getTotalLrLayer().getDataset();
 //                    Recordset _reSetL = _dsVectorL.getRecordset(false, CursorType.STATIC);
                 Recordset _reSetL = _dsVectorL.query("pipeType Not like '临时%'", CursorType.STATIC);
+                //排水外检表
+                DatasetVector dsVectorPS = (DatasetVector) DataHandlerObserver.ins().getPsLrDatasetVector();
+                Recordset reSetPs = dsVectorPS.getRecordset(false, CursorType.STATIC);
                 //创建工程相关文件夹
                 String _prjFolder = SuperMapConfig.DEFAULT_DATA_PATH + m_prjId;
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
                 //点线数据集转成bean并且添加到list
+                reSetPsExportToBeans(reSetPs);
                 reSetPtExportToBeans(_reSetP);
                 reSetLrExportToBeans(_reSetL);
-//                    //先删除1.3.8版本里的检测记录表，用于统计导出成果表的名字
-//                    FileUtils.getInstance().deleteFile(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + SuperMapConfig.DEFAULT_DATA_RECORD_NAME + ".xls");
                 //判断文件夹里有多少个excel文件
                 int fileCount = FileUtils.getInstance().getFileIndexMax(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
                 //文件夹+1,命名新的excel
@@ -147,6 +151,19 @@ ExportDataUtils {
 //                        FileUtils.getInstance().deleteFile(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME + ".xls");
                     ExcelUtilsOfPoi.initExcelLogSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME, list);
                 }
+                //排水检测表导出 1代表用户启用了排水外检
+                if ("1".equals(SuperMapConfig.PS_OUT_CHECK)) {
+                    if (!FileUtils.getInstance().isFileExsit(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME)) {
+                        InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                        if (is != null) {
+                            FileUtils.getInstance().copy(is, _prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                        }
+                    }
+                    if (psListGroup.size() != 0) {
+                        ExcelUtilsOfPoi.initExcelPsSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME, psListGroup);
+                    }
+                }
+
                 //  poi 库导出数据  初始化excel表格
                 ExcelUtilsOfPoi.initExcel(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + m_prjId + "-" + String.valueOf(fileCount) + ".xls",
                         m_excelFiledNameP, m_excelFiledNameL, "P_ALL", "L_All");
@@ -167,6 +184,51 @@ ExportDataUtils {
                 handler.sendEmptyMessage(0);
             }
         });
+    }
+
+    /**
+     * 把记录集数据导出到list中
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/2/24  14:05
+     */
+    private void reSetPsExportToBeans(Recordset reSetPs) {
+        int index = 1;
+        //把需要的字段值，存到集合中
+        while (!reSetPs.isEOF()) {
+            List<String> list = new ArrayList<String>();
+            list.add(String.valueOf(index));
+            index++;
+            try {
+                list.add(reSetPs.getString("videoNumber"));
+                list.add(reSetPs.getString("benExpNum"));
+                list.add(reSetPs.getString("endExpNum"));
+                list.add(reSetPs.getString("benDeep"));
+                list.add(reSetPs.getString("endDeep"));
+                list.add(reSetPs.getString("flow"));
+                list.add(reSetPs.getString("material"));
+                list.add(reSetPs.getString("pipeSize"));
+                list.add(reSetPs.getString("pipeType"));
+                list.add(reSetPs.getString("wellNumber"));
+                list.add(reSetPs.getString("wellState"));
+                list.add(reSetPs.getString("flowState"));
+                list.add(reSetPs.getString("defectLength"));
+                list.add(reSetPs.getString("defectCode"));
+                list.add(reSetPs.getString("defectGrade"));
+                list.add(reSetPs.getString("roadName"));
+                list.add(reSetPs.getString("exp_Date"));
+            }catch (Exception e){
+                LogUtills.e(e.toString());
+            }
+            psListGroup.add(list);
+            reSetPs.moveNext();
+        }
+
+        if (reSetPs != null) {
+            reSetPs.close();
+            reSetPs.dispose();
+        }
     }
 
     /**
@@ -220,13 +282,13 @@ ExportDataUtils {
                 if (list.size() != 0) {
                     ExcelUtilsOfPoi.initExcelLogSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME, list);
                 }
-
                 //点线表头
                 List<String> point = getPointTitles();
                 List<String> line = getLineTitles();
                 //初始化表格
                 ExcelUtilsOfPoi.initExcelOfOut(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + m_prjId + "-" + String.valueOf(fileCount) + ".xls",
                         m_excelFiledNameP, m_excelFiledNameL, point, line, "P_ALL", "L_All", "编辑点", "编辑线");
+
                 //点 线导出excel 创建项目文件夹
                 if (m_pointListGroup.size() > 0) {
                     ExcelUtilsOfPoi.writeObjListToExcel(0, m_pointListGroup, _prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH +
@@ -258,6 +320,13 @@ ExportDataUtils {
         });
     }
 
+    /**
+     * 外键模式线表头
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/2/24  10:02
+     */
     private List<String> getLineTitles() {
         List<String> line = new ArrayList<>();
         line.add("工程名字");
@@ -268,6 +337,13 @@ ExportDataUtils {
         return line;
     }
 
+    /**
+     * 外键模式点表头
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/2/24  10:02
+     */
     private List<String> getPointTitles() {
         List<String> point = new ArrayList<>();
         point.add("工程名字");
@@ -307,7 +383,11 @@ ExportDataUtils {
                 String _prjFolder = SuperMapConfig.DEFAULT_DATA_PATH + m_prjId;
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
+                //排水外检表
+                DatasetVector dsVectorPS = (DatasetVector) DataHandlerObserver.ins().getPsLrDatasetVector();
+                Recordset reSetPs = dsVectorPS.query("exp_Date between '" + start + "' and '" + end + "'", CursorType.STATIC);
                 //点线数据集转成bean并且添加到list
+                reSetPsExportToBeans(reSetPs);
                 reSetPtExportToBeans(_reSetP);
                 reSetLrExportToBeans(_reSetL);
                 //判断文件夹里有多少个excel文件
@@ -326,6 +406,20 @@ ExportDataUtils {
                 if (list.size() != 0) {
                     ExcelUtilsOfPoi.initExcelLogSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME, list);
                 }
+
+                //排水检测表导出 1代表用户启用了排水外检
+                if ("1".equals(SuperMapConfig.PS_OUT_CHECK)) {
+                    if (!FileUtils.getInstance().isFileExsit(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME)) {
+                        InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                        if (is != null) {
+                            FileUtils.getInstance().copy(is, _prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                        }
+                    }
+                    if (psListGroup.size() != 0) {
+                        ExcelUtilsOfPoi.initExcelPsSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME, psListGroup);
+                    }
+                }
+
                 //  poi 库导出数据  初始化excel表格
                 ExcelUtilsOfPoi.initExcel(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + m_prjId + "-" + String.valueOf(fileCount) + ".xls",
                         m_excelFiledNameP, m_excelFiledNameL, "P_ALL", "L_All");
@@ -618,4 +712,5 @@ ExportDataUtils {
         LogUtills.i("CurTime", endTime - time + "");
         return true;
     }
+
 }

@@ -1,6 +1,8 @@
 package com.app.BaseInfo.Data;
 
 import android.database.Cursor;
+
+import com.app.BaseInfo.Data.Line.PsCheckLine;
 import com.app.BaseInfo.Data.Line.TheTotalLine;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
@@ -22,7 +24,8 @@ public class LineFieldFactory {
     }
 
     public static BaseFieldLInfos Create(String name) {
-        return null;
+
+        return new PsCheckLine();
     }
 
     public static BaseFieldLInfos Create() {

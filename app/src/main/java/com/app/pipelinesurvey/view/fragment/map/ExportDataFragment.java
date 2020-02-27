@@ -144,7 +144,6 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
                     new ExportDataUtils(getActivity()).exportData(tvStart.getText().toString(), tvEnd.getText().toString());
                 }
                 getDialog().dismiss();
-
                 break;
             //导出全部数据
             case R.id.btn_export_all:

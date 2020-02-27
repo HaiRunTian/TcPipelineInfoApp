@@ -67,7 +67,7 @@ public class ExcelUtilsOfPoi {
      * @date :2019/6/26  18:00
      */
     public static void initExcelLogSheet(String fileName, List<DetectionInfo> list) {
-        int[] width = new int[]{5, 11, 13, 20, 30, 8, 8, 8, 8, 8};
+//        int[] width = new int[]{5, 11, 13, 20, 30, 8, 8, 8, 8, 8};
 //        fileName = SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + "/检测记录表.xls";
         FileOutputStream outputStream = null;
         try {
@@ -138,7 +138,53 @@ public class ExcelUtilsOfPoi {
                 e.printStackTrace();
             }
         }
+    }
 
+    /**
+     * 初始化 当天检测记录表
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/6/26  18:00
+     */
+    public static void initExcelPsSheet(String fileName, List<List<String>> list) {
+//        int[] width = new int[]{5, 11, 13, 20, 30, 8, 8, 8, 8, 8};
+//        fileName = SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + "/检测记录表.xls";
+        FileOutputStream outputStream = null;
+        try {
+            FileInputStream is = new FileInputStream(new File(fileName));
+            Workbook workbook = new HSSFWorkbook(is);
+            SparseArray<CellStyle> borderedStyle = createBorderedStyle(workbook);
+            Sheet sheet = workbook.getSheetAt(0);
+            //填入数据
+            if (list.size() > 0) {
+                for (int i = 0; i < list.size(); i++) {
+                    List<String> list1 = list.get(i);
+                    Row row = sheet.createRow(6 + i);
+                    row.setHeight((short) (256 * 1.2));
+                    for (int i1 = 0; i1 < 18; i1++) {
+                        Cell cell = row.createCell(i1);
+                        cell.setCellStyle(borderedStyle.get(3));
+                        cell.setCellValue(list1.get(i1));
+                    }
+                }
+            }
+            outputStream = new FileOutputStream(fileName);
+            workbook.write(outputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

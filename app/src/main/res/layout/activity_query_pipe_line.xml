@@ -543,7 +543,6 @@
 
             </LinearLayout>
 
-
             <!--管线备注-->
             <LinearLayout
                 android:id="@+id/layout_line_remark"
@@ -598,6 +597,26 @@
                     android:theme="@style/CustomEdittext02" />
             </LinearLayout>
 
+            <!--排水检测-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/layout_ps"
+                style="@style/LinearCenterVertical">
+                <Button
+                    android:id="@+id/btn_down_flow"
+                    style="@style/fragment_btn_style"
+                    android:text="顺"
+                   />
+                <Button
+                    android:id="@+id/btn_reflux"
+                    style="@style/fragment_btn_style"
+                    android:text="逆"
+                    />
+
+            </LinearLayout>
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
@@ -630,6 +649,11 @@
                     android:visibility="gone" />
             </LinearLayout>
 
+
+            <FrameLayout
+                android:layout_below="@+id/edt_15"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_300" />
         </LinearLayout>
 
     </ScrollView>

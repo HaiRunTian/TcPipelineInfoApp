@@ -259,8 +259,8 @@
             <LinearLayout
                 android:id="@+id/layoutPipeSize"
                 style="@style/LinearCenterVertical"
-                android:visibility="visible"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tvPipeSize"
@@ -584,8 +584,7 @@
             <!--疑难问题-->
             <LinearLayout
                 android:id="@+id/layout_puzzle"
-                style="@style/LinearCenterVertical"
-                android:layout_marginBottom="@dimen/dp_40">
+                style="@style/LinearCenterVertical">
 
                 <TextView
                     style="@style/TextViewStyle02_3"
@@ -598,6 +597,24 @@
                     android:layout_weight="1"
                     android:theme="@style/CustomEdittext02" />
             </LinearLayout>
+
+            <!--排水外检-->
+            <LinearLayout
+                android:id="@+id/layout_ps"
+                style="@style/LinearCenterVertical"
+                android:layout_marginBottom="@dimen/dp_40">
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btnPs"
+                    style="@style/fragment_btn_style"
+                    android:text="排水检测" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_below="@+id/edt_15"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_300" />
 
         </LinearLayout>
 

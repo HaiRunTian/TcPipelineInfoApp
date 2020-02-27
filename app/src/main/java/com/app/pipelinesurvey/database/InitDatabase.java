@@ -396,7 +396,7 @@ public class InitDatabase {
     }
 
     /**
-     * 版本  8 点线配置表插入一个管类
+     * 版本  12 点线配置表插入一个管类
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -411,4 +411,21 @@ public class InitDatabase {
         _list.add(sqlUpdate);
         return _list;
     }
+
+    /**
+     * 版本  13 工程吧表添加一个排水外检
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf13() {
+        //存放sql语句
+        List<String> _list = new ArrayList<>();
+        String sqlAlterPointViewSetting = "alter table project_info add column PsCheck varchar";
+
+        _list.add(sqlAlterPointViewSetting);
+        return _list;
+    }
+
+
 }
