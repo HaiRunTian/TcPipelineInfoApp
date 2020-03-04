@@ -36,7 +36,7 @@
                 values('给水-JS','#0000FF',0.0,1.0,'正本清源')
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end,city)
-                values('污水-WS','#00FFFF',1.0,2.0,'正本清源')
+                values('污水-WS','#00BFFF',1.0,2.0,'正本清源')
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end,city)
                 values('排水-PS','#7F3F3F',2.0,3.0,'正本清源')
@@ -2077,109 +2077,109 @@
             <!--WS-探测点-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-探测点','#00FFFF',3,3,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-探测点','#00BFFF',3,3,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-检查井-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-检查井','#00FFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-检查井','#00BFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!-- WS-进出水口-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-污篦','#00FFFF',4,2.5,1,36,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-污篦','#00BFFF',4,2.5,1,36,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-雨水篦-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-立管','#00FFFF',4,8,1,491,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-立管','#00BFFF',4,8,1,491,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-污水篦-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-化粪池','#00FFFF',4,4,1,40,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-化粪池','#00BFFF',4,4,1,40,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-预留口-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-进水口','#00FFFF',4,4,1,39,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-进水口','#00BFFF',4,4,1,39,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-化粪池-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-出水口','#00FFFF',4,4,1,39,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-出水口','#00BFFF',4,4,1,39,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-转折点-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-预留口','#00FFFF',8,4,1,35,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-预留口','#00BFFF',8,4,1,35,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-交叉口-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-未知井','#00FFFF',4,4,1,543,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-未知井','#00BFFF',4,4,1,543,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-起始点-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-沉泥井','#00FFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-沉泥井','#00BFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <!--WS-非普查区-->
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-渗水井','#00FFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-渗水井','#00BFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-冲洗井','#00FFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-冲洗井','#00BFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-跌水井','#00FFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-跌水井','#00BFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-通风井','#00FFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-通风井','#00BFFF',4,4,1,33,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-起始点','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-起始点','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-拐点','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-拐点','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-三通','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-三通','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-四通','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-四通','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-五通','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-五通','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-出测区','#00FFFF',4,8,1,504,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-出测区','#00BFFF',4,8,1,504,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-多通','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-多通','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-终止点','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-终止点','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-变坡点','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-变坡点','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
             <sql>insert into
                 default_point_zhengben(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('WS-直线点','#00FFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
+                values ('WS-直线点','#00BFFF',4,4,1,32,'1',2477,211,2,'污水-WS','正本清源')
             </sql>
 
             <!--排水设置-->
@@ -4416,7 +4416,7 @@
             <!--污水设置-->
             <sql>insert into default_line_zhengben(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('污水', 0.2, '#00FFFF', 965149,'污水-WS','WS', '', '', '正本清源标准', '正本清源')
+                values('污水', 0.2, '#00BFFF', 965149,'污水-WS','WS', '', '', '正本清源标准', '正本清源')
             </sql>
             <!--雨水设置-->
             <sql>insert into default_line_zhengben(

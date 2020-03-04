@@ -283,11 +283,11 @@
                     style="@style/TextViewStyle02_3"
                     android:text="@string/section" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/edtSectionWidth"
+                    android:hint="@string/section_width_hint"
                     style="@style/EdtStyle02"
                     android:gravity="center"
-                    android:hint="@string/section_width_hint"
                     android:inputType="numberSigned"
                     android:textColor="@drawable/selector_edt_enabled_state"
                     android:theme="@style/CustomEdittext02" />
@@ -299,7 +299,7 @@
                     android:layout_marginRight="@dimen/dp_10"
                     android:text="X" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/edtSectionHeight"
                     style="@style/EdtStyle02"
                     android:gravity="center"

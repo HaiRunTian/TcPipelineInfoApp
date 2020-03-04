@@ -1262,6 +1262,10 @@ public class DataHandlerObserver {
     public DatasetVector getPsLrDatasetVector() {
         DatasetVector datasetVector = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace().getDatasources()
                 .get(0).getDatasets().get("L_" + SuperMapConfig.Layer_PS);
+        if (datasetVector == null){
+            LogUtills.e("Query DatasetVector " + SuperMapConfig.Layer_PS + "Is  Null...");
+            return null;
+        }
         return datasetVector;
     }
 
@@ -1670,6 +1674,10 @@ public class DataHandlerObserver {
             return false;
         }
         DatasetVector _dv =  getPsLrDatasetVector();
+        if (_dv == null){
+            ToastyUtil.showErrorShort(mContext,"排水外检数据集为空");
+            return false;
+        }
         FieldInfos _infos = _dv.getFieldInfos();
         Recordset _result = _dv.getRecordset(true, CursorType.DYNAMIC);
         _result.moveFirst();
@@ -1724,6 +1732,10 @@ public class DataHandlerObserver {
         }
 
         DatasetVector _dv = getPsLrDatasetVector();
+        if (_dv == null){
+            ToastyUtil.showErrorShort(mContext,"排水外检数据集为空");
+            return false;
+        }
         FieldInfos _infos = _dv.getFieldInfos();
         int[] _smids = new int[]{pInfos.sysId};
         Recordset _result = _dv.query(_smids, CursorType.DYNAMIC);

@@ -68,7 +68,6 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
     }
 
     //注册序列号
-
     private void initRegister() {
         //注册序列号  加密判断
         String password = SharedPreferencesUtil.getString("password", "");

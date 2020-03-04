@@ -208,9 +208,9 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 SuperMapConfig.PS_OUT_CHECK = psCheck;
             }
 
-            if ("1".equals(psCheck)){
+            if ("1".equals(psCheck)) {
                 aSwitch.setChecked(true);
-            }else {
+            } else {
                 aSwitch.setChecked(false);
             }
             tvProjectCreateTime.setText(create_time.length() > 0 ? create_time : "");
@@ -283,36 +283,39 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 break;
             //保存数据，打开地图，如果没有添加地图，默认打开地图
             case R.id.btnOpen:
-                String prjName = edtProjName.getText().toString().trim();
-                //判断是否要插入点线配置数据
-                inserSettingSql(prjName);
-
-                Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
-                _intent.putExtra("prjName", prjName);
-                if (mNewPrj) {
-                    //新项目 //用户没有选择切图，默认打开谷歌地图
-                    if (tvBaseMapPath.getText().toString().length() == 0) {
-                        //类型 google代表谷歌地图 sci代表切片
-                        _intent.putExtra("type", "google");
+                try {
+                    String prjName = edtProjName.getText().toString().trim();
+                    //判断是否要插入点线配置数据
+                    inserSettingSql(prjName);
+                    Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
+                    _intent.putExtra("prjName", prjName);
+                    if (mNewPrj) {
+                        //新项目 //用户没有选择切图，默认打开谷歌地图
+                        if (tvBaseMapPath.getText().toString().length() == 0) {
+                            //类型 google代表谷歌地图 sci代表切片
+                            _intent.putExtra("type", "google");
 //                        baseMapPath = "http://map.baidu.com";
-                        baseMapPath = "http://www.google.cn/maps";
-                    } else {  //用户选择了地图切片
-                        //类型 1代表谷歌地图 sci 代表切片
-                        _intent.putExtra("type", "sci");
+                            baseMapPath = "http://www.google.cn/maps";
+                        } else {  //用户选择了地图切片
+                            //类型 1代表谷歌地图 sci 代表切片
+                            _intent.putExtra("type", "sci");
+                        }
+                        if (queryPrjName()) {
+                            return;
+                        }
+                        saveDataToDB();
+                    } else {
+                        //无用 不是新建项目
+                        _intent.putExtra("type", "3");
+                        updataTime();
                     }
-                    if (queryPrjName()) {
-                        return;
-                    }
-                    saveDataToDB();
-                } else {
-                    //无用 不是新建项目
-                    _intent.putExtra("type", "3");
-                    updataTime();
+                    startActivity(_intent);
+                    //全局，记住当前项目模式 常规 外检
+                    SuperMapConfig.PrjMode = spMode.getSelectedItem().toString();
+                    finish();
+                } catch (Exception e) {
+                    ToastyUtil.showErrorShort(this, e.toString());
                 }
-                startActivity(_intent);
-                //全局，记住当前项目模式 常规 外检
-                SuperMapConfig.PrjMode = spMode.getSelectedItem().toString();
-                finish();
                 break;
 
             case R.id.tvAddBaseMap: {
@@ -404,11 +407,11 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         _values.put("mode", spMode.getSelectedItem().toString());
 
         //是否启用排水检测
-        if (aSwitch.isChecked()){
-            _values.put("PsCheck","1");
+        if (aSwitch.isChecked()) {
+            _values.put("PsCheck", "1");
             SuperMapConfig.PS_OUT_CHECK = "1";
-        }else {
-            _values.put("PsCheck","0");
+        } else {
+            _values.put("PsCheck", "0");
         }
         DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_NAME_PROJECT_INFO, _values);
 

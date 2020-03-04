@@ -89,8 +89,8 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     private EditText edtLineRemark;
     private EditText edtPuzzle;
     private AutoCompleteTextView edtPipeSize;
-    private EditText edtSectionWidth;
-    private EditText edtSectionHeight;
+    private AutoCompleteTextView edtSectionWidth;
+    private AutoCompleteTextView edtSectionHeight;
     private ImageView imgvLineRemark;
     private LinearLayout layoutPipeSize, layoutSection;
     private ImageButton imgbtnExchange;
@@ -508,11 +508,13 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, embeddedWayList);
         spEmbeddedWay.setAdapter(m_adapter);
 
-//        if (gpType.contains("煤气") || gpType.contains("燃气")) {
         pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
         edtPipeSize.setThreshold(1);
-
         edtPipeSize.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
+        edtSectionWidth.setThreshold(1);
+        edtSectionHeight.setThreshold(1);
+        edtSectionWidth.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
+        edtSectionHeight.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
 
         volatageList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.voltage));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, volatageList);
@@ -523,26 +525,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, pressureList);
         spPressure.setAdapter(m_adapter);
         spPressure.setSelection(pressureList.size() - 1);
-      /*  //显示隐藏属性面板
-        switch (gpType) {
-            case "电力":
-            case "路灯":
-            case "电信":
-            case "有视":
-            case "军队":
-            case "交通":
-            case "高压":
-            case "低压":
-            case "监控":
-            case "移动":
-            case "联通":
-            case "盈通":
-                layoutDLLDPanel.setVisibility(View.VISIBLE);
-                break;
-            default:
-                layoutDLLDPanel.setVisibility(View.GONE);
-                break;
-        }*/
+
         if (gpType.contains("电力") || gpType.contains("路灯")
                 || gpType.contains("电信") || gpType.contains("有视")
                 || gpType.contains("军队") || gpType.contains("交通")
@@ -1352,8 +1335,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             double s = Double.parseDouble(_startBurialDepth);
             double temp = s * 100;
             new DecimalFormat("#.00").format(temp);
-//            String depth = String.valueOf(temp);
-            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp));
+            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
@@ -1371,7 +1353,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             }
             double s = Double.parseDouble(_ednBurialDepth);
             double temp = s * 100;
-            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp));
+            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
@@ -1396,7 +1378,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             double s = Double.parseDouble(_burialDifference);
             double temp = s * 100;
 //            String depth = String.valueOf(temp);
-            edtBurialDifference.setText(new DecimalFormat().format(temp));
+            edtBurialDifference.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 

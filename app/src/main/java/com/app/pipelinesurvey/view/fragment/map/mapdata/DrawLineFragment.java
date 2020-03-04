@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.LineFieldFactory;
@@ -49,11 +50,14 @@ import com.supermap.data.CursorType;
 import com.supermap.data.QueryParameter;
 import com.supermap.data.Recordset;
 import com.supermap.mapping.Layer;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author HaiRun
@@ -169,11 +173,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     /**
      * 宽
      */
-    private EditText edtSectionWidth;
+    private AutoCompleteTextView edtSectionWidth;
     /**
      * 高
      */
-    private EditText edtSectionHeight;
+    private AutoCompleteTextView edtSectionHeight;
     /**
      * 下拉框按钮
      */
@@ -408,8 +412,8 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         imgvOwnershipUnit.setOnClickListener(this);
         edtOwnershipUnit = (EditText) view.findViewById(R.id.edtOwnershipUnit);
         edtPipeSize = (AutoCompleteTextView) view.findViewById(R.id.edtPipeSize);
-        edtSectionWidth = (EditText) view.findViewById(R.id.edtSectionWidth);
-        edtSectionHeight = (EditText) view.findViewById(R.id.edtSectionHeight);
+        edtSectionWidth = (AutoCompleteTextView) view.findViewById(R.id.edtSectionWidth);
+        edtSectionHeight = (AutoCompleteTextView) view.findViewById(R.id.edtSectionHeight);
         edtPipeLength = (EditText) view.findViewById(R.id.edtPipeLength);
         edtHoleCount = (EditText) view.findViewById(R.id.edtHoleCount);
         edtUsedHoleCount = (EditText) view.findViewById(R.id.edtUsedHoleCount);
@@ -437,7 +441,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         tvAmount = view.findViewById(R.id.tvAmount);
         btnAddPs = view.findViewById(R.id.btnPs);
         btnAddPs.setOnClickListener(this);
-        if ("1".equals(SuperMapConfig.PS_OUT_CHECK)){
+        if ("1".equals(SuperMapConfig.PS_OUT_CHECK)) {
             btnAddPs.setVisibility(View.VISIBLE);
         }
         //起点点号
@@ -689,18 +693,16 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 case R.id.btnPs:
                     DrawPsLineFragment drawLineFragment = new DrawPsLineFragment();
                     Bundle bundle = new Bundle();
-
-                    bundle.putParcelable("startPoint",m_startPInfo);
-                    bundle.putParcelable("endPointInfo",m_endPInfo);
-                    bundle.putString("bePoint",m_startPInfo.exp_Num);
-                    bundle.putString("endPoint",m_endPInfo.exp_Num);
-                    bundle.putString("beDeep",getStartBurialDepth());
-                    bundle.putString("endDeep",getEndBurialDepth());
-                    bundle.putString("textrure",getTextrure());
-                    bundle.putString("pipeSize",getPipeSize());
+                    bundle.putParcelable("startPoint", m_startPInfo);
+                    bundle.putParcelable("endPointInfo", m_endPInfo);
+                    bundle.putString("bePoint", m_startPInfo.exp_Num);
+                    bundle.putString("endPoint", m_endPInfo.exp_Num);
+                    bundle.putString("beDeep", getStartBurialDepth());
+                    bundle.putString("endDeep", getEndBurialDepth());
+                    bundle.putString("textrure", getTextrure());
+                    bundle.putString("pipeSize", getPipeSize());
                     drawLineFragment.setArguments(bundle);
-                    drawLineFragment.show(getActivity().getSupportFragmentManager().beginTransaction(),"psLine");
-
+                    drawLineFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "psLine");
                     break;
 
                 //管径
@@ -844,7 +846,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             return null;
         }
         return _info;
-
     }
 
     /**
@@ -931,6 +932,11 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         pipeSizeList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.pipesizeStandard));
         edtPipeSize.setThreshold(1);
         edtPipeSize.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
+        //断面
+        edtSectionWidth.setThreshold(1);
+        edtSectionHeight.setThreshold(1);
+        edtSectionWidth.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
+        edtSectionHeight.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, pipeSizeList));
 //        }
 
         //权属单位
@@ -976,10 +982,10 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 || gpType.contains("电信") || gpType.contains("有视")
                 || gpType.contains("军队") || gpType.contains("交通")
                 || gpType.contains("高压") || gpType.contains("低压") || gpType.contains("监控") || gpType.contains("移动") ||
-                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("供电") ||gpType.contains("信号")
-                ||gpType.contains("铁通")||gpType.contains("吉通")||gpType.contains("网通")||gpType.contains("盈通")
-                ||gpType.contains("军用")||gpType.contains("保密")||gpType.contains("其他")||gpType.contains("监控")
-                ||gpType.contains("电通")||gpType.contains("广通")||gpType.contains("广电")) {
+                gpType.contains("联通") || gpType.contains("盈通") || gpType.contains("供电") || gpType.contains("信号")
+                || gpType.contains("铁通") || gpType.contains("吉通") || gpType.contains("网通") || gpType.contains("盈通")
+                || gpType.contains("军用") || gpType.contains("保密") || gpType.contains("其他") || gpType.contains("监控")
+                || gpType.contains("电通") || gpType.contains("广通") || gpType.contains("广电")) {
             layoutDLLDPanel.setVisibility(View.VISIBLE);
         } else {
             layoutDLLDPanel.setVisibility(View.GONE);
@@ -1190,9 +1196,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
     @Override
     public String getStartBurialDepth() {
-
         String temp = edtStartBurialDepth.getText().toString();
-
         if (temp.length() > 0) {
             String sign = "";
             if (temp.contains("-")) {
@@ -1220,6 +1224,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                 sign = "-";
                 temp = temp.substring(1);
             }
+
             int s = Integer.parseInt(temp);
             DecimalFormat df2 = new DecimalFormat("###.00");
             if (temp.length() > 2) {
@@ -1354,7 +1359,8 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             }
             double s = Double.parseDouble(_startBurialDepth);
             double temp = s * 100;
-            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp));
+            String depth = sign + new DecimalFormat().format(temp).replace(",", "");
+            edtStartBurialDepth.setText(depth);
         }
     }
 
@@ -1372,7 +1378,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             }
             double s = Double.parseDouble(_ednBurialDepth);
             double temp = s * 100;
-            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp));
+            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1396,7 +1402,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         if (_burialDifference != null) {
             double s = Double.parseDouble(_burialDifference);
             double temp = s * 100;
-            edtBurialDifference.setText(new DecimalFormat().format(temp));
+            edtBurialDifference.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1664,8 +1670,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         if (str.length() > 0) {
             ToastyUtil.showInfoShort(getActivity().getBaseContext(), str.toString().substring(0, str.length() - 1) + "数据没有填写");
         }
-
-
     }
 
     /**
@@ -1851,7 +1855,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
          */
         builder.setMultiChoiceItems(data, selectItems, new DialogInterface.OnMultiChoiceClickListener() {
             StringBuffer sb = new StringBuffer(100);
-
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 if (isChecked) {
@@ -1906,7 +1909,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
     /**
      * 设置TextView右边星号
-     *
      * @Params :
      * @author :HaiRun
      * @date :2019/6/24  16:27

@@ -155,7 +155,7 @@
                 values('排水-P','#7F3F3F',0.0,1.0)
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end)
-                values('雨水-Y','#00FFFF',1.0,2.0)
+                values('雨水-Y','#00BFFF',1.0,2.0)
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end)
                 values('污水-W','#FF00FF',2.0,3.0)
@@ -1444,78 +1444,78 @@
             <!--Y-窨井-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-窨井','#00FFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-窨井','#00BFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
             </sql>
             <!--Y-检查井-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-检查井','#00FFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-检查井','#00BFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-沉沙井-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-沉沙井','#00FFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-沉沙井','#00BFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!-- Y-接户井-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-接户井','#00FFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-接户井','#00BFFF',4,4,1,33,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-雨水篦-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-雨水篦','#00FFFF',4,4,1,36,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-雨水篦','#00BFFF',4,4,1,36,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-污水篦-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-污水篦','#00FFFF',4,4,1,36,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-污水篦','#00BFFF',4,4,1,36,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-化粪池-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-化粪池','#00FFFF',4,4,1,40,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-化粪池','#00BFFF',4,4,1,40,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-立管点-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-立管点','#00FFFF',4,8,1,491,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-立管点','#00BFFF',4,8,1,491,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-入户-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-入户','#00FFFF',4,4,1,38,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-入户','#00BFFF',4,4,1,38,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-进出水口-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-进出水口','#00FFFF',5,5,1,39,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-进出水口','#00BFFF',5,5,1,39,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-出测区-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-出测区','#00FFFF',8,4,1,37,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-出测区','#00BFFF',8,4,1,37,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-预留口-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-预留口','#00FFFF',4,8,1,35,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-预留口','#00BFFF',4,8,1,35,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--Y-探测点-->
             <sql>insert into
                 default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('Y-探测点','#00FFFF',4,4,1,472,'0',2477,200,2,'雨水-Y','广州')
+                values ('Y-探测点','#00BFFF',4,4,1,472,'0',2477,200,2,'雨水-Y','广州')
             </sql>
 
             <!--污水设置-->
@@ -2504,7 +2504,7 @@
             <!--雨水设置-->
             <sql>insert into default_line_setting(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('雨水', 0.2, '#00FFFF', 965149, '雨水-Y','Y', '', '', '广州标准', '广州')
+                values('雨水', 0.2, '#00BFFF', 965149, '雨水-Y','Y', '', '', '广州标准', '广州')
             </sql>
             <!--排水设置-->
             <sql>insert into default_line_setting(

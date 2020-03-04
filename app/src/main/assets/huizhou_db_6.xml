@@ -36,7 +36,7 @@
                 values('合流-PS','#7F3F3F',0.0,1.0,'惠州')
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end,city)
-                values('雨水-YS','#00FFFF',1.0,2.0,'惠州')
+                values('雨水-YS','#00BFFF',1.0,2.0,'惠州')
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end,city)
                 values('污水-WS','#A57C00',2.0,3.0,'惠州')
@@ -86,7 +86,7 @@
                 values('雨水-Y','#FFBF00',1.0,2.0,'深圳')
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end,city)
-                values('污水-W','#00FFFF',2.0,3.0,'深圳')
+                values('污水-W','#00BFFF',2.0,3.0,'深圳')
             </sql>
             <sql>insert into pipe_themelabel(pipetype,color,start,end,city)
                 values('给水-J','#0000FF',3.0,4.0,'深圳')
@@ -1263,61 +1263,61 @@
             <!--YS-探测点-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-探测点','#00FFFF',4,4,1,472,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-探测点','#00BFFF',4,4,1,472,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-检查井-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-窨井','#00FFFF',4,4,1,33,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-窨井','#00BFFF',4,4,1,33,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!-- YS-进出水口-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-进出水口','#00FFFF',4,4,1,39,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-进出水口','#00BFFF',4,4,1,39,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-雨水篦-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-雨水篦','#00FFFF',5,2.5,1,36,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-雨水篦','#00BFFF',5,2.5,1,36,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-污水篦-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-污水篦','#00FFFF',5,2.5,1,36,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-污水篦','#00BFFF',5,2.5,1,36,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-预留口-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-预留口','#00FFFF',7,4,1,35,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-预留口','#00BFFF',7,4,1,35,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-化粪池-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-化粪池','#00FFFF',8,4,1,40,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-化粪池','#00BFFF',8,4,1,40,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-转折点-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-转折点','#00FFFF',4,4,1,32,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-转折点','#00BFFF',4,4,1,32,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-交叉口-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-交叉口','#00FFFF',4,4,1,32,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-交叉口','#00BFFF',4,4,1,32,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-起始点-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-起始点','#00FFFF',4,4,1,32,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-起始点','#00BFFF',4,4,1,32,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <!--YS-非普查区-->
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-非普查区','#00FFFF',4,8,1,37,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-非普查区','#00BFFF',4,8,1,37,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
             <sql>insert into
                 default_point_huizhou(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
-                values ('YS-立管点','#00FFFF',4,8,1,491,'1',2477,211,2,'雨水-YS','惠州')
+                values ('YS-立管点','#00BFFF',4,8,1,491,'1',2477,211,2,'雨水-YS','惠州')
             </sql>
 
             <!--合流设置-->
@@ -2455,7 +2455,7 @@
             <!--雨水设置-->
             <sql>insert into default_line_huizhou(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('雨水', 0.2, '#00FFFF', 965149, '雨水-Y','YS', '', '', '惠州标准', '惠州')
+                values('雨水', 0.2, '#00BFFF', 965149, '雨水-Y','YS', '', '', '惠州标准', '惠州')
             </sql>
             <!--合流设置-->
             <sql>insert into default_line_huizhou(

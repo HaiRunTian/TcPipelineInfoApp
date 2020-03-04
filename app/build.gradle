@@ -6,8 +6,8 @@ android {
         applicationId "com.app.pipelinesurvey"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 53
-        versionName "1.6.3"
+        versionCode 54
+        versionName "1.6.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk { abiFilters "armeabi", "armeabi64-v8a", "armeabi-v7a", "x86", "mips" }
@@ -23,7 +23,6 @@ android {
     //打包签名
     signingConfigs {
         debug {
-
         }
 
         release {// 自己的签名文件

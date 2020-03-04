@@ -60,49 +60,22 @@ public class MyApplication extends Application {
         }*/
         /*开启网络广播监听*/
         NetStateReceiver.registerNetworkStateReceiver(this);
-
     }
-
-
 
     public static Context Ins() {
         LogUtills.i("Application =",context.toString());
         return context;
     }
 
-
     private void initConfig() {
         AssetsUtils.init(context);
         SharedPreferencesUtil.getInstance(this);
-//        if (configLicense()) {
-////            Environment.setLicensePath(SuperMapConfig.LIC_PATH);
-////            Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
-////            Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
-////            Environment.initialization(this);
-//        }
     }
-
-   /* *//**
-     *    配置许可文件
-     *//*
-    private boolean configLicense() {
-        String license = SuperMapConfig.LIC_PATH + SuperMapConfig.LIC_NAME;
-        File m_licenseFile = new File(license);
-        if (!m_licenseFile.exists()) {
-            InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.LIC_NAME);
-            if (is != null) {
-                return  FileUtils.getInstance().copy(is, SuperMapConfig.FULL_LIC_PATH);
-            }
-        }
-        return true;
-    }*/
-
 
     /**
      * 初始化数据库建表  创建表格
      */
     private void initDatabase() {
-
         try {
             List<String> _listSQL = PullXMLUtil.parserXML2SqlList(getAssets()
                     .open("database.xml"), "sql_create_table", "sql_create");
@@ -126,8 +99,4 @@ public class MyApplication extends Application {
         super.onLowMemory();
     }
 
-//    public static RefWatcher getRefWatcher(Context context) {
-//        MyApplication application = (MyApplication) context.getApplicationContext();
-//        return application.refWatcher;
-//    }
 }

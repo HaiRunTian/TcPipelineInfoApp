@@ -125,13 +125,15 @@ public class ExportDataUtils {
                 Recordset _reSetL = _dsVectorL.query("pipeType Not like '临时%'", CursorType.STATIC);
                 //排水外检表
                 DatasetVector dsVectorPS = (DatasetVector) DataHandlerObserver.ins().getPsLrDatasetVector();
-                Recordset reSetPs = dsVectorPS.getRecordset(false, CursorType.STATIC);
+                if (dsVectorPS != null) {
+                    Recordset reSetPs = dsVectorPS.getRecordset(false, CursorType.STATIC);
+                    reSetPsExportToBeans(reSetPs);
+                }
                 //创建工程相关文件夹
                 String _prjFolder = SuperMapConfig.DEFAULT_DATA_PATH + m_prjId;
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH);
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
                 //点线数据集转成bean并且添加到list
-                reSetPsExportToBeans(reSetPs);
                 reSetPtExportToBeans(_reSetP);
                 reSetLrExportToBeans(_reSetL);
                 //判断文件夹里有多少个excel文件
@@ -163,7 +165,6 @@ public class ExportDataUtils {
                         ExcelUtilsOfPoi.initExcelPsSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME, psListGroup);
                     }
                 }
-
                 //  poi 库导出数据  初始化excel表格
                 ExcelUtilsOfPoi.initExcel(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_EXCEL_PATH + m_prjId + "-" + String.valueOf(fileCount) + ".xls",
                         m_excelFiledNameP, m_excelFiledNameL, "P_ALL", "L_All");
@@ -196,33 +197,35 @@ public class ExportDataUtils {
     private void reSetPsExportToBeans(Recordset reSetPs) {
         int index = 1;
         //把需要的字段值，存到集合中
-        while (!reSetPs.isEOF()) {
-            List<String> list = new ArrayList<String>();
-            list.add(String.valueOf(index));
-            index++;
-            try {
-                list.add(reSetPs.getString("videoNumber"));
-                list.add(reSetPs.getString("benExpNum"));
-                list.add(reSetPs.getString("endExpNum"));
-                list.add(reSetPs.getString("benDeep"));
-                list.add(reSetPs.getString("endDeep"));
-                list.add(reSetPs.getString("flow"));
-                list.add(reSetPs.getString("material"));
-                list.add(reSetPs.getString("pipeSize"));
-                list.add(reSetPs.getString("pipeType"));
-                list.add(reSetPs.getString("wellNumber"));
-                list.add(reSetPs.getString("wellState"));
-                list.add(reSetPs.getString("flowState"));
-                list.add(reSetPs.getString("defectLength"));
-                list.add(reSetPs.getString("defectCode"));
-                list.add(reSetPs.getString("defectGrade"));
-                list.add(reSetPs.getString("roadName"));
-                list.add(reSetPs.getString("exp_Date"));
-            }catch (Exception e){
-                LogUtills.e(e.toString());
+        if (!reSetPs.isEmpty()) {
+            while (!reSetPs.isEOF()) {
+                List<String> list = new ArrayList<String>();
+                list.add(String.valueOf(index));
+                index++;
+                try {
+                    list.add(reSetPs.getString("videoNumber"));
+                    list.add(reSetPs.getString("benExpNum"));
+                    list.add(reSetPs.getString("endExpNum"));
+                    list.add(reSetPs.getString("benDeep"));
+                    list.add(reSetPs.getString("endDeep"));
+                    list.add(reSetPs.getString("flow"));
+                    list.add(reSetPs.getString("material"));
+                    list.add(reSetPs.getString("pipeSize"));
+                    list.add(reSetPs.getString("pipeType"));
+                    list.add(reSetPs.getString("wellNumber"));
+                    list.add(reSetPs.getString("wellState"));
+                    list.add(reSetPs.getString("flowState"));
+                    list.add(reSetPs.getString("defectLength"));
+                    list.add(reSetPs.getString("defectCode"));
+                    list.add(reSetPs.getString("defectGrade"));
+                    list.add(reSetPs.getString("roadName"));
+                    list.add(reSetPs.getString("exp_Date"));
+                } catch (Exception e) {
+                    LogUtills.e(e.toString());
+                }
+                psListGroup.add(list);
+                reSetPs.moveNext();
             }
-            psListGroup.add(list);
-            reSetPs.moveNext();
         }
 
         if (reSetPs != null) {
@@ -385,9 +388,11 @@ public class ExportDataUtils {
                 FileUtils.getInstance().mkdirs(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_RECORD);
                 //排水外检表
                 DatasetVector dsVectorPS = (DatasetVector) DataHandlerObserver.ins().getPsLrDatasetVector();
-                Recordset reSetPs = dsVectorPS.query("exp_Date between '" + start + "' and '" + end + "'", CursorType.STATIC);
+                if (dsVectorPS != null) {
+                    Recordset reSetPs = dsVectorPS.query("exp_Date between '" + start + "' and '" + end + "'", CursorType.STATIC);
+                    reSetPsExportToBeans(reSetPs);
+                }
                 //点线数据集转成bean并且添加到list
-                reSetPsExportToBeans(reSetPs);
                 reSetPtExportToBeans(_reSetP);
                 reSetLrExportToBeans(_reSetL);
                 //判断文件夹里有多少个excel文件

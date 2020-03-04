@@ -305,6 +305,10 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
      */
     private Boolean submitData() {
         DatasetVector vector = DataHandlerObserver.ins().getPsLrDatasetVector();
+        if (vector == null){
+            ToastyUtil.showErrorShort(getActivity(),"排水外检数据集为空");
+            return false;
+        }
         Recordset recordset = vector.getRecordset(false, CursorType.DYNAMIC);
         try {
             Map<String, Object> map = new HashMap<>();

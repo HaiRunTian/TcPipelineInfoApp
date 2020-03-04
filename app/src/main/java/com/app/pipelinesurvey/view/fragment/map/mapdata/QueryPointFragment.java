@@ -387,7 +387,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     imageItem.add(_map);
                     refreshGridviewAdapter();
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();

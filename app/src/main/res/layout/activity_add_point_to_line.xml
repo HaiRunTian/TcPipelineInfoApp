@@ -86,7 +86,7 @@
                     android:id="@+id/spAppendant"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_4"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:spinnerMode="dropdown"
