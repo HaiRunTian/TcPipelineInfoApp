@@ -215,7 +215,7 @@ public class ComTool {
      * @Time 2019/4/8 . 9:28
      */
     public int getSerialNum(String expNum, String state, String code) {
-
+        try {
         Pattern _pattern = Pattern.compile("[a-zA-Z]");
         // 1管点编号后面以为是字母并且是状态是正常 然后去掉后面的字母
         if (_pattern.matcher(expNum.substring(expNum.length() - 1)).find() && (!state.equals("正常"))) {
@@ -255,6 +255,10 @@ public class ComTool {
         LogUtills.i("Query Max exp_Num = " + expNum + ", _tempId:" + _tempId);
         _serialNum = Integer.valueOf(_tempId).intValue();
         return _serialNum;
+        }catch (Exception e){
+            LogUtills.e(e.toString());
+            return 0;
+        }
     }
 
 }

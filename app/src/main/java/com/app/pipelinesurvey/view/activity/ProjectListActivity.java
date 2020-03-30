@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * @描述 ProjectListActivity 项目列表页
- * @作者 Kevin
+ * @作者 hairun
  * @创建日期 2018-05-29  15:56.
  */
 public class ProjectListActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -152,7 +152,9 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                 String _prjName = data.getStringExtra("proj_id");
                 setResult(3, data);
                 finish();
-            } else if (resultCode == 1 || resultCode == 0) {
+                LogUtills.i("resultCode = 3");
+            } else {
+                LogUtills.i("resultCode = 12456");
                 try {
                     Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, null, null, null, null, null, null);
                     list_Prj.clear();

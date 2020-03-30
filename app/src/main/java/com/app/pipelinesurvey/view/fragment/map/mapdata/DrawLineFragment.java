@@ -616,7 +616,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     boolean _result = false;
                     //判断哪些值没有填写
                     checkViewData();
-
                     //检查哪些必填值没有填写
                     if (!checkValueRight()) {
                         return;
@@ -639,7 +638,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     }
 
                     break;
-
                 //起点和终点交换，线方向改变
                 case R.id.imgbtnExchange:
                     //点号修改
@@ -799,7 +797,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             _info.benDeep = getStartBurialDepth();
             _info.endDeep = getEndBurialDepth();
             _info.buried = getEmbeddedWay();
-
             _info.pipeSize = getPipeSize();
             //断面
             if (getSectionWidth().isEmpty() || getSectionWidth().length() == 0) {

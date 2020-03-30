@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.BaseActivity;
+import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.AESUtils;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.EncryptionAlgorithm;
@@ -36,6 +37,8 @@ import com.app.pipelinesurvey.utils.RxDeviceTool;
 import com.app.pipelinesurvey.utils.SharedPreferencesUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.iview.IGetNetTime;
+import com.app.utills.LogUtills;
+import com.supermap.data.Environment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -60,10 +63,12 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        //权限许可
         PermissionUtils.initPermission(this, new PermissionUtils.PermissionHolder());
+        //定义view
         initView();
         //请求网络时间
-//        LimitByTimeUtil.ins().getTimeFromNet(this);
+//        LimitByTimeUtil.ins(this).getTimeFromNet(this);
 
     }
 
@@ -71,10 +76,8 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
     private void initRegister() {
         //注册序列号  加密判断
         String password = SharedPreferencesUtil.getString("password", "");
-//        if (!password.isEmpty()) {
         //请求序列号
         TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Service.TELEPHONY_SERVICE);
-
         Method method = null;
         try {
             method = telephonyManager.getClass().getMethod("getDeviceId", int.class);
@@ -82,15 +85,22 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            //获取MEID号
-            String meid = (String) method.invoke(telephonyManager, 1);
+            //获取机器ID
+            String meid = Environment.getDeviceID();
+            //设备id获取为空，获取设备meid
+            if (meid == null) {
+                //获取MEID号
+                meid = (String) method.invoke(telephonyManager, 1);
+            }
+            //以上两个都为空，获取第三个
             if (meid == null) {
                 meid = telephonyManager.getDeviceId();
             }
-
+            //以上三个都为空，获取第四个
             if (meid == null) {
                 meid = RxDeviceTool.getDeviceIdIMEI(LogInActivity.this);
             }
+
             String password1 = AESUtils.getInstance("1234567890123456").encrypt(meid).trim();
             String password2 = SharedPreferencesUtil.getString("password", "").trim();
             if (!TextUtils.equals(password1, password2)) {
@@ -170,8 +180,21 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.tvLogIn:
                 //配置本地许可
-                LicenseUtils.ins().configLicense();
-//                //判断软件使用时间
+                if (PermissionUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (LicenseUtils.ins().configLicense()) {
+                        Environment.setLicensePath(SuperMapConfig.LIC_PATH);
+                        Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
+                        Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
+                        Environment.initialization(this);
+                    }
+                    //许可证过期，直接下载新的许可证
+                    if (!LicenseUtils.ins().judgeLicese()) {
+                        LicenseUtils.ins().downLoadLicense(this);
+                    }
+                } else {
+                    PermissionUtils.initPermission(this, new PermissionUtils.PermissionHolder());
+                }
+                //判断软件使用时间
                 if (NetUtils.isNetworkConnected(this) && nowTime.length() > 0) {
                     //有网情况下用网络时间判断
                     if (!LimitByTimeUtil.ins(LogInActivity.this).isEffectiveDate(nowTime)) {

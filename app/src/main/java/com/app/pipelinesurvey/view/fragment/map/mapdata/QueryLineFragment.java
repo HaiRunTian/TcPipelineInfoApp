@@ -468,7 +468,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                 return;
             }
             m_reSet.edit();
-            m_reSet.setString("benExpNum", m_newEndPoint.id);
+            m_reSet.setString("endExpNum", m_endPointID);
             m_reSet.setDouble("endLongitude", m_newEndPoint.longitude);
             m_reSet.setDouble("endLatitude", m_newEndPoint.latitude);
             //更改线的长度
@@ -738,7 +738,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             break;
             //排水检测 逆流
             case R.id.btn_reflux: {
-                String sql = "benExpNum = '" + getStartPoint() + "' and endExpNum = '" + getEndPoint() + "' and flow = '逆'";
+                String sql = "benExpNum = '" + getEndPoint() + "' and endExpNum = '" + getStartPoint() + "' and flow = '逆'";
                 Recordset query = DataHandlerObserver.ins().getPsLrDatasetVector().query(sql, CursorType.STATIC);
                 Bundle bundle = new Bundle();
                 QueryPsLineFragment fragment = new QueryPsLineFragment();
@@ -979,7 +979,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             String ds = (_info.pipeSize.toString().trim().length() == 0) ? _info.d_S : _info.pipeSize;
             _info.labelTag = String.valueOf(m_smId) + "-" + _info.pipeType.toLowerCase() + "-" + ds + "-" + _info.material.toString();
             _info.sysId = m_smId;
-            LogUtills.e(_info.toString());
+            LogUtills.i(_info.toString());
         } catch (Exception e) {
             ToastyUtil.showErrorShort(getActivity(), e.toString());
             return null;

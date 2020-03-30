@@ -20,4 +20,9 @@ public interface IDrawPsLineView {
     String getDefectDis();
     String getDefectCode();
     String getGrade();
+    String getCheckMan();
+    String getCheckLocal();
+    String getCheckRoadName();
+    String getCheckWay();
+    String getRemark();
 }

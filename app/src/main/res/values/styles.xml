@@ -478,10 +478,11 @@
         <item name="android:layout_margin">0dp</item>
         <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:paddingLeft">2dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 
     <style name="EdtStyle04">
-        <item name="android:gravity">right</item>
+        <item name="android:gravity">left</item>
         <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_40</item>

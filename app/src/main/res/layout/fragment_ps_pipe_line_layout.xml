@@ -22,10 +22,19 @@
                 style="@style/TextViewStyle02_5"
                 android:text="影像编号" />
 
+            <Spinner
+                android:id="@+id/spImaType"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_40"
+                android:layout_toRightOf="@+id/edt_01"
+                android:entries="@array/imgType">
+            </Spinner>
+
             <EditText
                 android:id="@+id/edt_img_no"
                 style="@style/EdtStyle04"
-                android:layout_toRightOf="@id/edt_01" />
+                android:inputType="numberDecimal"
+                android:layout_toRightOf="@id/spImaType" />
 
             <TextView
                 android:id="@+id/edt_02"
@@ -106,9 +115,11 @@
                 android:layout_below="@+id/edt_06"
                 android:text="管材" />
 
-            <EditText
-                android:id="@+id/edt_pipe_mater"
-                style="@style/EdtStyle04"
+            <Spinner
+                android:entries="@array/pipeMaterials"
+                android:id="@+id/spPipeMaterial"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
                 android:layout_below="@+id/edt_06"
                 android:layout_toRightOf="@id/edt_07" />
 
@@ -121,7 +132,7 @@
             <EditText
                 android:id="@+id/edt_pipe_size"
                 style="@style/EdtStyle04"
-                android:layout_below="@+id/edt_pipe_mater"
+                android:layout_below="@+id/edt_07"
                 android:layout_toRightOf="@id/edt_08" />
 
             <TextView
@@ -156,57 +167,9 @@
 
 
             <TextView
-                android:id="@+id/edt_10"
-                style="@style/TextViewStyle02_5"
-                android:layout_below="@+id/edt_09"
-                android:text="井内编号" />
-
-            <EditText
-                android:id="@+id/edt_well_no"
-                style="@style/EdtStyle04"
-                android:layout_below="@+id/edt_09"
-                android:layout_toRightOf="@id/edt_10" />
-
-            <TextView
-                android:id="@+id/edt_11"
-                style="@style/TextViewStyle02_5"
-                android:layout_below="@+id/edt_10"
-                android:text="检查井状况" />
-
-            <EditText
-                android:id="@+id/edt_well_status"
-                style="@style/EdtStyle04"
-                android:layout_below="@+id/edt_well_no"
-                android:layout_toRightOf="@id/edt_11" />
-
-            <TextView
-                android:id="@+id/edt_12"
-                style="@style/TextViewStyle02_5"
-                android:layout_below="@+id/edt_11"
-                android:text="水位情况" />
-
-            <EditText
-                android:id="@+id/edt_water_status"
-                style="@style/EdtStyle04"
-                android:layout_below="@+id/edt_well_status"
-                android:layout_toRightOf="@id/edt_12" />
-
-            <TextView
-                android:id="@+id/edt_13"
-                style="@style/TextViewStyle02_5"
-                android:layout_below="@+id/edt_12"
-                android:text="距离" />
-
-            <EditText
-                android:id="@+id/edt_defect_distance"
-                style="@style/EdtStyle04"
-                android:layout_below="@+id/edt_12"
-                android:layout_toRightOf="@id/edt_13" />
-
-            <TextView
                 android:id="@+id/edt_14"
                 style="@style/TextViewStyle02_5"
-                android:layout_below="@+id/edt_13"
+                android:layout_below="@+id/edt_09"
                 android:text="代码" />
 
 
@@ -214,7 +177,7 @@
                 android:id="@+id/sp_defect_code"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@+id/edt_13"
+                android:layout_below="@+id/edt_09"
                 android:layout_toRightOf="@+id/edt_14"
                 android:entries="@array/defectCode" />
 
@@ -260,18 +223,119 @@
                 android:id="@+id/edt_16"
                 style="@style/TextViewStyle02_5"
                 android:layout_below="@+id/edt_15"
+                android:text="检测人员" />
+
+            <EditText
+                android:id="@+id/edtChenckMan"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_15"
+                android:layout_toRightOf="@id/edt_16" />
+
+            <TextView
+                android:id="@+id/edt_17"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_16"
+                android:text="检测地点" />
+
+            <EditText
+                android:id="@+id/edtCheckLocal"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_16"
+                android:layout_toRightOf="@id/edt_17" />
+
+            <TextView
+                android:id="@+id/edt_18"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_17"
+                android:text="道路名称" />
+
+            <EditText
+                android:id="@+id/edtRoadName"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_17"
+                android:layout_toRightOf="@id/edt_18" />
+
+            <TextView
+                android:id="@+id/edt_19"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_18"
+                android:text="检测设备" />
+
+            <Spinner
+                android:entries="@array/checkWay"
+                android:id="@+id/spCheckWay"
+                android:layout_below="@+id/edt_18"
+                android:layout_toRightOf="@id/edt_19"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"/>
+
+
+            <TextView
+                android:id="@+id/edt_10"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_19"
+                android:text="井内编号" />
+
+            <EditText
+                android:id="@+id/edt_well_no"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_19"
+                android:layout_toRightOf="@id/edt_10" />
+
+            <TextView
+                android:id="@+id/edt_11"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_10"
+                android:text="检查井状况" />
+
+            <EditText
+                android:id="@+id/edt_well_status"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_well_no"
+                android:layout_toRightOf="@id/edt_11" />
+
+            <TextView
+                android:id="@+id/edt_12"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_11"
+                android:text="水位情况" />
+
+            <EditText
+                android:id="@+id/edt_water_status"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_well_status"
+                android:layout_toRightOf="@id/edt_12" />
+
+            <TextView
+                android:id="@+id/edt_13"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_12"
+                android:text="距离" />
+
+            <EditText
+                android:id="@+id/edt_defect_distance"
+                style="@style/EdtStyle04"
+                android:layout_below="@+id/edt_12"
+                android:layout_toRightOf="@id/edt_13" />
+
+
+
+            <TextView
+                android:id="@+id/edt_20"
+                style="@style/TextViewStyle02_5"
+                android:layout_below="@+id/edt_13"
                 android:text="备注" />
 
             <EditText
                 android:id="@+id/edt_romake"
                 style="@style/EdtStyle04"
-                android:layout_below="@+id/edt_15"
-                android:layout_toRightOf="@id/edt_16" />
+                android:layout_below="@+id/edt_13"
+                android:layout_toRightOf="@id/edt_20" />
 
             <Button
                 android:id="@+id/btn_del"
                 style="@style/fragment_btn_style"
-                android:layout_below="@+id/edt_16"
+                android:layout_below="@+id/edt_20"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="删除" />

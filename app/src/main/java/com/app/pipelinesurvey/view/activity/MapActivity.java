@@ -245,6 +245,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     private CheckBox cbAddLine;
     private CheckBox cbQueryLine;
     private View cbConLine;
+    private int status;
     @SuppressLint("HandlerLeak")
     private Handler m_handler = new Handler() {
         @Override
@@ -326,34 +327,45 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
      * @date :2019/6/26  15:07
      */
     private void setLogSheet() {
+        try {
         MapSettingFragment fragment = new MapSettingFragment();
         Bundle bundle = new Bundle();
         bundle.putString("prj_name", m_prjId);
         bundle.putString("type", m_type);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "MapSettingFragment");
+        }catch (Exception e){
+            LogUtills.e(e.toString());
+        }
 
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化超图相关控件
         Environment.setLicensePath(SuperMapConfig.LIC_PATH);
         Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
         Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
         Environment.initialization(this);
         setContentView(R.layout.fragment_map);
         EventBus.getDefault().register(this);
-        initView();
-        initData();
-        //判断许可是否可用
-        if (!LicenseUtils.ins().judgeLicese()) {
-            LicenseUtils.ins().downLoadLicense(this);
+        try {
+            initView();
+            initData();
+            //判断许可是否可用
+//        if (!LicenseUtils.ins().judgeLicese()) {
+//            LicenseUtils.ins().downLoadLicense(this);
+//        }
+            //定位相关类初始化
+            initLocal();
+            //打开或者创建工作空间
+            createOrOpenWorkspace2();
+        } catch (Exception e) {
+            LogUtills.i(e.toString());
         }
-        //定位相关类初始化
-        initLocal();
-        //打开或者创建工作空间
-        createOrOpenWorkspace2();
+        LogUtills.i(TAG,"onCreate");
+
     }
 
     /**
@@ -374,18 +386,23 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         }
     }
 
+
     /**
      * 初始化定位需要到的类和控件
      */
     private void initLocal() {
-        //传感器
-        m_SensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        //显示方向的view
-        m_NavigationPanelView = new NavigationPanelView(MapActivity.this);
-        m_mapView.addView(m_NavigationPanelView);
-        m_NavigationPanelView.setVisibility(View.GONE);
-        //位置管理类
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        try {
+            //传感器
+            m_SensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            //显示方向的view
+            m_NavigationPanelView = new NavigationPanelView(MapActivity.this);
+            m_mapView.addView(m_NavigationPanelView);
+            m_NavigationPanelView.setVisibility(View.GONE);
+            //位置管理类
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        } catch (Exception e) {
+            LogUtills.e(e.toString());
+        }
     }
 
     private void initProgress() {
@@ -405,14 +422,24 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     m_workspace = new Workspace();
                     //工作空间别名
                     m_workspace.setCaption(m_prjId);
+                    //工作空间描述
                     m_workspace.setDescription(m_prjId);
                     //工作空间连接类
                     WorkspaceConnectionInfo _wkInfo = m_workspace.getConnectionInfo();
+                    //设置服务地址
                     _wkInfo.setServer(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".smwu");
+                    //工作空间名字
                     _wkInfo.setName(m_prjId);
+                    //工作空间类型
                     _wkInfo.setType(WorkspaceType.SMWU);
+                    //检测工作空间文件是否存在
                     boolean wkExist = FileUtils.getInstance().isFileExsit(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".smwu");
-                    if (wkExist) {
+                    //status 1=打开已有工作空间   0:新建工作空间
+                    if (status == 1) {
+                        if (!wkExist) {
+                            ToastyUtil.showErrorShort(MapActivity.this, "项目源文件丢失，是否删除了项目文件夹");
+                        }
+                        //打开工作空间
                         if (!m_workspace.open(_wkInfo)) {
                             ToastyUtil.showErrorShort(MapActivity.this, "workspace open fail");
                             return;
@@ -424,13 +451,17 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             return;
                         }
                     }
+                    //获取地图类
                     m_map = m_mapControl.getMap();
+                    //地图和工作空间关联
                     m_map.setWorkspace(m_workspace);
+                    //获取地图集合类
                     Maps _maps = m_workspace.getMaps();
                     //判断工作空间是否存在 存在则打开地图
-                    if (wkExist) {
+                    if (status == 1) {
                         //判断数据源是否打开，否则打开数据源
                         m_handler.sendEmptyMessage(0);
+                        //遍历数据源，打开数据源
                         for (int i = 0; i < m_workspace.getDatasources().getCount(); i++) {
                             if (!m_workspace.getDatasources().get(i).isOpened()) {
                                 m_workspace.getDatasources().open(m_workspace.getDatasources().get(i).getConnectionInfo());
@@ -495,6 +526,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         m_workspace.save();
                         //待改进？ //获取对应数据集添加进
                         if ("google".equals(m_type)) {
+                            //设置在线地图
                             m_map.getLayers().add(ds.getDatasets().get(0), true);
                             m_map.getLayers().add(ds.getDatasets().get(1), true);
                             m_PrjCoordSys = ds.getDatasets().get(0).getPrjCoordSys();
@@ -505,6 +537,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 //                            m_PrjCoordSys =  ds.getDatasets().get(0).getPrjCoordSys();
                             ds.getDatasets().get(0).setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
                         }
+                        //把工作空间类设置到工具类
                         WorkSpaceUtils.getInstance().setWorkSpace(m_workspace);
                         WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
                         //创建数据集 生成专题图 加载到地图上 比较耗时
@@ -517,7 +550,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             initGps();
                         }
                     }
-                    if (wkExist) {
+                    if (status == 1) {
                         WorkSpaceUtils.getInstance().setWorkSpace(m_workspace);
                         WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
                         m_map.save();
@@ -545,154 +578,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 }
             }
         });
-     /*   //创建工作空间，数据源
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    m_workspace = new Workspace();
-                    //工作空间别名
-                    m_workspace.setCaption(m_prjId);
-                    m_workspace.setDescription(m_prjId);
-                    //工作空间连接类
-                    WorkspaceConnectionInfo _wkInfo = m_workspace.getConnectionInfo();
-                    _wkInfo.setServer(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".smwu");
-                    _wkInfo.setName(m_prjId);
-                    _wkInfo.setType(WorkspaceType.SMWU);
-                    boolean wkExist = FileUtils.getInstance().isFileExsit(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".smwu");
-                    if (wkExist) {
-                        if (!m_workspace.open(_wkInfo)) {
-                            ToastyUtil.showErrorShort(MapActivity.this, "workspace open fail");
-                            return;
-                        }
-                    } else {
-                        //创建工作空间
-                        if (!m_workspace.save()) {
-                            ToastyUtil.showErrorShort(MapActivity.this, "workspace cteate fail");
-                            return;
-                        }
-                    }
-                    m_map = m_mapControl.getMap();
-                    m_map.setWorkspace(m_workspace);
-                    Maps _maps = m_workspace.getMaps();
-                    //判断工作空间是否存在 存在则打开地图
-                    if (wkExist) {
-                        //判断数据源是否打开，否则打开数据源
-                        m_handler.sendEmptyMessage(0);
-                        for (int i = 0; i < m_workspace.getDatasources().getCount(); i++) {
-                            if (!m_workspace.getDatasources().get(i).isOpened()) {
-                                m_workspace.getDatasources().open(m_workspace.getDatasources().get(i).getConnectionInfo());
-                            }
-                        }
-                        //打开地图
-                        if (_maps.getCount() == 1) {
-                            if (!m_map.open(_maps.get(0))) {
-                                LogUtills.i("地图打开失败");
-                            }
-                        }
-                        m_map.setOverlapDisplayed(true);
-                        //如果原来的工作空间是在线地图，则打开定位
-                        if (m_workspace.getDatasources().get(1).getAlias().equals("google")) {
-                            m_PrjCoordSys = m_workspace.getDatasources().get(1).getDatasets().get(0).getPrjCoordSys();
-                            //百度地图定位初始化
-                            initGps();
-                        }
-                    } else {
-                        //工作空间不存在，开始新建
-                        m_handler.sendEmptyMessage(1);
-                        //新建工作空间，导入新点、线符号库，可以放在Assest
-                        SymbolMarkerLibrary _pointLibrary = m_workspace.getResources().getMarkerLibrary();
-                        SymbolLineLibrary _lineLibrary = m_workspace.getResources().getLineLibrary();
-                        //从文件夹中导入点线符号库到资源库中
-                        if (configSymbol(SuperMapConfig.DEFAULT_DATA_SYMBOL_NAME) && configSymbol(SuperMapConfig.DEFAULT_DATA_SYMBOL_LINE_NAME)) {
-                            if (!_pointLibrary.fromFile(SuperMapConfig.DEFAULT_DATA_SYMBOL_PATH + SuperMapConfig.DEFAULT_DATA_SYMBOL_NAME)) {
-                                LogUtills.i("point11", "点符号库导入失败");
-                            }
-                            if (!_lineLibrary.fromFile(SuperMapConfig.DEFAULT_DATA_SYMBOL_PATH + SuperMapConfig.DEFAULT_DATA_SYMBOL_LINE_NAME)) {
-                                LogUtills.i("point111", "线符号库导入失败");
-                            }
-                        }
-                        //数据源的集合类
-                        Datasources _ds = m_workspace.getDatasources();
-                        //数据源连接信息类
-                        DatasourceConnectionInfo _dsConInfo = new DatasourceConnectionInfo();
-                        //数据源别名
-                        _dsConInfo.setAlias(m_prjId);
-                        _dsConInfo.setReadOnly(false);
-                        _dsConInfo.setEngineType(EngineType.UDB);
-                        _dsConInfo.setServer(SuperMapConfig.DEFAULT_DATA_PATH + m_prjId + "/" + m_prjId + ".udb");
-                        //创建数据源
-                        Datasource _datasource = _ds.create(_dsConInfo);
-                        m_workspace.save();
-                        //打开地图sci缓存切片
-                        DatasourceConnectionInfo info = new DatasourceConnectionInfo();
-                        // 设置Server
-                        if ("google".equals(m_type)) {
-                            info.setServer(baseMapPath);
-                            info.setEngineType(EngineType.GoogleMaps);
-                            info.setAlias("google");
-                        } else {
-                            info.setServer(baseMapPath);
-                            //设置数据源连接的引擎类型为REST 地图服务引擎类型
-                            info.setEngineType(EngineType.IMAGEPLUGINS);
-                            info.setAlias(m_prjId + "底图");
-                        }
-                        //打开数据源
-                        info.setReadOnly(true);
-                        Datasource ds = _ds.open(info);
-                        m_workspace.save();
-                        //待改进？ //获取对应数据集添加进
-                        if ("google".equals(m_type)) {
-                            m_map.getLayers().add(ds.getDatasets().get(0), true);
-                            m_map.getLayers().add(ds.getDatasets().get(1), true);
-                            m_PrjCoordSys = ds.getDatasets().get(0).getPrjCoordSys();
-                            GeoCoordSys _geoCoordSys = m_PrjCoordSys.getGeoCoordSys();
-                            LogUtills.i("地理坐标系 " + _geoCoordSys.getName() + " type = " + _geoCoordSys.getType() + "=====" + m_PrjCoordSys.getName() + "--" + m_PrjCoordSys.getType());
-                        } else {
-                            m_map.getLayers().add(ds.getDatasets().get(0), true);
-//                            m_PrjCoordSys =  ds.getDatasets().get(0).getPrjCoordSys();
-                            ds.getDatasets().get(0).setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
-                        }
-                        WorkSpaceUtils.getInstance().setWorkSpace(m_workspace);
-                        WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
-                        //创建数据集 生成专题图 加载到地图上 比较耗时
-                        OperNotifyer.AddSystemLayers(_datasource);
-                        //压盖
-                        m_map.setAntialias(true);
-                        m_map.setOverlapDisplayed(true);
-                        m_map.save(m_prjId);
-                        if ("google".equals(m_type)) {
-                            initGps();
-                        }
-                    }
-                    if (wkExist) {
-                        WorkSpaceUtils.getInstance().setWorkSpace(m_workspace);
-                        WorkSpaceUtils.getInstance().setMapControl(m_mapControl);
-                        m_map.save();
-                    }
-                    //设置工作空间名字
-                    SuperMapConfig.setWorkspaceName(m_prjId);
-                    if (DataHandlerObserver.ins() != null) {
-                        DataHandlerObserver.ins("type").setContext(MapActivity.this);
-                    } else {
-                        DataHandlerObserver.ins().setContext(MapActivity.this);
-                    }
-                    m_mapControl.setAction(Action.PAN);
-                    //保存工作空间
-                    if (!m_workspace.save()) {
-                        return;
-                    }
-                    //地图定位到上次最后加点的位置
-                    initPointMap();
-                    //比例尺更新
-                    setMapParamChangge();
-                    m_handler.sendEmptyMessage(2);
-                } catch (Exception e) {
-                    LogUtills.e(TAG, e.getMessage());
-                    m_handler.sendEmptyMessage(3);
-                }
-            }
-        }).start();*/
     }
 
     private void initGps() {
@@ -746,6 +631,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         m_prjId = _intent.getStringExtra("prjName");
         //类型 是谷歌在线地图还是切片
         m_type = _intent.getStringExtra("type");
+        //状态 0 = 新建   1= 打开已建项目
+        status = _intent.getIntExtra("status", 0);
         //当前项目名称全局
         SuperMapConfig.PROJECT_NAME = m_prjId;
         //查询数据库项目表，查询地图的路径
@@ -1101,7 +988,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     case R.id.menu_import:
                         DataHandlerObserver.ins().setAction(Action.PAN);
                         hideBottomPanel();
-                        AlertDialogUtil.showDialog(MapActivity.this, "导入文件","请选择导入的文件", false, new DialogInterface.OnClickListener() {
+                        AlertDialogUtil.showDialog(MapActivity.this, "导入文件", "请选择导入的文件", false, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SuperMapConfig.FILE_PATH = SuperMapConfig.QQ_FILE_PATH;

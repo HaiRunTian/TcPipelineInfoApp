@@ -12,6 +12,7 @@ public class DateTimeUtil {
     public static final String FULL_DATE_TIME_MINUTE = "yyyy-MM-dd HH:mm";
     public static final String FULL_DATE_FORMAT = "yyyy-MM-dd";
     public static final String DATE_TIME_FORMAT = "yyyyMMdd_HHmmss";
+    public static final String FULL_DATE_FORMAT2 = "yyyyMMdd";
     /**
      *  按格式取当前时间文本
      */

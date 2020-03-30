@@ -12,14 +12,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical">
         <TextView
             android:gravity="center_vertical"
             android:drawableLeft="@mipmap/ic_btn_return_press_32px"
             android:id="@+id/tvTitle2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="/SD"
             android:padding="@dimen/dp_10"
             android:textSize="@dimen/sp_12"

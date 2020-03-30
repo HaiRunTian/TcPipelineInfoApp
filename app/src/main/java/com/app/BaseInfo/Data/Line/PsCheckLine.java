@@ -24,6 +24,9 @@ public class PsCheckLine extends BaseFieldLInfos {
     public String defectLength;
     public String defectCode;
     public String defectGrade;
+    public String checkMan;
+    public String checkWay;
+    public String checkLocal;
     public String roadName;
 
     public PsCheckLine(){
@@ -72,7 +75,6 @@ public class PsCheckLine extends BaseFieldLInfos {
         return null;
     }
 
-
     @Override
     public String toString() {
         return "PsCheckLine{" +
@@ -84,6 +86,11 @@ public class PsCheckLine extends BaseFieldLInfos {
                 ", defectLength='" + defectLength + '\'' +
                 ", defectCode='" + defectCode + '\'' +
                 ", defectGrade='" + defectGrade + '\'' +
+                ", roadName='" + roadName + '\'' +
+                ", checkMan='" + checkMan + '\'' +
+                ", checkLocal='" + checkLocal + '\'' +
+                ", checkWay='" + checkWay + '\'' +
+                ", remark='" + remark + '\'' +
                 ", belong='" + belong + '\'' +
                 ", benDeep='" + benDeep + '\'' +
                 ", benExpNum='" + benExpNum + '\'' +

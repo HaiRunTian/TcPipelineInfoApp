@@ -427,5 +427,42 @@ public class InitDatabase {
         return _list;
     }
 
-
+    /**
+     * 版本  14  惠州模式添加塑料管材
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf14(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("huizhou_db_14.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 版本  14  惠州模式添加塑料管材
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf15(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("huizhou_db_15.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

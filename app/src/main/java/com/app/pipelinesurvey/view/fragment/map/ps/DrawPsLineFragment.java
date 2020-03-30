@@ -8,13 +8,18 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
+import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
@@ -26,6 +31,7 @@ import com.supermap.data.GeoLine;
 import com.supermap.data.Point2D;
 import com.supermap.data.Point2Ds;
 import com.supermap.data.Recordset;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +39,7 @@ import java.util.Map;
  * @author HaiRun
  * @time 2020/1/15.13:47
  */
-public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineView, View.OnClickListener {
+public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineView, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private TextView tvReturn;
     private TextView tvTitle;
@@ -45,7 +51,7 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
     private EditText edtEndDepth;
     private CheckBox cbFair;
     private CheckBox cbEddy;
-    private EditText edtPipeMater;
+    private Spinner spPipeMaterial;
     private EditText edtPipeSize;
     private CheckBox cbYS;
     private CheckBox cbWS;
@@ -59,7 +65,11 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
     private CheckBox cb2;
     private CheckBox cb3;
     private CheckBox cb4;
-    private EditText edtRoadName;
+    private EditText edtRemark;
+    private Spinner spImgType;
+    private Bundle bundle;
+    private EditText edtCheckMan, edtCheckLocal, edtCheckRoadName;
+    private Spinner spCheckWay;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +97,7 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
         tvTitle = view.findViewById(R.id.tvTitle);
         tvTitle.setText("排水外检");
         tvSubmit = view.findViewById(R.id.tvSubmit);
+        spImgType = view.findViewById(R.id.spImaType);
         edtImageNo = view.findViewById(R.id.edt_img_no);
         edtBeginPoint = view.findViewById(R.id.edt_begin_no);
         edtEndPoint = view.findViewById(R.id.edt_end_no);
@@ -94,7 +105,7 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
         edtEndDepth = view.findViewById(R.id.edt_end_depth);
         cbFair = view.findViewById(R.id.cb_flow_fair);
         cbEddy = view.findViewById(R.id.cb_flow_eddy);
-        edtPipeMater = view.findViewById(R.id.edt_pipe_mater);
+        spPipeMaterial = view.findViewById(R.id.spPipeMaterial);
         edtPipeSize = view.findViewById(R.id.edt_pipe_size);
         cbYS = view.findViewById(R.id.cb_ys);
         cbWS = view.findViewById(R.id.cb_ws);
@@ -108,10 +119,39 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
         cb2 = view.findViewById(R.id.cb2);
         cb3 = view.findViewById(R.id.cb3);
         cb4 = view.findViewById(R.id.cb4);
-        edtRoadName = view.findViewById(R.id.edt_romake);
+        edtRemark = view.findViewById(R.id.edt_romake);
+        edtCheckMan = view.findViewById(R.id.edtChenckMan);
+        edtCheckLocal = view.findViewById(R.id.edtCheckLocal);
+        edtCheckRoadName = view.findViewById(R.id.edtRoadName);
+        spCheckWay = view.findViewById(R.id.spCheckWay);
         tvSubmit.setOnClickListener(this);
         tvReturn.setOnClickListener(this);
         view.findViewById(R.id.btn_del).setVisibility(View.GONE);
+        edtImageNo.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT2));
+        spImgType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    edtImageNo.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT2));
+                } else {
+                    edtImageNo.setText("");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cbFair.setOnCheckedChangeListener(this);
+        cbEddy.setOnCheckedChangeListener(this);
+        cbWS.setOnCheckedChangeListener(this);
+        cbYS.setOnCheckedChangeListener(this);
+        cbHS.setOnCheckedChangeListener(this);
+        cb1.setOnCheckedChangeListener(this);
+        cb2.setOnCheckedChangeListener(this);
+        cb3.setOnCheckedChangeListener(this);
+        cb4.setOnCheckedChangeListener(this);
 
     }
 
@@ -123,43 +163,57 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
 
     /**
      * 初始化数据
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2020/2/27  15:35
+     * @date :2020/2/27  15:35
      */
     private void initValue() {
-        Bundle bundle = getArguments();
-        BaseFieldPInfos startPoint = bundle.getParcelable("startPoint");
-        switch (startPoint.pipeType.substring(0, 2)) {
-            case "雨水":
-                cbYS.setChecked(true);
-                break;
-            case "污水":
-                cbWS.setChecked(true);
-                break;
-            case "合流":
-                cbHS.setChecked(true);
-                break;
-            default:
-                cbYS.setChecked(true);
-                break;
+        try {
+            //初始化
+            String[] m_local = getResources().getStringArray(R.array.defectCode);
+            spDefectCode.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, m_local));
+            String[] pipeMaterials = getResources().getStringArray(R.array.pipeMaterials);
+            spPipeMaterial.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, pipeMaterials));
+            String[] checkWay = getResources().getStringArray(R.array.checkWay);
+            spCheckWay.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, checkWay));
+            bundle = getArguments();
+            BaseFieldPInfos startPoint = bundle.getParcelable("startPoint");
+            switch (startPoint.pipeType.substring(0, 2)) {
+                case "雨水":
+                    cbYS.setChecked(true);
+                    break;
+                case "污水":
+                    cbWS.setChecked(true);
+                    break;
+                case "合流":
+                    cbHS.setChecked(true);
+                    break;
+                default:
+                    cbYS.setChecked(true);
+                    break;
+            }
+            cbFair.setChecked(true);
+            String bePoint = bundle.getString("bePoint");
+            String endPoint = bundle.getString("endPoint");
+            String beDeep = bundle.getString("beDeep");
+            String endDeep = bundle.getString("endDeep");
+            String pipeSize = bundle.getString("pipeSize");
+            String textrure = bundle.getString("textrure");
+            tvTitle.setText("排水检测");
+            edtBeginPoint.setText(bePoint);
+            edtEndPoint.setText(endPoint);
+            edtBeginDepth.setText(beDeep);
+            edtEndDepth.setText(endDeep);
+            edtPipeSize.setText(pipeSize);
+            edtCheckRoadName.setText(SuperMapConfig.ROAD_NAME);
+            edtCheckLocal.setText(SuperMapConfig.CHECK_LOCAL);
+            edtCheckMan.setText(SuperMapConfig.CHECK_MAN);
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spCheckWay, SuperMapConfig.CHECK_WAY);
+//        edtRemark.setText(SuperMapConfig.ROAD_NAME);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        cbFair.setChecked(true);
-        String bePoint = bundle.getString("bePoint");
-        String endPoint = bundle.getString("endPoint");
-        String beDeep = bundle.getString("beDeep");
-        String endDeep = bundle.getString("endDeep");
-        String pipeSize = bundle.getString("pipeSize");
-        String textrure = bundle.getString("textrure");
-        tvTitle.setText("排水检测");
-        edtBeginPoint.setText(bePoint);
-        edtEndPoint.setText(endPoint);
-        edtBeginDepth.setText(beDeep);
-        edtEndDepth.setText(endDeep);
-        edtPipeSize.setText(pipeSize);
-        edtPipeMater.setText(textrure);
-        edtRoadName.setText(SuperMapConfig.ROAD_NAME);
-
     }
 
     @Override
@@ -206,7 +260,7 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
 
     @Override
     public String getPipeMater() {
-        return edtPipeMater.getText().toString() + "";
+        return spPipeMaterial.getSelectedItem().toString();
     }
 
     @Override
@@ -249,13 +303,9 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
         return edtDefectDis.getText().toString() + "";
     }
 
-      @Override
+    @Override
     public String getDefectCode() {
         return spDefectCode.getSelectedItem().toString() + "";
-    }
-
-    public String getRoadName() {
-        return edtRoadName.getText().toString() + "";
     }
 
     @Override
@@ -273,6 +323,31 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
             return cb4.getText().toString() + "";
         }
         return "";
+    }
+
+    @Override
+    public String getCheckMan() {
+        return edtCheckMan.getText().toString() + "";
+    }
+
+    @Override
+    public String getCheckLocal() {
+        return edtCheckLocal.getText().toString() + "";
+    }
+
+    @Override
+    public String getCheckRoadName() {
+        return edtCheckRoadName.getText().toString() + "";
+    }
+
+    @Override
+    public String getCheckWay() {
+        return spCheckWay.getSelectedItem().toString();
+    }
+
+    @Override
+    public String getRemark() {
+        return edtRemark.getText().toString() + "";
     }
 
     @Override
@@ -305,8 +380,13 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
      */
     private Boolean submitData() {
         DatasetVector vector = DataHandlerObserver.ins().getPsLrDatasetVector();
-        if (vector == null){
-            ToastyUtil.showErrorShort(getActivity(),"排水外检数据集为空");
+        if (vector == null) {
+            ToastyUtil.showErrorShort(getActivity(), "排水外检数据集为空");
+            return false;
+        }
+        Recordset query = vector.query("videoNumber = '" + getImageNo() + "'", CursorType.STATIC);
+        if (!query.isEmpty()){
+            ToastyUtil.showWarningLong(getActivity(),"影像名称重复，不可提交，请重新命名");
             return false;
         }
         Recordset recordset = vector.getRecordset(false, CursorType.DYNAMIC);
@@ -328,8 +408,16 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
             map.put("defectCode", getDefectCode());
             map.put("defectGrade", getGrade());
             map.put("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
-            map.put("roadName",getRoadName());
-            SuperMapConfig.ROAD_NAME = getRoadName();
+            map.put("checkMan", getCheckMan());
+            map.put("checkLocal", getCheckLocal());
+            map.put("roadName", getCheckRoadName());
+            map.put("checkWay", getCheckWay());
+            map.put("remark", getRemark());
+            SuperMapConfig.ROAD_NAME = getCheckRoadName();
+            SuperMapConfig.CHECK_LOCAL = getCheckLocal();
+            SuperMapConfig.CHECK_MAN = getCheckMan();
+            SuperMapConfig.CHECK_WAY = getCheckWay();
+
             Bundle bundle = getArguments();
             if (bundle != null) {
                 BaseFieldPInfos startPointInfo = getArguments().getParcelable("startPoint");
@@ -349,6 +437,87 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
         } catch (Exception e) {
             ToastyUtil.showErrorShort(getActivity(), e.toString());
             return false;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        int id = buttonView.getId();
+        switch (id) {
+            case R.id.cb_flow_fair:
+                if (isChecked) {
+                    cbEddy.setChecked(false);
+                    String bePoint = bundle.getString("bePoint");
+                    String endPoint = bundle.getString("endPoint");
+                    String beDeep = bundle.getString("beDeep");
+                    String endDeep = bundle.getString("endDeep");
+                    edtBeginPoint.setText(bePoint);
+                    edtEndPoint.setText(endPoint);
+                    edtBeginDepth.setText(beDeep);
+                    edtEndDepth.setText(endDeep);
+                }
+                break;
+            case R.id.cb_flow_eddy:
+                if (isChecked) {
+                    cbFair.setChecked(false);
+                    String bePoint = bundle.getString("bePoint");
+                    String endPoint = bundle.getString("endPoint");
+                    String beDeep = bundle.getString("beDeep");
+                    String endDeep = bundle.getString("endDeep");
+                    edtBeginPoint.setText(endPoint);
+                    edtEndPoint.setText(bePoint);
+                    edtBeginDepth.setText(endDeep);
+                    edtEndDepth.setText(beDeep);
+                }
+                break;
+            case R.id.cb_ws:
+                if (isChecked) {
+                    cbHS.setChecked(false);
+                    cbYS.setChecked(false);
+                }
+                break;
+            case R.id.cb_ys:
+                if (isChecked) {
+                    cbHS.setChecked(false);
+                    cbWS.setChecked(false);
+                }
+                break;
+            case R.id.cb_hs:
+                if (isChecked) {
+                    cbWS.setChecked(false);
+                    cbYS.setChecked(false);
+                }
+                break;
+            case R.id.cb1:
+                if (isChecked) {
+                    cb2.setChecked(false);
+                    cb3.setChecked(false);
+                    cb4.setChecked(false);
+                }
+                break;
+            case R.id.cb2:
+                if (isChecked) {
+                    cb1.setChecked(false);
+                    cb3.setChecked(false);
+                    cb4.setChecked(false);
+                }
+                break;
+            case R.id.cb3:
+                if (isChecked) {
+                    cb1.setChecked(false);
+                    cb2.setChecked(false);
+                    cb4.setChecked(false);
+                }
+                break;
+            case R.id.cb4:
+                if (isChecked) {
+                    cb1.setChecked(false);
+                    cb2.setChecked(false);
+                    cb3.setChecked(false);
+                }
+                break;
+            default:
+                break;
         }
     }
 }

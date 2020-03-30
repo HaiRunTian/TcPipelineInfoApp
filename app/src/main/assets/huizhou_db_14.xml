@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="utf-8"?>
+<database>
+    <dbname value="PipeLineInfo"></dbname>
+    <version value="6"></version>
+
+    <!--数据插入数据库-->
+    <sql_insert_table>
+
+        <!--材质-->
+        <sql_init_table_pipe_texture>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('污水-WS','双壁波纹管','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('污水-WS','PVC','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('污水-WS','PE','惠州')</sql>
+
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('雨水-YS','双壁波纹管','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('雨水-YS','PVC','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('雨水-YS','PE','惠州')</sql>
+
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('合流-PS','双壁波纹管','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('合流-PS','PVC','惠州')</sql>
+            <sql>insert into pipe_texture(pipe_type,texture,city) values('合流-PS','PE','惠州')</sql>
+
+        </sql_init_table_pipe_texture>
+    </sql_insert_table>
+</database>

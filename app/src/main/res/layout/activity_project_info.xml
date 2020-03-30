@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,329 +7,344 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_titlebar_project_config" />
+    <include
+        android:id="@+id/layout"
+        layout="@layout/layout_titlebar_project_config" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_50"
-        android:paddingTop="@dimen/dp_5"
-        android:paddingRight="@dimen/dp_50"
-        android:paddingBottom="@dimen/dp_15">
+    <ScrollView
+        android:layout_below="@+id/layout"
+        android:id="@+id/scaleView"
+        style="@style/scollview_style" >
 
         <LinearLayout
+            android:id="@+id/layout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/TextViewStyle1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/prj_name" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp_50"
+                android:paddingTop="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_50"
+                android:paddingBottom="@dimen/dp_15">
 
-            <EditText
-                android:id="@+id/edtProjectName"
-                android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/TextViewStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prj_name" />
+
+                    <EditText
+                        android:id="@+id/edtProjectName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_5">
+
+                    <TextView
+                        style="@style/TextViewStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prj_create_time" />
+
+                    <TextView
+                        android:id="@+id/tvProjectCreateTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        style="@style/TextViewStyle1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prj_last_time" />
+
+                    <TextView
+                        android:id="@+id/tvLastestModifiedTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_seperate_line_h"></include>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="true" />
+                android:background="@color/blue02"
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/TextViewStyle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/map_data" />
+
+                <TextView
+                    android:id="@+id/tvAddBaseMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/selector_add" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tvBaseMapPath"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_margin="@dimen/dp_5"
+                    android:drawableLeft="@mipmap/ic_map_base_map_48px"
+                    android:gravity="center_vertical"
+                    android:hint="请选择sci底图文件加载"
+                    android:textColor="@color/text1" />
+            </LinearLayout>
+
+            <include layout="@layout/layout_seperate_line_h"></include>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_city_stand"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="城市标准" />
+
+                <Spinner
+                    android:id="@+id/sp_city_stand"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:spinnerMode="dropdown">
+
+                </Spinner>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="工程设置" />
+
+                <Button
+                    android:id="@+id/btn_setting"
+                    style="@style/activity_btn_style_2"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:background="@drawable/selector_btn_all_2"
+                    android:text="设置">
+
+                </Button>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_group_local"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="组号位置" />
+
+                <Spinner
+                    android:id="@+id/sp_group_local"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/exp_num_type"
+                    android:spinnerMode="dropdown"></Spinner>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_serinum"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="管点位数" />
+
+                <Spinner
+                    android:id="@+id/sp_serinum"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/seriNum"
+                    android:spinnerMode="dropdown">
+
+                </Spinner>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_mode"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="项目模式" />
+
+                <Spinner
+                    android:id="@+id/sp_mode"
+                    android:layout_width="@dimen/dp_200"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:entries="@array/mode"
+                    android:spinnerMode="dropdown">
+
+                </Spinner>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_group"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="组别设置" />
+
+                <EditText
+                    android:id="@+id/edt_group"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_toLeftOf="@+id/tvG"
+                    android:gravity="center"
+                    android:lines="1" />
+
+                <TextView
+                    android:id="@+id/tvG"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:gravity="center"
+                    android:text="组" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_line_length"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="管线长度" />
+
+                <EditText
+                    android:id="@+id/edt_line_length"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_toLeftOf="@id/tvUnit"
+                    android:gravity="center"
+                    android:lines="1" />
+
+                <TextView
+                    android:id="@+id/tvUnit"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:gravity="center"
+                    android:text="m" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40">
+
+                <TextView
+                    android:id="@+id/tv_ps"
+                    style="@style/TextViewStyle1"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:gravity="center"
+                    android:padding="@dimen/dp_3"
+                    android:text="排水检测" />
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:text="是否启用排水检测" />
+
+            </RelativeLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_5">
-
-            <TextView
-                style="@style/TextViewStyle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prj_create_time" />
-
-            <TextView
-                android:id="@+id/tvProjectCreateTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                style="@style/TextViewStyle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prj_last_time" />
-
-            <TextView
-                android:id="@+id/tvLastestModifiedTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <include layout="@layout/layout_seperate_line_h"></include>
+    </ScrollView>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/blue02"
-        android:padding="10dp">
-
-        <TextView
-            style="@style/TextViewStyle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/map_data" />
-
-        <TextView
-            android:id="@+id/tvAddBaseMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/selector_add" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tvBaseMapPath"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_40"
-            android:layout_margin="@dimen/dp_5"
-            android:drawableLeft="@mipmap/ic_map_base_map_48px"
-            android:gravity="center_vertical"
-            android:hint="请选择sci底图文件加载"
-            android:textColor="@color/text1" />
-    </LinearLayout>
-
-    <include layout="@layout/layout_seperate_line_h"></include>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_city_stand"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="城市标准" />
-
-        <Spinner
-            android:id="@+id/sp_city_stand"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentRight="true"
-            android:spinnerMode="dropdown">
-
-        </Spinner>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="工程设置" />
-
-        <Button
-            android:layout_marginRight="@dimen/dp_5"
-            android:id="@+id/btn_setting"
-            style="@style/activity_btn_style_2"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/dp_5"
-            android:background="@drawable/selector_btn_all_2"
-            android:text="设置">
-
-        </Button>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_group_local"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="组号位置" />
-
-        <Spinner
-            android:id="@+id/sp_group_local"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentRight="true"
-            android:entries="@array/exp_num_type"
-            android:spinnerMode="dropdown"></Spinner>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_serinum"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="管点位数" />
-
-        <Spinner
-            android:id="@+id/sp_serinum"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentRight="true"
-            android:entries="@array/seriNum"
-            android:spinnerMode="dropdown">
-
-        </Spinner>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_mode"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="项目模式" />
-
-        <Spinner
-            android:id="@+id/sp_mode"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentRight="true"
-            android:entries="@array/mode"
-            android:spinnerMode="dropdown">
-
-        </Spinner>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_group"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="组别设置" />
-
-        <EditText
-            android:id="@+id/edt_group"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_40"
-            android:layout_toLeftOf="@+id/tvG"
-            android:gravity="center"
-            android:lines="1" />
-
-        <TextView
-            android:id="@+id/tvG"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_5"
-            android:gravity="center"
-            android:text="组" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_line_length"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="管线长度" />
-
-        <EditText
-            android:id="@+id/edt_line_length"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_40"
-            android:layout_toLeftOf="@id/tvUnit"
-            android:gravity="center"
-            android:lines="1" />
-
-        <TextView
-            android:id="@+id/tvUnit"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_40"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_5"
-            android:gravity="center"
-            android:text="m" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40">
-
-        <TextView
-            android:id="@+id/tv_ps"
-            style="@style/TextViewStyle1"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_40"
-            android:gravity="center"
-            android:padding="@dimen/dp_3"
-            android:text="排水外检" />
-
-        <Switch
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_5"
-            android:layout_alignParentRight="true"
-            android:id="@+id/switch1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="是否启用排水外检" />
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"
@@ -356,5 +371,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

@@ -123,6 +123,7 @@ public class ExportDataUtils {
                 DatasetVector _dsVectorL = (DatasetVector) DataHandlerObserver.ins().getTotalLrLayer().getDataset();
 //                    Recordset _reSetL = _dsVectorL.getRecordset(false, CursorType.STATIC);
                 Recordset _reSetL = _dsVectorL.query("pipeType Not like '临时%'", CursorType.STATIC);
+
                 //排水外检表
                 DatasetVector dsVectorPS = (DatasetVector) DataHandlerObserver.ins().getPsLrDatasetVector();
                 if (dsVectorPS != null) {
@@ -155,14 +156,14 @@ public class ExportDataUtils {
                 }
                 //排水检测表导出 1代表用户启用了排水外检
                 if ("1".equals(SuperMapConfig.PS_OUT_CHECK)) {
-                    if (!FileUtils.getInstance().isFileExsit(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME)) {
-                        InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
-                        if (is != null) {
-                            FileUtils.getInstance().copy(is, _prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
-                        }
+//                    if (!FileUtils.getInstance().isFileExsit(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME)) {
+                    InputStream is = AssetsUtils.getInstance().open(SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
+                    if (is != null) {
+                        FileUtils.getInstance().copy(is, _prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + String.valueOf(fileCount) + "-" + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
                     }
+//                    }
                     if (psListGroup.size() != 0) {
-                        ExcelUtilsOfPoi.initExcelPsSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME, psListGroup);
+                        ExcelUtilsOfPoi.initExcelPsSheet(_prjFolder + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + String.valueOf(fileCount) + "-" + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME, psListGroup);
                     }
                 }
                 //  poi 库导出数据  初始化excel表格
@@ -218,8 +219,12 @@ public class ExportDataUtils {
                     list.add(reSetPs.getString("defectLength"));
                     list.add(reSetPs.getString("defectCode"));
                     list.add(reSetPs.getString("defectGrade"));
+                    list.add(reSetPs.getString("checkMan"));
+                    list.add(reSetPs.getString("checkWay"));
+                    list.add(reSetPs.getString("checkLocal"));
                     list.add(reSetPs.getString("roadName"));
                     list.add(reSetPs.getString("exp_Date"));
+                    list.add(reSetPs.getString("remark"));
                 } catch (Exception e) {
                     LogUtills.e(e.toString());
                 }

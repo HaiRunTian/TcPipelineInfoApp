@@ -89,12 +89,10 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
         <activity
-            android:name=".view.activity.SelectBaseMapActivity"
-            android:theme="@style/DialogActivityStyle" />
+            android:name=".view.activity.SelectBaseMapActivity" />
 
         <activity
-            android:name=".view.activity.SelectExcelActivity"
-            android:theme="@style/DialogActivityStyle" />
+            android:name=".view.activity.SelectExcelActivity" />
 
         <activity android:name=".view.activity.linepoint.LineActivity" />
         <activity android:name=".view.activity.linepoint.LineAllocationActivity" />

@@ -313,6 +313,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         LogUtills.i("queryActivity " + m_basePInfo.toString());
         int _smId = m_bundle.getInt("smId", 0);
         m_smid = new int[]{_smId};
+        //初始管类代码
         m_code = m_basePInfo.pipeType.substring(3);
         //如果是修改管点信息，则需要获取选中观点的类型来更改属性。考虑下拉框给用户选择管类，则必须考虑管类不同而导致的，附属物、管点类型的不同而做的变化
 //        int _typeIndex = m_basePInfo.pipeType.indexOf("_") + 1;
@@ -483,8 +484,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             case R.id.btnSave:
                 boolean _result = false;
                 //编辑保存数据数据
-                //判断重号
                 if (!initPointExp.equals(getGPId())) {
+                    //判断重号
                     if (ComTool.Ins().isSameNum(getGPId(), false)) {
                         ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
                         return;
@@ -498,7 +499,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     //如果管线点号修改了
                     if (!initPointExp.equals(getGPId())) {
                         int id = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
-                        MaxExpNumID.getInstance().setId(id);
+                        //如果修改的点号大于当前的点号，则修改
+                        if (id > MaxExpNumID.getInstance().getId()) {
+                            MaxExpNumID.getInstance().setId(id);
+                        }
                         //更新与此点相关的线
                         updaLine();
                     }
@@ -612,7 +616,11 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             //移动管点
             case R.id.btnMove:
                 //先保存数据  再移动
-                DataHandlerObserver.ins().editRecords(generateBaseFieldInfo());
+                boolean b = DataHandlerObserver.ins().editRecords(generateBaseFieldInfo());
+                if (!b) {
+                    ToastyUtil.showErrorLong(getActivity(), "点号移动失败");
+                    return;
+                }
                 //如果点号修改了，就更新线的起点与终点
                 if (!initPointExp.equals(getGPId())) {
                     updaLine();
@@ -679,6 +687,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 if (!reSetendExpNum.update()) {
                     ToastyUtil.showWarningLong(getActivity(), "线终点更新失败");
                 }
+
                 //外检模式需要添加更改记录表
                 if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                     String benExpNum = reSetendExpNum.getString("benExpNum");
@@ -704,9 +713,44 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 LogUtills.e(" Create BaseFieldPInfos Fail...");
                 return null;
             }
-            _info.shortCode = m_code;
+            //判断管类是否修改了
+            int codeLength = m_code.length();
+            String code = getGPId().substring(0, codeLength);
+            //判断管类修改了
+            if (!m_code.equals(code)) {
+                //修改点
+                _info.code = code;
+                _info.shortCode = code;
+                //查询数据库表格 找出的对应的管类
+                Cursor query = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_INFO, "where city ='"
+                        + SuperMapConfig.PROJECT_CITY_NAME + "' and code = '" + code + "'");
+                String type = m_basePInfo.pipeType;
+                while (query.moveToNext()) {
+                    type = query.getString(query.getColumnIndex("name"));
+                }
+                _info.pipeType = type + "-" + code;
+                _info.rangeExpression = PipeThemelabelUtil.Ins().getThemeItemValue(type);
+                _info.symbol = SymbolInfo.Ins().getSymbol(_info.pipeType, getAppendant(), getFeaturePoints());
+                _info.symbolExpression = code + "-" + _info.symbol;
+                //修改线的管类
+                Recordset recordset = DataHandlerObserver.ins().QueryRecordsetBySql("benExpNum = '" + initPointExp + "'", false, true);
+                while (!recordset.isEOF()) {
+                    recordset.edit();
+                    recordset.setString("pipeType", _info.pipeType);
+                    recordset.setString("shortCode", _info.code);
+                    recordset.setString("code", _info.code);
+                    recordset.setDouble("rangeExpression", _info.rangeExpression);
+                    recordset.update();
+                    recordset.moveNext();
+                }
+            } else {
+                _info.code = m_code;
+                _info.shortCode = m_code;
+                _info.pipeType = m_basePInfo.pipeType;
+                _info.symbol = SymbolInfo.Ins().getSymbol(gpType, getAppendant(), getFeaturePoints());
+                _info.symbolExpression = _layerType + "-" + _info.symbol;
+            }
             _info.exp_Num = getGPId();
-            _info.pipeType = m_basePInfo.pipeType;
             _info.feature = getFeaturePoints();
             _info.subsid = getAppendant();
             _info.pipeOffset = getOffset();
@@ -730,7 +774,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.wellCoverMaterial = getWellLidTexture();
             _info.wellCoverSize = getWellLidSize();
             _info.buildingStructures = getBuildingStructures();
-            _info.code = m_code;
             _info.longitude = getLongitude();
             _info.latitude = getLatitude();
             _info.surf_H = getElevation();
@@ -742,8 +785,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.puzzle = getPuzzle();
             _info.situation = getSituation();
             _info.sysId = m_smid[0];
-            _info.symbol = SymbolInfo.Ins().getSymbol(gpType, getAppendant(), getFeaturePoints());
-            _info.symbolExpression = _layerType + "-" + _info.symbol;
             _info.depth = m_basePInfo.depth;
             //是否是临时点转实点
             if (m_num.length == 2) {
@@ -790,7 +831,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.PpdY = m_basePInfo.PpdY;
             _info.DotleadAng = m_basePInfo.DotleadAng;
             _info.MeasuerPoint = m_basePInfo.MeasuerPoint;
-
             LogUtills.i(_info.toString());
         } catch (Exception e) {
             LogUtills.e(e.getMessage());
@@ -1308,7 +1348,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
             double temp = s * 100;
-            edtWellDepth.setText(new DecimalFormat().format(temp));
+            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1321,7 +1361,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
             double temp = s * 100;
-            edtWellWater.setText(new DecimalFormat().format(temp));
+            edtWellWater.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1334,7 +1374,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
             double temp = s * 100;
-            edtWellMud.setText(new DecimalFormat().format(temp));
+            edtWellMud.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 

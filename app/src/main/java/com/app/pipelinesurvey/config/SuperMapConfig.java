@@ -93,9 +93,12 @@ public class SuperMapConfig {
     public static void setWorkspaceName(String string ){
         DEFAULT_WORKSPACE_NAME = string;
     }
-    public static final String QQ_FILE_PATH = SDCARD + "/tencent/QQfile_recv";
+    public static final String QQ_FILE_PATH = SDCARD + "/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv";
     public static final String WECHAT_FILE_PATH = SDCARD + "/tencent/MicroMsg/Download";
     public static  String FILE_PATH = "";
     public static String ROAD_NAME = "";
+    public static String CHECK_LOCAL = "";
+    public static String CHECK_MAN = "";
+    public static String CHECK_WAY = "";
 
 }

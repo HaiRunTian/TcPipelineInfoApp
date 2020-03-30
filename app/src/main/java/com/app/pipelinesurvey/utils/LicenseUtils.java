@@ -24,7 +24,6 @@ import okhttp3.Request;
 public class LicenseUtils {
 
     private static LicenseUtils s_licenseUtils = null;
-
     public synchronized static LicenseUtils ins() {
         if (s_licenseUtils == null) {
             s_licenseUtils = new LicenseUtils();
@@ -42,7 +41,6 @@ public class LicenseUtils {
         LicenseStatus _status = Environment.getLicenseStatus();
         if (!_status.isLicenseExsit()) {
             ToastyUtil.showWarningShort(MyApplication.Ins(), "许可不存在");
-
             return false;
 
         } else {

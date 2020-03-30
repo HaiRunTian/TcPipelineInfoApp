@@ -98,7 +98,6 @@
     </string-array>
 
 
-
     <!--管线材料-给水-->
     <string-array name="lineTexture_js">
         <item>钢</item>
@@ -668,6 +667,7 @@
     </string-array>
 
     <string-array name="defectCode">
+        <item></item>
         <item>PL-破裂</item>
         <item>BX-变形</item>
         <item>FS-腐蚀</item>
@@ -684,6 +684,37 @@
         <item>CQ-残墙坝根</item>
         <item>SG-树根</item>
         <item>FZ-浮渣</item>
+    </string-array>
+
+    <string-array name="imgType">
+        <item>博铭维</item>
+        <item>中仪</item>
+    </string-array>
+
+    <string-array name="pipeMaterials">
+        <item>砼</item>
+        <item>铸铁</item>
+        <item>钢筋混凝土管</item>
+        <item>双壁波纹管</item>
+        <item>塑料管</item>
+        <item>PVC</item>
+        <item>PE</item>
+        <item>钢管</item>
+        <item>砖石沟</item>
+        <item>铸铁管</item>
+        <item>混凝土管</item>
+        <item>石棉水泥管</item>
+        <item>陶瓷管</item>
+        <item>陶土管</item>
+        <item>玻璃钢管</item>
+        <item>玻璃钢夹砂</item>
+    </string-array>
+
+    <string-array name="checkWay">
+        <item>QV检测</item>
+        <item>CCTV检测</item>
+        <item>声呐检测</item>
+        <item>暗渠摸查</item>
     </string-array>
 
 </resources>

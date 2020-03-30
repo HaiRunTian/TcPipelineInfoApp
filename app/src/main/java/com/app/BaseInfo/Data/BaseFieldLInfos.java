@@ -178,6 +178,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     public String PsCheQiBenLe = "";
     public String PsCheQiEndLe = "";
 
+
     @Override
     public boolean Init() {
         code = datasetName.substring(datasetName.length() - 1);

@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 13;
+    private static final int VERSION = 14;
     /**
      * 建表语句
      */
@@ -121,14 +121,44 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         alterDataZB(db);
         //版本13
         alterData13(db);
+        //版本14
+        insertSqlOf14(db);
+        //版本14
+        insertSqlOf15(db);
 
+    }
+
+    private void insertSqlOf15(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf15(m_context);
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+
+    private void insertSqlOf14(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf14(m_context);
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
     }
 
     /**
      * 更新正本清源雨水
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2020/1/6  10:45
+     * @date :2020/1/6  10:45
      */
     private void alterDataZB(SQLiteDatabase db) {
         List<String> list = InitDatabase.getAlterSqlOf12();
@@ -144,9 +174,10 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 版本12 更新工程信息表 添加一个PsCheck字段
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2020/2/24  10:59
+     * @date :2020/2/24  10:59
      */
     private void alterData13(SQLiteDatabase db) {
         List<String> list = InitDatabase.getAlterSqlOf13();
@@ -162,9 +193,10 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 版本11 加入正本清源模式
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/12/25  15:47
+     * @date :2019/12/25  15:47
      */
     private void createSqlAndInserDataForZB(SQLiteDatabase db) {
         //创建表格
@@ -234,9 +266,10 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 数据库版本升级8
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/9/19  15:34
+     * @date :2019/9/19  15:34
      */
     private void createSqlOf8(SQLiteDatabase db) {
         //升级版本8
@@ -267,9 +300,10 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
 
     /**
      * 数据库版本升级7
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/9/19  15:34
+     * @date :2019/9/19  15:34
      */
     private void createSqlOf7(SQLiteDatabase db) {
         //升级版本7
@@ -485,6 +519,12 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             case 12:
                 alterData13(db);
             case 13:
+                //版本14
+                insertSqlOf14(db);
+            case 14:
+                //版本14
+                insertSqlOf15(db);
+            case 15:
                 break;
             default:
                 break;

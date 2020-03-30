@@ -104,6 +104,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         spCityStand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_zhengben";
+                SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_zhengben";
                 //初始化城市标准名称
                 SuperMapConfig.PROJECT_CITY_NAME = list.get(position);
                 switch (position) {
@@ -122,7 +124,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                         SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_huizhou";
                         SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_huizhou";
                         break;
-                    //惠州
+                    //正本清源
                     case 3:
                         SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_zhengben";
                         SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_zhengben";
@@ -148,12 +150,17 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         String mode = "";
         String psCheck = "";
         from = getIntent().getIntExtra("from", 2);
-        //初始化城市标准sp
+        //初始化城市标准
         Cursor _cursor1 = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_STANDARD_INFO, "");
         list = new ArrayList();
         while (_cursor1.moveToNext()) {
             list.add(_cursor1.getString(_cursor1.getColumnIndex("name")));
+            LogUtills.i(_cursor1.getString(_cursor1.getColumnIndex("name")));
         }
+//        list.add("广州");
+//        list.add("正本清源");
+//        SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_zhengben";
+//        SQLConfig.TABLE_DEFAULT_LINE_SETTING = "default_line_zhengben";
         spCityStand.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, list));
         //初始化
         String[] m_local = getResources().getStringArray(R.array.exp_num_type);
@@ -182,7 +189,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             edtLineL.setFocusable(false);
             tvAddBaseMap.setFocusable(false);
             m_prjId = getIntent().getStringExtra("proj_name");
-            String create_time = null, last_time = null, baseMapPath = null;
+            String create_time = null, last_time = null;
             edtProjName.setText(m_prjId);
             //数据库查询
             Cursor _cursor = DatabaseHelpler.getInstance()
@@ -264,7 +271,6 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
         btnSetting.setOnClickListener(this);
         spMode = findViewById(R.id.sp_mode);
         aSwitch = findViewById(R.id.switch1);
-
     }
 
     @Override
@@ -285,6 +291,10 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             case R.id.btnOpen:
                 try {
                     String prjName = edtProjName.getText().toString().trim();
+                    if (prjName.contains("/")){
+                        ToastyUtil.showWarningLong(this,"工程名字不能有'/',请重新命名");
+                        return;
+                    }
                     //判断是否要插入点线配置数据
                     inserSettingSql(prjName);
                     Intent _intent = new Intent(ProjectInfoActivity.this, MapActivity.class);
@@ -299,6 +309,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                         } else {  //用户选择了地图切片
                             //类型 1代表谷歌地图 sci 代表切片
                             _intent.putExtra("type", "sci");
+                            _intent.putExtra("status",0);
                         }
                         if (queryPrjName()) {
                             return;
@@ -307,6 +318,12 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                     } else {
                         //无用 不是新建项目
                         _intent.putExtra("type", "3");
+                        _intent.putExtra("status",1);
+
+                        if (!FileUtils.getInstance().isFileExsit(baseMapPath) && !baseMapPath.equals("http://www.google.cn/maps")){
+                            ToastyUtil.showWarningLong(this,"切片源文件不在，是否删除了切片文件夹");
+                            return;
+                        }
                         updataTime();
                     }
                     startActivity(_intent);
@@ -328,7 +345,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             case R.id.btnDelete:
                 AlertDialog.Builder _dialog = new AlertDialog.Builder(this);
                 _dialog.setTitle("温馨提示");
-                _dialog.setMessage("亲，删除工程前请确认已导出此工程数据，否则此工程数据会彻底被删除！");
+                _dialog.setMessage("亲，删除工程前请确认已导出此工程数据并且已发送给项目经理，否则此工程数据会彻底被删除！");
                 _dialog.setIcon(R.drawable.ic_warning);
                 _dialog.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
@@ -432,7 +449,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             if (is != null) {
                 FileUtils.getInstance().copy(is, SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_RECORD + SuperMapConfig.DEFAULT_DATA_RECORD_NAME);
             }
-            if (aSwitch.isChecked()) {
+         /*   if (aSwitch.isChecked()) {
                 //创建排水检测记录表文件夹
                 FileUtils.getInstance().mkdirs(SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD);
                 //复制排水检测记录表
@@ -440,7 +457,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 if (isPs != null) {
                     FileUtils.getInstance().copy(isPs, SuperMapConfig.DEFAULT_DATA_PATH + priName + "/" + SuperMapConfig.DEFAULT_DATA_PS_RECORD + SuperMapConfig.DEFAULT_DATA_PS_RECORD_NAME);
                 }
-            }
+            }*/
         }
     }
 

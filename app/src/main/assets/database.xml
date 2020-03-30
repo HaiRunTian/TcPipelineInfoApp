@@ -2626,7 +2626,10 @@
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','变径')</sql>
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','出露')</sql>
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','井埋')</sql>
-            <sql>insert into point_remark(pipe_type,remark) values('给水-J','偏心井')</sql>
+            <sql>insert
+
+
+                into point_remark(pipe_type,remark) values('给水-J','偏心井')</sql>
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','地物井')</sql>
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','打不开')</sql>
             <sql>insert into point_remark(pipe_type,remark) values('给水-J','顶管')</sql>

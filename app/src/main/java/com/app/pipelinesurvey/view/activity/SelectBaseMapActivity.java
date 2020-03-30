@@ -74,7 +74,7 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_basemap);
-        initWindowSize();
+//        initWindowSize();
         initView();
         initData();
     }

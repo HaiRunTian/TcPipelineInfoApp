@@ -473,7 +473,6 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         spState.setAdapter(m_adapter);
         //管材
         wellLidTextureList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.wellLidTexture));
-
     }
 
     /**
@@ -1072,7 +1071,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
             double temp = s * 100;
-            edtWellDepth.setText(new DecimalFormat().format(temp));
+            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
@@ -1082,7 +1081,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
             double temp = s * 100;
-            edtWellWater.setText(new DecimalFormat().format(temp));
+            edtWellWater.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
@@ -1092,7 +1091,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
             double temp = s * 100;
-            edtWellMud.setText(new DecimalFormat().format(temp));
+            edtWellMud.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 

@@ -162,7 +162,7 @@ public class ExcelUtilsOfPoi {
                     List<String> list1 = list.get(i);
                     Row row = sheet.createRow(6 + i);
                     row.setHeight((short) (256 * 1.2));
-                    for (int i1 = 0; i1 < 18; i1++) {
+                    for (int i1 = 0; i1 < list1.size(); i1++) {
                         Cell cell = row.createCell(i1);
                         cell.setCellStyle(borderedStyle.get(3));
                         cell.setCellValue(list1.get(i1));
@@ -470,6 +470,7 @@ public class ExcelUtilsOfPoi {
     /**
      * 方法描述：初始化Excel表头
      * 外检模式
+     *
      * @param colNameP  点表字段集合
      * @param colNameL  线表字段集合
      * @param pointName 点表名字
@@ -478,8 +479,8 @@ public class ExcelUtilsOfPoi {
      * @author :HaiRun
      * @date :2019/6/19  16:27
      */
-    public static void initExcelOfOut(String fileName, List<String> colNameP, List<String> colNameL,List<String> colNamePoint
-            ,List<String> colNameLine, String pointName, String lineName, String point, String line) {
+    public static void initExcelOfOut(String fileName, List<String> colNameP, List<String> colNameL, List<String> colNamePoint
+            , List<String> colNameLine, String pointName, String lineName, String point, String line) {
         FileOutputStream outputStream = null;
         Workbook workbook = null;
         try {

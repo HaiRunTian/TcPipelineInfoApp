@@ -8,9 +8,11 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,7 +42,7 @@ import java.util.Map;
  * @author HaiRun
  * @time 2020/1/15.13:47
  */
-public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineView, View.OnClickListener {
+public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineView, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private TextView tvReturn;
     private TextView tvTitle;
     private TextView tvSubmit;
@@ -51,7 +53,7 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
     private EditText edtEndDepth;
     private CheckBox cbFair;
     private CheckBox cbEddy;
-    private EditText edtPipeMater;
+    private Spinner spPipeMaterial;
     private EditText edtPipeSize;
     private CheckBox cbYS;
     private CheckBox cbWS;
@@ -69,7 +71,10 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
     private BaseFieldLInfos info;
     private Recordset query;
     private Button btnDel;
-    private EditText edtRoadName;
+    private EditText edtRemark;
+    private Spinner spImgType;
+    private EditText edtCheckMan, edtCheckLocal, edtCheckRoadName;
+    private Spinner spCheckWay;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,8 +100,8 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
     private void initView(View view) {
         tvReturn = view.findViewById(R.id.tvReturn);
         tvTitle = view.findViewById(R.id.tvTitle);
-        tvTitle.setText("排水外检");
         tvSubmit = view.findViewById(R.id.tvSubmit);
+        spImgType = view.findViewById(R.id.spImaType);
         edtImageNo = view.findViewById(R.id.edt_img_no);
         edtBeginPoint = view.findViewById(R.id.edt_begin_no);
         edtEndPoint = view.findViewById(R.id.edt_end_no);
@@ -104,7 +109,7 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
         edtEndDepth = view.findViewById(R.id.edt_end_depth);
         cbFair = view.findViewById(R.id.cb_flow_fair);
         cbEddy = view.findViewById(R.id.cb_flow_eddy);
-        edtPipeMater = view.findViewById(R.id.edt_pipe_mater);
+        spPipeMaterial = view.findViewById(R.id.spPipeMaterial);
         edtPipeSize = view.findViewById(R.id.edt_pipe_size);
         cbYS = view.findViewById(R.id.cb_ys);
         cbWS = view.findViewById(R.id.cb_ws);
@@ -114,7 +119,11 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
         edtWaterStatus = view.findViewById(R.id.edt_water_status);
         edtDefectDis = view.findViewById(R.id.edt_defect_distance);
         spDefectCode = view.findViewById(R.id.sp_defect_code);
-        edtRoadName = view.findViewById(R.id.edt_romake);
+        edtRemark = view.findViewById(R.id.edt_romake);
+        edtCheckMan = view.findViewById(R.id.edtChenckMan);
+        edtCheckLocal = view.findViewById(R.id.edtCheckLocal);
+        edtCheckRoadName = view.findViewById(R.id.edtRoadName);
+        spCheckWay = view.findViewById(R.id.spCheckWay);
         cb1 = view.findViewById(R.id.cb1);
         cb2 = view.findViewById(R.id.cb2);
         cb3 = view.findViewById(R.id.cb3);
@@ -123,13 +132,21 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
         btnDel.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
 
+        cbFair.setOnCheckedChangeListener(this);
+        cbEddy.setOnCheckedChangeListener(this);
+        cbWS.setOnCheckedChangeListener(this);
+        cbYS.setOnCheckedChangeListener(this);
+        cbHS.setOnCheckedChangeListener(this);
+        cb1.setOnCheckedChangeListener(this);
+        cb2.setOnCheckedChangeListener(this);
+        cb3.setOnCheckedChangeListener(this);
+        cb4.setOnCheckedChangeListener(this);
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initValue();
 
     }
@@ -146,23 +163,47 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
             //初始化
             String[] m_local = getResources().getStringArray(R.array.defectCode);
             spDefectCode.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, m_local));
-            Bundle arguments = getArguments();
-            type = arguments.getString("type");
+            String[] pipeMaterials = getResources().getStringArray(R.array.pipeMaterials);
+            spPipeMaterial.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, pipeMaterials));
+            String[] checkWay = getResources().getStringArray(R.array.checkWay);
+            spCheckWay.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, checkWay));
+            Bundle bundle = getArguments();
+            type = bundle.getString("type");
             //新增
             if (type.equals("0")) {
+                LogUtills.i("新增数据");
+                tvTitle.setText("排水检测-新增");
+                spImgType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position == 0) {
+                            edtImageNo.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT2));
+                        } else {
+                            edtImageNo.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 //初始化数据
-                info = arguments.getParcelable("info");
+                info = bundle.getParcelable("info");
                 edtBeginPoint.setText(info.benExpNum);
                 edtEndPoint.setText(info.endExpNum);
                 edtBeginDepth.setText(info.benDeep);
                 edtEndDepth.setText(info.endDeep);
                 edtPipeSize.setText(info.pipeSize);
-                edtPipeMater.setText(info.material);
-                edtRoadName.setText(SuperMapConfig.ROAD_NAME);
-                String flow = arguments.getString("flow");
-                if(flow.equals("顺")){
+                edtCheckRoadName.setText(SuperMapConfig.ROAD_NAME);
+                edtCheckLocal.setText(SuperMapConfig.CHECK_LOCAL);
+                edtCheckMan.setText(SuperMapConfig.CHECK_MAN);
+                edtImageNo.setText(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT2));
+                SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spCheckWay, SuperMapConfig.CHECK_WAY);
+                String flow = bundle.getString("flow");
+                if (flow.equals("顺")) {
                     cbFair.setChecked(true);
-                }else {
+                } else {
                     cbEddy.setChecked(true);
                 }
                 switch (info.pipeType.substring(0, 2)) {
@@ -180,8 +221,10 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                         break;
                 }
             } else {
+                LogUtills.i("查询数据");
+                tvTitle.setText("排水检测-编辑");
                 //查询
-                int smid = arguments.getInt("smid");
+                int smid = bundle.getInt("smid");
                 int[] smids = new int[]{smid};
                 query = DataHandlerObserver.ins().getPsLrDatasetVector().query(smids, CursorType.DYNAMIC);
                 if (query.isEmpty()) {
@@ -189,22 +232,25 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                     return;
                 }
                 edtImageNo.setText(query.getString("videoNumber") + "");
-                edtBeginPoint.setText(query.getString("benExpNum") + "");
-                edtEndPoint.setText(query.getString("endExpNum") + "");
-                edtBeginDepth.setText(query.getString("benDeep") + "");
-                edtEndDepth.setText(query.getString("endDeep") + "");
-                edtPipeMater.setText(query.getString("material") + "");
+                SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spPipeMaterial, query.getString("material"));
                 edtPipeSize.setText(query.getString("pipeSize") + "");
                 edtWellNo.setText(query.getString("wellNumber") + "");
                 edtWellStatus.setText(query.getString("wellState") + "");
                 edtWaterStatus.setText(query.getString("flowState") + "");
                 edtDefectDis.setText(query.getString("defectLength") + "");
-                edtRoadName.setText(query.getString("roadName") + "");
+                edtCheckRoadName.setText(query.getString("roadName") + "");
+                edtCheckMan.setText(query.getString("checkMan") + "");
+                edtCheckLocal.setText(query.getString("checkLocal") + "");
+                edtRemark.setText(query.getString("remark") + "");
                 if ("顺".equals(query.getString("flow"))) {
                     cbFair.setChecked(true);
                 } else {
                     cbEddy.setChecked(true);
                 }
+                edtBeginPoint.setText(query.getString("benExpNum") + "");
+                edtEndPoint.setText(query.getString("endExpNum") + "");
+                edtBeginDepth.setText(query.getString("benDeep") + "");
+                edtEndDepth.setText(query.getString("endDeep") + "");
                 //管类 checkbox
                 switch (query.getString("pipeType")) {
                     case "雨水":
@@ -239,7 +285,7 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                         break;
                 }
                 SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spDefectCode, query.getString("defectCode"));
-
+                SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spCheckWay, query.getString("checkWay"));
             }
         } catch (Exception e) {
             LogUtills.e(e.toString());
@@ -291,7 +337,7 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
 
     @Override
     public String getPipeMater() {
-        return edtPipeMater.getText().toString() + "";
+        return spPipeMaterial.getSelectedItem().toString();
     }
 
     @Override
@@ -340,10 +386,6 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
     }
 
 
-    public String getRoadName() {
-        return edtRoadName.getText().toString() + "";
-    }
-
     @Override
     public String getGrade() {
         if (cb1.isChecked()) {
@@ -362,14 +404,43 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
     }
 
     @Override
+    public String getCheckMan() {
+        return edtCheckMan.getText().toString() + "";
+    }
+
+    @Override
+    public String getCheckLocal() {
+        return edtCheckLocal.getText().toString() + "";
+    }
+
+    @Override
+    public String getCheckRoadName() {
+        return edtCheckRoadName.getText().toString();
+    }
+
+    @Override
+    public String getCheckWay() {
+        return spCheckWay.getSelectedItem().toString();
+    }
+
+    @Override
+    public String getRemark() {
+        return edtRemark.getText().toString() + "";
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvSubmit:
                 if (submitData()) {
                     ToastyUtil.showSuccessShort(getActivity(), "保存成功");
+                    SuperMapConfig.ROAD_NAME = getCheckRoadName();
+                    SuperMapConfig.CHECK_LOCAL = getCheckLocal();
+                    SuperMapConfig.CHECK_MAN = getCheckMan();
+                    SuperMapConfig.CHECK_WAY = getCheckWay();
                     getDialog().dismiss();
                 } else {
-                    ToastyUtil.showSuccessShort(getActivity(), "添加失败");
+                    ToastyUtil.showErrorLong(getActivity(), "添加失败");
                 }
                 break;
 
@@ -378,15 +449,15 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                 break;
 
             case R.id.btn_del:
-                if (!query.isEmpty()){
+                if (!query.isEmpty()) {
                     query.edit();
-                    if(query.delete()){
-                        ToastyUtil.showSuccessShort(getActivity(),"删除成功");
+                    if (query.delete()) {
+                        ToastyUtil.showSuccessShort(getActivity(), "删除成功");
                         query.close();
                         query.dispose();
                         getDialog().dismiss();
-                    }else {
-                        ToastyUtil.showErrorShort(getActivity(),"删除失败");
+                    } else {
+                        ToastyUtil.showErrorShort(getActivity(), "删除失败");
                     }
                 }
 
@@ -407,6 +478,11 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
         if (type.equals("0")) {
             //新增
             DatasetVector vector = DataHandlerObserver.ins().getPsLrDatasetVector();
+            Recordset query = vector.query("videoNumber = '" + getImageNo() + "'", CursorType.STATIC);
+            if (!query.isEmpty()) {
+                ToastyUtil.showWarningLong(getActivity(), "影像名称重复，不可提交，请重新命名");
+                return false;
+            }
             Recordset recordset = vector.getRecordset(false, CursorType.DYNAMIC);
             try {
                 Map<String, Object> map = new HashMap<>();
@@ -425,8 +501,12 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                 map.put("defectLength", getDefectDis());
                 map.put("defectCode", getDefectCode());
                 map.put("defectGrade", getGrade());
-                map.put("exp_Date",  DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
-                map.put("roadName",getRoadName());
+                map.put("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                map.put("checkMan", getCheckMan());
+                map.put("checkLocal", getCheckLocal());
+                map.put("roadName", getCheckRoadName());
+                map.put("checkWay", getCheckWay());
+                map.put("remark", getRemark());
                 Bundle bundle = getArguments();
                 if (bundle != null) {
                     BaseFieldLInfos endPointInfo = getArguments().getParcelable("info");
@@ -461,7 +541,12 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                 query.setString("defectLength", getDefectDis());
                 query.setString("defectCode", getDefectCode());
                 query.setString("defectGrade", getGrade());
-                query.setString("roadName",getRoadName());
+                query.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                query.setString("checkMan", getCheckMan());
+                query.setString("checkLocal", getCheckLocal());
+                query.setString("roadName", getCheckRoadName());
+                query.setString("checkWay", getCheckWay());
+                query.setString("remark", getRemark());
                 boolean updateData = query.update();
                 return updateData;
             } catch (Exception e) {
@@ -469,6 +554,93 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                 return false;
             }
         }
+    }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        int id = buttonView.getId();
+        switch (id) {
+            case R.id.cb_flow_fair:
+                if (isChecked) {
+                    cbEddy.setChecked(false);
+                    String bePoint = edtBeginPoint.getText().toString();
+                    String endPoint = edtEndPoint.getText().toString();
+                    String beDeep = edtBeginDepth.getText().toString();
+                    String endDeep = edtEndDepth.getText().toString();
+                    if (type.equals("0")) {
+                        edtBeginPoint.setText(bePoint);
+                        edtEndPoint.setText(endPoint);
+                        edtBeginDepth.setText(beDeep);
+                        edtEndDepth.setText(endDeep);
+                    } else {
+                        edtBeginPoint.setText(endPoint);
+                        edtEndPoint.setText(bePoint);
+                        edtBeginDepth.setText(endDeep);
+                        edtEndDepth.setText(beDeep);
+                    }
+                }
+                break;
+            case R.id.cb_flow_eddy:
+                if (isChecked) {
+                    cbFair.setChecked(false);
+                    String bePoint = edtBeginPoint.getText().toString();
+                    String endPoint = edtEndPoint.getText().toString();
+                    String beDeep = edtBeginDepth.getText().toString();
+                    String endDeep = edtEndDepth.getText().toString();
+                    edtBeginPoint.setText(endPoint);
+                    edtEndPoint.setText(bePoint);
+                    edtBeginDepth.setText(endDeep);
+                    edtEndDepth.setText(beDeep);
+                }
+                break;
+            case R.id.cb_ws:
+                if (isChecked) {
+                    cbHS.setChecked(false);
+                    cbYS.setChecked(false);
+                }
+                break;
+            case R.id.cb_ys:
+                if (isChecked) {
+                    cbHS.setChecked(false);
+                    cbWS.setChecked(false);
+                }
+                break;
+            case R.id.cb_hs:
+                if (isChecked) {
+                    cbWS.setChecked(false);
+                    cbYS.setChecked(false);
+                }
+                break;
+            case R.id.cb1:
+                if (isChecked) {
+                    cb2.setChecked(false);
+                    cb3.setChecked(false);
+                    cb4.setChecked(false);
+                }
+                break;
+            case R.id.cb2:
+                if (isChecked) {
+                    cb1.setChecked(false);
+                    cb3.setChecked(false);
+                    cb4.setChecked(false);
+                }
+                break;
+            case R.id.cb3:
+                if (isChecked) {
+                    cb1.setChecked(false);
+                    cb2.setChecked(false);
+                    cb4.setChecked(false);
+                }
+                break;
+            case R.id.cb4:
+                if (isChecked) {
+                    cb1.setChecked(false);
+                    cb2.setChecked(false);
+                    cb3.setChecked(false);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

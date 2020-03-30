@@ -336,17 +336,25 @@ public class FileUtils {
             for (int i = 0; i < _list.size(); i++) {
                 FileEntity entity = new FileEntity();
                 boolean isDirectory = _list.get(i).isDirectory();
-                if (isDirectory) {
-                    entity.setFileType(FileEntity.Type.FLODER);
-                    //					entity.setFileName(files[i].getPath());
-                } else {
-                    entity.setFileType(FileEntity.Type.FILE);
-                }
                 entity.setFileName(_list.get(i).getName().toString());
                 entity.setFilePath(_list.get(i).getAbsolutePath());
                 entity.setFileSize(_list.get(i).length() + "");
                 entity.setCheck(false);
-                list.add(entity);
+                if (isDirectory) {
+                    entity.setFileType(FileEntity.Type.FLODER);
+                    list.add(entity);
+                    //					entity.setFileName(files[i].getPath());
+                } else {
+                    entity.setFileType(FileEntity.Type.FILE);
+                    String s = _list.get(i).getName().toString();
+
+                    if (s.endsWith(".xls") || s.endsWith(".sci") || s.endsWith(".zip")){
+                        list.add(entity);
+                    }
+                }
+
+
+
             }
         }
         return list;

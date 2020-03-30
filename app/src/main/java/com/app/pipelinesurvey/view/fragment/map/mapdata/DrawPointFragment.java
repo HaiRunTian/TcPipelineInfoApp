@@ -51,6 +51,7 @@ import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.MaxExpNumID;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
+import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
 import com.app.pipelinesurvey.utils.SymbolInfo;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
@@ -690,36 +691,36 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
             case R.id.btnRemove:
             case R.id.tvSubmit:
                 try {
-                    boolean _result = false;
-                    //保存数据 M_SMID 已弃用，待修改
-                    if (m_smId == -1) {
-                        //判断重号
-                        if (ComTool.Ins().isSameNum(getGPId(), false)) {
-                            ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
-                            return;
-                        }
+                boolean _result = false;
+                //保存数据 M_SMID 已弃用，待修改
+                if (m_smId == -1) {
+                    //判断重号
+                    if (ComTool.Ins().isSameNum(getGPId(), false)) {
+                        ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
+                        return;
+                    }
 //                        if (checkValue()) {
 //                            ToastyUtil.showInfoShort(getActivity(), "井深必填，请检查是否填写了井深");
 //                            return;
 //                        }
-                        _result = DataHandlerObserver.ins().createRecords2(generateBaseFieldInfo());
-                        if (!_result) {
-                            ToastyUtil.showErrorShort(getActivity(), "保存点数据失败...");
-                            return;
-                        }
-                        //地图刷新
-                        WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
-                        if (!initID.equals(getGPId())) {
-                            int id = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
-                            MaxExpNumID.getInstance().setId(id);
-                        } else {
-                            MaxExpNumID.getInstance().setId(MaxExpNumID.getInstance().getId() + 1);
-                        }
-                        getDialog().dismiss();
+                    _result = DataHandlerObserver.ins().createRecords2(generateBaseFieldInfo());
+                    if (!_result) {
+                        ToastyUtil.showErrorShort(getActivity(), "保存点数据失败...");
+                        return;
                     }
-                } catch (Exception e) {
-                    LogUtills.e(e.toString());
+                    //地图刷新
+                    WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
+                    if (!initID.equals(getGPId())) {
+                        int id = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
+                        MaxExpNumID.getInstance().setId(id);
+                    } else {
+                        MaxExpNumID.getInstance().setId(MaxExpNumID.getInstance().getId() + 1);
+                    }
+                    getDialog().dismiss();
                 }
+            } catch (Exception e) {
+                LogUtills.e(e.toString());
+            }
                 break;
             case R.id.imgvPointRemark:
                 _popupWindow = new ListPopupWindow(getActivity());
@@ -763,6 +764,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
     }
 
     /**
+     * 手机拍照
      * @auther HaiRun
      * created at 2018/7/24 10:29
      */
@@ -1086,7 +1088,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
         if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
             double temp = s * 100;
-            edtWellDepth.setText(new DecimalFormat().format(temp));
+            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
@@ -1096,7 +1098,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
         if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
             double temp = s * 100;
-            edtWellWater.setText(new DecimalFormat().format(temp));
+            edtWellWater.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
@@ -1106,7 +1108,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
         if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
             double temp = s * 100;
-            edtWellMud.setText(new DecimalFormat().format(temp));
+            edtWellMud.setText(new DecimalFormat().format(temp).replace(",",""));
         }
     }
 
