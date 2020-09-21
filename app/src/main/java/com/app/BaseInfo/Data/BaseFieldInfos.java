@@ -20,7 +20,7 @@ public abstract class BaseFieldInfos implements Parcelable {
     public POINTTYPE type = POINTTYPE.Type_None;
 
     /**
-     *  流水号
+     *  流水号探测点	O-临时点	0	0	0								O
      */
     public int sysId = -1;
     public String code = "unKnown";

@@ -1,22 +1,17 @@
 package com.app.pipelinesurvey.view.activity;
 
-import android.Manifest;
 import android.app.Service;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
+
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AlertDialog;
+
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -28,21 +23,17 @@ import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.AESUtils;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
-import com.app.pipelinesurvey.utils.EncryptionAlgorithm;
+import com.app.pipelinesurvey.utils.DeviceIdUtil;
 import com.app.pipelinesurvey.utils.LicenseUtils;
 import com.app.pipelinesurvey.utils.LimitByTimeUtil;
 import com.app.pipelinesurvey.utils.NetUtils;
-import com.app.pipelinesurvey.utils.PermissionUtils;
-import com.app.pipelinesurvey.utils.RxDeviceTool;
 import com.app.pipelinesurvey.utils.SharedPreferencesUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.iview.IGetNetTime;
 import com.app.utills.LogUtills;
 import com.supermap.data.Environment;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.Provider;
 
 /**
  * @描述 LogInActivity 登录页
@@ -64,43 +55,31 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         //权限许可
-        PermissionUtils.initPermission(this, new PermissionUtils.PermissionHolder());
+        if (LicenseUtils.ins().configLicense()) {
+            Environment.setLicensePath(SuperMapConfig.LIC_PATH);
+            Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
+            Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
+            Environment.initialization(this);
+        }
+        //许可证过期，直接下载新的许可证
+        LicenseUtils.ins().judgeLicese(this);
         //定义view
         initView();
         //请求网络时间
 //        LimitByTimeUtil.ins(this).getTimeFromNet(this);
-
     }
 
     //注册序列号
     private void initRegister() {
         //注册序列号  加密判断
-        String password = SharedPreferencesUtil.getString("password", "");
+//        String password = SharedPreferencesUtil.getString("password", "");
         //请求序列号
         TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Service.TELEPHONY_SERVICE);
         Method method = null;
         try {
-            method = telephonyManager.getClass().getMethod("getDeviceId", int.class);
-            //获取IMEI号
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            //获取机器ID
-            String meid = Environment.getDeviceID();
-            //设备id获取为空，获取设备meid
-            if (meid == null) {
-                //获取MEID号
-                meid = (String) method.invoke(telephonyManager, 1);
-            }
-            //以上两个都为空，获取第三个
-            if (meid == null) {
-                meid = telephonyManager.getDeviceId();
-            }
-            //以上三个都为空，获取第四个
-            if (meid == null) {
-                meid = RxDeviceTool.getDeviceIdIMEI(LogInActivity.this);
-            }
-
+            //获取手机唯一识别码 40位长度
+            String meid = DeviceIdUtil.getDeviceId(this);
+            LogUtills.i("deviceId = " + meid);
             String password1 = AESUtils.getInstance("1234567890123456").encrypt(meid).trim();
             String password2 = SharedPreferencesUtil.getString("password", "").trim();
             if (!TextUtils.equals(password1, password2)) {
@@ -109,14 +88,9 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
                 startActivity();
             }
 
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+            ToastyUtil.showErrorLong(this, "申请注册号失败：" + e.toString());
         }
 
     }
@@ -179,45 +153,32 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvLogIn:
-                //配置本地许可
-                if (PermissionUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    if (LicenseUtils.ins().configLicense()) {
-                        Environment.setLicensePath(SuperMapConfig.LIC_PATH);
-                        Environment.setTemporaryPath(SuperMapConfig.TEMP_PATH);
-                        Environment.setWebCacheDirectory(SuperMapConfig.WEB_CACHE_PATH);
-                        Environment.initialization(this);
-                    }
-                    //许可证过期，直接下载新的许可证
-                    if (!LicenseUtils.ins().judgeLicese()) {
-                        LicenseUtils.ins().downLoadLicense(this);
-                    }
-                } else {
-                    PermissionUtils.initPermission(this, new PermissionUtils.PermissionHolder());
-                }
-                //判断软件使用时间
-                if (NetUtils.isNetworkConnected(this) && nowTime.length() > 0) {
+               /* if (NetUtils.isNetworkConnected(this) && nowTime.length() > 0) {
                     //有网情况下用网络时间判断
                     if (!LimitByTimeUtil.ins(LogInActivity.this).isEffectiveDate(nowTime)) {
                         ToastyUtil.showErrorLong(this, "软件试用期已经过期，请购买此软件");
-                        return;
+                    } else {
+                        //注册序列号
+                        initRegister();
                     }
+                } else {*/
+                //无网络用系统时间判断
+                if (!LimitByTimeUtil.ins(LogInActivity.this).isEffectiveDate(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT))) {
+                    ToastyUtil.showErrorLong(this, "软件试用期已经过期，请购买此软件");
                 } else {
-                    //无网络用系统时间判断
-                    if (!LimitByTimeUtil.ins(LogInActivity.this).isEffectiveDate(DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_TIME_FORMAT))) {
-                        ToastyUtil.showErrorLong(this, "软件试用期已经过期，请购买此软件");
-                        return;
-                    }
+                    //注册序列号
+                    initRegister();
                 }
-                //注册序列号
-                initRegister();
+//                }
+                edtLogInId.setText("");
+                edtPassword.setText("");
 //                startActivity();
                 break;
             case R.id.tvRememberPassword:
                 cbRemeberPass.toggle();
                 break;
             case R.id.tvReset:
-                edtLogInId.setText("");
-                edtPassword.setText("");
+
                 break;
             default:
                 break;

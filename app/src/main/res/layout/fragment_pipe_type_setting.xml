@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:layout_marginLeft="8dp"
+        android:id="@+id/cbAllSelect"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_50"
+        android:text="全选" />
 
     <ListView
-        android:dividerHeight="1dp"
+        android:layout_below="@+id/cbAllSelect"
         android:id="@+id/lv_pipe_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:dividerHeight="1dp"></ListView>
 
-</LinearLayout>
+
+
+</RelativeLayout>

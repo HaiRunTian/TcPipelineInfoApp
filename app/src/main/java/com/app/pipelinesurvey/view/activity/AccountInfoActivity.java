@@ -3,7 +3,7 @@ package com.app.pipelinesurvey.view.activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;

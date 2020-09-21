@@ -63,7 +63,7 @@
     <string name="draw_line">线</string>
     <string name="draw_point_in_line">管线加点</string>
     <string name="measure_point">测量</string>
-    <string name="change_type">管类</string>
+    <string name="change_type">切片</string>
     <string name="count">统计</string>
     <string name="layer">图层</string>
     <string name="pointSize">地图切换</string>

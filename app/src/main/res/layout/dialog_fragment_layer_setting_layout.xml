@@ -12,25 +12,44 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点图层"/>
+        android:text="  点 图 层 "/>
 
     <CheckBox
         android:id="@+id/cb_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="线图层"/>
+        android:text="  线 图 层 "/>
 
     <CheckBox
         android:id="@+id/cb_point_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点标记"/>
+        android:text="  点 标 记 "/>
 
     <CheckBox
         android:id="@+id/cb_line_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="线标记"/>
+        android:text="  线 标 记 "/>
+
+    <CheckBox
+        android:id="@+id/cb_map_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   底  图  1" />
+
+    <CheckBox
+        android:id="@+id/cb_map_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  底  图  2"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/cb_map_paishui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="排水检测" />
 
     <Button
         android:layout_marginBottom="20dp"

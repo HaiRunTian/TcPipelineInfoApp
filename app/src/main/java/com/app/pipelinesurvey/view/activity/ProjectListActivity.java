@@ -8,25 +8,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.ProjectListAdapter;
 import com.app.pipelinesurvey.base.BaseActivity;
-import com.app.pipelinesurvey.base.MyApplication;
-import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
+import com.supermap.data.Environment;
+import com.supermap.data.Maps;
+import com.supermap.data.Workspace;
 import com.wang.avi.AVLoadingIndicatorView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +46,9 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list);
         initView();
-//        initValue();
+        initValue();
+
+
     }
 
     @Override
@@ -71,9 +68,11 @@ public class ProjectListActivity extends BaseActivity implements View.OnClickLis
                 String _prjName = _cursor.getString(_cursor.getColumnIndex("Name"));
                 list_Prj.add(_prjName);
             }
+            _cursor.close();
         } catch (Exception e) {
             LogUtills.w(e.getMessage().toString());
         }
+
 
         if (list_Prj.size() != 0) {
             tvTitle.setText("项目列表" + "(" + list_Prj.size() + ")");

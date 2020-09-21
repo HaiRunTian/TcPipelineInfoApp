@@ -1,13 +1,14 @@
 package com.app.pipelinesurvey.view.activity;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +27,7 @@ import com.app.pipelinesurvey.utils.ToastyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Created by HaiRun on 2018/12/1.
  * excel数据导入
@@ -65,6 +67,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
             }
         }
     };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +127,6 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             //返回上一个目录
             case R.id.btnReturn:
@@ -142,24 +144,23 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
                 break;
             //确定
             case R.id.tvConfig:
-
-                        for (int i = 0; i < m_list.size(); i++) {
-                            if (m_list.get(i).isCheck()) {
-                                FileEntity _fileEntity = m_list.get(i);
-                                String _filePath = _fileEntity.getFilePath();
-                                String _fileName = _fileEntity.getFileName();
-                                Intent _intent =new Intent();
-                                _intent.putExtra("filePath",_filePath);
-                                _intent.putExtra("fileName",_fileName);
-                                setResult(RESULT_OK,_intent);
-                                break;
-                            }
-                        }
-                        finish();
+                for (int i = 0; i < m_list.size(); i++) {
+                    if (m_list.get(i).isCheck()) {
+                        FileEntity _fileEntity = m_list.get(i);
+                        String _filePath = _fileEntity.getFilePath();
+                        String _fileName = _fileEntity.getFileName();
+                        Intent _intent = new Intent();
+                        _intent.putExtra("filePath", _filePath);
+                        _intent.putExtra("fileName", _fileName);
+                        setResult(RESULT_OK, _intent);
+                        break;
+                    }
+                }
+                finish();
                 break;
             //返回关掉Acitity
             case R.id.tvReturn:
-                    finish();
+                finish();
                 break;
             default:
                 break;
@@ -167,6 +168,7 @@ public class SelectExcelActivity extends BaseActivity implements View.OnClickLis
         }
 
     }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FileEntity _fileEntity = m_list.get(position);

@@ -20,8 +20,6 @@ public class PointConfig {
         return s_PointConfig;
     }
 
-
-
     public String getGroupName() {
         return groupName;
     }

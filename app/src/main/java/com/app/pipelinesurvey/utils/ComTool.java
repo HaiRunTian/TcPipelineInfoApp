@@ -1,9 +1,6 @@
 package com.app.pipelinesurvey.utils;
-
 import android.database.Cursor;
-
 import com.app.BaseInfo.Oper.DataHandlerObserver;
-import com.app.pipelinesurvey.bean.PointConfig;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
@@ -12,8 +9,6 @@ import com.supermap.data.Color;
 import com.supermap.data.CursorType;
 import com.supermap.data.QueryParameter;
 import com.supermap.data.Recordset;
-import com.supermap.services.ServiceBase;
-
 import java.util.regex.Pattern;
 
 /**
@@ -218,7 +213,8 @@ public class ComTool {
         try {
         Pattern _pattern = Pattern.compile("[a-zA-Z]");
         // 1管点编号后面以为是字母并且是状态是正常 然后去掉后面的字母
-        if (_pattern.matcher(expNum.substring(expNum.length() - 1)).find() && (!state.equals("正常"))) {
+
+        if (_pattern.matcher(expNum.substring(expNum.length() - 1)).find() && (!state.contains("正常"))) {
             expNum = expNum.substring(0, expNum.length() - 1);
         }
         //查询数据库表
@@ -259,6 +255,50 @@ public class ComTool {
             LogUtills.e(e.toString());
             return 0;
         }
+    }
+
+    /**
+     * 获取管类代码其实位置
+     * @Params :
+     * @author :HaiRun
+     * @date   :2020-06-16  13:51
+     */
+    public int getPipeCodeLocal(String expNum){
+        int temp = 0;
+        //查询数据库表
+        String _groupName = "";
+        int _groupLocal = 1;
+        int _serialNum = 0;
+        //查询数据库point_setting表，配置信息
+        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
+        while (_cursor.moveToNext()) {
+            //获取组号
+            _groupName = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
+            //组号位置
+            _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
+            //流水号长度
+            _serialNum = _cursor.getInt(_cursor.getColumnIndex("SerialNum"));
+        }
+        String _tempId = "";
+        //组号位置 组号长度 管类代码长度
+        if (expNum.contains("T_")){
+            expNum = expNum.substring(2);
+        }
+        if (_groupName.length() != 0) {
+            //有组号
+            if (_groupLocal == 2) {
+                //判断组号位置  第一位 第二位  A1J0001
+                temp = _groupName.length();
+            } else if (_groupLocal == 1 || _groupLocal == 3){
+                //最后一位    JA10001  J0001A1
+                temp = 0;
+
+            }
+        } else { //没有组号  J0001
+            temp = 0;
+        }
+
+        return temp;
     }
 
 }

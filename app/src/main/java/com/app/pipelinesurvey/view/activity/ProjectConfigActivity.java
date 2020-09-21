@@ -1,33 +1,21 @@
 package com.app.pipelinesurvey.view.activity;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.bean.PipePointConfigInfo;
-import com.app.pipelinesurvey.config.SharedPrefManager;
-import com.app.pipelinesurvey.database.DatabaseHelpler;
-import com.app.pipelinesurvey.database.SQLConfig;
-import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.fragment.PointAttrConfigFragment;
 import com.app.pipelinesurvey.view.iview.IPointAttrConfigView;
 
+/**
+ * @author
+ */
 public class ProjectConfigActivity extends BaseActivity implements IPointAttrConfigView {
     private EditText edtPipeType;
     private EditText edtAppendant;

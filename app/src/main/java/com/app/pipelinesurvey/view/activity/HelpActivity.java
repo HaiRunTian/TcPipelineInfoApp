@@ -2,7 +2,7 @@ package com.app.pipelinesurvey.view.activity;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,6 +30,7 @@ public class HelpActivity extends AppCompatActivity implements OnPageChangeListe
                 finish();
             }
         });
+
         displayFromAssets("app.pdf");
     }
 

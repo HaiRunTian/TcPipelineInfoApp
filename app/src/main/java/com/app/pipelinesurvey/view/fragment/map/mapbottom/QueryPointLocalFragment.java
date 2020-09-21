@@ -1,32 +1,24 @@
 package com.app.pipelinesurvey.view.fragment.map.mapbottom;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.utills.LogUtills;
-import com.supermap.data.CursorType;
-import com.supermap.data.DatasetVector;
 import com.supermap.data.Point2D;
 import com.supermap.data.Recordset;
-import com.supermap.mapping.Layer;
 import com.supermap.mapping.Map;
 import com.supermap.mapping.MapControl;
-import com.supermap.mapping.Selection;
-
-import java.util.List;
 
 /**
  * 管点定位查询

@@ -1,7 +1,7 @@
 package com.app.pipelinesurvey.view.widget;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  *
@@ -42,7 +42,7 @@ public class ColorUtis {
                 case 2:
                     return Color.parseColor("#0000" + argb);
                 case 3:
-                    char r = argb.charAt(0), g = argb.charAt(1), b = argb.charAt(2);
+                    char r = argb.charAt(0), g = argb.charAt(1), b = argb.charAt(      2);
                     //noinspection StringBufferReplaceableByString
                     return Color.parseColor(new StringBuilder("#")
                             .append(r).append(r)
@@ -55,7 +55,6 @@ public class ColorUtis {
                     return Color.parseColor("#0" + argb);
                 case 6:
                     return Color.parseColor("#" + argb);
-
                     default:break;
             }
         }

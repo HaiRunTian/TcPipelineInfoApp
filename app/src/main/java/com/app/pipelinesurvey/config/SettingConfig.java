@@ -2,7 +2,6 @@ package com.app.pipelinesurvey.config;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 
 import com.app.pipelinesurvey.bean.Symbolbean;
 import com.app.pipelinesurvey.database.DatabaseHelpler;

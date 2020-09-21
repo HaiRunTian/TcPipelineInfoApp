@@ -56,6 +56,7 @@ public class  TheTotalLine extends BaseFieldLInfos {
                 _ends[_index] = _end;
                 _index++;
             }
+            _cursor.close();
             return createThemeLabel(_keys,_colors,_starts,_ends);
         } catch (Exception e) {
             LogUtills.e(e.toString());

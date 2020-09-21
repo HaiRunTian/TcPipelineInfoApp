@@ -1,27 +1,21 @@
 package com.app.pipelinesurvey.base;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.pipelinesurvey.utils.ActivityUtil;
-import com.app.pipelinesurvey.utils.PermissionUtils;
-import com.app.utills.LogUtills;
 import com.caption.netmonitorlibrary.netStateLib.NetChangeObserver;
 import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
 import com.caption.netmonitorlibrary.netStateLib.NetUtils;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @描述 BaseActivity 活动类基类
  * @作者 Kevin.
  * @创建日期 2018/2/28  15:45.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
 
     /**
      * 网络观察者

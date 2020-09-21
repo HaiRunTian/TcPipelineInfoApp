@@ -28,7 +28,6 @@ public class LimitByTimeUtil {
     public synchronized static LimitByTimeUtil ins(Context context) {
         if (instance == null) {
             instance = new LimitByTimeUtil(context);
-
         }
         return instance;
     }
@@ -75,7 +74,7 @@ public class LimitByTimeUtil {
                 long temp = time1 - time;
                 LogUtills.i("LimitByTimeUtil",time +"--------" + time1 + "----------" + temp);
                 //10天时间
-                long jumpTime = 1000 * 60 * 60 * 24 * 10;
+                long jumpTime = 1000 * 60 * 60 * 24 * 3;
                 if (temp < jumpTime) {
                     int i = (int) (temp / (60 * 60 * 24 *1000));
 //                    LogUtills.i("LimitByTimeUtil","剩余时间 = " + i + "天");

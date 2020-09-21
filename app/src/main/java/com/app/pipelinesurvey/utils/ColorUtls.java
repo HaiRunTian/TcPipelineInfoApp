@@ -1,7 +1,7 @@
 package com.app.pipelinesurvey.utils;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Kevin on 2019-04-04.

@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <com.supermap.mapping.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -15,6 +17,15 @@
         android:layout_height="@dimen/dp_30"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/dp_8"
+        android:text="建议每天导出数据备份"
+        android:textColor="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <Spinner
         android:id="@+id/spLayers"

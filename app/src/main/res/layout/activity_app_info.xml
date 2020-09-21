@@ -80,6 +80,29 @@
             </RelativeLayout>
 
             <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update_date"
+                android:textSize="@dimen/sp_12"/>
+            <TextView
+                android:id="@+id/tvLastUpdate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2020-07-17 16:16:32"
+                android:textColor="@color/black02"
+                android:textSize="@dimen/sp_12"/>
+
+        </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
@@ -88,15 +111,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/update_date"
+                    android:text="使用剩余时间："
                     android:textSize="@dimen/sp_12"/>
                 <TextView
-                    android:id="@+id/tvLastUpdate"
+                    android:id="@+id/tvUserDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="2018-06-22 16:16:32"
+                    android:text="2020-07-17 16:16:32"
                     android:textColor="@color/black02"
                     android:textSize="@dimen/sp_12"/>
 

@@ -41,7 +41,6 @@ public class OperDataSet {
 
     /**
      * 通过bean类生成点记录集  批量增加
-     *
      * @Params :
      * @author :HaiRun
      * @date :2019/8/2  9:40
@@ -138,9 +137,7 @@ public class OperDataSet {
                 _p2ds.add(new Point2D(endLongitude, endLatitude));
                 GeoLine _geoLine = new GeoLine(_p2ds);
                 boolean ok = _result.addNew(_geoLine, map);
-
                 _result.setInt32("sysId", _result.getID());
-
                 //标签专题图颜色显示字段
                 String pipeType = (String) map.get("pipeType");
                 String pipeSize = (String) map.get("pipeSize");

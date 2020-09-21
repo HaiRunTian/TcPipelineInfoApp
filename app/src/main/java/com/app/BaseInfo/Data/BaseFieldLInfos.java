@@ -171,13 +171,15 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
     /**
      * 排水扯起
      */
+    public String IsDrawNoteText = "";
+    public String NoteX = "";
+    public String NoteY = "";
     public double PsCheQiBenX = 0.000;
     public double PsCheQiBenY = 0.000;
     public double PsCheQiEndX = 0.000;
     public double PsCheQiEndY = 0.000;
     public String PsCheQiBenLe = "";
     public String PsCheQiEndLe = "";
-
 
     @Override
     public boolean Init() {
@@ -349,7 +351,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
 
     /**
      * Recordset 转bean
-     *
      * @param reset
      * @return
      */
@@ -495,6 +496,9 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         parcel.writeString(shortCode);
         parcel.writeString(submitName);
         parcel.writeInt(sysId);
+        parcel.writeString(IsDrawNoteText);
+        parcel.writeString(NoteX);
+        parcel.writeString(NoteY);
         parcel.writeDouble(PsCheQiBenX);
         parcel.writeDouble(PsCheQiBenY);
         parcel.writeDouble(PsCheQiEndX);
@@ -502,6 +506,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         parcel.writeString(PsCheQiBenLe);
         parcel.writeString(PsCheQiEndLe);
         parcel.writeString(Edit);
+
     }
 
     /**
@@ -533,7 +538,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _field.pipeLength = source.readString();
             _field.pipeSize = source.readString();
             _field.pressure = source.readString();
-
             _field.puzzle = source.readString();
             _field.remark = source.readString();
             _field.rowXCol = source.readString();
@@ -551,6 +555,9 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _field.shortCode = source.readString();
             _field.submitName = source.readString();
             _field.sysId = source.readInt();
+            _field.IsDrawNoteText = source.readString();
+            _field.NoteX = source.readString();
+            _field.NoteY = source.readString();
             _field.PsCheQiBenX = source.readDouble();
             _field.PsCheQiBenY = source.readDouble();
             _field.PsCheQiEndX = source.readDouble();
@@ -558,6 +565,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
             _field.PsCheQiBenLe = source.readString();
             _field.PsCheQiEndLe = source.readString();
             _field.Edit = source.readString();
+
             return _field;
         }
 
@@ -567,7 +575,6 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
         }
 
     };
-
 
     @Override
     public String toString() {
@@ -603,6 +610,9 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 ", totalHole='" + totalHole + '\'' +
                 ", usedHole='" + usedHole + '\'' +
                 ", voltage='" + voltage + '\'' +
+                ", IsDrawNoteText='" + IsDrawNoteText + '\'' +
+                ", NoteX='" + NoteX + '\'' +
+                ", NoteY='" + NoteY + '\'' +
                 ", PsCheQiBenX=" + PsCheQiBenX +
                 ", PsCheQiBenY=" + PsCheQiBenY +
                 ", PsCheQiEndX=" + PsCheQiEndX +
@@ -617,7 +627,7 @@ public class BaseFieldLInfos extends BaseFieldInfos implements IBaseInf, Parcela
                 ", shortCode='" + shortCode + '\'' +
                 ", rangeExpression=" + rangeExpression +
                 ", pipeType='" + pipeType + '\'' +
-                ", edit='" + Edit + '\'' +
+                ", Edit='" + Edit + '\'' +
                 '}';
     }
 }

@@ -1,29 +1,23 @@
 package com.app.pipelinesurvey.view.fragment.map;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.bean.AppInfo;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
-import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.utills.LogUtills;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * @author HaiRun

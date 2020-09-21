@@ -25,6 +25,7 @@ import java.util.Map;
 
 /**
  * 线配置适配器
+ *
  * @author HaiRun
  * @time 2019/9/17.14:50
  */
@@ -84,25 +85,42 @@ public class LineSettingAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         FatherViewHolder fatherViewHolder = null;
-        if (convertView == null){
+        if (convertView == null) {
             fatherViewHolder = new FatherViewHolder();
-            convertView = inflater.inflate(R.layout.item_father,parent,false);
+            convertView = inflater.inflate(R.layout.item_father, parent, false);
             fatherViewHolder.textView = convertView.findViewById(R.id.tv_father);
+            fatherViewHolder.checkBox = convertView.findViewById(R.id.cb_father_setting);
             convertView.setTag(fatherViewHolder);
-        }else {
+        } else {
             fatherViewHolder = (FatherViewHolder) convertView.getTag();
         }
         fatherViewHolder.textView.setText(list.get(groupPosition).getPipeType());
+        fatherViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    for (int i = 0; i < list.get(groupPosition).getList().size(); i++) {
+                        list.get(groupPosition).getList().get(i).setShow(1);
+                    }
+                } else {
+                    for (int i = 0; i < list.get(groupPosition).getList().size(); i++) {
+                        list.get(groupPosition).getList().get(i).setShow(0);
+                    }
+                }
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 
     class FatherViewHolder {
         TextView textView;
+        CheckBox checkBox;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-       ChildViewHolder childViewHolder = null;
+        ChildViewHolder childViewHolder = null;
         if (convertView == null) {
             childViewHolder = new ChildViewHolder();
             convertView = inflater.inflate(R.layout.item_child, parent, false);

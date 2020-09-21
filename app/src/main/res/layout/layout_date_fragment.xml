@@ -7,22 +7,23 @@
     <include layout="@layout/layout_titlebar_project_basemap" />
 
     <LinearLayout
-        android:layout_marginTop="@dimen/dp_8"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_8"
         android:orientation="horizontal">
 
         <TextView
             style="@style/TextViewStyle02_4"
-            android:text="开始时间:" />
+            android:text="起始时间:" />
 
         <TextView
-            android:layout_marginLeft="@dimen/dp_10"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/green03"
             android:id="@+id/tvStart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:drawableRight="@mipmap/icon_edt_right_32x"
+            android:textColor="@color/green03"
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
 
@@ -34,37 +35,54 @@
 
         <TextView
             style="@style/TextViewStyle02_4"
-            android:text="结束时间:" />
+            android:text="终止时间:" />
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/green03"
             android:id="@+id/tvEnd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:drawableRight="@mipmap/icon_edt_right_32x"
+            android:textColor="@color/green03"
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/TextViewStyle02_4"
+            android:text="道路名字:" />
+
+        <Spinner
+            android:id="@+id/spRoadName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
 
     <RelativeLayout
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal">
 
         <Button
-            style="@style/fragment_btn_style_2"
             android:id="@+id/btn_export_select"
-            android:text="部分"/>
+            style="@style/fragment_btn_style_2"
+            android:text="条件导出" />
 
         <Button
-           android:layout_toRightOf="@+id/btn_export_select"
             android:id="@+id/btn_export_all"
             style="@style/fragment_btn_style_2"
-            android:text="全部"/>
-
-
+            android:layout_toRightOf="@+id/btn_export_select"
+            android:text="全部导出" />
     </RelativeLayout>
 
 </LinearLayout>

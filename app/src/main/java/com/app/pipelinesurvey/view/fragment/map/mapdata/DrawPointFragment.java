@@ -1,7 +1,7 @@
 package com.app.pipelinesurvey.view.fragment.map.mapdata;
 
 import android.annotation.TargetApi;
-import android.content.ContentValues;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,9 +12,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.content.FileProvider;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ import android.widget.ListPopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.BaseInfo.Data.BaseFieldPInfos;
 import com.app.BaseInfo.Data.PointFieldFactory;
@@ -48,10 +48,8 @@ import com.app.pipelinesurvey.utils.CameraUtils;
 import com.app.pipelinesurvey.utils.ComTool;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.MaxExpNumID;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
-import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
 import com.app.pipelinesurvey.utils.SymbolInfo;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
@@ -441,6 +439,11 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
 
     }
 
+    /**
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/5/28  9:02
+     */
     private void initView(View view) {
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         linearAppendantPanel = (LinearLayout) view.findViewById(R.id.linearAppendantPanel);
@@ -691,36 +694,37 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
             case R.id.btnRemove:
             case R.id.tvSubmit:
                 try {
-                boolean _result = false;
-                //保存数据 M_SMID 已弃用，待修改
-                if (m_smId == -1) {
-                    //判断重号
-                    if (ComTool.Ins().isSameNum(getGPId(), false)) {
-                        ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
-                        return;
-                    }
+                    boolean _result = false;
+                    //保存数据 M_SMID 已弃用，待修改
+                    if (m_smId == -1) {
+                        //判断重号
+                        if (ComTool.Ins().isSameNum(getGPId(), false)) {
+                            ToastyUtil.showErrorShort(getActivity(), "点号重复，请重新编号");
+                            return;
+                        }
 //                        if (checkValue()) {
 //                            ToastyUtil.showInfoShort(getActivity(), "井深必填，请检查是否填写了井深");
 //                            return;
 //                        }
-                    _result = DataHandlerObserver.ins().createRecords2(generateBaseFieldInfo());
-                    if (!_result) {
-                        ToastyUtil.showErrorShort(getActivity(), "保存点数据失败...");
-                        return;
+                        _result = DataHandlerObserver.ins().createRecords2(generateBaseFieldInfo());
+                        if (!_result) {
+                            ToastyUtil.showErrorShort(getActivity(), "保存点数据失败...");
+                            return;
+                        }
+                        //地图刷新
+                        WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
+                        if (!initID.equals(getGPId())) {
+                            int id = ComTool.Ins().getSerialNum(getGPId(), getSituation(), m_code);
+                            MaxExpNumID.getInstance().setId(id);
+                        } else {
+                            MaxExpNumID.getInstance().setId(MaxExpNumID.getInstance().getId() + 1);
+                        }
+                        WorkSpaceUtils.getInstance().saveMap();
+                        getDialog().dismiss();
                     }
-                    //地图刷新
-                    WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
-                    if (!initID.equals(getGPId())) {
-                        int id = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
-                        MaxExpNumID.getInstance().setId(id);
-                    } else {
-                        MaxExpNumID.getInstance().setId(MaxExpNumID.getInstance().getId() + 1);
-                    }
-                    getDialog().dismiss();
+                } catch (Exception e) {
+                    LogUtills.e(e.toString());
                 }
-            } catch (Exception e) {
-                LogUtills.e(e.toString());
-            }
                 break;
             case R.id.imgvPointRemark:
                 _popupWindow = new ListPopupWindow(getActivity());
@@ -765,6 +769,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
 
     /**
      * 手机拍照
+     *
      * @auther HaiRun
      * created at 2018/7/24 10:29
      */
@@ -824,9 +829,9 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
             //外检模式保存删除点线数据到对应到两张表
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                 //记录点
-                OperSql.getSingleton().inserPoint(getGPId(),"新增");
+                OperSql.getSingleton().inserPoint(getGPId(), m_pointX, m_pointY, "外检:新增");
 
-                _info.Edit = "外检-新增管点-"+getState();
+                _info.Edit = "外检:新增";
             }
             _info.state = getState();
             String date = DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT);
@@ -842,6 +847,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
             if (_cursor.moveToNext()) {
                 _info.expGroup = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
             }
+            _cursor.close();
             _info.remark = getPointRemark();
             _info.picture = getPictureName();
             //标签专题图表达式
@@ -869,6 +875,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
                 _info.symbolSizeX = _cursor2.getDouble(_cursor2.getColumnIndex("scaleX"));
                 _info.symbolSizeY = _cursor2.getDouble(_cursor2.getColumnIndex("scaleY"));
             }
+            _cursor2.close();
         } catch (Exception e) {
             LogUtills.i(e.getMessage());
         }
@@ -1088,7 +1095,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
         if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
             double temp = s * 100;
-            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1098,7 +1105,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
         if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
             double temp = s * 100;
-            edtWellWater.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtWellWater.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1108,7 +1115,7 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
         if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
             double temp = s * 100;
-            edtWellMud.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtWellMud.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 

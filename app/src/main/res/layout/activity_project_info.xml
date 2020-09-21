@@ -337,6 +337,12 @@
                     android:text="是否启用排水检测" />
 
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80">
+
+            </RelativeLayout>
+
 
         </LinearLayout>
     </ScrollView>

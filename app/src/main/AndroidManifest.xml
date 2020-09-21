@@ -68,7 +68,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".base.BaseActivity" />
-
         <activity android:name=".view.activity.ProjectListActivity" />
         <activity android:name=".view.activity.ProjectInfoActivity" />
         <activity android:name=".view.activity.ProjectConfigActivity" />
@@ -87,7 +86,7 @@
             android:name=".view.activity.MapActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged|adjustResize"/>
         <activity
             android:name=".view.activity.SelectBaseMapActivity" />
 
@@ -111,7 +110,7 @@
             android:name=".view.activity.linepoint.AddBasicsActivity"
             android:theme="@style/DialogStyleActivity" />
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.app.pipelinesurvey"
             android:exported="false"
             android:grantUriPermissions="true">

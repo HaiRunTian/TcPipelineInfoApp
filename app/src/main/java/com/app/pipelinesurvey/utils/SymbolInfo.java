@@ -1,7 +1,5 @@
 package com.app.pipelinesurvey.utils;
 
-import android.support.annotation.NonNull;
-
 import com.app.pipelinesurvey.config.SuperMapConfig;
 
 /**
@@ -96,176 +94,6 @@ public class SymbolInfo {
             }
         }
 
-      /*  switch (type) {
-            //惠州模式
-            case "给水-JS":
-            case "雨水-YS":
-            case "污水-WS":
-            case "合流-PS":
-            case "燃气-RQ":
-            case "高压-LG":
-            case "低压-LD":
-            case "交通-LX":
-            case "监控-LJ":
-            case "电信-DX":
-            case "移动-DD":
-            case "联通-DL":
-            case "盈通-DY":
-            case "有视-DT":
-            case "军队-DB":
-            case "综合-ZH":
-            case "不明-BM":
-            case "其他-BM":
-            case "工业-GY":
-                _symbol = getHZSymbol(appendant, feature);
-                break;
-            //广州 深圳
-            case "给水-J":
-            case "雨水-Y":
-            case "污水-W":
-            case "排水-P":
-            case "交通-X":
-            case "电信-D":
-            case "电力-L":
-            case "燃气-R":
-            case "煤气-M":
-            case "路灯-S":
-            case "有视-T":
-            case "军队-B":
-            case "工业-G":
-            case "不明-N":
-            case "其它-Q":
-            case "路灯-LS":
-            case "信号-XH": {
-                _symbol = getHZSymbol(appendant, feature);
-            }
-            break;*/
-              /*  case "雨水-Y":
-            case "污水-W":
-            case "排水-P": {
-                _symbol = getYWPSymbol(appendant, feature);
-            }
-            break;
-
-            case "交通-X":
-            case "电信-D": {
-                _symbol = getXDSymblo(appendant, feature);
-            }
-            break;
-
-            case "电力-L": {
-                _symbol = getLSymbol(appendant, feature);
-            }
-            break;
-
-            case "燃气-R":
-            case "煤气-M": {
-                _symbol = getRMSymbol(appendant, feature);
-            }
-            break;
-
-            case "路灯-S": {
-                _symbol = getSSymbol(appendant, feature);
-
-            }
-            break;
-
-            case "有视-T": {
-                _symbol = getTSymbol(appendant, feature);
-
-            }
-            break;
-            case "军队-B": {
-                _symbol = getBSymbol(appendant, feature);
-
-            }
-            break;
-            case "工业-G": {
-                _symbol = getGSymbol(appendant, feature);
-
-            }
-            break;
-
-            case "不明-N":
-            case "其它-Q": {
-                _symbol = getNQSymbol(appendant, feature);
-//                _symbol = "探测点";
-            }
-            break;
-
-            case "路灯-LS": {
-                _symbol = getLSSymblol(appendant, feature);
-            }
-            break;
-            case "信号-XH": {
-                _symbol = getXHSymbol(appendant, feature);
-            }*/
-         /*   default:
-                _symbol = "探测点";
-                break;
-*/
-          /*  case "雨水-Y":
-            case "污水-W":
-            case "排水-P": {
-                _symbol = getYWPSymbol(appendant, feature);
-            }
-            break;
-
-            case "交通-X":
-            case "电信-D": {
-                _symbol = getXDSymblo(appendant, feature);
-            }
-            break;
-
-            case "电力-L": {
-                _symbol = getLSymbol(appendant, feature);
-            }
-            break;
-
-            case "燃气-R":
-            case "煤气-M": {
-                _symbol = getRMSymbol(appendant, feature);
-            }
-            break;
-
-            case "路灯-S": {
-                _symbol = getSSymbol(appendant, feature);
-
-            }
-            break;
-
-            case "有视-T": {
-                _symbol = getTSymbol(appendant, feature);
-
-            }
-            break;
-            case "军队-B": {
-                _symbol = getBSymbol(appendant, feature);
-
-            }
-            break;
-            case "工业-G": {
-                _symbol = getGSymbol(appendant, feature);
-
-            }
-            break;
-
-            case "不明-N":
-            case "其它-Q": {
-                _symbol = getNQSymbol(appendant, feature);
-//                _symbol = "探测点";
-            }
-            break;
-
-            case "路灯-LS": {
-                _symbol = getLSSymblol(appendant, feature);
-            }
-            break;
-            case "信号-XH": {
-                _symbol = getXHSymbol(appendant, feature);
-            }*/
-
-//        }
         return _symbol;
     }
 
@@ -782,6 +610,14 @@ public class SymbolInfo {
         switch (appendant) {
             case "窨井":
             case "检查井":
+            case "通风井":
+            case "跌水井":
+            case "截流井":
+            case "接驳井":
+            case "排放口":
+            case "溢流堰":
+            case "阀门":
+            case "拍门":
                 _symbol = "窨井";
                 break;
             case "雨水井":

@@ -12,6 +12,7 @@ import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.presenter.AppInfoUpdatePresenter;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.GetVersionNum;
+import com.app.pipelinesurvey.utils.LicenseUtils;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.view.iview.IAppInfoUpdateView;
 
@@ -19,6 +20,7 @@ public class AppInfoActivity extends BaseActivity implements IAppInfoUpdateView 
     private ProgressBar progressBar;
     private TextView tvLastUpdate;
     private TextView m_tvVersion;
+    private TextView tvUserDate;
     private AppInfoUpdatePresenter m_presenter = new AppInfoUpdatePresenter(this);
 
     @Override
@@ -27,6 +29,7 @@ public class AppInfoActivity extends BaseActivity implements IAppInfoUpdateView 
         setContentView(R.layout.activity_app_info);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         tvLastUpdate = (TextView) findViewById(R.id.tvLastUpdate);
+        tvUserDate = (TextView) findViewById(R.id.tvUserDate);
         m_tvVersion = $(R.id.tvVersionName);
         m_tvVersion.setText(GetVersionNum.ins().getLocalVersionName(this));
         findViewById(R.id.linearReturn).setOnClickListener(new View.OnClickListener() {
@@ -41,6 +44,9 @@ public class AppInfoActivity extends BaseActivity implements IAppInfoUpdateView 
                 m_presenter.update();
             }
         });
+
+        int licenseStateDate = LicenseUtils.ins().getLicenseStateDate();
+        tvUserDate.setText(licenseStateDate + "  天");
     }
 
     @Override

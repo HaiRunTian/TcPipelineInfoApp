@@ -89,16 +89,33 @@ public class PointSettingAdapter extends BaseExpandableListAdapter {
             fatherViewHolder = new FatherViewHolder();
             convertView = inflater.inflate(R.layout.item_father, parent, false);
             fatherViewHolder.textView = convertView.findViewById(R.id.tv_father);
+            fatherViewHolder.checkBox = convertView.findViewById(R.id.cb_father_setting);
             convertView.setTag(fatherViewHolder);
         } else {
             fatherViewHolder = (FatherViewHolder) convertView.getTag();
         }
         fatherViewHolder.textView.setText(list.get(groupPosition).getPipeType());
+        fatherViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    for (int i = 0; i < list.get(groupPosition).getList().size(); i++) {
+                        list.get(groupPosition).getList().get(i).setShow(1);
+                    }
+                } else {
+                    for (int i = 0; i < list.get(groupPosition).getList().size(); i++) {
+                        list.get(groupPosition).getList().get(i).setShow(0);
+                    }
+                }
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 
     class FatherViewHolder {
         TextView textView;
+        CheckBox checkBox;
     }
 
     @Override

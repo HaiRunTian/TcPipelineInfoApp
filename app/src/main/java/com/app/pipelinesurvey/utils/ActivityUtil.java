@@ -1,7 +1,6 @@
 package com.app.pipelinesurvey.utils;
 
-import android.support.v7.app.AppCompatActivity;
-
+import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,19 +12,19 @@ import java.util.List;
 
 public class ActivityUtil {
 
-    private static List<AppCompatActivity> s_activities =  new ArrayList<AppCompatActivity>();
+    private static List<Activity> s_activities =  new ArrayList<Activity>();
 
-    public static void addActivity(AppCompatActivity activity){
+    public static void addActivity(Activity activity){
         s_activities.add(activity);
     }
 
-    public static void removeActivity(AppCompatActivity activity) {
+    public static void removeActivity(Activity activity) {
         s_activities.remove(activity);
     }
 
     public static void finishAllActivity() {
         if (s_activities.size()>0) {
-            for (AppCompatActivity _activity : s_activities) {
+            for (Activity _activity : s_activities) {
                 if (!_activity.isFinishing()) {
                     _activity.finish();
                 }

@@ -65,8 +65,8 @@ public class PointAttrConfigActivity extends BaseActivity implements IPointAttrC
                     edtMaxScaleVisble.setText(String.valueOf(_info.getMaxScaleVisble()));
                     edtLineWidth.setText(String.valueOf(_info.getLineWidth()));
                 }
-            } else if (fromWhere.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {//从点属性配置点击新增进入
-//                city = _intent.getStringExtra("city");
+            } else if (fromWhere.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {
+                //从点属性配置点击新增进入
                 pipeType = _intent.getStringExtra("pipeType");
                 edtPipeType.setText(pipeType);
             }
@@ -104,8 +104,8 @@ public class PointAttrConfigActivity extends BaseActivity implements IPointAttrC
                 } else if (previousAction.equals(PointAttrConfigFragment.ADD_POINT_ATTR)) {
                     ContentValues _values = getCurrentContentValues();
                     _values.put("city", "广州");
-                    DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_DEFAULT_POINT_SETTING,_values);
-                    ToastyUtil.showSuccessShort(PointAttrConfigActivity.this,"保存成功");
+                    DatabaseHelpler.getInstance().insert(SQLConfig.TABLE_DEFAULT_POINT_SETTING, _values);
+                    ToastyUtil.showSuccessShort(PointAttrConfigActivity.this, "保存成功");
                     setResult(RESULT_OK);
                     finish();
                 }
@@ -130,7 +130,7 @@ public class PointAttrConfigActivity extends BaseActivity implements IPointAttrC
     //获取当前界面信息保存为一个配置点的contenvalues
     private ContentValues getCurrentContentValues() {
         ContentValues _values = new ContentValues();
-        _values.put("name", getPipeType().substring(getPipeType().length()-1)+"-"+getName());
+        _values.put("name", getPipeType().substring(getPipeType().length() - 1) + "-" + getName());
         _values.put("color", getColor());
         _values.put("scaleX", getScaleX());
         _values.put("scaleY", getScaleY());

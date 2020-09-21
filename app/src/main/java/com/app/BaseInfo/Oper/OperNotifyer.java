@@ -208,6 +208,10 @@ public class OperNotifyer {
         if (info instanceof BaseFieldLInfos) {
             //对象是排水外检，则不加入图层
             if (info instanceof PsCheckLine){
+                //添加排水检测线的单值专题图
+                ThemeUnique defaultThemeUnique = ((PsCheckLine) info).createDefaultThemeUnique();
+                Layer  _resultLayer = map.getLayers().add(dv, defaultThemeUnique, true);
+                _resultLayer.setVisible(true);
                 return;
             }
 

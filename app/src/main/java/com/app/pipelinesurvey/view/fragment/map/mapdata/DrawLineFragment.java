@@ -1,15 +1,13 @@
 package com.app.pipelinesurvey.view.fragment.map.mapdata;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -56,8 +54,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author HaiRun
@@ -583,6 +579,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         if (_cursor.moveToNext()) {
             _tempL = _cursor.getInt(_cursor.getColumnIndex("PipeLength"));
         }
+        _cursor.close();
         //管线长度超过了数据库线长度的提示值
         if (_len > _tempL) {
             ToastyUtil.showWarningShort(getActivity(), "管线长度超出自定义长度" + _tempL + "米");
@@ -607,6 +604,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         _endReset.close();
                         _endReset.dispose();
                     }
+                    WorkSpaceUtils.getInstance().saveMap();
                     getDialog().dismiss();
                     break;
 
@@ -634,6 +632,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                         if (_fistPoint && _secondPoint) {
                             LogUtills.i("save point depth ", "ok");
                         }
+                        WorkSpaceUtils.getInstance().saveMap();
                         getDialog().dismiss();
                     }
 
@@ -700,7 +699,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     bundle.putString("textrure", getTextrure());
                     bundle.putString("pipeSize", getPipeSize());
                     drawLineFragment.setArguments(bundle);
-                    drawLineFragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "psLine");
+                    drawLineFragment.show(getActivity().getFragmentManager(), "psLine");
                     break;
 
                 //管径
@@ -751,17 +750,17 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             }
         }
 
-//        //埋深不能超过20米
-//        if (Double.valueOf(getStartBurialDepth()) > 20.0) {
-//            ToastyUtil.showInfoShort(getActivity(), "起点埋深超过20米，请检查数据");
-//            return false;
-//        }
-//
-//        //埋深不能超过20米
-//        if (Double.valueOf(getEndBurialDepth()) > 20.0) {
-//            ToastyUtil.showInfoShort(getActivity(), "终点埋深超过20米，请检查数据");
-//            return false;
-//        }
+     /*   //起点埋深不能超过20米
+        if (Double.valueOf(getStartBurialDepth()) > 20.0) {
+            ToastyUtil.showInfoShort(getActivity(), "起点埋深超过20米， ");
+            return false;
+        }
+
+        //终点埋深不能超过20米
+        if (Double.valueOf(getEndBurialDepth()) > 20.0) {
+            ToastyUtil.showInfoShort(getActivity(), "终点埋深超过20米，请检查数据");
+            return false;
+        }*/
 
         //排水类管线，埋设方式为方沟，管线材料不能为塑料
         if ("排水".equals(gpType.substring(0, 2))) {
@@ -823,8 +822,39 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             _info.usedHole = getUsedHoleCount();
             _info.holeDiameter = getAperture();
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-                OperSql.getSingleton().inserLine(getStartPoint(), getEndPoint(), 0, "新增管线");
-                _info.Edit = "外检-新增" + getState();
+                OperSql.getSingleton().inserLine(getStartPoint(), getEndPoint(), 0, "外检:新增");
+                _info.Edit = "外检:新增";
+
+                //点表
+                OperSql.getSingleton().inserPoint(getStartPoint(),_info.startLongitude,_info.startLatitude,"外检:添加线-线起点");
+                OperSql.getSingleton().inserPoint(getEndPoint(),_info.endLongitude,_info.endLatitude,"外检:添加线-线终点");
+
+                Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(getStartPoint(), true);
+                if (!recordset.isEmpty()){
+                    recordset.edit();
+                    recordset.setString("Edit","外检:添加线-线起点");
+                    recordset.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                    recordset.update();
+                }
+
+                Recordset recordset2 = DataHandlerObserver.ins().queryRecordsetByExpNum(getEndPoint(), true);
+                if (!recordset2.isEmpty()){
+                    recordset2.edit();
+                    recordset2.setString("Edit","外检:添加线-线终点");
+                    recordset2.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                    recordset2.update();
+                }
+
+                if (recordset != null){
+                    recordset.close();
+                    recordset.dispose();
+                }
+
+                if (recordset2 != null){
+                    recordset2.close();
+                    recordset2.dispose();
+                }
+
             }
             _info.state = getState();
             _info.remark = getLineRemark();
@@ -895,7 +925,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     }
 
     /**
-     * TODO 需要修改 如果是两位管类代码的，就不能用当前管类代码判断界面实现内容
      *
      * @Author HaiRun
      * @Time 2019/5/29 . 15:10
@@ -1002,6 +1031,7 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
                     }
                     getDialog().dismiss();
                     WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
+                    WorkSpaceUtils.getInstance().saveMap();
                     return true;
                 } else {
                     //这里注意当不是返回键时需将事件扩散，否则无法处理其他点击事件
@@ -1702,7 +1732,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
             } else {
                 //	4.电力、电信、路灯管材为空管、空沟时电缆根数为O，出现不为0时提示。
                 edtAmount.setText("0");
-
             }
 
             //6、电力、电信、路灯埋设方式为架空、直埋时管径不为空值，总孔数、已用孔为空值。电缆根数为0或空值。
@@ -1828,7 +1857,6 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
 
     /**
      * 多选
-     *
      * @Params :
      * @author :HaiRun
      * @date :2019/7/10  15:12

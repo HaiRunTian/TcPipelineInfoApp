@@ -1,12 +1,12 @@
 package com.app.pipelinesurvey.view.fragment.map.mapdata;
 
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
@@ -32,28 +31,24 @@ import com.app.BaseInfo.Data.MAPACTIONTYPE2;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
-import com.app.pipelinesurvey.utils.InitWindowSize;
-import com.app.pipelinesurvey.utils.ToastyUtil;
+import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.fragment.map.ps.QueryPsLineFragment;
 import com.app.pipelinesurvey.view.iview.IDrawPipeLineView;
 import com.app.pipelinesurvey.view.iview.IQueryPipeLineView;
 import com.app.utills.LogUtills;
-import com.squareup.leakcanary.RefWatcher;
 import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
 import com.supermap.data.GeoLine;
 import com.supermap.data.Point2D;
 import com.supermap.data.Point2Ds;
 import com.supermap.data.Recordset;
-
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -347,7 +342,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         btnDownReflux.setOnClickListener(this);
         //排水检测容器view
         View viewById = view.findViewById(R.id.layout_ps);
-        if ("1".equals(SuperMapConfig.PS_OUT_CHECK)){
+        if ("1".equals(SuperMapConfig.PS_OUT_CHECK)) {
             viewById.setVisibility(View.VISIBLE);
         }
         //起点点号
@@ -402,7 +397,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             LogUtills.e("QueryPipeLineActivity Query SMID=" + m_smId + ", Get Recordset Faild...");
             m_reSet.close();
             m_reSet.dispose();
-            getDialog().dismiss();
             getDialog().dismiss();
         }
 
@@ -546,6 +540,21 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         }
         //初始化view
         setValueToView();
+        //设置排水检测管线按钮颜色
+        String sql = "benExpNum = '" + getEndPoint() + "' and endExpNum = '" + getStartPoint() + "' and flow = '逆'";
+        Recordset query = DataHandlerObserver.ins().getPsLrDatasetVector().query(sql, CursorType.STATIC);
+        if (!query.isEmpty()) {
+            btnDownReflux.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
+        }
+        String sql2 = "benExpNum = '" + getStartPoint() + "' and endExpNum = '" + getEndPoint() + "' and flow = '顺'";
+        Recordset query2 = DataHandlerObserver.ins().getPsLrDatasetVector().query(sql2, CursorType.STATIC);
+        if (!query2.isEmpty()) {
+            btnDownFlow.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
+        }
+        query.close();
+        query.dispose();
+        query2.close();
+        query2.dispose();
     }
 
     /**
@@ -662,6 +671,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                     if (!secondPoint) {
                         ToastyUtil.showErrorShort(getActivity(), "终点埋深更改失败");
                     }
+                    WorkSpaceUtils.getInstance().saveMap();
                     getDialog().dismiss();
                 }
                 break;
@@ -674,11 +684,12 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                             int sysId = m_reSet.getInt32("sysId");
                             if (m_reSet.delete()) {
                                 if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-                                    OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, sysId, "删除管线");
+                                    OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, sysId, "外检:删除管线");
 //                                    OperSql.getSingleton().inserPoint(m_startpointID,"删除管线" + m_startpointID + "->" + m_endPointID);
 //                                    OperSql.getSingleton().inserPoint(m_endPointID,"删除管线" + m_startpointID + "->" + m_endPointID);
                                 }
                                 WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
+                                WorkSpaceUtils.getInstance().saveMap();
                                 getDialog().dismiss();
                             } else {
                                 ToastyUtil.showErrorShort(getActivity(), "删除线失败");
@@ -726,14 +737,14 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                     ToastyUtil.showInfoLong(getActivity(), "你还未录入此管线的顺流检测");
                     bundle.putString("type", "0");
                     bundle.putParcelable("info", m_baseInfo);
-                    bundle.putString("flow","顺");
+                    bundle.putString("flow", "顺");
                 } else {
                     int id = query.getID();
                     bundle.putString("type", "1");
                     bundle.putInt("smid", id);
                 }
                 fragment.setArguments(bundle);
-                fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "line");
+                fragment.show(getActivity().getFragmentManager().beginTransaction(), "line");
             }
             break;
             //排水检测 逆流
@@ -746,17 +757,17 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                     ToastyUtil.showInfoLong(getActivity(), "你还未录入此管线的顺流检测");
                     bundle.putString("type", "0");
                     bundle.putParcelable("info", m_baseInfo);
-                    bundle.putString("flow","逆");
+                    bundle.putString("flow", "逆");
                 } else {
                     int id = query.getID();
                     bundle.putString("type", "1");
                     bundle.putInt("smid", id);
                 }
                 fragment.setArguments(bundle);
-                fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "line");
+                fragment.show(getActivity().getFragmentManager().beginTransaction(), "line");
             }
 
-                break;
+            break;
 
           /*  //管径大小
             case R.id.imgvPipeSize:
@@ -915,8 +926,11 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         if (!m_reSet.update()) {
             ToastyUtil.showErrorShort(getActivity(), "交换失败");
         } else {
-            OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "起点和终点交换");
-            updateRecordset();
+            if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "外检:起点终点交换");
+                m_reSet.setString("Edit","外检:起点终点交换" + m_startpointID + ":" + m_endPointID);
+                m_reSet.update();
+            }
         }
         _geoLine.dispose();
         _geoLine1.dispose();
@@ -939,7 +953,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             _info.startLongitude = m_reSet.getDouble("startLongitude");
             _info.endLatitude = m_reSet.getDouble("endLatitude");
             _info.endLongitude = m_reSet.getDouble("endLongitude");
-            _info.exp_Date = m_baseInfo.exp_Date;
+            _info.exp_Date = DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT);
             _info.benDeep = getStartBurialDepth();
             _info.endDeep = getEndBurialDepth();
             _info.buried = getEmbeddedWay();
@@ -966,8 +980,10 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             _info.holeDiameter = getAperture();
             //外检模式
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-                OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "管线修改");
-                _info.Edit = "外检-数据修改-" + getState();
+                _info.Edit = "外检:数据修改:" + getState();
+                OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "外检:数据修改");
+                OperSql.getSingleton().inserPoint(m_startpointID,_info.startLongitude,_info.startLatitude,"外检:线修改");
+                OperSql.getSingleton().inserPoint(m_endPointID,_info.endLongitude,_info.endLatitude,"外检:线修改");
                 updateRecordset();
             }
             _info.state = getState();
@@ -998,19 +1014,31 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     private void updateRecordset() {
         Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(m_startpointID, true);
         if (!recordset.isEmpty()) {
-            recordset.setString("Edit", "外检-管线数据修改");
-            recordset.update();
-        }
-        Recordset recordset2 = DataHandlerObserver.ins().queryRecordsetByExpNum(m_startpointID, true);
-        if (!recordset2.isEmpty()) {
-            recordset2.setString("Edit", "外检-管线数据修改");
-            recordset2.update();
+            recordset.edit();
+            recordset.setString("Edit", "外检:线修改");
+            recordset.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+            if (!recordset.update()){
+                LogUtills.e("point eidt error :" + m_startpointID);
+            }
         }
         recordset.close();
-        recordset2.close();
         recordset.dispose();
+
+        Recordset recordset2 = DataHandlerObserver.ins().queryRecordsetByExpNum(m_endPointID, true);
+        if (!recordset2.isEmpty()) {
+            recordset2.edit();
+            recordset2.setString("Edit", "外检:线修改");
+            recordset2.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+            if (!recordset2.update()){
+                LogUtills.e("point eidt error :" + m_endPointID);
+            }
+        }
+
+        recordset2.close();
         recordset2.dispose();
     }
+
+
 
     private void setViewEdit(boolean state) {
         spEmbeddedWay.setEnabled(state);
@@ -1047,7 +1075,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                     case "管埋":
                         layoutPipeSize.setVisibility(View.VISIBLE);
                         layoutSection.setVisibility(View.GONE);
-
                         //电力线管块 已用孔数  总孔数  电缆根数设置星号
                         setViewDrawable(tvHoleCount);
                         setViewDrawable(tvUsedHole);
@@ -1057,7 +1084,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
                     case "架空":
                         layoutPipeSize.setVisibility(View.VISIBLE);
                         layoutSection.setVisibility(View.GONE);
-
                         //电力线管块 已用孔数  总孔数  电缆根数设置星号
                         setViewDrawable(tvAmount);
                         setViewDrawableNull(tvHoleCount);
@@ -1335,7 +1361,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             double s = Double.parseDouble(_startBurialDepth);
             double temp = s * 100;
             new DecimalFormat("#.00").format(temp);
-            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",",""));
+            edtStartBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1353,7 +1379,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             }
             double s = Double.parseDouble(_ednBurialDepth);
             double temp = s * 100;
-            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",",""));
+            edtEndBurialDepth.setText(sign + new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1378,7 +1404,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             double s = Double.parseDouble(_burialDifference);
             double temp = s * 100;
 //            String depth = String.valueOf(temp);
-            edtBurialDifference.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtBurialDifference.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 

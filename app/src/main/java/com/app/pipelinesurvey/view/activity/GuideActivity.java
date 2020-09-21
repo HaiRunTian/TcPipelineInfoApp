@@ -16,10 +16,10 @@ import com.app.pipelinesurvey.utils.AppUtil;
 import com.app.pipelinesurvey.utils.GetVersionNum;
 import com.app.pipelinesurvey.utils.PermissionUtils;
 
-/** 
- *  @描述 GuideActivity app引导页
- *  @作者  Kevin
- *  @创建日期 2018/2/28  15:48.
+/**
+ * @描述 GuideActivity app引导页
+ * @作者 Kevin
+ * @创建日期 2018/2/28  15:48.
  */
 public class GuideActivity extends BaseActivity {
     //logo图标
@@ -33,10 +33,21 @@ public class GuideActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //全屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_guide);
         initView();
+        PermissionUtils.initPermission(this, new PermissionUtils.CallBack() {
+            @Override
+            public void onGranted() {
+                finish();
+            }
+
+            @Override
+            public void onDenied() {
+                m_imgvLogo.startAnimation(_animation);
+            }
+        });
+
     }
 
     @Override
@@ -72,7 +83,7 @@ public class GuideActivity extends BaseActivity {
                 m_handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(GuideActivity.this,LogInActivity.class));
+                        startActivity(new Intent(GuideActivity.this, LogInActivity.class));
                         finish();
                     }
                 });
@@ -83,7 +94,7 @@ public class GuideActivity extends BaseActivity {
 
             }
         });
-        //启动logo的动画效果
-        m_imgvLogo.startAnimation(_animation);
+//        //启动logo的动画效果
+//        m_imgvLogo.startAnimation(_animation);
     }
 }

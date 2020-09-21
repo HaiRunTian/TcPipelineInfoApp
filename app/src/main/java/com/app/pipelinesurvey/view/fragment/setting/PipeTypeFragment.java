@@ -1,13 +1,15 @@
 package com.app.pipelinesurvey.view.fragment.setting;
 
+import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import com.app.pipelinesurvey.R;
@@ -16,6 +18,7 @@ import com.app.pipelinesurvey.bean.setting.PipeTypeStting;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
+import com.app.utills.LogUtills;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,9 @@ public class PipeTypeFragment extends Fragment {
 
     private View view;
     private ListView listView;
+    private CheckBox cbAll;
+    private List<PipeTypeStting> list;
+    private PipeTypeSettingAdapter adapter;
 
     @Nullable
     @Override
@@ -41,12 +47,44 @@ public class PipeTypeFragment extends Fragment {
 
     private void initView() {
         listView = view.findViewById(R.id.lv_pipe_type);
+        cbAll = view.findViewById(R.id.cbAllSelect);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         initValue();
+        initEvent();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
+    private void initEvent() {
+        cbAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    for (int i = 0; i < list.size(); i++) {
+                        list.get(i).setShow(1);
+                    }
+                }else {
+                    for (int i = 0; i < list.size(); i++) {
+                        list.get(i).setShow(0);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+
+            }
+        });
     }
 
     /**
@@ -59,7 +97,7 @@ public class PipeTypeFragment extends Fragment {
     private void initValue() {
         Cursor query = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_PRJ_SHOW, "where prj_name = '"
                 + SuperMapConfig.PROJECT_NAME + "' and city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
-        List<PipeTypeStting> list = new ArrayList<>();
+        list = new ArrayList<>();
         PipeTypeStting typeStting = null;
         while (query.moveToNext()) {
             typeStting = new PipeTypeStting();
@@ -73,12 +111,19 @@ public class PipeTypeFragment extends Fragment {
         }
         query.close();
 
-        PipeTypeSettingAdapter adapter = new PipeTypeSettingAdapter(getActivity(),list);
+        adapter = new PipeTypeSettingAdapter(getActivity(), list);
         listView.setAdapter(adapter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+            initValue();
+            adapter.notifyDataSetChanged();
     }
 }

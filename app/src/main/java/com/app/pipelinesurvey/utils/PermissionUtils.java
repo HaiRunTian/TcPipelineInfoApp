@@ -38,14 +38,14 @@ public class PermissionUtils {
                 .onGranted(new Action() {
                     @Override
                     public void onAction(List<String> permissions) {
-                        //有权限
+                        //没 权限
                         callBack.onGranted();
                     }
                 })
                 .onDenied(new Action() {
                     @Override
                     public void onAction(List<String> permissions) {
-                        //没权限
+                        //有权限
                         callBack.onDenied();
                     }
                 })

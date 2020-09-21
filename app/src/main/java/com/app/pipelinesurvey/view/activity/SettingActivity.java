@@ -1,13 +1,12 @@
 package com.app.pipelinesurvey.view.activity;
 
-import android.content.ContentValues;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
@@ -70,6 +69,7 @@ public class SettingActivity extends BaseActivity implements RadioGroup.OnChecke
             SettingConfig.ins().getContentValues(prjName);
             SettingConfig.ins().getLineContentValues(prjName);
         }
+        cursor.close();
         switchFragment(0);
     }
 
@@ -105,7 +105,7 @@ public class SettingActivity extends BaseActivity implements RadioGroup.OnChecke
      */
     public void switchFragment(int id) {
         if (fragmentManager == null) {
-            fragmentManager = getSupportFragmentManager();
+            fragmentManager = getFragmentManager();
         }
         transaction = fragmentManager.beginTransaction();
         hideFragment(transaction);
@@ -183,11 +183,10 @@ public class SettingActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             case R.id.rbtn_point:
                 switchFragment(1);
-//                ToastyUtil.showInfoShort(SettingActivity.this, "选择了0");
                 break;
             case R.id.rbtn_line:
                 switchFragment(2);
-//                ToastyUtil.showInfoShort(SettingActivity.this, "选择了1");
+
                 break;
             default:
                 break;

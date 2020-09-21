@@ -79,6 +79,10 @@ public class SelectBaseMapAdapter extends BaseAdapter {
                 holder.img.setImageResource(R.mipmap.ic_file_excel);
                 holder.cb.setVisibility(View.VISIBLE);
                 holder.cb.setChecked(m_entity.isCheck());
+            }else if (m_entity.getFileName().endsWith(".dwg")) {
+                holder.img.setImageResource(R.mipmap.ic_map_dwg_48px);
+                holder.cb.setVisibility(View.VISIBLE);
+                holder.cb.setChecked(m_entity.isCheck());
             }else {
                 holder.img.setImageResource(R.mipmap.ic_file_64px);
                 holder.cb.setVisibility(View.GONE);

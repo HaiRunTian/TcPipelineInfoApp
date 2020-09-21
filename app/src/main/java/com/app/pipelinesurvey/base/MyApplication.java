@@ -11,9 +11,6 @@ import com.app.pipelinesurvey.utils.PullXMLUtil;
 import com.app.pipelinesurvey.utils.SharedPreferencesUtil;
 import com.app.utills.LogUtills;
 import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
-
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +25,7 @@ import java.util.List;
 
 public class MyApplication extends Application {
     private static Context context;
-    public BaseGPS m_baseGPS = null;
+//    public BaseGPS m_baseGPS = null;
 //    private RefWatcher refWatcher;
     @Override
     public void onCreate() {

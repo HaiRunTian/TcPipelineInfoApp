@@ -1,10 +1,10 @@
 package com.app.pipelinesurvey.view.fragment.map.ps;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -354,6 +354,23 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvSubmit:
+                String s = spImgType.getSelectedItem().toString();
+                //如果影像编号不满14位，不给提交
+                if (s.equals("博铭维") && getImageNo().length() != 14) {
+                    ToastyUtil.showWarningShort(getActivity(), "请检查影像编号格式是否正确，格式：年月日时分秒");
+                    return;
+                }
+                //道路名不能为空
+                if (getCheckRoadName().isEmpty()){
+                    ToastyUtil.showWarningShort(getActivity(), "道路名不能为空，请填写完整");
+                    return;
+                }
+                //检测人员不能为空
+                if (getCheckWay().isEmpty()){
+                    ToastyUtil.showWarningShort(getActivity(), "检测人员不能为空，请填写完整");
+                    return;
+                }
+
                 if (submitData()) {
                     ToastyUtil.showSuccessShort(getActivity(), "添加成功");
                     getDialog().dismiss();
@@ -385,8 +402,8 @@ public class DrawPsLineFragment extends DialogFragment implements IDrawPsLineVie
             return false;
         }
         Recordset query = vector.query("videoNumber = '" + getImageNo() + "'", CursorType.STATIC);
-        if (!query.isEmpty()){
-            ToastyUtil.showWarningLong(getActivity(),"影像名称重复，不可提交，请重新命名");
+        if (!query.isEmpty()) {
+            ToastyUtil.showWarningLong(getActivity(), "影像名称重复，不可提交，请重新命名");
             return false;
         }
         Recordset recordset = vector.getRecordset(false, CursorType.DYNAMIC);

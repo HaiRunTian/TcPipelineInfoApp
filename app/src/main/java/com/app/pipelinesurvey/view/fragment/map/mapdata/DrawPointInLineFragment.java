@@ -1,6 +1,7 @@
 package com.app.pipelinesurvey.view.fragment.map.mapdata;
 
 import android.annotation.TargetApi;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,9 +12,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.content.FileProvider;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -40,7 +42,6 @@ import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.BaseInfo.Oper.OperNotifyer;
 import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.bean.PipePointInfo;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
@@ -49,7 +50,6 @@ import com.app.pipelinesurvey.utils.CameraUtils;
 import com.app.pipelinesurvey.utils.ComTool;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.MaxExpNumID;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
 import com.app.pipelinesurvey.utils.SymbolInfo;
@@ -473,6 +473,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         spState.setAdapter(m_adapter);
         //管材
         wellLidTextureList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.wellLidTexture));
+
     }
 
     /**
@@ -703,18 +704,38 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         BaseFieldPInfos _centerPoint = BaseFieldPInfos.createFieldInfo(_reSet);
                         //线记录集
                         DatasetVector _lineDateset = (DatasetVector) DataHandlerObserver.ins().getTotalLrLayer().getDataset();
+                        //原始线记录
                         Recordset _lineRecordset = DataHandlerObserver.ins().queryRecordsetBySmid(m_lineSmid, false, true);
                         _lineRecordset.moveFirst();
-
                         //外检模式
                         if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                             //获取线起点终点
                             String benExpNum = _lineRecordset.getString("benExpNum");
                             String endExpNum = _lineRecordset.getString("endExpNum");
                             //记录删除管线
-                            OperSql.getSingleton().inserLine(benExpNum, endExpNum, 0, "线中加点-删除");
-                            OperSql.getSingleton().inserLine(benExpNum, _centerPoint.exp_Num, 0, "线中加点-加线");
-                            OperSql.getSingleton().inserLine(_centerPoint.exp_Num, endExpNum, 0, "线中加点-加线");
+                            OperSql.getSingleton().inserLine(benExpNum, endExpNum, 0, "线中加点-原始线");
+                            OperSql.getSingleton().inserLine(benExpNum, _centerPoint.exp_Num, 0, "线中加点-新加线");
+                            OperSql.getSingleton().inserLine(_centerPoint.exp_Num, endExpNum, 0, "线中加点-新加线");
+                            Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(benExpNum, true);
+                            if (!recordset.isEmpty()) {
+                                recordset.edit();
+                                recordset.setString("Edit", "外检:线中加点线起点");
+                                recordset.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                                recordset.update();
+                            }
+                            OperSql.getSingleton().inserPoint(benExpNum,_centerPoint.longitude,_centerPoint.latitude,"外检:线中加点起点");
+                            Recordset recordset2 = DataHandlerObserver.ins().queryRecordsetByExpNum(endExpNum, true);
+                            if (!recordset2.isEmpty()) {
+                                recordset2.edit();
+                                recordset2.setString("Edit", "外检:线中加点终点");
+                                recordset2.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                                recordset2.update();
+                            }
+                            OperSql.getSingleton().inserPoint(endExpNum,_centerPoint.longitude,_centerPoint.latitude,"外检:线中加点终点");
+                            recordset.close();
+                            recordset2.close();
+                            recordset.dispose();
+                            recordset2.dispose();
                         }
 
                         //记录集转map
@@ -739,6 +760,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         Point2Ds _endPt = new Point2Ds();
                         _endPt.add(new Point2D(_centerPoint.longitude, _centerPoint.latitude));
                         _endPt.add(_2dts.getItem(1));
+
                         //第一条记录集
                         _lineRecordset.edit();//benExpNum endExpNum
                         _lineRecordset.setGeometry(new GeoLine(_startPt));
@@ -755,10 +777,19 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         _lineRecordset.setString("endDeep", getDepth());
                         //改变长度
                         _lineRecordset.setString("pipeLength", String.format("%.2f", _lineRecordset.getDouble("SmLength")));
+                        _lineRecordset.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+
+                        //外检模式
+                        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                            _lineRecordset.setString("Edit", "外检：线中加点1");
+
+                        }
+
                         if (!_lineRecordset.update()) {
                             ToastyUtil.showErrorShort(getActivity(), "第一条线长度更新失败");
                             return;
                         }
+
                         //第二条线记录集
                         Recordset _addNewRecordset = _lineDateset.getRecordset(true, CursorType.DYNAMIC);
                         _addNewRecordset.edit();
@@ -777,8 +808,13 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                         _addNewRecordset.setDouble("startLatitude", _centerPoint.latitude);
                         //改变起点埋深
                         _addNewRecordset.setString("benDeep", getDepth());
+                        _addNewRecordset.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
                         //改变长度
                         _addNewRecordset.setString("pipeLength", String.format("%.2f", _addNewRecordset.getDouble("SmLength")));
+                        //外检模式
+                        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                            _addNewRecordset.setString("Edit", "外检：线中加点2");
+                        }
                         if (!_addNewRecordset.update()) {
                             ToastyUtil.showErrorShort(getActivity(), "第二条线长度更新失败");
                             return;
@@ -792,6 +828,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
                     }
                 }
                 MaxExpNumID.getInstance().setId(MaxExpNumID.getInstance().getId() + 1);
+                WorkSpaceUtils.getInstance().saveMap();
                 getDialog().dismiss();
                 break;
             case R.id.imgvPointRemark:
@@ -831,7 +868,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
             //照片名字
             m_pictureName = new File(SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.PROJECT_NAME + "/Picture", edtGpId.getText().toString() + "_" + m_picIndex + ".jpg");
             m_pictureName.createNewFile();
-            Uri fileUri = FileProvider.getUriForFile(getContext(), "com.app.pipelinesurvey", m_pictureName);
+            Uri fileUri = FileProvider.getUriForFile(getActivity(), "com.app.pipelinesurvey", m_pictureName);
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -865,7 +902,8 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         _info.wellMud = getWellMud();
         _info.road = getRoadName();
         if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-            _info.Edit = "外检-线中加点-" + getState();
+            _info.Edit = "外检:线中加点:" + getState();
+            OperSql.getSingleton().inserPoint(getGPId(),m_pointX,m_pointY,"外检:线中加点");
         }
         _info.state = getState();
         _info.depth = getDepth();
@@ -881,6 +919,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (_cursor1.moveToNext()) {
             _info.expGroup = _cursor1.getString(_cursor1.getColumnIndex("GroupNum"));
         }
+        _cursor1.close();
         if (getAppendant().contains("立管")) {
             if (cbDC.isChecked()) {
                 _info.remark = getWellLidTexture() + getWellSize() + ",直流地面" + "-" + getPointRemark();
@@ -917,6 +956,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
             _info.symbolSizeX = _cursor.getDouble(_cursor.getColumnIndex("scaleX"));
             _info.symbolSizeY = _cursor.getDouble(_cursor.getColumnIndex("scaleY"));
         }
+        _cursor.close();
         LogUtills.i(_info.toString());
         return _info;
     }
@@ -1071,7 +1111,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (!_wellDepth.isEmpty()) {
             double s = Double.parseDouble(_wellDepth);
             double temp = s * 100;
-            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtWellDepth.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1081,7 +1121,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (!_wellWater.isEmpty()) {
             double s = Double.parseDouble(_wellWater);
             double temp = s * 100;
-            edtWellWater.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtWellWater.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 
@@ -1091,7 +1131,7 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
         if (!_wellMud.isEmpty()) {
             double s = Double.parseDouble(_wellMud);
             double temp = s * 100;
-            edtWellMud.setText(new DecimalFormat().format(temp).replace(",",""));
+            edtWellMud.setText(new DecimalFormat().format(temp).replace(",", ""));
         }
     }
 

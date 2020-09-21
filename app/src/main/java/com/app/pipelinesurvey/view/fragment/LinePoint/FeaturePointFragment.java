@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,6 @@ public class FeaturePointFragment extends Fragment implements View.OnClickListen
     private ListView feature;
     private ListView point;
     private TextView btnAdd;
-
     private ArrayList<String> pointList;
     private ArrayList<String> adjunctList;
     private BasicsPointAdapter basicsPointAdapter;

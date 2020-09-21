@@ -1,9 +1,9 @@
 package com.app.pipelinesurvey.view.fragment.map;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +14,7 @@ import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
-import com.app.utills.LogUtills;
 import com.supermap.mapping.Layers;
-
-import org.apache.poi.ss.util.WorkbookUtil;
 
 /**
  * @author HaiRun
@@ -30,12 +27,15 @@ public class LayerSettingFragment extends DialogFragment implements View.OnClick
     private CheckBox cbLine;
     private CheckBox cbPointNum;
     private CheckBox cbLineNum;
+    private CheckBox cbMapFirst;
+    private CheckBox cbMapSecond;
     private Button btnSave;
+    private CheckBox cbMapPaishui;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
     }
 
     @Nullable
@@ -52,7 +52,10 @@ public class LayerSettingFragment extends DialogFragment implements View.OnClick
         cbPointNum = view.findViewById(R.id.cb_point_num);
         cbLineNum = view.findViewById(R.id.cb_line_num);
         btnSave = view.findViewById(R.id.btn_config);
+        cbMapFirst = view.findViewById(R.id.cb_map_first);
+        cbMapSecond = view.findViewById(R.id.cb_map_second);
         btnSave.setOnClickListener(this);
+        cbMapPaishui = view.findViewById(R.id.cb_map_paishui);
     }
 
     @Override
@@ -69,9 +72,10 @@ public class LayerSettingFragment extends DialogFragment implements View.OnClick
 
     /**
      * 初始化图层是否显示
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2019/8/23  13:39
+     * @date :2019/8/23  13:39
      */
     private void initValue() {
         Layers layers = WorkSpaceUtils.getInstance().getMapControl().getMap().getLayers();
@@ -83,11 +87,21 @@ public class LayerSettingFragment extends DialogFragment implements View.OnClick
         String lineThemeLayer = "L_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.PROJECT_NAME + "#1";
         //线单值专题图
         String lineUnqueLayer = "L_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.PROJECT_NAME + "#2";
+        //排水检测单值专题图
+        String psLineUnqueLayer = "L_" + SuperMapConfig.Layer_PS + "@" + SuperMapConfig.PROJECT_NAME + "#1";
 
         cbPoint.setChecked(layers.get(pointUnqueLayer).isVisible());
         cbPointNum.setChecked(layers.get(pointThemeLayer).isVisible());
         cbLine.setChecked(layers.get(lineUnqueLayer).isVisible());
         cbLineNum.setChecked(layers.get(lineThemeLayer).isVisible());
+        cbMapPaishui.setChecked(layers.get(psLineUnqueLayer).isVisible());
+        if (layers.get(layers.getCount() - 1).getCaption().contains("底图") && layers.get(layers.getCount() - 2).getCaption().contains("底图")) {
+            cbMapSecond.setVisibility(View.VISIBLE);
+            cbMapFirst.setChecked(layers.get(layers.getCount() - 2).isVisible());
+            cbMapSecond.setChecked(layers.get(layers.getCount() - 1).isVisible());
+        } else {
+            cbMapFirst.setChecked(layers.get(layers.getCount() - 1).isVisible());
+        }
     }
 
     @Override
@@ -130,33 +144,19 @@ public class LayerSettingFragment extends DialogFragment implements View.OnClick
         String lineThemeLayer = "L_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.PROJECT_NAME + "#1";
         //线单值专题图
         String lineUnqueLayer = "L_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.PROJECT_NAME + "#2";
+        //排水检测单值专题图
+        String psLineUnqueLayer = "L_" + SuperMapConfig.Layer_PS + "@" + SuperMapConfig.PROJECT_NAME + "#1";
 
-        if (cbPoint.isChecked()) {
-
-            layers.get(pointUnqueLayer).setVisible(true);
+        layers.get(pointUnqueLayer).setVisible(cbPoint.isChecked());
+        layers.get(lineUnqueLayer).setVisible(cbLine.isChecked());
+        layers.get(pointThemeLayer).setVisible(cbPointNum.isChecked());
+        layers.get(lineThemeLayer).setVisible(cbLineNum.isChecked());
+        layers.get(psLineUnqueLayer).setVisible(cbMapPaishui.isChecked());
+        if (layers.get(layers.getCount() - 1).getCaption().contains("底图") && layers.get(layers.getCount() - 2).getCaption().contains("底图")) {
+            layers.get(layers.getCount() - 1).setVisible(cbMapFirst.isChecked());
+            layers.get(layers.getCount() - 2).setVisible(cbMapSecond.isChecked());
         } else {
-
-            layers.get(pointUnqueLayer).setVisible(false);
-        }
-
-        if (cbLine.isChecked()) {
-
-            layers.get(lineUnqueLayer).setVisible(true);
-        } else {
-
-            layers.get(lineUnqueLayer).setVisible(false);
-        }
-
-        if (cbPointNum.isChecked()) {
-            layers.get(pointThemeLayer).setVisible(true);
-        } else {
-            layers.get(pointThemeLayer).setVisible(false);
-        }
-
-        if (cbLineNum.isChecked()) {
-            layers.get(lineThemeLayer).setVisible(true);
-        } else {
-            layers.get(lineThemeLayer).setVisible(false);
+            layers.get(layers.getCount() - 1).setVisible(cbMapFirst.isChecked());
         }
 
         WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();

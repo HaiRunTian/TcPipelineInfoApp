@@ -3,14 +3,13 @@ package com.app.pipelinesurvey.view.activity.linepoint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 import com.app.pipelinesurvey.utils.SQLUtils;

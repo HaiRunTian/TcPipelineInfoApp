@@ -1,6 +1,5 @@
 package com.app.pipelinesurvey.utils;
 
-import com.app.utills.LogUtills;
 
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;

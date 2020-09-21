@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 14;
+    private static final int VERSION = 18;
     /**
      * 建表语句
      */
@@ -123,9 +123,53 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         alterData13(db);
         //版本14
         insertSqlOf14(db);
-        //版本14
+        //版本15
         insertSqlOf15(db);
+        //版本16
+        insertSqlOf16(db);
+        //版本17
+        insertSqlOf17(db);
+        //版本18
+        alterDataZBOf18(db);
 
+    }
+
+    private void alterDataZBOf18(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf18();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+    private void insertSqlOf17(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf17(m_context);
+        if (list != null) {
+            for (String sql : list) {
+                LogUtills.i(" Sql alter or update=", sql);
+                try {
+                    db.execSQL(sql);
+                } catch (Exception e) {
+                    LogUtills.e(" Sql alter or update ", e.getMessage());
+                }
+            }
+        }
+    }
+
+    private void insertSqlOf16(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf16();
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
     }
 
     private void insertSqlOf15(SQLiteDatabase db) {
@@ -522,9 +566,16 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
                 //版本14
                 insertSqlOf14(db);
             case 14:
-                //版本14
+                //版本15
                 insertSqlOf15(db);
             case 15:
+                //版本15
+                insertSqlOf16(db);
+            case 16:
+                insertSqlOf17(db);
+            case 17:
+                alterDataZBOf18(db);
+            case 18:
                 break;
             default:
                 break;
@@ -805,8 +856,9 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         File dbFile = new File(Environment.getDataDirectory().getAbsolutePath() + "/data/" +
                 context.getPackageName() + "/databases/" + dbName);
         File dbSaveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "PipeLineDB/");
-        if (!dbSaveFile.exists())
+        if (!dbSaveFile.exists()) {
             dbSaveFile.mkdirs();
+        }
         FileInputStream fis = null;
         FileOutputStream fos = null;
         try {
@@ -828,10 +880,12 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         } finally {
             //关闭数据流
             try {
-                if (fos != null)
+                if (fos != null) {
                     fos.close();
-                if (fis != null)
+                }
+                if (fis != null) {
                     fis.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;

@@ -3,13 +3,13 @@ package com.app.pipelinesurvey.view.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +24,10 @@ import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.ZipProgressUtil;
 import com.app.utills.LogUtills;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 

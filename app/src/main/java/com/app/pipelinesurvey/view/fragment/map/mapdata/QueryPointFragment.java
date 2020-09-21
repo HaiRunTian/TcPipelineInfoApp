@@ -1,7 +1,7 @@
 package com.app.pipelinesurvey.view.fragment.map.mapdata;
 
 import android.annotation.TargetApi;
-import android.content.ContentValues;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,9 +12,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.content.FileProvider;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,6 @@ import com.app.BaseInfo.Data.PointFieldFactory;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.BaseInfo.Oper.OperSql;
 import com.app.pipelinesurvey.R;
-import com.app.pipelinesurvey.base.MyApplication;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
@@ -50,7 +50,6 @@ import com.app.pipelinesurvey.utils.CameraUtils;
 import com.app.pipelinesurvey.utils.ComTool;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
-import com.app.pipelinesurvey.utils.InitWindowSize;
 import com.app.pipelinesurvey.utils.MaxExpNumID;
 import com.app.pipelinesurvey.utils.MyAlertDialog;
 import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
@@ -62,7 +61,6 @@ import com.app.pipelinesurvey.view.iview.IQueryPipePointView;
 import com.app.pipelinesurvey.view.widget.AppendanSpinner;
 import com.app.pipelinesurvey.view.widget.FeaturePointsSpinner;
 import com.app.utills.LogUtills;
-import com.squareup.leakcanary.RefWatcher;
 import com.supermap.data.Recordset;
 
 import org.greenrobot.eventbus.EventBus;
@@ -145,6 +143,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     private BaseFieldPInfos m_basePInfo;
     private Button btnDelPoint;
     private Button btnMove;
+    private Spinner spType;
     /**
      * 开启相机
      */
@@ -203,6 +202,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
      * 第一次进来
      */
     private boolean firstInit = true;
+    private boolean firstInit2 = true;
     private EditText edtX;
     private EditText edtY;
     private TextView tvWellSize;
@@ -296,7 +296,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             layout_x.setVisibility(x == 1 ? View.VISIBLE : View.GONE);
             layout_y.setVisibility(y == 1 ? View.VISIBLE : View.GONE);
         }
-
+        cursor.close();
     }
 
     @Override
@@ -307,6 +307,13 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     }
 
 
+    /**
+     * 初始化值
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/5/28  9:29
+     */
     private void initValue() {
         m_bundle = getArguments();
         m_basePInfo = m_bundle.getParcelable("info");
@@ -331,11 +338,15 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         spAppendant.setData(null, (ArrayList<String>) appendantList);
         //管点备注
         pointRemarkList = SpinnerDropdownListManager.getData("pointRemark", m_gpType);
-
         //物探点号状态
         situationList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.situation));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
         spSituation.setAdapter(m_adapter);
+        //修改管类
+        situationList = SpinnerDropdownListManager.getData("type", "");
+        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
+        spType.setAdapter(m_adapter);
+        SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spType, m_code);
         //管点状态
         stateList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.state));
         m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, stateList);
@@ -348,6 +359,13 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
     }
 
+    /**
+     * 初始化view
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/5/28  8:56
+     */
     private void setValueToView() {
         try {
             setGPId();
@@ -400,6 +418,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         btnPreviousOne = view.findViewById(R.id.btnPreviousOne);
         edtGpId = view.findViewById(R.id.edtGpId);
         spSituation = view.findViewById(R.id.spSituation);
+        spType = view.findViewById(R.id.SpType);
         spAppendant = view.findViewById(R.id.spAppendant);
         spFeaturePoints = view.findViewById(R.id.spFeaturePoints);
         spState = view.findViewById(R.id.spState);
@@ -445,6 +464,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
         btnPreviousOne.setOnClickListener(this);
         btnChangeStyle.setOnClickListener(this);
         spSituation.setOnItemSelectedListener(this);
+        spType.setOnItemSelectedListener(this);
 
         TextView tvPointNum = view.findViewById(R.id.tvPointNum);
         setViewDrawable(tvPointNum);
@@ -498,7 +518,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 } else {
                     //如果管线点号修改了
                     if (!initPointExp.equals(getGPId())) {
-                        int id = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
+                        int id = ComTool.Ins().getSerialNum(getGPId(), getSituation(), m_code);
                         //如果修改的点号大于当前的点号，则修改
                         if (id > MaxExpNumID.getInstance().getId()) {
                             MaxExpNumID.getInstance().setId(id);
@@ -506,6 +526,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                         //更新与此点相关的线
                         updaLine();
                     }
+                    WorkSpaceUtils.getInstance().saveMap();
                     getDialog().dismiss();
                 }
                 WorkSpaceUtils.getInstance().getMapControl().getMap().refresh();
@@ -535,7 +556,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                                     while (!_resetL.isEOF()) {
                                         String benExpNum = _resetL.getString("benExpNum");
                                         int sysId = _resetL.getInt32("sysId");
-                                        OperSql.getSingleton().inserLine(benExpNum, getGPId(), sysId, "删除管线");
+                                        OperSql.getSingleton().inserLine(benExpNum, getGPId(), sysId, "外检:删除管线");
                                         _resetL.moveNext();
                                     }
                                 }
@@ -550,8 +571,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                                     while (!_resetL.isEOF()) {
                                         String endExpNum = _resetL.getString("endExpNum");
                                         int sysId = _resetL.getInt32("sysId");
-                                        OperSql.getSingleton().inserLine(getGPId(), endExpNum, sysId, "删除管线");
-
+                                        OperSql.getSingleton().inserLine(getGPId(), endExpNum, sysId, "外检:删除管线");
                                         _resetL.moveNext();
                                     }
                                 }
@@ -563,8 +583,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
                             //外检模式保存删除点线数据到对应到两张表
                             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-                                OperSql.getSingleton().inserPoint(initPointExp, "删除管点");
+                                OperSql.getSingleton().inserPoint(initPointExp,m_basePInfo.longitude,m_basePInfo.latitude, "外检:删除管点");
                             }
+                            WorkSpaceUtils.getInstance().saveMap();
                             getDialog().dismiss();
                         } else {
                             ToastyUtil.showErrorShort(getActivity(), "删除点失败");
@@ -572,7 +593,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
                         _reSet.close();
                         _reSet.dispose();
-                        int serialNum = ComTool.Ins().getSerialNum(getGPId(), getState(), m_code);
+                        int serialNum = ComTool.Ins().getSerialNum(getGPId(), getSituation(), m_code);
                         int id = MaxExpNumID.getInstance().getId();
                         //删除最大号
                         if (serialNum == id) {
@@ -629,6 +650,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_EditPointLocation);
                 _smId = m_bundle.getInt("smId", 0);
                 DataHandlerObserver.ins().addPointSmID(_smId);
+                WorkSpaceUtils.getInstance().saveMap();
                 getDialog().dismiss();
                 break;
             case R.id.btnAddPic:
@@ -661,7 +683,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             reSetbenExpNum.moveFirst();
             while (!reSetbenExpNum.isEOF()) {
                 reSetbenExpNum.edit();
+                reSetbenExpNum.setString("Edit", "外检:起点修改");
                 reSetbenExpNum.setString("benExpNum", getGPId());
+                reSetbenExpNum.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
                 if (!reSetbenExpNum.update()) {
                     ToastyUtil.showWarningLong(getActivity(), "线起点点更新失败");
                 }
@@ -669,13 +693,32 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                     String endExpNum = reSetbenExpNum.getString("endExpNum");
                     int sysId = reSetbenExpNum.getInt32("sysId");
-                    OperSql.getSingleton().inserLine(initPointExp, endExpNum, sysId, "移动管点-起点点号修改");
+                    OperSql.getSingleton().inserLine(initPointExp, endExpNum, sysId, "外检:起点点号修改" + initPointExp + "->" + getGPId());
+
+                    String expNum = reSetbenExpNum.getString("endExpNum");
+                    OperSql.getSingleton().inserPoint(expNum,m_basePInfo.longitude,m_basePInfo.latitude,"外检:关联线起点点号修改");
+                    Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(expNum, true);
+                    if (!recordset.isEmpty()) {
+                        recordset.edit();
+                        recordset.setString("Edit", "外检:关联线起点点号修改");
+                        recordset.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                        recordset.update();
+                    }
+                    if (recordset != null) {
+                        recordset.close();
+                        recordset.dispose();
+                    }
                 }
 
                 reSetbenExpNum.moveNext();
             }
         }
-        reSetbenExpNum.close();
+
+        if (reSetbenExpNum != null) {
+            reSetbenExpNum.close();
+            reSetbenExpNum.dispose();
+        }
+
 
         //更新终点
         Recordset reSetendExpNum = DataHandlerObserver.ins().QueryRecordsetBySql("endExpNum = '" + initPointExp + "'", false, true);
@@ -684,6 +727,8 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             while (!reSetendExpNum.isEOF()) {
                 reSetendExpNum.edit();
                 reSetendExpNum.setString("endExpNum", getGPId());
+                reSetendExpNum.setString("Edit", "外检:终点修改");
+                reSetendExpNum.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
                 if (!reSetendExpNum.update()) {
                     ToastyUtil.showWarningLong(getActivity(), "线终点更新失败");
                 }
@@ -692,12 +737,31 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                     String benExpNum = reSetendExpNum.getString("benExpNum");
                     int sysId = reSetendExpNum.getInt32("sysId");
-                    OperSql.getSingleton().inserLine(benExpNum, initPointExp, sysId, "移动管点-终点点号修改");
+                    OperSql.getSingleton().inserLine(benExpNum, initPointExp, sysId, "外检:终点点号修改" + initPointExp + "->" + getGPId());
+
+                    String expNum = reSetendExpNum.getString("benExpNum");
+                    OperSql.getSingleton().inserPoint(expNum,m_basePInfo.longitude,m_basePInfo.latitude,"外检:关联线起点点号修改");
+                    Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(expNum, true);
+                    if (!recordset.isEmpty()) {
+                        recordset.edit();
+                        recordset.setString("Edit", "外检:关联线起点点号修改");
+                        recordset.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                        recordset.update();
+                    }
+
+                    if (recordset != null) {
+                        recordset.close();
+                        recordset.dispose();
+                    }
                 }
                 reSetendExpNum.moveNext();
             }
         }
-        reSetendExpNum.close();
+
+        if (reSetendExpNum != null) {
+            reSetendExpNum.close();
+            reSetendExpNum.dispose();
+        }
     }
 
 
@@ -715,7 +779,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             }
             //判断管类是否修改了
             int codeLength = m_code.length();
-            String code = getGPId().substring(0, codeLength);
+            //需要判断组号的位置
+            String code = getPipeCode();
+
             //判断管类修改了
             if (!m_code.equals(code)) {
                 //修改点
@@ -728,6 +794,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 while (query.moveToNext()) {
                     type = query.getString(query.getColumnIndex("name"));
                 }
+                query.close();
                 _info.pipeType = type + "-" + code;
                 _info.rangeExpression = PipeThemelabelUtil.Ins().getThemeItemValue(type);
                 _info.symbol = SymbolInfo.Ins().getSymbol(_info.pipeType, getAppendant(), getFeaturePoints());
@@ -748,7 +815,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 _info.shortCode = m_code;
                 _info.pipeType = m_basePInfo.pipeType;
                 _info.symbol = SymbolInfo.Ins().getSymbol(gpType, getAppendant(), getFeaturePoints());
-                _info.symbolExpression = _layerType + "-" + _info.symbol;
+                _info.symbolExpression = code + "-" + _info.symbol;
             }
             _info.exp_Num = getGPId();
             _info.feature = getFeaturePoints();
@@ -763,14 +830,17 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                 //记录点
                 if (initPointExp.equals(getGPId())) {
-                    OperSql.getSingleton().inserPoint(initPointExp, "外检-数据修改");
+                    OperSql.getSingleton().inserPoint(initPointExp,m_basePInfo.longitude,m_basePInfo.latitude, "外检:数据修改");
                 } else {
-                    OperSql.getSingleton().inserPoint(initPointExp, "外检-点号修改-" + initPointExp + "->" + getGPId());
+                    //管线记录插入到点
+                    OperSql.getSingleton().inserPoint(initPointExp, m_basePInfo.longitude,m_basePInfo.latitude,"外检:点号修改:" + initPointExp + ":" + getGPId());
                 }
-                _info.Edit = "外检-修改管点-" + getState();
+                //点标记修改
+                _info.Edit = "外检:修改管点:" + getState();
+                //线也需要标记修改
             }
             _info.state = getState();
-            _info.exp_Date = m_basePInfo.exp_Date;
+            _info.exp_Date = DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT);
             _info.wellCoverMaterial = getWellLidTexture();
             _info.wellCoverSize = getWellLidSize();
             _info.buildingStructures = getBuildingStructures();
@@ -812,7 +882,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 _info.symbolSizeX = _cursor.getDouble(_cursor.getColumnIndex("scaleX"));
                 _info.symbolSizeY = _cursor.getDouble(_cursor.getColumnIndex("scaleY"));
             }
-
+            _cursor.close();
             _info.ExpX = m_basePInfo.ExpX;
             _info.ExpY = m_basePInfo.ExpY;
             _info.MapX = m_basePInfo.MapX;
@@ -848,7 +918,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             m_picIndex++;
             m_pictureName = new File(SuperMapConfig.DEFAULT_DATA_PATH + SuperMapConfig.PROJECT_NAME + "/Picture", edtGpId.getText().toString() + "_" + m_picIndex + ".jpg");
             m_pictureName.createNewFile();
-            Uri fileUri = FileProvider.getUriForFile(getContext(), "com.app.pipelinesurvey", m_pictureName);
+            Uri fileUri = FileProvider.getUriForFile(getActivity().getApplicationContext(), "com.app.pipelinesurvey", m_pictureName);
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -925,15 +995,71 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             case R.id.spSituation:
                 if (firstInit) {
                     firstInit = false;
-
                 } else {
                     updateIdAndPointRemark();
                 }
                 break;
-
+            case R.id.SpType:
+                if (firstInit2) {
+                    firstInit2 = false;
+                } else {
+                    //判断管类是否修改了
+                    if (!getGPId().contains("T_")) {
+                        String code = getPipeCode();
+                        // TODO 组号长度位置 需要替换的位置，如果组号和管类代码一样，就会出现修改管类有问题
+                        StringBuffer buffer = new StringBuffer(getGPId());
+                        //知道管类代码位置 长度
+//                    String expNum = getGPId().replace(code, spType.getSelectedItem().toString());
+                        int start = ComTool.Ins().getPipeCodeLocal(getGPId());
+                        int end = start + code.length();
+                        buffer.replace(start, end, spType.getSelectedItem().toString());
+                        edtGpId.setText(buffer.toString());
+                    }
+                }
+                break;
             default:
                 break;
         }
+    }
+
+    private String getPipeCode() {
+        //管类代码长度
+        int codeLength = m_code.length();
+        //管类代码的位置以及长度
+        //组号
+        String _groupName = "";
+        //组号位置
+        int _groupLocal = 1;
+        //查询数据库point_setting表，配置信息
+        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
+        while (_cursor.moveToNext()) {
+            //获取组号
+            _groupName = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
+            //组号位置
+            _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
+
+        }
+        _cursor.close();
+        //组号长度
+        int gpoupNameLength = _groupName.length();
+        String code = "";
+        switch (_groupLocal) {
+            //管类代码在首位 组号在中间
+            case 1:
+                // 管类代码在首位  流水号在中间 组号在末尾
+            case 3:
+                code = getGPId().substring(0, codeLength);
+                break;
+            //组号在首位 管类代码在中间
+            case 2:
+                code = getGPId().substring(gpoupNameLength, gpoupNameLength + codeLength);
+                break;
+            default:
+                code = getGPId().substring(0, codeLength);
+                break;
+        }
+        return code;
+
     }
 
     @Override
@@ -1168,7 +1294,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
     @Override
     public String getDepth() {
-
         return edtDepth.getText().toString();
 
     }
@@ -1604,8 +1729,6 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                 _uri = Uri.fromFile(file);
             }
             intent.setDataAndType(_uri, CameraUtils.IMAGE_UNSPECIFIED);
-
-
             startActivity(intent);
         }
     }

@@ -34,10 +34,16 @@
 
                 <Spinner
                     android:id="@+id/spSituation"
-                    android:layout_width="@dimen/dp_120"
+                    android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_30"
                     android:dropDownWidth="@dimen/dp_120"
                     android:entries="@array/situation" />
+
+                <Spinner
+                    android:id="@+id/SpType"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_30"
+                    android:dropDownWidth="@dimen/dp_100" />
 
             </LinearLayout>
 

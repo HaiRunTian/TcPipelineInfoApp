@@ -1,15 +1,14 @@
 package com.app.pipelinesurvey.view.fragment.setting;
 
+import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.LineSettingAdapter;
@@ -20,13 +19,10 @@ import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
- * 线配置
+ * 线界面配置
  *
  * @author HaiRun
  * @time 2019/9/17.10:51
@@ -36,12 +32,14 @@ public class LineSettingFragment extends Fragment {
     private ExpandableListView expandableListView;
     private List<FatherPoint> fatherPoints;
     private List<ChildPoint> childPoints;
+    private LineSettingAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_line_setting, container, false);
         expandableListView = view.findViewById(R.id.exlv_line);
+        expandableListView.setGroupIndicator(null);
         return view;
     }
 
@@ -142,7 +140,7 @@ public class LineSettingFragment extends Fragment {
             cursorLine.close();
         }
         query.close();
-        LineSettingAdapter adapter = new LineSettingAdapter(getActivity(),fatherPoints);
+        adapter = new LineSettingAdapter(getActivity(),fatherPoints);
         expandableListView.setAdapter(adapter);
     }
 
@@ -150,5 +148,13 @@ public class LineSettingFragment extends Fragment {
     public void onDestroy() {
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+            initValue();
+            adapter.notifyDataSetChanged();
+
     }
 }

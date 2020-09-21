@@ -348,7 +348,7 @@ public class FileUtils {
                     entity.setFileType(FileEntity.Type.FILE);
                     String s = _list.get(i).getName().toString();
 
-                    if (s.endsWith(".xls") || s.endsWith(".sci") || s.endsWith(".zip")){
+                    if (s.endsWith(".xls") || s.endsWith(".sci") || s.endsWith(".zip")|| s.endsWith(".dwg")){
                         list.add(entity);
                     }
                 }

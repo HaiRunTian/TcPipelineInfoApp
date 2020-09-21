@@ -7,7 +7,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -32,15 +32,12 @@ public class ColorPickerDialog extends Dialog implements ColorPickerView.OnColor
         View.OnClickListener, TextView.OnEditorActionListener{
 
     private ColorPickerView mColorPicker;
-
     private View mOldColor;
     private View mNewColor;
-
     private View mHexLayout;
     private EditText mEtHex;
     private boolean mHexValueEnabled = false;
     private ColorStateList mHexDefaultTextColor;
-
     private OnColorPickedListener mListener;
     private int up;
     public interface OnColorPickedListener {

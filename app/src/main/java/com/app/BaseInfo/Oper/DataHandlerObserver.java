@@ -1,9 +1,10 @@
 package com.app.BaseInfo.Oper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -78,7 +79,7 @@ public class DataHandlerObserver {
      */
     private List<Integer> mSmIDsL = new ArrayList<>();
     private Integer mAddPtOfLineSmID = -1;
-    private FragmentActivity mContext = null;
+    private Activity mContext = null;
     /**
      * 查询管点，移动管点的smid
      */
@@ -103,6 +104,8 @@ public class DataHandlerObserver {
      * @param type
      */
     public void setMapActionType(MAPACTIONTYPE2 type) {
+        try {
+
         //清除点选择集
         getPtThemeLayerByName2().getSelection().clear();
         //清除线选择集
@@ -111,12 +114,16 @@ public class DataHandlerObserver {
         mSmIDs.clear();
         mAddPtOfLineSmID = -1;
         mActionType2 = type;
+        }catch (Exception e){
+            LogUtills.e(e.toString());
+            ToastyUtil.showErrorLong(mContext,e.toString());
+        }
     }
 
     /**
      * 设置上下文
      */
-    public void setContext(FragmentActivity context) {
+    public void setContext(Activity context) {
         mContext = context;
     }
 
@@ -216,7 +223,7 @@ public class DataHandlerObserver {
                                         _bundle.putDouble("y", _reP.getY());
                                         _bundle.putInt("smId", -1);
                                         _fragment.setArguments(_bundle);
-                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "point");
+                                        _fragment.show(mContext.getFragmentManager(), "point");
                                         long endTime = System.currentTimeMillis() - startTime;
                                         LogUtills.i("Time1 = ", endTime + "");
                                     } else {
@@ -233,7 +240,7 @@ public class DataHandlerObserver {
                                         _bundle.putInt("smId", mPointSmid);
                                         _bundle.putParcelable("info", _infosP);
                                         _fragment.setArguments(_bundle);
-                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryPoint");
+                                        _fragment.show(mContext.getFragmentManager(), "queryPoint");
                                         Selection selection = getPtThemeLayerByName2().getSelection();
                                         selection.clear();
                                         if (_result != null) {
@@ -262,7 +269,7 @@ public class DataHandlerObserver {
                                     _bundle.putDouble("y", _reP.getY());
                                     _bundle.putInt("smId", -1);
                                     _fragment.setArguments(_bundle);
-                                    _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "point");
+                                    _fragment.show(mContext.getFragmentManager().beginTransaction(), "point");
                                 }
                                 break;
 
@@ -283,7 +290,7 @@ public class DataHandlerObserver {
                                         _bundle.putInt("smId", mPointSmid);
                                         _bundle.putParcelable("info", _infosP);
                                         _fragment.setArguments(_bundle);
-                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryPoint");
+                                        _fragment.show(mContext.getFragmentManager().beginTransaction(), "queryPoint");
                                         Selection selection = getPtThemeLayerByName2().getSelection();
                                         selection.clear();
                                         if (_result != null) {
@@ -336,7 +343,7 @@ public class DataHandlerObserver {
                                             //点smid
                                             bundle.putInt("SmIDP", -1);
                                             _fragment.setArguments(bundle);
-                                            _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
+                                            _fragment.show(mContext.getFragmentManager().beginTransaction(), "queryline");
                                             //关闭释放线记录集
                                             _resultLine.close();
                                             _resultLine.dispose();
@@ -390,7 +397,7 @@ public class DataHandlerObserver {
                                         _bundle.putInt("endSmId", _result.getID());
                                         _bundle.putString("gpType", mCurrentLayerName);
                                         _fragmentLr.setArguments(_bundle);
-                                        _fragmentLr.show(mContext.getSupportFragmentManager().beginTransaction(), "line");
+                                        _fragmentLr.show(mContext.getFragmentManager().beginTransaction(), "line");
                                         //改变动作
                                         setMapActionType(MAPACTIONTYPE2.Action_CreateLineStartPoint);
                                     } else {
@@ -424,7 +431,7 @@ public class DataHandlerObserver {
                                         _bundle.putInt("endSmId", _result.getID());
                                         _bundle.putString("gpType", mCurrentLayerName);
                                         _fragmentLr.setArguments(_bundle);
-                                        _fragmentLr.show(mContext.getSupportFragmentManager().beginTransaction(), "line");
+                                        _fragmentLr.show(mContext.getFragmentManager().beginTransaction(), "line");
                                         //修改动作 变为加线
                                         setMapActionType(MAPACTIONTYPE2.Action_CreateLineStartPoint);
                                     }
@@ -501,7 +508,7 @@ public class DataHandlerObserver {
                                         //点smid
                                         bundle.putInt("SmIDP", -1);
                                         _fragment.setArguments(bundle);
-                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
+                                        _fragment.show(mContext.getFragmentManager().beginTransaction(), "queryline");
                                         //关闭释放线记录集
                                         _resultLine.close();
                                         _resultLine.dispose();
@@ -559,7 +566,7 @@ public class DataHandlerObserver {
                                         _bundle.putString("gpType", mCurrentLayerName);
                                         _bundle.putInt("smId", mAddPtOfLineSmID);
                                         _fragment.setArguments(_bundle);
-                                        _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "addpointtoline");
+                                        _fragment.show(mContext.getFragmentManager().beginTransaction(), "addpointtoline");
                                         mAddPtOfLineSmID = -1;
                                     }
                                     //重置线中加点动作
@@ -585,6 +592,11 @@ public class DataHandlerObserver {
                                     BaseFieldPInfos _pSInfo = BaseFieldPInfos.createFieldInfo(_sReset);
                                     _pSInfo.longitude = _reP.getX();
                                     _pSInfo.latitude = _reP.getY();
+                                    if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                        _pSInfo.Edit= "外检-移动管点";
+                                        _pSInfo.exp_Date = DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT);
+                                    }
+
                                     //一个点更新可用
                                     if (!editRecords(_pSInfo)) {
                                         ToastyUtil.showErrorShort(mContext, "移动点位置失败，很可能是选中的点出现了问题...");
@@ -615,10 +627,30 @@ public class DataHandlerObserver {
                                         _sLResets.setString("benExpNum", _pSInfo.exp_Num);
                                         _sLResets.setDouble("startLongitude", _reP.getX());
                                         _sLResets.setDouble("startLatitude", _reP.getY());
+                                        _sLResets.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                                        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                            _sLResets.setString("Edit", "外检-移动管点-起点");
+                                            String endExpNum = _sLResets.getString("endExpNum");
+                                            OperSql.getSingleton().inserPoint(endExpNum,_pSInfo.longitude,_pSInfo.latitude,"外检:移动管点-线终点");
+                                            Recordset recordset = queryRecordsetByExpNum(endExpNum, true);
+                                            if (!recordset.isEmpty()){
+                                                recordset.edit();
+                                                recordset.setString("Edit","外检:移动管点-线终点");
+                                                recordset.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                                                recordset.update();
+                                            }
+                                            recordset.close();
+                                            recordset.dispose();
+                                        }
                                         //改变线长度
                                         _sLResets.setString("pipeLength", String.format("%.2f", _sLResets.getDouble("SmLength")));
                                         if (!_sLResets.update()) {
                                             ToastyUtil.showErrorShort(mContext, "更新线长度失败， Line ID=" + _sLResets.getID());
+                                        }
+                                        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+
+                                            OperSql.getSingleton().inserLine(_pSInfo.exp_Num, _sLResets.getString("endExpNum"), _sLResets.getID(), "外检:移动起点");
+
                                         }
                                         _sLResets.moveNext();
                                     }
@@ -640,11 +672,31 @@ public class DataHandlerObserver {
                                         _sLResets.setString("endExpNum", _pSInfo.exp_Num);
                                         _sLResets.setDouble("endLongitude", _reP.getX());
                                         _sLResets.setDouble("endLatitude", _reP.getY());
+                                        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+                                            _sLResets.setString("Edit", "外检-移动管点-终点");
+                                            String benExpNum = _sLResets.getString("benExpNum");
+                                            OperSql.getSingleton().inserPoint(benExpNum,_pSInfo.longitude,_pSInfo.latitude,"外检:移动管点-线起点");
+                                            Recordset recordset = queryRecordsetByExpNum(benExpNum, true);
+                                            if (!recordset.isEmpty()){
+                                                recordset.edit();
+                                                recordset.setString("Edit","外检:移动管点-线起点");
+                                                recordset.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+                                                recordset.update();
+                                            }
+                                            recordset.close();
+                                            recordset.dispose();
+                                        }
+                                        _sLResets.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
                                         _sLResets.setGeometry(new GeoLine(new Point2Ds(_2ds)));
                                         //改变线长度
                                         _sLResets.setString("pipeLength", String.format("%.2f", _sLResets.getDouble("SmLength")));
                                         if (!_sLResets.update()) {
                                             ToastyUtil.showErrorShort(mContext, "更新线长度失败， Line ID=" + _sLResets.getID());
+                                        }
+                                        if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
+
+                                            OperSql.getSingleton().inserLine(_sLResets.getString("benExpNum"), _pSInfo.exp_Num, _sLResets.getID(), "外检:移动终点");
+
                                         }
                                         _sLResets.moveNext();
                                     }
@@ -654,13 +706,17 @@ public class DataHandlerObserver {
                                     Selection _selection = getPtThemeLayerByName2().getSelection();
                                     _selection.clear();
                                     if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-                                        OperSql.getSingleton().inserPoint(_pSInfo.exp_Num, "移动管点");
+                                        OperSql.getSingleton().inserPoint(_pSInfo.exp_Num,_pSInfo.longitude,_pSInfo.latitude, "移动管点");
                                     }
                                     //关闭释放数据集
-                                    _sReset.close();
-                                    _sReset.dispose();
-                                    _sLResets.close();
-                                    _sLResets.dispose();
+                                    if (_sLResets != null) {
+                                        _sLResets.close();
+                                        _sLResets.dispose();
+                                    }
+                                    if (_sReset != null) {
+                                        _sReset.close();
+                                        _sReset.dispose();
+                                    }
                                 }
                                 break;
 
@@ -707,7 +763,7 @@ public class DataHandlerObserver {
                                     //线smid
                                     bundle.putInt("smId", mSmIDsL.get(mSmIDsL.size() - 1));
                                     //线类型
-                                    bundle.putString("gpType", mCurrentLayerName);
+                                    bundle.putString("gpType", _result.getString("pipeType"));
                                     //类型  1 代表正常查询线   2代表重新获取起点 3代表重新获取终点
                                     bundle.putInt("actionType", 2);
                                     //点号 用来区分 重新获取起点 终点  传送过去的点号编号
@@ -715,7 +771,7 @@ public class DataHandlerObserver {
                                     //点smid
                                     bundle.putInt("SmIDP", _result.getID());
                                     _fragment.setArguments(bundle);
-                                    _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
+                                    _fragment.show(mContext.getFragmentManager().beginTransaction(), "queryline");
                                     if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                                         OperSql.getSingleton().inserLine(_infoL.benExpNum, _infoL.endExpNum, mSmIDsL.get(mSmIDsL.size() - 1), "重新获取起点" + _exp_Num + "->" + _infoL.endExpNum);
                                     }
@@ -767,7 +823,7 @@ public class DataHandlerObserver {
                                     //线smid
                                     bundle.putInt("smId", mSmIDsL.get(mSmIDsL.size() - 1));
                                     //线类型
-                                    bundle.putString("gpType", mCurrentLayerName);
+                                    bundle.putString("gpType", _infoL.pipeType);
                                     //类型  1 代表正常查询线   2代表重新获取起点 3代表重新获取终点
                                     bundle.putInt("actionType", 3);
                                     //点号 用来区分 重新获取起点 终点  传送过去的点号编号
@@ -775,7 +831,7 @@ public class DataHandlerObserver {
                                     //点smid
                                     bundle.putInt("SmIDP", _result.getID());
                                     _fragment.setArguments(bundle);
-                                    _fragment.show(mContext.getSupportFragmentManager().beginTransaction(), "queryline");
+                                    _fragment.show(mContext.getFragmentManager().beginTransaction(), "queryline");
                                     if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                                         OperSql.getSingleton().inserLine(_infoL.benExpNum, _infoL.endExpNum, mSmIDsL.get(mSmIDsL.size() - 1), "重新获取终点" + _infoL.benExpNum + "->" + _exp_Num);
                                     }
@@ -893,7 +949,6 @@ public class DataHandlerObserver {
 
     /**
      * 测量收点，更新线的测量时间点
-     *
      * @param recordSet
      */
     private void updateLineMeasureType(Recordset recordSet, String statue, Boolean isStart) {
@@ -918,7 +973,6 @@ public class DataHandlerObserver {
 
     /**
      * 测量收点，更新点的测量时间点
-     *
      * @param recordSet
      */
     private void updatePointMeasureType(Recordset recordSet, String statue) {
@@ -933,7 +987,6 @@ public class DataHandlerObserver {
 
     /**
      * 改变地图界面图层
-     *
      * @Author HaiRun
      * @Time 2019/4/23 . 9: 30
      */
@@ -946,7 +999,6 @@ public class DataHandlerObserver {
 
     /**
      * 通过sql语句查询记录集
-     *
      * @param sqlStr
      * @param isPoint
      * @param isEdit
@@ -968,7 +1020,6 @@ public class DataHandlerObserver {
 
     /**
      * 通过sql语句查询测量收点记录集
-     *
      * @param sqlStr
      * @param isEdit
      * @return
@@ -986,7 +1037,6 @@ public class DataHandlerObserver {
 
     /**
      * 通过QueryParameter 语句查询记录集
-     *
      * @param param
      * @param isPoint
      * @return
@@ -1007,7 +1057,6 @@ public class DataHandlerObserver {
 
     /**
      * 更新一个点的深度
-     *
      * @param sql
      * @param depth
      * @return
@@ -1026,7 +1075,6 @@ public class DataHandlerObserver {
 
     /**
      * 设置点高亮
-     *
      * @param result
      * @return
      */
@@ -1209,21 +1257,6 @@ public class DataHandlerObserver {
     }
 
     /**
-     * 获取点图层
-     *
-     * @return
-     */
-    public Layer getTotalPtLayer() {
-        String _p_name = "P_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.DEFAULT_WORKSPACE_NAME;
-        Layer _temp = mMapCtrl.getMap().getLayers().get(_p_name);
-        if (_temp == null) {
-            LogUtills.w("Query Point Layer " + _p_name + "Is  Null...");
-            return null;
-        }
-        return _temp;
-    }
-
-    /**
      * 获取点单值专题图图层
      *
      * @return
@@ -1255,6 +1288,21 @@ public class DataHandlerObserver {
     }
 
     /**
+     * 获取点图层
+     *
+     * @return
+     */
+    public Layer getTotalPtLayer() {
+        String _p_name = "P_" + SuperMapConfig.Layer_Total + "@" + SuperMapConfig.DEFAULT_WORKSPACE_NAME;
+        Layer _temp = mMapCtrl.getMap().getLayers().get(_p_name);
+        if (_temp == null) {
+            LogUtills.e("Query Point Layer " + _p_name + "Is  Null...");
+            return null;
+        }
+        return _temp;
+    }
+
+    /**
      * 获取Ps线图层
      *
      * @return
@@ -1262,7 +1310,7 @@ public class DataHandlerObserver {
     public DatasetVector getPsLrDatasetVector() {
         DatasetVector datasetVector = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace().getDatasources()
                 .get(0).getDatasets().get("L_" + SuperMapConfig.Layer_PS);
-        if (datasetVector == null){
+        if (datasetVector == null) {
             LogUtills.e("Query DatasetVector " + SuperMapConfig.Layer_PS + "Is  Null...");
             return null;
         }
@@ -1664,18 +1712,19 @@ public class DataHandlerObserver {
 
     /**
      * 添加排水外检
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2020/2/25  9:35
+     * @date :2020/2/25  9:35
      */
     public boolean addPsRecords(BaseFieldLInfos pInfos) {
         if (pInfos == null) {
             LogUtills.e("Create The Line Find The BaseFieldLInfos Is Null...");
             return false;
         }
-        DatasetVector _dv =  getPsLrDatasetVector();
-        if (_dv == null){
-            ToastyUtil.showErrorShort(mContext,"排水外检数据集为空");
+        DatasetVector _dv = getPsLrDatasetVector();
+        if (_dv == null) {
+            ToastyUtil.showErrorShort(mContext, "排水外检数据集为空");
             return false;
         }
         FieldInfos _infos = _dv.getFieldInfos();
@@ -1721,9 +1770,10 @@ public class DataHandlerObserver {
 
     /**
      * 编辑Ps管线
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2020/2/25  9:58
+     * @date :2020/2/25  9:58
      */
     public boolean editPsRecords(BaseFieldLInfos pInfos) {
         if (pInfos == null) {
@@ -1732,8 +1782,8 @@ public class DataHandlerObserver {
         }
 
         DatasetVector _dv = getPsLrDatasetVector();
-        if (_dv == null){
-            ToastyUtil.showErrorShort(mContext,"排水外检数据集为空");
+        if (_dv == null) {
+            ToastyUtil.showErrorShort(mContext, "排水外检数据集为空");
             return false;
         }
         FieldInfos _infos = _dv.getFieldInfos();

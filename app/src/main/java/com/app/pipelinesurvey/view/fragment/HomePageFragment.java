@@ -1,13 +1,14 @@
 package com.app.pipelinesurvey.view.fragment;
 
+import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +34,12 @@ import com.app.pipelinesurvey.utils.ZipProgressUtil;
 import com.app.pipelinesurvey.view.activity.AppInfoActivity;
 import com.app.pipelinesurvey.view.activity.HelpActivity;
 import com.app.pipelinesurvey.view.activity.MapActivity;
-import com.app.pipelinesurvey.view.activity.SelectExcelActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.BasicsActivity;
 import com.app.pipelinesurvey.view.activity.linepoint.SymbolicActivity;
 import com.app.pipelinesurvey.view.activity.ProjectListActivity;
 
 import com.app.pipelinesurvey.view.activity.WebViewActivity;
 
-import com.app.utills.LogUtills;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -178,11 +177,11 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         m_views = new ArrayList<>();
         //title
         List<String> bannerTitle = new ArrayList<>();
-        bannerTitle.add("肖顺董事长应邀出席联合国教科文组织智慧城市论坛");
-        bannerTitle.add("热烈祝贺城市黑臭水体整治专题讲座成功举办");
-        bannerTitle.add("天驰2018年终总结大会胜利召开");
-        bannerTitle.add("热烈欢迎广州水务协会领导莅临天驰交流指导");
-        bannerTitle.add("天驰总经理亲赴番禺检查工作");
+        bannerTitle.add("天下任驰聘，家国追梦人——天驰公司2019年终总结大会暨年度表彰和迎春晚会胜利召开");
+        bannerTitle.add("天驰启“杭”，管网问题一揽子解决方案助力管线盛会——2019年杭州管线行业年会纪实 ");
+        bannerTitle.add("天驰公司十五周年庆黄山集体旅游活动成功举办 ");
+        bannerTitle.add("天驰科技为智慧城市建设赋能——2019年中国智慧城市大会纪实 ");
+        bannerTitle.add("情系职工，温暖人心——天驰工会2019年度系列活动纪实");
 
         //设置banner样式(显示圆形指示器)
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
@@ -282,7 +281,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                     public void onClick(DialogInterface dialog, int which) {
                         SuperMapConfig.FILE_PATH = SuperMapConfig.QQ_FILE_PATH;
                         UnzipFragment _fragment = new UnzipFragment();
-                        _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+                        _fragment.show(getActivity().getFragmentManager(), "unzip");
                         dialog.dismiss();
                     }
                 }, new DialogInterface.OnClickListener() {
@@ -290,7 +289,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                     public void onClick(DialogInterface dialog, int which) {
                         SuperMapConfig.FILE_PATH = SuperMapConfig.DEFAULT_DATA_PATH;
                         UnzipFragment _fragment = new UnzipFragment();
-                        _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+                        _fragment.show(getActivity().getFragmentManager(), "unzip");
                         dialog.dismiss();
                     }
                 }, new DialogInterface.OnClickListener() {
@@ -298,7 +297,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
                     public void onClick(DialogInterface dialog, int which) {
                         SuperMapConfig.FILE_PATH = SuperMapConfig.WECHAT_FILE_PATH;
                         UnzipFragment _fragment = new UnzipFragment();
-                        _fragment.show(getActivity().getSupportFragmentManager().beginTransaction(), "unzip");
+                        _fragment.show(getActivity().getFragmentManager(), "unzip");
                         dialog.dismiss();
                     }
                 });
@@ -401,19 +400,19 @@ public class HomePageFragment extends Fragment implements View.OnClickListener, 
         String url = null;
         switch (position) {
             case 1:
-                url = "https://mp.weixin.qq.com/s/IL5GUlOYu0N87arsy3FqCA?tdsourcetag=s_pctim_aiomsg";
+                url = "http://www.020tc.cn/newspage-343-1.html";
                 break;
             case 2:
-                url = "https://mp.weixin.qq.com/s/Qjmz4StrcYTRWYvKRp-m-w";
+                url = "http://www.020tc.cn/newspage-329-1.html";
                 break;
             case 3:
-                url = "https://mp.weixin.qq.com/s/uct-7CtBJdARisE9joZrwQ";
+                url = "http://www.020tc.cn/newspage-342-1.html";
                 break;
             case 4:
-                url = "https://mp.weixin.qq.com/s/jf6fFZf2XyQPuyhHpKcxeg";
+                url = "http://www.020tc.cn/newspage-332-1.html";
                 break;
             case 5:
-                url = "http://www.020tc.cn/newspage-292-1.html";
+                url = "http://www.020tc.cn/newspage-344-1.html";
                 break;
             default:
                 break;

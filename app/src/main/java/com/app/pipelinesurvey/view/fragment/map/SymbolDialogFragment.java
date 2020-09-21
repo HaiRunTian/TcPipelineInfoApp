@@ -2,32 +2,24 @@ package com.app.pipelinesurvey.view.fragment.map;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.SymbolAdapter;
 import com.app.pipelinesurvey.bean.Symbolbean;
 import com.app.pipelinesurvey.config.GetSymbolConfig;
-import com.app.pipelinesurvey.utils.InitWindowSize;
-import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.utills.LogUtills;
-import com.supermap.data.Symbol;
-import com.supermap.data.SymbolGroup;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author HaiRun

@@ -1,10 +1,10 @@
 package com.app.pipelinesurvey.view.fragment.setting;
 
+import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 点设置
+ * 点界面设置
  *
  * @author HaiRun
  * @time 2019/9/10.16:11
@@ -38,6 +38,7 @@ public class PointSettingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_point_setting, container, false);
         exlvPoint = view.findViewById(R.id.exlv_point);
+        exlvPoint.setGroupIndicator(null);
         LogUtills.i("PointSettingFragment", "onCreateView");
         return view;
     }
@@ -55,6 +56,18 @@ public class PointSettingFragment extends Fragment {
         initValue();
         initEvent();
         LogUtills.i("PointSettingFragment", "onStart");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtills.i("PointSettingFragment", "onPause");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtills.i("PointSettingFragment", "onPause");
     }
 
     private void initEvent() {
@@ -154,5 +167,18 @@ public class PointSettingFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         LogUtills.i("PointSettingFragment", "onDestroyView");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LogUtills.i("PointSettingFragment", "onStop");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+            initValue();
+            adapter.notifyDataSetChanged();
     }
 }

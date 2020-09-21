@@ -465,4 +465,60 @@ public class InitDatabase {
         }
         return null;
     }
+
+    /**
+     * 版本  8 点线配置表插入一个管类
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf16() {
+        //存放sql语句
+        List<String> _list = new ArrayList<>();
+
+        //更新临时点颜色 修改为黑色
+        String sqlUpdate1 = "update default_line_huizhou set typename = '雨水-YS' where name = '雨水'";
+
+        _list.add(sqlUpdate1);
+
+        return _list;
+    }
+
+    /**
+     * 版本  14  惠州模式添加塑料管材
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf17(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("database_db_16.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+
+     * 版本  18 外检点表添加坐标系字段
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/9/19  10:48
+     */
+    public static List<String> getAlterSqlOf18() {
+        //存放sql语句
+        List<String> _list = new ArrayList<>();
+        String sqlAlterPointViewSetting = "alter table point_update add column x double";
+        String sqlAlterPointViewSetting1 = "alter table point_update add column y double";
+
+        _list.add(sqlAlterPointViewSetting);
+        _list.add(sqlAlterPointViewSetting1);
+
+        return _list;
+    }
 }

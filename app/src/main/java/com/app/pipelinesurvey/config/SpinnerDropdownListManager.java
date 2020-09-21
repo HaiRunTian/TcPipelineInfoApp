@@ -49,6 +49,7 @@ public class SpinnerDropdownListManager {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
                     list.add(_var);
                 }
+                _cursor.close();
             }
             break;
             //附属物
@@ -58,6 +59,7 @@ public class SpinnerDropdownListManager {
                     String _var = _cursor.getString(_cursor.getColumnIndex("name"));
                     list.add(_var);
                 }
+                _cursor.close();
             }
             break;
             //管点备注
@@ -68,6 +70,7 @@ public class SpinnerDropdownListManager {
                     String _var = _cursor.getString(_cursor.getColumnIndex("remark"));
                     list.add(_var);
                 }
+                _cursor.close();
             }
             break;
             //管线备注
@@ -78,6 +81,7 @@ public class SpinnerDropdownListManager {
                     String _var = _cursor.getString(_cursor.getColumnIndex("remark"));
                     list.add(_var);
                 }
+                _cursor.close();
             }
             break;
             //管线材料
@@ -87,6 +91,16 @@ public class SpinnerDropdownListManager {
                     String _var = _cursor.getString(_cursor.getColumnIndex("texture"));
                     list.add(_var);
                 }
+                _cursor.close();
+            }
+            break;
+            case "type":{
+                Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PIPE_INFO, "where city = '" + SuperMapConfig.PROJECT_CITY_NAME + "'");
+                while (_cursor.moveToNext()) {
+                    String _var = _cursor.getString(_cursor.getColumnIndex("code"));
+                    list.add(_var);
+                }
+                _cursor.close();
             }
             break;
             default:

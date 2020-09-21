@@ -344,10 +344,8 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
         return new Color(colorInt);
     }
 
-
     /**
      * 子类调用，单值符号专题图
-     *
      * @Params :
      * @author :HaiRun
      * @date :2019/6/20  16:08

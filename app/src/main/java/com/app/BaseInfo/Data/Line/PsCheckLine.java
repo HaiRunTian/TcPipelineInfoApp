@@ -7,8 +7,14 @@ import com.app.BaseInfo.Data.POINTTYPE;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
+import com.app.pipelinesurvey.utils.ComTool;
 import com.app.utills.LogUtills;
+import com.supermap.data.Color;
+import com.supermap.data.FillGradientMode;
+import com.supermap.data.GeoStyle;
 import com.supermap.mapping.ThemeLabel;
+import com.supermap.mapping.ThemeUnique;
+import com.supermap.mapping.ThemeUniqueItem;
 
 /**
  * @author HaiRun
@@ -68,11 +74,52 @@ public class PsCheckLine extends BaseFieldLInfos {
                 _ends[_index] = _end;
                 _index++;
             }
+            _cursor.close();
             return createThemeLabel(_keys,_colors,_starts,_ends);
         } catch (Exception e) {
             LogUtills.e(e.toString());
         }
         return null;
+    }
+
+    @Override
+    public ThemeUnique createDefaultThemeUnique() {
+        // 构造单值专题图并进行相应设置
+        ThemeUnique _theme = new ThemeUnique();
+
+        String[] _keys = new String[2];
+        _keys[0] = "顺";
+        _keys[1] = "逆";
+        int[] _symbolIds = new int[2];
+        _symbolIds[0] = 1;
+        _symbolIds[1] = 3;
+        double[] _widths = new double[2];
+        _widths[0] = 1.5;
+        _widths[1] = 1.5;
+        String[] _colors = new String[2];
+        _colors[0] = "#008000";
+        _colors[1] = "#0000CD";
+        //这个要改
+        _theme.setUniqueExpression("flow");
+        for (int i = 0; i < _keys.length; ++i) {
+            ThemeUniqueItem _item = new ThemeUniqueItem();
+            _item.setVisible(true);
+            _item.setUnique(_keys[i]);
+            GeoStyle _style = new GeoStyle();
+            _style.setFillGradientMode(FillGradientMode.RADIAL);
+            _style.setLineColor(ComTool.colorByOxString(_colors[i]));
+            _style.setLineWidth(_widths[i]);
+            _style.setLineSymbolID(_symbolIds[i]);
+            _item.setStyle(_style);
+            _theme.add(_item);
+        }
+
+        GeoStyle _defaultStyle = new GeoStyle();
+        _defaultStyle.setLineWidth(1);
+        _defaultStyle.setLineColor(new Color(0, 255, 0));
+        _defaultStyle.setLineSymbolID(0);
+        _theme.setDefaultStyle(_defaultStyle);
+        return _theme;
     }
 
     @Override

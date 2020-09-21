@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.base.BaseActivity;
@@ -24,12 +23,14 @@ import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.database.SQLConfig;
+import com.app.pipelinesurvey.utils.AlertDialogUtil;
 import com.app.pipelinesurvey.utils.AssetsUtils;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.PermissionUtils;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
+import com.supermap.data.Environment;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -157,6 +158,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             list.add(_cursor1.getString(_cursor1.getColumnIndex("name")));
             LogUtills.i(_cursor1.getString(_cursor1.getColumnIndex("name")));
         }
+        _cursor1.close();
 //        list.add("广州");
 //        list.add("正本清源");
 //        SQLConfig.TABLE_DEFAULT_POINT_SETTING = "default_point_zhengben";
@@ -191,6 +193,12 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             m_prjId = getIntent().getStringExtra("proj_name");
             String create_time = null, last_time = null;
             edtProjName.setText(m_prjId);
+            spMode.setEnabled(false);
+            spCityStand.setEnabled(false);
+            spGroupIndex.setEnabled(false);
+            spSeriNum.setEnabled(false);
+            aSwitch.setEnabled(false);
+
             //数据库查询
             Cursor _cursor = DatabaseHelpler.getInstance()
                     .query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + m_prjId + "'");
@@ -210,11 +218,12 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 _pipeLength = _cursor.getInt(_cursor.getColumnIndex("PipeLength"));
                 //工程模式
                 mode = _cursor.getString(_cursor.getColumnIndex("mode"));
+                SuperMapConfig.PrjMode = mode;
                 //排水外检
                 psCheck = _cursor.getString(_cursor.getColumnIndex("PsCheck"));
                 SuperMapConfig.PS_OUT_CHECK = psCheck;
             }
-
+            _cursor.close();
             if ("1".equals(psCheck)) {
                 aSwitch.setChecked(true);
             } else {
@@ -315,6 +324,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                             return;
                         }
                         saveDataToDB();
+                        //全局，记住当前项目模式 常规 外检
+                        SuperMapConfig.PrjMode = spMode.getSelectedItem().toString();
                     } else {
                         //无用 不是新建项目
                         _intent.putExtra("type", "3");
@@ -327,8 +338,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                         updataTime();
                     }
                     startActivity(_intent);
-                    //全局，记住当前项目模式 常规 外检
-                    SuperMapConfig.PrjMode = spMode.getSelectedItem().toString();
+
                     finish();
                 } catch (Exception e) {
                     ToastyUtil.showErrorShort(this, e.toString());
@@ -336,8 +346,29 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.tvAddBaseMap: {
-                Intent _intent1 = new Intent(this, SelectBaseMapActivity.class);
-                startActivityForResult(_intent1, RESULT_FILE);
+                AlertDialogUtil.showDialog(ProjectInfoActivity.this, "导入文件", "请选择导入的文件", false, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SuperMapConfig.FILE_PATH = SuperMapConfig.QQ_FILE_PATH;
+                        startActivityForResult(new Intent(ProjectInfoActivity.this, SelectBaseMapActivity.class), RESULT_FILE);
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SuperMapConfig.FILE_PATH = SuperMapConfig.DEFAULT_DATA_PATH;
+                        startActivityForResult(new Intent(ProjectInfoActivity.this, SelectBaseMapActivity.class), RESULT_FILE);
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SuperMapConfig.FILE_PATH = SuperMapConfig.WECHAT_FILE_PATH;
+                        startActivityForResult(new Intent(ProjectInfoActivity.this, SelectBaseMapActivity.class), RESULT_FILE);
+                        dialog.dismiss();
+                    }
+                });
+//
             }
 
             break;
@@ -471,6 +502,7 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             SettingConfig.ins().getLineContentValues(prjName);
 
         }
+        cursor.close();
     }
 
     @Override
@@ -481,8 +513,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                 String _filePath = data.getStringExtra("filePath");
                 String _fileName = data.getStringExtra("fileName");
                 baseMapPath = _filePath;
-                if (!_fileName.endsWith(".sci")) {
-                    ToastyUtil.showWarningShort(this, "请选择sci的底图类型文件");
+                if (!_fileName.endsWith(".sci") && !_fileName.endsWith(".dwg")) {
+                    ToastyUtil.showWarningShort(this, "请选择sci或者dwg的底图类型文件");
                     tvBaseMapPath.setText("");
                 } else {
                     tvBaseMapPath.setText(baseMapPath);

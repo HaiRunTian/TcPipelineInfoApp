@@ -1,12 +1,12 @@
 package com.app.pipelinesurvey.view.activity;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.IdRes;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -129,7 +129,7 @@ public class HomePageActivity extends BaseActivity implements RadioGroup.OnCheck
      */
     public void switchFragment(int id,String str) {
         if (m_manager == null) {
-            m_manager = getSupportFragmentManager();
+            m_manager = getFragmentManager();
         }
         m_transaction = m_manager.beginTransaction();
         hideFragment(m_transaction);

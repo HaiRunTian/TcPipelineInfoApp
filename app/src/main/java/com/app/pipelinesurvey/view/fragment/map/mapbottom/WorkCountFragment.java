@@ -1,15 +1,15 @@
 package com.app.pipelinesurvey.view.fragment.map.mapbottom;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.view.widget.CustomDatePicker;
@@ -17,7 +17,6 @@ import com.app.utills.LogUtills;
 import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
 import com.supermap.data.Recordset;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +27,7 @@ import java.util.Locale;
  * 工作量统计
  */
 
-public class WorkCountFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class WorkCountFragment extends Fragment implements View.OnClickListener {
     private View m_rootView;
     private TextView m_tvPointCount;
     private TextView m_tvPipeLength;

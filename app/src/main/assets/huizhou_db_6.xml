@@ -1,7 +1,5 @@
 <?xml version="1.1" encoding="utf-8"?>
 <database>
-    <dbname value="PipeLineInfo"></dbname>
-    <version value="6"></version>
     <!--惠州模式-->
     <!--创建数据库表格-->
     <sql_create_table>
@@ -2455,7 +2453,7 @@
             <!--雨水设置-->
             <sql>insert into default_line_huizhou(
                 name,width,color,symbolID,typename,typeCode,remark,typeShortCall,standard,city)
-                values('雨水', 0.2, '#00BFFF', 965149, '雨水-Y','YS', '', '', '惠州标准', '惠州')
+                values('雨水', 0.2, '#00BFFF', 965149, '雨水-YS','YS', '', '', '惠州标准', '惠州')
             </sql>
             <!--合流设置-->
             <sql>insert into default_line_huizhou(

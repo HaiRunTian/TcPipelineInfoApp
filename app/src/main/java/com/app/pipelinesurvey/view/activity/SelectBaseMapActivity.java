@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,11 +16,9 @@ import android.widget.TextView;
 
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.adapter.SelectBaseMapAdapter;
-import com.app.pipelinesurvey.adapter.UnZipAdapter;
 import com.app.pipelinesurvey.base.BaseActivity;
 import com.app.pipelinesurvey.bean.FileEntity;
 import com.app.pipelinesurvey.config.SuperMapConfig;
-import com.app.pipelinesurvey.utils.Decompressor;
 import com.app.pipelinesurvey.utils.FileUtils;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
@@ -96,7 +94,7 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
         m_list = new ArrayList<>();
 //        SuperMapConfig.SDCARD = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
         //根目录
-        m_folderName = SuperMapConfig.DEFAULT_DATA_PATH.substring(0,SuperMapConfig.DEFAULT_DATA_PATH.length()-1);
+        m_folderName =SuperMapConfig.FILE_PATH;
         m_list = FileUtils.getInstance().findAllFile(m_folderName, m_list);
         LogUtills.i(TAG, "" + m_list.size());
         m_adapter = new SelectBaseMapAdapter(this, m_list);
@@ -182,7 +180,7 @@ public class SelectBaseMapActivity extends BaseActivity implements View.OnClickL
             LogUtills.i(TAG, m_list.size() + "");
             m_tvTitle.setText(m_folderName);
             m_handler.sendEmptyMessage(0);
-        } else if (m_folderName.endsWith(".sci") || m_folderName.endsWith(".SCI") ||m_folderName.endsWith(".json")) {
+        } else if (m_folderName.endsWith(".sci") || m_folderName.endsWith(".SCI") ||m_folderName.endsWith(".json")||m_folderName.endsWith(".dwg")) {
 
             //未选择变选中
             if (m_itemPosition == -1) {

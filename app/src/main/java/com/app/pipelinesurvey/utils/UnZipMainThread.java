@@ -9,23 +9,18 @@ import org.apache.tools.zip.ZipFile;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.util.Enumeration;
-import java.util.zip.ZipInputStream;
-
 import static com.app.pipelinesurvey.utils.Decompressor.getRealFileName;
 
 
 /**
  * Created by HaiRun on 2018/12/3.
  */
-
 public class UnZipMainThread extends Thread {
     String zipFile;
     String folderPath;
@@ -101,7 +96,6 @@ public class UnZipMainThread extends Thread {
                 } catch (IOException e) {
                     e.printStackTrace();
                     listener.zipFail();
-
                 }
             }
             try {

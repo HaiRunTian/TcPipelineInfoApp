@@ -1,10 +1,10 @@
 package com.app.pipelinesurvey.view.fragment.map.ps;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +18,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.BaseInfo.Data.BaseFieldLInfos;
-import com.app.BaseInfo.Data.BaseFieldPInfos;
-import com.app.BaseInfo.Data.Line.PsCheckLine;
 import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SpinnerDropdownListManager;
@@ -432,6 +430,23 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvSubmit:
+                String s = spImgType.getSelectedItem().toString();
+                //如果影像编号不满14位，不给提交
+                if (s.equals("博铭维") && getImageNo().length() != 14) {
+                    ToastyUtil.showWarningShort(getActivity(), "请检查影像编号格式是否正确，格式：年月日时分秒");
+                    return;
+                }
+                //道路名不能为空
+                if (getCheckRoadName().isEmpty()){
+                    ToastyUtil.showWarningShort(getActivity(), "道路名不能为空，请填写完整");
+                    return;
+                }
+                //检测人员不能为空
+                if (getCheckWay().isEmpty()){
+                    ToastyUtil.showWarningShort(getActivity(), "检测人员不能为空，请填写完整");
+                    return;
+                }
+
                 if (submitData()) {
                     ToastyUtil.showSuccessShort(getActivity(), "保存成功");
                     SuperMapConfig.ROAD_NAME = getCheckRoadName();
@@ -541,7 +556,6 @@ public class QueryPsLineFragment extends DialogFragment implements IDrawPsLineVi
                 query.setString("defectLength", getDefectDis());
                 query.setString("defectCode", getDefectCode());
                 query.setString("defectGrade", getGrade());
-                query.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
                 query.setString("checkMan", getCheckMan());
                 query.setString("checkLocal", getCheckLocal());
                 query.setString("roadName", getCheckRoadName());
