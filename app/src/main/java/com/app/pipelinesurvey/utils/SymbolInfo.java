@@ -38,6 +38,7 @@ public class SymbolInfo {
                     break;
                 case "雨水-Y":
                 case "污水-W":
+                case "合流-H":
                 case "排水-P": {
                     _symbol = getYWPSymbol(appendant, feature);
                 }
@@ -657,6 +658,7 @@ public class SymbolInfo {
                 _symbol = "检测井";
                 break;
             case "化粪池":
+            case "隔油池":
                 _symbol = "化粪池";
                 break;
             case "水控闸":

@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.InitWindowSize;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.supermap.mapping.Layers;
 
@@ -67,7 +68,13 @@ public class LayerSettingFragment extends DialogFragment implements View.OnClick
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initValue();
+
+        try {
+            initValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastyUtil.showErrorShort(getActivity(),e.toString());
+        }
     }
 
     /**

@@ -4,7 +4,6 @@ import android.util.Log;
 
 /**
  * Log统一管理类
- *
  */
 
 public class LogUtills {
@@ -13,15 +12,16 @@ public class LogUtills {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
+
     /**
-     *  是否需要打印bug，可以在application的onCreate函数里面初始化
+     * 是否需要打印bug，可以在application的onCreate函数里面初始化
      */
-    private static boolean isDebug = true;
+    private static boolean isDebug = false;
     private static final String TAG = "TcPipe";
+
     public static String getToaskInfo() {
         final Throwable t = new Throwable();
         final StackTraceElement[] elements = t.getStackTrace();
-
         return elements[1].getClassName() + ", method: " + elements[1].getMethodName() + " ";
     }
 
@@ -39,8 +39,9 @@ public class LogUtills {
     }
 
     public static void d(String msg) {
-        if (isDebug)
-            Log.i("debug:" + TAG, msg);
+        if (isDebug) {
+            Log.d("debug:" + TAG, msg);
+        }
     }
 
     public static void e(String msg) {
@@ -64,28 +65,33 @@ public class LogUtills {
     }
 
     public static void v(String msg) {
-        if (isDebug)
+        if (isDebug) {
             Log.v(TAG, msg);
+        }
     }
 
     // 下面是传入自定义tag的函数
     public static void i(String tag, String msg) {
-        if (isDebug)
+        if (isDebug) {
             Log.i(tag, msg);
+        }
     }
 
     public static void d(String tag, String msg) {
-        if (isDebug)
-            Log.i(tag, msg);
+        if (isDebug) {
+            Log.d(tag, msg);
+        }
     }
 
     public static void e(String tag, String msg) {
-        if (isDebug)
-            Log.i(tag, msg);
+        if (isDebug) {
+            Log.e(tag, msg);
+        }
     }
 
     public static void v(String tag, String msg) {
-        if (isDebug)
-            Log.i(tag, msg);
+        if (isDebug) {
+            Log.v(tag, msg);
+        }
     }
 }

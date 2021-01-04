@@ -285,6 +285,8 @@ public class PipeThemelabelUtil {
             switch (pipeType) {
                 case "排水":
                 case "P":
+                case "合流":
+                case "H":
                     _value = 0.5;
                     break;
                 case "雨水":

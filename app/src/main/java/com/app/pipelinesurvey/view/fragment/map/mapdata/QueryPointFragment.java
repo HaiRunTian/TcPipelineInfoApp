@@ -302,60 +302,65 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initValue();
-        EventBus.getDefault().register(this);
-    }
+        try {
+            initValue();
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            LogUtills.e(e.toString());
+        }
 
+    }
 
     /**
      * 初始化值
-     *
      * @Params :
      * @author :HaiRun
      * @date :2020/5/28  9:29
      */
     private void initValue() {
-        m_bundle = getArguments();
-        m_basePInfo = m_bundle.getParcelable("info");
-        LogUtills.i("queryActivity " + m_basePInfo.toString());
-        int _smId = m_bundle.getInt("smId", 0);
-        m_smid = new int[]{_smId};
-        //初始管类代码
-        m_code = m_basePInfo.pipeType.substring(3);
-        //如果是修改管点信息，则需要获取选中观点的类型来更改属性。考虑下拉框给用户选择管类，则必须考虑管类不同而导致的，附属物、管点类型的不同而做的变化
+        try {
+            m_bundle = getArguments();
+            m_basePInfo = m_bundle.getParcelable("info");
+            int _smId = m_bundle.getInt("smId", 0);
+            m_smid = new int[]{_smId};
+            //初始管类代码
+            m_code = m_basePInfo.pipeType.substring(3);
+            //如果是修改管点信息，则需要获取选中观点的类型来更改属性。考虑下拉框给用户选择管类，则必须考虑管类不同而导致的，附属物、管点类型的不同而做的变化
 //        int _typeIndex = m_basePInfo.pipeType.indexOf("_") + 1;
-        m_gpType = m_basePInfo.pipeType.replace("_", "-");
-        LogUtills.i("Query Point Info Type: " + m_basePInfo.pipeType + ", Change Type:" + m_gpType);
-        tvTitle.setText("编辑点" + "(" + m_gpType + ")");
+            m_gpType = m_basePInfo.pipeType.replace("_", "-");
+            tvTitle.setText("编辑点" + "(" + m_gpType + ")");
 
-        //特征点
-        featurePointsList = SpinnerDropdownListManager.getData("feature", m_gpType);
-        spFeaturePoints.setMemoryCount(5);
-        spFeaturePoints.setData(null, (ArrayList<String>) featurePointsList);
-        //附属物
-        appendantList = SpinnerDropdownListManager.getData("subsid", m_gpType);
-        spAppendant.setMemoryCount(5);
-        spAppendant.setData(null, (ArrayList<String>) appendantList);
-        //管点备注
-        pointRemarkList = SpinnerDropdownListManager.getData("pointRemark", m_gpType);
-        //物探点号状态
-        situationList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.situation));
-        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
-        spSituation.setAdapter(m_adapter);
-        //修改管类
-        situationList = SpinnerDropdownListManager.getData("type", "");
-        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
-        spType.setAdapter(m_adapter);
-        SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spType, m_code);
-        //管点状态
-        stateList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.state));
-        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, stateList);
-        spState.setAdapter(m_adapter);
-        //井盖材质
-        wellLidTextureList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.wellLidTexture));
-        m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, wellLidTextureList);
-        spWellLidTexture.setAdapter(m_adapter);
-        setValueToView();
+            //特征点
+            featurePointsList = SpinnerDropdownListManager.getData("feature", m_gpType);
+            spFeaturePoints.setMemoryCount(5);
+            spFeaturePoints.setData(null, (ArrayList<String>) featurePointsList);
+            //附属物
+            appendantList = SpinnerDropdownListManager.getData("subsid", m_gpType);
+            spAppendant.setMemoryCount(5);
+            spAppendant.setData(null, (ArrayList<String>) appendantList);
+            //管点备注
+            pointRemarkList = SpinnerDropdownListManager.getData("pointRemark", m_gpType);
+            //物探点号状态
+            situationList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.situation));
+            m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
+            spSituation.setAdapter(m_adapter);
+            //修改管类
+            situationList = SpinnerDropdownListManager.getData("type", "");
+            m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, situationList);
+            spType.setAdapter(m_adapter);
+            SpinnerDropdownListManager.setSpinnerItemSelectedByValue(spType, m_code);
+            //管点状态
+            stateList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.state));
+            m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, stateList);
+            spState.setAdapter(m_adapter);
+            //井盖材质
+            wellLidTextureList = SpinnerDropdownListManager.getData(getResources().getStringArray(R.array.wellLidTexture));
+            m_adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, wellLidTextureList);
+            spWellLidTexture.setAdapter(m_adapter);
+            setValueToView();
+        } catch (Exception e) {
+            LogUtills.e(e.toString());
+        }
 
     }
 
@@ -583,7 +588,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
 
                             //外检模式保存删除点线数据到对应到两张表
                             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
-                                OperSql.getSingleton().inserPoint(initPointExp,m_basePInfo.longitude,m_basePInfo.latitude, "外检:删除管点");
+                                OperSql.getSingleton().inserPoint(initPointExp, m_basePInfo.longitude, m_basePInfo.latitude, "外检:删除管点");
                             }
                             WorkSpaceUtils.getInstance().saveMap();
                             getDialog().dismiss();
@@ -696,7 +701,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     OperSql.getSingleton().inserLine(initPointExp, endExpNum, sysId, "外检:起点点号修改" + initPointExp + "->" + getGPId());
 
                     String expNum = reSetbenExpNum.getString("endExpNum");
-                    OperSql.getSingleton().inserPoint(expNum,m_basePInfo.longitude,m_basePInfo.latitude,"外检:关联线起点点号修改");
+                    OperSql.getSingleton().inserPoint(expNum, m_basePInfo.longitude, m_basePInfo.latitude, "外检:关联线起点点号修改");
                     Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(expNum, true);
                     if (!recordset.isEmpty()) {
                         recordset.edit();
@@ -740,7 +745,7 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
                     OperSql.getSingleton().inserLine(benExpNum, initPointExp, sysId, "外检:终点点号修改" + initPointExp + "->" + getGPId());
 
                     String expNum = reSetendExpNum.getString("benExpNum");
-                    OperSql.getSingleton().inserPoint(expNum,m_basePInfo.longitude,m_basePInfo.latitude,"外检:关联线起点点号修改");
+                    OperSql.getSingleton().inserPoint(expNum, m_basePInfo.longitude, m_basePInfo.latitude, "外检:关联线起点点号修改");
                     Recordset recordset = DataHandlerObserver.ins().queryRecordsetByExpNum(expNum, true);
                     if (!recordset.isEmpty()) {
                         recordset.edit();
@@ -830,10 +835,10 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                 //记录点
                 if (initPointExp.equals(getGPId())) {
-                    OperSql.getSingleton().inserPoint(initPointExp,m_basePInfo.longitude,m_basePInfo.latitude, "外检:数据修改");
+                    OperSql.getSingleton().inserPoint(initPointExp, m_basePInfo.longitude, m_basePInfo.latitude, "外检:数据修改");
                 } else {
                     //管线记录插入到点
-                    OperSql.getSingleton().inserPoint(initPointExp, m_basePInfo.longitude,m_basePInfo.latitude,"外检:点号修改:" + initPointExp + ":" + getGPId());
+                    OperSql.getSingleton().inserPoint(initPointExp, m_basePInfo.longitude, m_basePInfo.latitude, "外检:点号修改:" + initPointExp + ":" + getGPId());
                 }
                 //点标记修改
                 _info.Edit = "外检:修改管点:" + getState();
@@ -901,6 +906,9 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
             _info.PpdY = m_basePInfo.PpdY;
             _info.DotleadAng = m_basePInfo.DotleadAng;
             _info.MeasuerPoint = m_basePInfo.MeasuerPoint;
+            _info.startDirDepth = m_basePInfo.startDirDepth;
+            _info.endDirDepth = m_basePInfo.endDirDepth;
+            _info.submitName = m_basePInfo.submitName;
             LogUtills.i(_info.toString());
         } catch (Exception e) {
             LogUtills.e(e.getMessage());
@@ -1023,42 +1031,47 @@ public class QueryPointFragment extends DialogFragment implements View.OnClickLi
     }
 
     private String getPipeCode() {
-        //管类代码长度
-        int codeLength = m_code.length();
-        //管类代码的位置以及长度
-        //组号
-        String _groupName = "";
-        //组号位置
-        int _groupLocal = 1;
-        //查询数据库point_setting表，配置信息
-        Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
-        while (_cursor.moveToNext()) {
-            //获取组号
-            _groupName = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
+        try {
+            //管类代码长度
+            int codeLength = m_code.length();
+            //管类代码的位置以及长度
+            //组号
+            String _groupName = "";
             //组号位置
-            _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
+            int _groupLocal = 1;
+            //查询数据库point_setting表，配置信息
+            Cursor _cursor = DatabaseHelpler.getInstance().query(SQLConfig.TABLE_NAME_PROJECT_INFO, "where Name = '" + SuperMapConfig.PROJECT_NAME + "'");
+            while (_cursor.moveToNext()) {
+                //获取组号
+                _groupName = _cursor.getString(_cursor.getColumnIndex("GroupNum"));
+                //组号位置
+                _groupLocal = _cursor.getInt(_cursor.getColumnIndex("GroupLocal"));
 
+            }
+            _cursor.close();
+            //组号长度
+            int gpoupNameLength = _groupName.length();
+            String code = "";
+            switch (_groupLocal) {
+                //管类代码在首位 组号在中间
+                case 1:
+                    // 管类代码在首位  流水号在中间 组号在末尾
+                case 3:
+                    code = getGPId().substring(0, codeLength);
+                    break;
+                //组号在首位 管类代码在中间
+                case 2:
+                    code = getGPId().substring(gpoupNameLength, gpoupNameLength + codeLength);
+                    break;
+                default:
+                    code = getGPId().substring(0, codeLength);
+                    break;
+            }
+            return code;
+        } catch (Exception e) {
+            LogUtills.e(e.toString());
+            return null;
         }
-        _cursor.close();
-        //组号长度
-        int gpoupNameLength = _groupName.length();
-        String code = "";
-        switch (_groupLocal) {
-            //管类代码在首位 组号在中间
-            case 1:
-                // 管类代码在首位  流水号在中间 组号在末尾
-            case 3:
-                code = getGPId().substring(0, codeLength);
-                break;
-            //组号在首位 管类代码在中间
-            case 2:
-                code = getGPId().substring(gpoupNameLength, gpoupNameLength + codeLength);
-                break;
-            default:
-                code = getGPId().substring(0, codeLength);
-                break;
-        }
-        return code;
 
     }
 

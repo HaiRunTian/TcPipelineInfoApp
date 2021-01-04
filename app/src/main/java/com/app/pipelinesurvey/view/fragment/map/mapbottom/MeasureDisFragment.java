@@ -55,11 +55,13 @@ public class MeasureDisFragment extends Fragment implements View.OnClickListener
         rbtnArea.setOnClickListener(this);
         rbtnDis.setOnClickListener(this);
         m_mapControl = WorkSpaceUtils.getInstance().getMapControl();
-        m_mapControl.setStrokeWidth(0.3);
-        m_mapControl.setStrokeColor(m_mapControl.getResources().getColor(R.color.red));
-        m_mapControl.addMeasureListener(this);
-        //面积量算
-        m_mapControl.addMeasureStateListener(this);
+        if (m_mapControl != null) {
+            m_mapControl.setStrokeWidth(0.3);
+            m_mapControl.setStrokeColor(m_mapControl.getResources().getColor(R.color.red));
+            m_mapControl.addMeasureListener(this);
+            //面积量算
+            m_mapControl.addMeasureStateListener(this);
+        }
         return _view;
     }
 

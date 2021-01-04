@@ -467,8 +467,12 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initValue();
-        initData();
+        try {
+            initValue();
+            initData();
+        }catch (Exception e){
+            ToastyUtil.showErrorShort(getActivity(),e.toString());
+        }
     }
 
     /**
@@ -479,10 +483,8 @@ public class DrawLineFragment extends DialogFragment implements View.OnClickList
         int _beginSmId = getArguments().getInt("beginSmId", -1);
         //终点点号
         m_endSmId = getArguments().getInt("endSmId", -1);
-
         //获取当前点图层
         Layer _pLayer = DataHandlerObserver.ins().getTotalPtLayer();
-
         //获取当前点图层
         Layer _pEndLayer = DataHandlerObserver.ins().getTotalLrLayer();
         if (_pLayer == null || _pEndLayer == null) {

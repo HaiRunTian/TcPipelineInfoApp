@@ -89,6 +89,8 @@ import com.supermap.data.Point2D;
 import com.supermap.data.PrjCoordSys;
 import com.supermap.data.PrjCoordSysType;
 import com.supermap.data.Recordset;
+import com.supermap.data.Rectangle2D;
+import com.supermap.data.Size2D;
 import com.supermap.data.SymbolLineLibrary;
 import com.supermap.data.SymbolMarkerLibrary;
 import com.supermap.data.Workspace;
@@ -244,6 +246,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     private CheckBox cbQueryLine;
     private View cbConLine;
     private int status;
+    private int type = 0;
     @SuppressLint("HandlerLeak")
     private Handler m_handler = new Handler() {
         @Override
@@ -270,7 +273,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 case 4:
                     initProgress();
                     //点表  读取excel 和生成数据集比较好耗时间 需要在子线程里进行
-                    ImportDataProgressUtil.ImportData(m_filePath, new ImportDataProgressUtil.ImportListener() {
+                    ImportDataProgressUtil.ImportData(m_filePath, type, new ImportDataProgressUtil.ImportListener() {
                         @Override
                         public void zipStart() {
                             m_handler.sendEmptyMessage(5);
@@ -306,7 +309,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     break;
                 case 7:
                     //数据统计显示
-                    m_progress.setMessage("导入的点数据有" + array[0] + "条，线数据有" + array[1] + "条");
+                    if (type == 0) {
+                        m_progress.setMessage("导入的点数据有" + array[0] + "条，线数据有" + array[1] + "条");
+                    } else {
+                        m_progress.setMessage("导入的测量点数据有" + array[0] + "条");
+                    }
                     break;
                 case 8:
                     //数据导入失 败
@@ -381,8 +388,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 m_map.setCenter(_point2D);
                 m_map.refresh();
             } else {
-                m_mapControl.getMap().viewEntire();
-                LogUtills.i("全图显示");
+//                m_mapControl.getMap().viewEntire();
+//                LogUtills.i("全图显示");
             }
         } catch (Exception e) {
             LogUtills.e(e.toString());
@@ -408,6 +415,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             ToastyUtil.showErrorLong(MapActivity.this, "初始化定位失败");
         }
     }
+
     private void initProgress() {
         m_progress.setTitle("数据导入");
     }
@@ -448,7 +456,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         }
                         //打开工作空间
                         if (!m_workspace.open(_wkInfo)) {
-                            ToastyUtil.showErrorShort(MapActivity.this, "工作空间打开失败");
                             message.what = 3;
                             message.obj = "line#446工作空间打开失败";
                             m_handler.sendMessage(message);
@@ -461,7 +468,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     } else {
                         //创建工作空间
                         if (!m_workspace.save()) {
-                            ToastyUtil.showErrorShort(MapActivity.this, "workspace cteate fail");
+
                             message.what = 3;
                             message.obj = "line#459工作空间创建失败";
                             m_handler.sendMessage(message);
@@ -486,7 +493,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             }
                         }
                         //打开地图
-                        if (_maps.getCount() == 1) {
+                        if (_maps.getCount() > 0) {
                             if (!m_map.open(_maps.get(0))) {
                                 message.what = 3;
                                 message.obj = "line#489地图打开失败";
@@ -520,7 +527,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         Datasource _datasource = _ds.create(_dsConInfo);
                         if (_datasource == null) {
                             message.what = 3;
-                            message.obj = "line#529数据源为空";
+                            message.obj = "line#532数据源创建失败";
                             m_handler.sendMessage(message);
                             return;
                         }
@@ -555,13 +562,13 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         m_handler.sendMessage(message);
                         return;
                     }
+
                     //地图定位到上次最后加点的位置
                     initPointMap(m_workspace);
                     //比例尺更新
                     setMapParamChangge();
                     m_handler.sendEmptyMessage(2);
                 } catch (Exception e) {
-                    LogUtills.e(TAG, e.getMessage());
                     Message message = new Message();
                     message.what = 3;
                     message.obj = e.toString();
@@ -573,15 +580,16 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 
     /**
      * 线表更新三个数据集
+     *
      * @Params :
      * @author :HaiRun
-     * @date   :2020-08-24  17:14
+     * @date :2020-08-24  17:14
      */
     private void addDatasetFileInfo() {
         DatasetVector lineDataset = (DatasetVector) m_workspace.getDatasources().get(0).getDatasets().get("L_All");
         FieldInfos fieldInfos = lineDataset.getFieldInfos();
-        if (fieldInfos.getCount() < 58){
-            String[] file = new String[]{"IsDrawNoteText","NoteX","NoteY"};
+        if (fieldInfos.getCount() < 58) {
+            String[] file = new String[]{"IsDrawNoteText", "NoteX", "NoteY"};
             FieldInfo info = null;
             for (int i = 0; i < file.length; i++) {
                 info = new FieldInfo();
@@ -626,12 +634,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 message.what = 3;
                 message.obj = "line#547谷歌数据源为空";
                 m_handler.sendMessage(message);
-                return ;
+                return;
             }
             m_map.getLayers().add(ds.getDatasets().get(0), true);
-            m_map.getLayers().add(ds.getDatasets().get(1), true);
+            m_map.getLayers().add(ds.getDatasets().get(4), false).setVisible(false);
             m_PrjCoordSys = ds.getDatasets().get(0).getPrjCoordSys();
-            GeoCoordSys _geoCoordSys = m_PrjCoordSys.getGeoCoordSys();
         } else {
             if (baseMapPath.endsWith("sci")) {
                 //sci切片
@@ -643,9 +650,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 ds = _ds.open(info);
                 if (ds == null) {
                     message.what = 3;
-                    message.obj = "line#566sci数据源为空";
+                    message.obj = "line#648sci数据源为空";
                     m_handler.sendMessage(message);
-                    return ;
+                    return;
                 }
                 Layer layer = m_map.getLayers().add(ds.getDatasets().get(0), true);
                 layer.setCaption("底图");
@@ -656,7 +663,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
 
                 if (!b) {
                     m_handler.sendEmptyMessage(3);
-                    return ;
+                    return;
                 }
 
                 //获取cad数据集
@@ -665,7 +672,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     message.what = 3;
                     message.obj = "line#586CAD数据源为空";
                     m_handler.sendMessage(message);
-                    return ;
+                    return;
                 }
                 //设置投影坐标系
                 dataset.setPrjCoordSys(new PrjCoordSys(PrjCoordSysType.PCS_USER_DEFINED));
@@ -675,11 +682,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                     message.what = 3;
                     message.obj = "line#597CAD图层为空";
                     m_handler.sendMessage(message);
-                    return ;
+                    return;
                 }
                 //图层设置主题名
                 layer.setCaption("底图");
-                m_mapControl.getMap().viewEntire();
+//                m_mapControl.getMap().viewEntire();
             }
         }
     }
@@ -761,7 +768,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             spLayers.setAdapter(m_adapter);
             spLayers.setSelection(0, true);
             //如果创建的项目不是谷歌在线地图，地图图层切换按钮就隐藏
-            if (!baseMapPath.equals("http://www.google.cn/maps")) {
+            if (!baseMapPath.contains("google")) {
                 imgMap.setVisibility(View.GONE);
                 imgBtnLocation.setVisibility(View.GONE);
             } else {
@@ -855,7 +862,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_AddLine);
                         if (cbQueryLine.isChecked()) {
                             cbQueryLine.setChecked(false);
                         }
@@ -893,7 +899,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         GpsUtils.openGPS(MapActivity.this);
                         return;
                     }
-
+                    m_GPS.onStart();
                     if (m_GPS != null && m_NavigationPanelView.getVisibility() != View.VISIBLE) {
                         m_GPS.onStart();
                         LogUtills.i("定位", "定位打开");
@@ -908,17 +914,24 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
             //地图切换
             case R.id.imgMapChange: {
                 int _count = m_map.getLayers().getCount();
-                if (baseMapPath.equals("http://www.google.cn/maps")) {
-                    Layer _layer = m_map.getLayers().get(_count - 2);
-                    if (_layer.isVisible()) {
-                        _layer.setVisible(false);
+                if (baseMapPath.contains("http://www.google.cn/maps")) {
+                    Layer layerStree = m_map.getLayers().get(_count - 2);
+                    Layer layerImage = m_map.getLayers().get(_count - 1);
+                    if (layerImage == null) {
+                        return;
+                    }
+                    if (layerStree.isVisible()) {
+                        layerStree.setVisible(false);
+                        layerImage.setVisible(true);
                     } else {
-                        _layer.setVisible(true);
+                        layerStree.setVisible(true);
+                        layerImage.setVisible(false);
                     }
                     m_map.refresh();
+                    DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
+                    DataHandlerObserver.ins().setAction(Action.PAN);
                 }
-                DataHandlerObserver.ins().setMapActionType(MAPACTIONTYPE2.Action_None);
-                DataHandlerObserver.ins().setAction(Action.PAN);
+
             }
             hideBottomPanel();
             break;
@@ -1105,9 +1118,12 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                         case R.id.menu_import:
                             DataHandlerObserver.ins().setAction(Action.PAN);
                             hideBottomPanel();
-                            AlertDialogUtil.showDialog(MapActivity.this, "导入文件", "请选择导入的文件", false, new DialogInterface.OnClickListener() {
+                            View view = getLayoutInflater().inflate(R.layout.activity_map_dialog_item, null);
+                            final RadioGroup radioGroup = view.findViewById(R.id.rgbtn);
+                            AlertDialogUtil.showDialog(MapActivity.this, "导入文件", "请选择导入的文件", view, false, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    type = getCheckType(radioGroup);
                                     SuperMapConfig.FILE_PATH = SuperMapConfig.QQ_FILE_PATH;
                                     startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
                                     dialog.dismiss();
@@ -1115,6 +1131,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             }, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    type = getCheckType(radioGroup);
                                     SuperMapConfig.FILE_PATH = SuperMapConfig.DEFAULT_DATA_PATH;
                                     startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
                                     dialog.dismiss();
@@ -1122,6 +1139,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             }, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    type = getCheckType(radioGroup);
                                     SuperMapConfig.FILE_PATH = SuperMapConfig.WECHAT_FILE_PATH;
                                     startActivityForResult(new Intent(MapActivity.this, SelectExcelActivity.class), 1);
                                     dialog.dismiss();
@@ -1171,6 +1189,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
                             setCbLineConVisibityGone();
                             break;
 
+                        case R.id.menu_enterView:
+                            itemText = "全图";
+                            m_mapControl.getMap().viewEntire();
+                            break;
+
                         default:
                             break;
                     }
@@ -1195,7 +1218,24 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
         contentView.findViewById(R.id.menu_import).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_layer).setOnClickListener(listener);
         contentView.findViewById(R.id.menu_change_type).setOnClickListener(listener);
+        contentView.findViewById(R.id.menu_enterView).setOnClickListener(listener);
 
+    }
+
+    /**
+     * 返回 选择导入表格类型 0：pda表格  1：测量表格
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020-12-10  14:40
+     */
+    private int getCheckType(RadioGroup radioGroup) {
+        int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+        if (checkedRadioButtonId == R.id.rbtn1) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     /**
@@ -1501,22 +1541,30 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, R
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         try {
-            if (m_map.isModified() || m_workspace.isModified()) {
+            if (m_map != null) {
                 m_map.save();
-                m_workspace.save();
-                LogUtills.i(TAG, "onDestroy = save()");
             }
+            if (m_workspace != null) {
+                m_workspace.save();
+            }
+            LogUtills.i(TAG, "onDestroy = save()");
+
         } catch (Exception e) {
             LogUtills.i(TAG, "onDestroy" + e.getMessage());
         } finally {
-            m_map.close();
-            m_map.dispose();
-            m_mapControl.dispose();
-            m_mapControl = null;
-            m_workspace.close();
-            m_workspace.dispose();
+            if (m_map != null) {
+                m_map.close();
+                m_map.dispose();
+            }
+            if (m_mapControl != null) {
+                m_mapControl.dispose();
+                m_mapControl = null;
+            }
+            if (m_workspace != null) {
+                m_workspace.close();
+                m_workspace.dispose();
+            }
             EventBus.getDefault().unregister(this);
         }
         LogUtills.i(TAG, "onDestroy()" + this.toString());

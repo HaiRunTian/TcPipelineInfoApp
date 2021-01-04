@@ -374,13 +374,14 @@ public class DrawPointFragment extends DialogFragment implements AdapterView.OnI
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        try {
         initlayoutView(m_view);
         initValue();
         initID();
-        long endTime = System.currentTimeMillis() - startTime;
-        LogUtills.i("Time22 = ", endTime + "");
         EventBus.getDefault().register(this);
+        }catch (Exception e){
+            ToastyUtil.showErrorShort(getActivity(),e.toString());
+        }
     }
 
     /**

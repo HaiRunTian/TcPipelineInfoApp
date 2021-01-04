@@ -431,9 +431,13 @@ public class DrawPointInLineFragment extends DialogFragment implements AdapterVi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        try {
         initValue();
         initID();
         EventBus.getDefault().register(this);
+        }catch (Exception e){
+            ToastyUtil.showErrorShort(getActivity(),e.toString());
+        }
     }
 
     private void initID() {

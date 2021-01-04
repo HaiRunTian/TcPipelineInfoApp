@@ -43,6 +43,7 @@ public class SuperMapConfig {
     public static  String DEFAULT_WORKSPACE_NAME = "TcPipeData";
     public static final String DEFAULT_DATA_PATH = SDCARD + "/管智绘/";
     public static final String DEFAULT_DATA_EXCEL_PATH = "Excel/";
+    public static final String DEFAULT_DATA_MEASURE_PATH = "测量点记录表/";
     public static final String DEFAULT_DATA_PICTURE_PATH =  "Picture/";
     public static final String DEFAULT_DATA_SHP_PATH =  "Shp/";
     public static final String DEFAULT_DATA_SYMBOL_PATH = DEFAULT_DATA_PATH;
@@ -53,6 +54,7 @@ public class SuperMapConfig {
     public static final String DEFAULT_DATA_PS_RECORD = "排水检测/";
     public static final String DEFAULT_DATA_RECORD_NAME = "现场检测记录表.xls";
     public static final String DEFAULT_DATA_PS_RECORD_NAME = "现场管道检测每日记录表.xls";
+    public static final String LOG_PAHT = "/log";
     /**
      *   当前打开地图的名字 当前工程名称
      */
@@ -94,11 +96,12 @@ public class SuperMapConfig {
         DEFAULT_WORKSPACE_NAME = string;
     }
     public static final String QQ_FILE_PATH = SDCARD + "/Android/data/com.tencent.mobileqq/Tencent/QQfile_recv";
-    public static final String WECHAT_FILE_PATH = SDCARD + "/tencent/MicroMsg/Download";
+    public static final String WECHAT_FILE_PATH = SDCARD + "/Android/data/com.tencent.mm/MicroMsg/Download";
     public static  String FILE_PATH = "";
     public static String ROAD_NAME = "";
     public static String CHECK_LOCAL = "";
     public static String CHECK_MAN = "";
     public static String CHECK_WAY = "";
+    public static String GROUP_CODE = "";
 
 }

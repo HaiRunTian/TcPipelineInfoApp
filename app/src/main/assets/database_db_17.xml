@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="utf-8"?>
+<database>
+    <!--数据插入数据库-->
+    <sql_insert_table>
+        <!--附属物表-->
+        <sql_init_table_appendant_info>
+            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark,city)
+                values('隔油池','污水','W','0','','广州')
+            </sql>
+            <sql>insert into appendant_info(name,typename,code,IsShowFearture,remark,city)
+                values('隔油池','排水','P','0','','广州')
+            </sql>
+        </sql_init_table_appendant_info>
+
+        <sql_init_table_default_point_setting>
+            <sql>insert into
+                default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                values ('P-隔油池','#7F3F3F',4,4,1,40,'0',2477,200,2,'排水-P','广州')
+            </sql>
+            <!--W-化粪池-->
+            <sql>insert into
+                default_point_setting(name,color,scaleX,scaleY,angle,symbolID,standard,minScaleVisible,maxScaleVisible,lineWidth,pipe_type,city)
+                values ('W-隔油池','#FF00FF',4,4,1,40,'0',2477,200,2,'污水-W','广州')
+            </sql>
+        </sql_init_table_default_point_setting>
+
+    </sql_insert_table>
+</database>

@@ -57,7 +57,7 @@ public class MeasurePoint extends BaseFieldPInfos {
     @Override
     public ThemeLabel createThemeLabel() {
         super.createThemeLabel();
-        String _color = "#A52A2A";
+        String _color = "#FF0000";
         return createThemeLabel(_color);
     }
 }

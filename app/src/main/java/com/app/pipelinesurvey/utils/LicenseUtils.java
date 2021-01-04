@@ -120,7 +120,8 @@ public class LicenseUtils {
      * 下载许可，暂时使用了怀阳高速许可证
      */
     public void downLoadLicense(Context context) {
-        String url = "http://119.23.66.213:8080/hyrisk/file/pipelicense/SuperMapiMobileTrial.slm";
+        String url = "http://120.77.41.216:8080/drainmonitor/commons/download/SuperMapiMobileTrial.slm";
+//        String url = "http://192.168.0.121:8080/drainmonitor/commons/download/SuperMapiMobileTrial.slm";
         String file = SuperMapConfig.LIC_PATH;
         OkHttpUtils.downloadAsync(url, file, new OkHttpUtils.InsertDataCallBack() {
             @Override

@@ -11,19 +11,20 @@ import java.util.Map;
 
 
 /**
- * @author
- * Created by HaiRun on 2018/12/3.
+ * @author Created by HaiRun on 2018/12/3.
  */
 
 public class ImportDataMainThread extends Thread {
     String zipFile;
     String folderPath;
     ImportDataProgressUtil.ImportListener listener;
+    int type;
 
-    public ImportDataMainThread(String zipFile, ImportDataProgressUtil.ImportListener listener) {
+    public ImportDataMainThread(String zipFile, int type, ImportDataProgressUtil.ImportListener listener) {
         this.zipFile = zipFile;
         this.folderPath = folderPath;
         this.listener = listener;
+        this.type = type;
     }
 
     @Override
@@ -37,10 +38,14 @@ public class ImportDataMainThread extends Thread {
             listener.zipProgress(ziplength);
             //从Excel中读取点数据，存入list中 jxi
             List<Map<String, Object>> points = ExcelUtilsOfPoi.readExcelDataToBean(new File(zipFile), 0);
-            //从Excel中读取线数据，存入list中
-            List<Map<String, Object>> lines = ExcelUtilsOfPoi.readExcelDataToBean(new File(zipFile), 1);
-
-            boolean importData = ExportDataUtils.importData(points, lines);
+            boolean importData = false;
+            if (type == 0) {
+                //从Excel中读取线数据，存入list中
+                List<Map<String, Object>> lines = ExcelUtilsOfPoi.readExcelDataToBean(new File(zipFile), 1);
+                importData = ExportDataUtils.importData(points, lines);
+            } else {
+                importData = ExportDataUtils.importData(points);
+            }
             if (importData) {
                 listener.zipSuccess();
             } else {
@@ -48,7 +53,7 @@ public class ImportDataMainThread extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtills.i("Importdata" ,e.toString());
+            LogUtills.i("Importdata", e.toString());
             listener.zipFail();
         }
     }
@@ -77,7 +82,11 @@ public class ImportDataMainThread extends Thread {
         //点数量
         size[0] = ExcelUtilsOfPoi.getExcelRows(new File(filePath), 0);
         //线数量
-        size[1] = ExcelUtilsOfPoi.getExcelRows(new File(filePath), 1);
+        if (type == 0) {
+            size[1] = ExcelUtilsOfPoi.getExcelRows(new File(filePath), 1);
+        } else {
+            size[1] = 0;
+        }
         return size;
     }
 }

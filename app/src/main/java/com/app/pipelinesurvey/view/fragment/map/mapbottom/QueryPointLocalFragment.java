@@ -66,6 +66,10 @@ public class QueryPointLocalFragment extends Fragment implements View.OnClickLis
                 String sqlLower = "lower(exp_Num) like '%'||lower('" + edtPointId.getText().toString() + "')||'%'";
 
                 Recordset _reSet = DataHandlerObserver.ins().queryRecordsetBySql(sqlLower, true);
+                if (_reSet == null){
+                    ToastyUtil.showInfoShort(getActivity(), "丢失图层");
+                    return;
+                }
                 LogUtills.i("记录集长度 = " + _reSet.getRecordCount());
                 if (!_reSet.isEmpty()) {
                     _reSet.moveFirst();

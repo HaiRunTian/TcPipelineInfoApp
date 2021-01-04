@@ -547,6 +547,47 @@ public class ExcelUtilsOfPoi {
     }
 
     /**
+     * 方法描述：初始化Excel表头
+     * 测量点表
+     * @param colNameP  点表字段集合
+     * @param pointName 点表名字
+     * @Params : fileName excel文件名
+     * @author :HaiRun
+     * @date :2019/6/19  16:27
+     */
+    public static void initExcelMeasure(String fileName, List<String> colNameP, String pointName) {
+        FileOutputStream outputStream = null;
+        Workbook workbook = null;
+        try {
+            workbook = createWorkbook();
+            SparseArray<CellStyle> borderedStyle = createBorderedStyle(workbook);
+            //建立新的point sheet对象 excel表单
+            Sheet sheetPoint = workbook.createSheet(pointName);
+            //在sheet里创建第一行，参数为行索引  0~65535直接
+            Row row1 = sheetPoint.createRow(0);
+            //创建单元格 0~255
+            for (int i = 0; i < colNameP.size(); i++) {
+                Cell cell = row1.createCell(i);
+                cell.setCellStyle(borderedStyle.get(2));
+                cell.setCellValue(colNameP.get(i));
+            }
+            outputStream = new FileOutputStream(fileName);
+            workbook.write(outputStream);
+        } catch (Exception e) {
+            LogUtills.e("ExcelUtilsOfPoi ---------" + e.toString());
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * @param :sheetIndex 表下标
      * @param :           fileName 文件名称
      * @params : list  数据集合

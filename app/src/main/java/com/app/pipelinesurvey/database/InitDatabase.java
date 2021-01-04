@@ -259,6 +259,7 @@ public class InitDatabase {
 
     /**
      * 版本  8 点线配置表插入一个管类
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -311,7 +312,7 @@ public class InitDatabase {
         return null;
     }
 
-    public static List<String> getInsertSqlOf9(Context context){
+    public static List<String> getInsertSqlOf9(Context context) {
         List<String> _listSQL = null;
         try {
             _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
@@ -397,6 +398,7 @@ public class InitDatabase {
 
     /**
      * 版本  12 点线配置表插入一个管类
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -414,6 +416,7 @@ public class InitDatabase {
 
     /**
      * 版本  13 工程吧表添加一个排水外检
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -429,6 +432,7 @@ public class InitDatabase {
 
     /**
      * 版本  14  惠州模式添加塑料管材
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -446,8 +450,10 @@ public class InitDatabase {
         }
         return null;
     }
+
     /**
      * 版本  14  惠州模式添加塑料管材
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -486,6 +492,7 @@ public class InitDatabase {
 
     /**
      * 版本  14  惠州模式添加塑料管材
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -503,9 +510,10 @@ public class InitDatabase {
         }
         return null;
     }
-    /**
 
+    /**
      * 版本  18 外检点表添加坐标系字段
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/19  10:48
@@ -520,5 +528,50 @@ public class InitDatabase {
         _list.add(sqlAlterPointViewSetting1);
 
         return _list;
+    }
+
+
+    /**
+     * 版本  19 P  W  附属物加入隔油池
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/9/128 10:48
+     */
+    public static List<String> getAlterSqlOf19(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("database_db_17.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return _listSQL;
+    }
+
+    /**
+     * 版本  19 P  W  附属物加入隔油池
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2020/9/128 10:48
+     */
+    public static List<String> getAlterSqlOf20(Context context) {
+        List<String> _listSQL = null;
+        try {
+            _listSQL = PullXMLUtil.parserXML2SqlList(context.getAssets()
+                    .open("database_db_18.xml"), "sql_insert_table", "sql");
+            return _listSQL;
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return _listSQL;
     }
 }

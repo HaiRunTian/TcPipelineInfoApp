@@ -51,7 +51,7 @@ public class LimitByTimeUtil {
         try {
             nowTime = new SimpleDateFormat(format).parse(currTime);
             startTime = new SimpleDateFormat(format).parse("2020-01-01 00:00:00");
-            endTime = new SimpleDateFormat(format).parse("2020-12-31 23:59:59");
+            endTime = new SimpleDateFormat(format).parse("2021-3-31 23:59:59");
 
             LogUtills.i("LimitByTimeUtil", nowTime.toString() + "-------" + startTime.toString() + "------" + endTime.toString());
             if (nowTime.getTime() == startTime.getTime()

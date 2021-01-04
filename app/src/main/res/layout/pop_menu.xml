@@ -169,4 +169,17 @@
             style="@style/mapactivity_menu_item_text_style"
             android:text="@string/importt" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_enterView"
+        style="@style/mapactivity_menu_item_style">
+
+        <ImageView
+            style="@style/mapactivity_menu_item_img_style"
+            android:src="@mipmap/btn_map_xy_80px" />
+
+        <TextView
+            style="@style/mapactivity_menu_item_text_style"
+            android:text="全图" />
+    </LinearLayout>
 </LinearLayout>

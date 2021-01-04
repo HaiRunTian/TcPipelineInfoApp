@@ -124,6 +124,7 @@ public class LogInActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
         });
+
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -19,6 +19,7 @@ import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.ExportDataUtils;
 import com.app.pipelinesurvey.utils.InitWindowSize;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.widget.CustomDatePicker;
 import com.app.utills.LogUtills;
@@ -41,7 +42,7 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
 
     private TextView tvStart;
     private TextView tvEnd;
-    private Button btnSelect;
+    private Button btnSelect, btnMeasure;
     private Button btnAll;
     private CustomDatePicker m_customDatePicker;
     private CustomDatePicker m_customDatePicker2;
@@ -61,6 +62,7 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
         tvStart = view.findViewById(R.id.tvStart);
         tvEnd = view.findViewById(R.id.tvEnd);
         btnSelect = view.findViewById(R.id.btn_export_select);
+        btnMeasure = view.findViewById(R.id.btn_export_measure);
         btnAll = view.findViewById(R.id.btn_export_all);
         spRoadName = view.findViewById(R.id.spRoadName);
         TextView tvTitle = view.findViewById(R.id.tvTitle);
@@ -83,14 +85,23 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
             View layout = view.findViewById(R.id.layout);
             layout.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initEvent();
-        initDatePicker();
-        initDatePicker2();
+
+        try {
+            initEvent();
+            initDatePicker();
+            initDatePicker2();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastyUtil.showErrorShort(getActivity(), e.toString());
+        }
+
     }
 
 
@@ -99,11 +110,13 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
         btnAll.setOnClickListener(this);
         tvStart.setOnClickListener(this);
         tvEnd.setOnClickListener(this);
+        btnMeasure.setOnClickListener(this);
         list = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item_text, list);
         spRoadName.setAdapter(adapter);
         if ("1".equals(SuperMapConfig.PS_OUT_CHECK)) {
-            DatasetVector psLrDatasetVector = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace().getDatasources().get(0).getDatasets().get("L_" + SuperMapConfig.Layer_PS);
+            DatasetVector psLrDatasetVector = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace()
+                    .getDatasources().get(0).getDatasets().get("L_" + SuperMapConfig.Layer_PS);
             if (psLrDatasetVector == null) {
                 LogUtills.i("psLrDatasetVector is null");
                 return;
@@ -126,6 +139,16 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
             }
             adapter.notifyDataSetChanged();
         }
+
+        DatasetVector datasetMeasure = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace()
+                .getDatasources().get(0).getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
+        Recordset recordset = datasetMeasure.getRecordset(false, CursorType.STATIC);
+        if (recordset.getRecordCount() > 0) {
+            btnMeasure.setVisibility(View.VISIBLE);
+        }else {
+            btnMeasure.setVisibility(View.GONE);
+        }
+
     }
 
     private void initDatePicker() {
@@ -182,18 +205,19 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
             //导出部分数据
             case R.id.btn_export_select:
                 try {
+                    String roadName = "";
+                    //排水检测模式需要加入道路名导出
+                    if ("1".equals(SuperMapConfig.PS_OUT_CHECK) && list.size() != 0) {
+                        roadName = spRoadName.getSelectedItem().toString();
+                    }
                     if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                         //导出外检，并且按照实际日期导出
                         String sql = "subsid != '临时点' and Edit like '外检%' and (exp_Date between '"
                                 + tvStart.getText().toString() + "' and '" + tvEnd.getText().toString() + "')";
-                        new ExportDataUtils(getActivity()).exportOutCheckData(sql, tvStart.getText().toString(), tvEnd.getText().toString());
+                        new ExportDataUtils(getActivity()).exportOutCheckData(sql, tvStart.getText().toString(), tvEnd.getText().toString(), roadName);
 
                     } else {
-                        String roadName = "";
-                        //排水检测模式需要加入道路名导出
-                        if ("1".equals(SuperMapConfig.PS_OUT_CHECK) && list.size() != 0) {
-                            roadName = spRoadName.getSelectedItem().toString();
-                        }
+
                         new ExportDataUtils(getActivity()).exportData(tvStart.getText().toString(), tvEnd.getText().toString(), roadName);
                     }
                 } catch (Exception e) {
@@ -213,6 +237,11 @@ public class ExportDataFragment extends DialogFragment implements View.OnClickLi
                 } catch (Exception e) {
                     LogUtills.e(e.toString());
                 }
+                break;
+
+            case R.id.btn_export_measure:
+                new ExportDataUtils(getActivity()).exportMeasureData(tvStart.getText().toString(), tvEnd.getText().toString());
+                getDialog().dismiss();
                 break;
             case R.id.tvStart:
                 m_customDatePicker.show(tvStart.getText().toString());

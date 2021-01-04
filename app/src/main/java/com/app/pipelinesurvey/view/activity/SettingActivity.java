@@ -93,12 +93,10 @@ public class SettingActivity extends BaseActivity implements RadioGroup.OnChecke
         TextView tvSubmit = findViewById(R.id.tvSubmit);
         tvSubmit.setOnClickListener(this);
 
-
     }
 
     /**
      * 切换fragment
-     *
      * @Params :
      * @author :HaiRun
      * @date :2019/9/17  11:09

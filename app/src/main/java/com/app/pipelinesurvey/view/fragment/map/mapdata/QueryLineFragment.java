@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -49,6 +51,7 @@ import com.supermap.data.GeoLine;
 import com.supermap.data.Point2D;
 import com.supermap.data.Point2Ds;
 import com.supermap.data.Recordset;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -371,7 +374,12 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initValue();
+        try {
+            initValue();
+        } catch (Exception e) {
+            ToastyUtil.showErrorShort(getActivity(), e.toString());
+        }
+
     }
 
     private void initValue() {
@@ -551,6 +559,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         if (!query2.isEmpty()) {
             btnDownFlow.setBackgroundColor(getActivity().getResources().getColor(R.color.green));
         }
+
         query.close();
         query.dispose();
         query2.close();
@@ -928,7 +937,7 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         } else {
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                 OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "外检:起点终点交换");
-                m_reSet.setString("Edit","外检:起点终点交换" + m_startpointID + ":" + m_endPointID);
+                m_reSet.setString("Edit", "外检:起点终点交换" + m_startpointID + ":" + m_endPointID);
                 m_reSet.update();
             }
         }
@@ -982,8 +991,8 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
             if (SuperMapConfig.OUTCHECK.equals(SuperMapConfig.PrjMode)) {
                 _info.Edit = "外检:数据修改:" + getState();
                 OperSql.getSingleton().inserLine(m_startpointID, m_endPointID, 0, "外检:数据修改");
-                OperSql.getSingleton().inserPoint(m_startpointID,_info.startLongitude,_info.startLatitude,"外检:线修改");
-                OperSql.getSingleton().inserPoint(m_endPointID,_info.endLongitude,_info.endLatitude,"外检:线修改");
+                OperSql.getSingleton().inserPoint(m_startpointID, _info.startLongitude, _info.startLatitude, "外检:线修改");
+                OperSql.getSingleton().inserPoint(m_endPointID, _info.endLongitude, _info.endLatitude, "外检:线修改");
                 updateRecordset();
             }
             _info.state = getState();
@@ -1016,8 +1025,8 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         if (!recordset.isEmpty()) {
             recordset.edit();
             recordset.setString("Edit", "外检:线修改");
-            recordset.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
-            if (!recordset.update()){
+            recordset.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+            if (!recordset.update()) {
                 LogUtills.e("point eidt error :" + m_startpointID);
             }
         }
@@ -1028,8 +1037,8 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         if (!recordset2.isEmpty()) {
             recordset2.edit();
             recordset2.setString("Edit", "外检:线修改");
-            recordset2.setString("exp_Date",DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
-            if (!recordset2.update()){
+            recordset2.setString("exp_Date", DateTimeUtil.setCurrentTime(DateTimeUtil.FULL_DATE_FORMAT));
+            if (!recordset2.update()) {
                 LogUtills.e("point eidt error :" + m_endPointID);
             }
         }
@@ -1037,7 +1046,6 @@ public class QueryLineFragment extends DialogFragment implements View.OnClickLis
         recordset2.close();
         recordset2.dispose();
     }
-
 
 
     private void setViewEdit(boolean state) {

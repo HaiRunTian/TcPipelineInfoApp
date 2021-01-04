@@ -142,7 +142,7 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
      */
     public String wellCoverMaterial = "";
     /**
-     * 井盖规格 井盖尺寸
+     *  井盖尺寸
      */
     public String wellCoverSize = "";
     /**
@@ -467,12 +467,14 @@ public class BaseFieldPInfos extends BaseFieldInfos implements Parcelable, IBase
 
         // 为标签专题图的标签设置统一样式
         ThemeLabelItem themeLabelItem1 = new ThemeLabelItem();
+        themeLabelItem1.setStart(0.0);
+        themeLabelItem1.setEnd(1.0);
         themeLabelItem1.setVisible(true);
         TextStyle textStyle1 = new TextStyle();
-        textStyle1.setForeColor(new Color(255, 10, 10));
+        textStyle1.setForeColor(new Color(255, 0, 0));
         textStyle1.setFontName("楷体");
-        textStyle1.setFontHeight(3.5);
-        textStyle1.setFontWidth(3.5);
+        textStyle1.setFontHeight(4.5);
+        textStyle1.setFontWidth(4.5);
         textStyle1.setSizeFixed(true);
         themeLabelItem1.setStyle(textStyle1);
         // 添加标签专题图子项到标签专题图对象中

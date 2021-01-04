@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -300,8 +302,8 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
             case R.id.btnOpen:
                 try {
                     String prjName = edtProjName.getText().toString().trim();
-                    if (prjName.contains("/")){
-                        ToastyUtil.showWarningLong(this,"工程名字不能有'/',请重新命名");
+                    if (prjName.contains("/")) {
+                        ToastyUtil.showWarningLong(this, "工程名字不能有'/',请重新命名");
                         return;
                     }
                     //判断是否要插入点线配置数据
@@ -314,11 +316,11 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                             //类型 google代表谷歌地图 sci代表切片
                             _intent.putExtra("type", "google");
 //                        baseMapPath = "http://map.baidu.com";
-                            baseMapPath = "http://www.google.cn/maps";
+                            baseMapPath = "http://www.google.cn/maps?scale=2";
                         } else {  //用户选择了地图切片
                             //类型 1代表谷歌地图 sci 代表切片
                             _intent.putExtra("type", "sci");
-                            _intent.putExtra("status",0);
+                            _intent.putExtra("status", 0);
                         }
                         if (queryPrjName()) {
                             return;
@@ -326,17 +328,19 @@ public class ProjectInfoActivity extends BaseActivity implements View.OnClickLis
                         saveDataToDB();
                         //全局，记住当前项目模式 常规 外检
                         SuperMapConfig.PrjMode = spMode.getSelectedItem().toString();
+
                     } else {
                         //无用 不是新建项目
                         _intent.putExtra("type", "3");
-                        _intent.putExtra("status",1);
+                        _intent.putExtra("status", 1);
 
-                        if (!FileUtils.getInstance().isFileExsit(baseMapPath) && !baseMapPath.equals("http://www.google.cn/maps")){
-                            ToastyUtil.showWarningLong(this,"切片源文件不在，是否删除了切片文件夹");
+                        if (!FileUtils.getInstance().isFileExsit(baseMapPath) && !baseMapPath.contains("http://www.google.cn/maps")) {
+                            ToastyUtil.showWarningLong(this, "切片源文件不在，是否删除了切片文件夹");
                             return;
                         }
                         updataTime();
                     }
+                    SuperMapConfig.GROUP_CODE = edtGroupName.getText().toString();
                     startActivity(_intent);
 
                     finish();

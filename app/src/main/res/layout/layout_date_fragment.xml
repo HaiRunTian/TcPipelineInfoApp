@@ -67,22 +67,28 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_export_select"
-            style="@style/fragment_btn_style_2"
+            style="@style/fragment_btn_style_3"
             android:text="条件导出" />
 
         <Button
             android:id="@+id/btn_export_all"
-            style="@style/fragment_btn_style_2"
-            android:layout_toRightOf="@+id/btn_export_select"
+            style="@style/fragment_btn_style_3"
             android:text="全部导出" />
-    </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_export_measure"
+            style="@style/fragment_btn_style_3"
+            android:text="导出测量"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

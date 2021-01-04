@@ -3,8 +3,10 @@ package com.app.BaseInfo.Oper;
 import com.app.BaseInfo.Data.BaseFieldInfos;
 import com.app.BaseInfo.Data.BaseFieldLInfos;
 import com.app.BaseInfo.Data.BaseFieldPInfos;
+import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.PipeThemelabelUtil;
 import com.app.pipelinesurvey.utils.SymbolInfo;
+import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.utills.LogUtills;
 import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
@@ -15,6 +17,7 @@ import com.supermap.data.Point2D;
 import com.supermap.data.Point2Ds;
 import com.supermap.data.Recordset;
 import com.supermap.mapping.Layer;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +44,7 @@ public class OperDataSet {
 
     /**
      * 通过bean类生成点记录集  批量增加
+     *
      * @Params :
      * @author :HaiRun
      * @date :2019/8/2  9:40
@@ -64,19 +68,21 @@ public class OperDataSet {
             //循环遍历
             for (int i = 0; i < baseFieldPInfos.size(); i++) {
                 Map<String, Object> map = baseFieldPInfos.get(i);
-                Object longitude =map.get("longitude");
-                Object latitude =map.get("latitude");
+                Object longitude = map.get("longitude");
+                Object latitude = map.get("latitude");
                 Double x = Double.parseDouble(longitude.toString());
                 Double y = Double.parseDouble(latitude.toString());
-                double longitudeX = x == null?0:x;
-                double latitudeY = y == null?0:y;
+                double longitudeX = x == null ? 0 : x;
+                double latitudeY = y == null ? 0 : y;
                 boolean ok = _result.addNew(new GeoPoint(longitudeX, latitudeY), map);
                 //标签专题图颜色显示字段
                 String pipeType = (String) map.get("pipeType");
                 String subsid = (String) map.get("subsid");
                 String feature = (String) map.get("feature");
                 String code = (String) map.get("code");
-                _result.setDouble("rangeExpression", PipeThemelabelUtil.Ins().getThemeItemValue(pipeType.substring(0, 2)));
+                if (pipeType != null) {
+                    _result.setDouble("rangeExpression", PipeThemelabelUtil.Ins().getThemeItemValue(pipeType.substring(0, 2)));
+                }
                 String str = SymbolInfo.Ins().getSymbol(pipeType, subsid, feature);
 //                LogUtills.i("symbolExpression", str);
                 str = (str.trim().length() == 0) ? "探测点" : str;
@@ -89,7 +95,7 @@ public class OperDataSet {
             _result.dispose();
             return true;
         } catch (Exception e) {
-            LogUtills.e("PoerDataSetJava",e.toString());
+            LogUtills.e("PoerDataSetJava", e.toString());
             return false;
         }
     }
@@ -128,10 +134,10 @@ public class OperDataSet {
                 Double x2 = Double.parseDouble(endX.toString());
                 Double y2 = Double.parseDouble(endY.toString());
 
-                double startLongitude = x1 == null?0:x1;
-                double startLatitude = y1 == null?0:y1;
-                double endLongitude = x2 == null?0:x2;
-                double endLatitude = y2 == null?0:y2;
+                double startLongitude = x1 == null ? 0 : x1;
+                double startLatitude = y1 == null ? 0 : y1;
+                double endLongitude = x2 == null ? 0 : x2;
+                double endLatitude = y2 == null ? 0 : y2;
 
                 _p2ds.add(new Point2D(startLongitude, startLatitude));
                 _p2ds.add(new Point2D(endLongitude, endLatitude));
@@ -143,11 +149,13 @@ public class OperDataSet {
                 String pipeSize = (String) map.get("pipeSize");
                 String d_S = (String) map.get("d_S");
                 String material = (String) map.get("material");
-                _result.setDouble("rangeExpression", PipeThemelabelUtil.Ins().getThemeItemValue(pipeType.substring(0, 2)));
+                if (pipeType != null) {
+                    _result.setDouble("rangeExpression", PipeThemelabelUtil.Ins().getThemeItemValue(pipeType.substring(0, 2)));
+                }
                 //标签专题图字体显示字段
                 String ds = (pipeSize.trim().length() != 0) ? pipeSize : d_S;
                 //标签专题图显示的文字信息
-                _result.setString("labelTag",pipeType.substring(pipeType.length() - 1) + "-" + ds + "-" + material);
+                _result.setString("labelTag", pipeType.substring(pipeType.length() - 1) + "-" + ds + "-" + material);
                 //释放对象
                 _geoLine.dispose();
             }
@@ -157,7 +165,59 @@ public class OperDataSet {
             _result.dispose();
             return true;
         } catch (Exception e) {
-            LogUtills.e("PoerDataSetJava",e.toString());
+            LogUtills.e("PoerDataSetJava", e.toString());
+            return false;
+        }
+    }
+
+    /**
+     * 通过bean类生成点记录集  批量增加
+     *
+     * @Params :
+     * @author :HaiRun
+     * @date :2019/8/2  9:40
+     */
+    public boolean createPointSetByMap(List<Map<String, Object>> baseFieldPInfos) {
+
+        try {
+            DatasetVector dv = (DatasetVector) WorkSpaceUtils.getInstance().getWorkspace()
+                    .getDatasources().get(0).getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
+            if (dv == null) {
+                return false;
+            }
+            FieldInfos _infos = dv.getFieldInfos();
+            Recordset _result = dv.getRecordset(true, CursorType.DYNAMIC);
+            // 获得记录集对应的批量更新对象
+            Recordset.BatchEditor editor = _result.getBatch();
+            // 设置批量更新每次提交的记录数目
+            editor.setMaxRecordCount(1000);
+            // 从 World 数据集中读取几何对象和字段值，批量更新到 example 数据集中
+            editor.begin();
+            //循环遍历
+            for (int i = 0; i < baseFieldPInfos.size(); i++) {
+                Map<String, Object> map = baseFieldPInfos.get(i);
+                Object longitude = map.get("X");
+                Object latitude = map.get("Y");
+                Double x = Double.parseDouble(longitude.toString());
+                Double y = Double.parseDouble(latitude.toString());
+                double longitudeX = x == null ? 0 : x;
+                double latitudeY = y == null ? 0 : y;
+                boolean ok = _result.addNew(new GeoPoint(longitudeX, latitudeY));
+                //标签专题图颜色显示字段
+                _result.setDouble("rangeExpression", 0.5);
+                _result.setString("symbolExpression", "测量收点");
+                _result.setString("exp_Num", String.valueOf(map.get("物探点号")));
+                _result.setString("id", String.valueOf(map.get("测量点号")));
+                _result.setString("exp_Date", String.valueOf(map.get("时间")));
+
+            }
+            // 批量操作统一提交
+            editor.update();
+            // 释放记录集
+            _result.dispose();
+            return true;
+        } catch (Exception e) {
+            LogUtills.e("PoerDataSetJava", e.toString());
             return false;
         }
     }

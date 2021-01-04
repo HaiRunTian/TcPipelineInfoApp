@@ -15,22 +15,30 @@ public class ImportDataProgressUtil {
      * @param listener
      *            加压监听
      */
-    public static void ImportData(final String zipFileString,  final ImportListener listener) {
-        Thread zipThread = new ImportDataMainThread(zipFileString, listener);
+    public static void ImportData(final String zipFileString, int type, final ImportListener listener) {
+        Thread zipThread = new ImportDataMainThread(zipFileString, type, listener);
         zipThread.start();
     }
 
     public interface ImportListener {
-        /** 开始导入 */
+        /**
+         * 开始导入
+         */
         void zipStart();
 
-        /** 导入成功 */
+        /**
+         * 导入成功
+         */
         void zipSuccess();
 
-        /** 导入进度 */
+        /**
+         * 导入进度
+         */
         void zipProgress(int[] progress);
 
-        /** 导入失败 */
+        /**
+         * 导入失败
+         */
         void zipFail();
     }
 }

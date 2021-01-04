@@ -11,7 +11,7 @@ import java.security.PublicKey;
 
 public abstract class BaseFieldInfos implements Parcelable {
     //提交人
-    public String submitName = "张三";
+    public String submitName = "";
     //数据集名称
     public String datasetName = "";
     /**

@@ -29,7 +29,7 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
      */
     public static String currentDB;
     //版本号
-    private static final int VERSION = 18;
+    private static final int VERSION = 20;
     /**
      * 建表语句
      */
@@ -131,7 +131,36 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
         insertSqlOf17(db);
         //版本18
         alterDataZBOf18(db);
+        //版本19
+        inserSqlOf19(db);
+        //版本20
+        inserSqlOf20(db);
 
+    }
+
+    private void inserSqlOf20(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf20(m_context);
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
+    }
+
+
+    private void inserSqlOf19(SQLiteDatabase db) {
+        List<String> list = InitDatabase.getAlterSqlOf19(m_context);
+        for (String sql : list) {
+            LogUtills.i(" Sql alter or update=", sql);
+            try {
+                db.execSQL(sql);
+            } catch (Exception e) {
+                LogUtills.e(" Sql alter or update ", e.getMessage());
+            }
+        }
     }
 
     private void alterDataZBOf18(SQLiteDatabase db) {
@@ -576,6 +605,10 @@ public class DatabaseHelpler extends SQLiteOpenHelper {
             case 17:
                 alterDataZBOf18(db);
             case 18:
+                inserSqlOf19(db);
+            case 19:
+                inserSqlOf20(db);
+            case 20:
                 break;
             default:
                 break;

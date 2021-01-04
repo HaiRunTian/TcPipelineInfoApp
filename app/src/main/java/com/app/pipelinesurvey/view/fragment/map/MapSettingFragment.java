@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.database.DatabaseHelpler;
 import com.app.pipelinesurvey.utils.DateTimeUtil;
+import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.utills.LogUtills;
 
 /**
@@ -105,8 +106,13 @@ public class MapSettingFragment extends DialogFragment implements View.OnClickLi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initEvent();
-        initData();
+        try {
+            initEvent();
+            initData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastyUtil.showErrorShort(getActivity(),e.toString());
+        }
     }
 
     private void initEvent() {

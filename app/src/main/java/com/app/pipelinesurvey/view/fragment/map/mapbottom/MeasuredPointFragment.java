@@ -6,7 +6,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.Nullable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.app.BaseInfo.Oper.DataHandlerObserver;
 import com.app.pipelinesurvey.R;
 import com.app.pipelinesurvey.config.SuperMapConfig;
 import com.app.pipelinesurvey.utils.ToastyUtil;
 import com.app.pipelinesurvey.utils.WorkSpaceUtils;
 import com.app.pipelinesurvey.view.widget.CustomDatePicker;
+import com.app.utills.LogUtills;
 import com.supermap.data.CursorType;
 import com.supermap.data.DatasetVector;
 import com.supermap.data.Datasource;
@@ -97,6 +99,7 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //每秒触发一次
         mHandler.sendEmptyMessageDelayed(MSG_REFRESH, 1000);
     }
 
@@ -159,47 +162,52 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
      * @Time 2019/6/3 . 14:41
      */
     private void initCountForDate() {
-        //当天测量长度
-        double pipeLengthDate = 0.0;
-        //当天测量管点数
-        int checkPointDate = 0;
-        //查询数据源
-        Datasource _datasource = WorkSpaceUtils.getInstance().getWorkspace().getDatasources().get(0);
-        //已测量收点数据集
-        DatasetVector _ds = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
-        //通过sql查询当天测量收点的数量
-        Recordset _reset = _ds.query("exp_Date = '" + m_tvDate.getText().toString() + "'", CursorType.STATIC);
-        if (!_reset.isEmpty()) {
-            checkPointDate = _reset.getRecordCount();
-        }
-
-
-        //查询当天已测量收点管线的总长度
-        String sql2 = "measureStart = '1' and measureEnd = '1' and measureDate = '" + m_tvDate.getText().toString() + "'";
-        Recordset recordSet = DataHandlerObserver.ins().QueryRecordsetBySql(sql2, false, false);
-        if (!recordSet.isEmpty()) {
-            recordSet.moveFirst();
-            while (!recordSet.isEOF()) {
-                pipeLengthDate = pipeLengthDate + recordSet.getDouble("pipeLength");
-                recordSet.moveNext();
+        try {
+            //当天测量长度
+            double pipeLengthDate = 0.0;
+            //当天测量管点数
+            int checkPointDate = 0;
+            //查询数据源
+            Datasource _datasource = WorkSpaceUtils.getInstance().getWorkspace().getDatasources().get(0);
+            //已测量收点数据集
+            DatasetVector _ds = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
+            //通过sql查询当天测量收点的数量
+            Recordset _reset = _ds.query("exp_Date = '" + m_tvDate.getText().toString() + "'", CursorType.STATIC);
+            if (!_reset.isEmpty()) {
+                checkPointDate = _reset.getRecordCount();
             }
-        }
 
-        //显示
-        m_tvPoint.setText(checkPointDate + "");
-        DecimalFormat df = new DecimalFormat("0.00");
-        if (pipeLengthDate < 1000) {
-            m_tvPipeSum.setText(df.format(pipeLengthDate) + "");
-        } else {
-            m_tvPipeSum.setText(df.format(pipeLengthDate / 1000) + "");
-            m_tvM.setText("千米");
-        }
 
-        //关闭释放数据集
-        _reset.close();
-        _reset.dispose();
-        recordSet.close();
-        recordSet.dispose();
+            //查询当天已测量收点管线的总长度
+            String sql2 = "measureStart = '1' and measureEnd = '1' and measureDate = '" + m_tvDate.getText().toString() + "'";
+            DatasetVector dsLine = (DatasetVector) _datasource.getDatasets().get("L_" + SuperMapConfig.Layer_Total);
+            Recordset recordSet = dsLine.query(sql2, CursorType.STATIC);
+            if (!recordSet.isEmpty()) {
+                recordSet.moveFirst();
+                while (!recordSet.isEOF()) {
+                    pipeLengthDate = pipeLengthDate + recordSet.getDouble("pipeLength");
+                    recordSet.moveNext();
+                }
+            }
+
+            //显示
+            m_tvPoint.setText(checkPointDate + "");
+            DecimalFormat df = new DecimalFormat("0.00");
+            if (pipeLengthDate < 1000) {
+                m_tvPipeSum.setText(df.format(pipeLengthDate) + "");
+            } else {
+                m_tvPipeSum.setText(df.format(pipeLengthDate / 1000) + "");
+                m_tvM.setText("千米");
+            }
+
+            //关闭释放数据集
+            _reset.close();
+            _reset.dispose();
+            recordSet.close();
+            recordSet.dispose();
+        } catch (Exception e) {
+            LogUtills.e(e.toString());
+        }
     }
 
 
@@ -207,59 +215,68 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
      * 总测量
      */
     public static void initAllData() {
-        //总管点数
-        int _meaPointCount = 0;
-        //总已测点数
-        int _checkPoint = 0;
-        //未测点数
-        int _waitCheckPoint = 0;
-        //总测量的长度
-        double checkLength = 0.0;
-
-        //读取出除去临时点的所有数据集
-        Recordset _reSet = DataHandlerObserver.ins().QueryRecordsetBySql("subsid != '临时点'", true, false);
-        if (!_reSet.isEmpty()) {
-            //追加数据集总数
-            _meaPointCount = _reSet.getRecordCount();
-        }
-        _reSet.close();
-        _reSet.dispose();
-
-
-        Datasource _datasource = WorkSpaceUtils.getInstance().getWorkspace().getDatasources().get(0);
-        //已测量收点数据集
-        DatasetVector _ds = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
-        Recordset _reset = _ds.getRecordset(false, CursorType.STATIC);
-        if (!_reset.isEmpty()) {
-            _checkPoint = _reset.getRecordCount();
-        }
-
-        //已测量收点管线的总长度
-        Recordset recordSet = DataHandlerObserver.ins().QueryRecordsetBySql("measureStart = '1' and measureEnd = '1'", false, false);
-        if (!recordSet.isEmpty()) {
-            recordSet.moveFirst();
-            while (!recordSet.isEOF()) {
-                checkLength = checkLength + recordSet.getDouble("pipeLength");
-                recordSet.moveNext();
+        try {
+            //总管点数
+            int _meaPointCount = 0;
+            //总已测点数
+            int _checkPoint = 0;
+            //未测点数
+            int _waitCheckPoint = 0;
+            //总测量的长度
+            double checkLength = 0.0;
+            Datasource _datasource = WorkSpaceUtils.getInstance().getWorkspace().getDatasources().get(0);
+            if (_datasource == null) {
+                return;
             }
+
+            //读取出除去临时点的所有数据集
+            DatasetVector datasetPoint = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Total);
+            Recordset _reSet = datasetPoint.query("subsid != '临时点'", CursorType.STATIC);
+            if (!_reSet.isEmpty()) {
+                //追加数据集总数
+                _meaPointCount = _reSet.getRecordCount();
+            }
+            _reSet.close();
+            _reSet.dispose();
+
+            //已测量收点数据集
+            DatasetVector _ds = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Measure);
+            Recordset _reset = _ds.getRecordset(false, CursorType.STATIC);
+            if (!_reset.isEmpty()) {
+                _checkPoint = _reset.getRecordCount();
+            }
+
+            //已测量收点管线的总长度
+            DatasetVector datasetLine = (DatasetVector) _datasource.getDatasets().get("L_" + SuperMapConfig.Layer_Total);
+            Recordset recordSet = datasetLine.query("measureStart = '1' and measureEnd = '1'", CursorType.STATIC);
+            if (!recordSet.isEmpty()) {
+                recordSet.moveFirst();
+                while (!recordSet.isEOF()) {
+                    checkLength = checkLength + recordSet.getDouble("pipeLength");
+                    recordSet.moveNext();
+                }
+            }
+
+            //显示
+            m_waitCheck.setText(_meaPointCount - _checkPoint + "");
+            m_tvAllPoint.setText(_checkPoint + "");
+            DecimalFormat df = new DecimalFormat("0.00");
+
+            if (checkLength < 1000) {
+                m_tvPipeSum2.setText(df.format(checkLength) + "");
+            } else {
+                m_tvPipeSum2.setText(df.format(checkLength / 1000) + "");
+                m_tvM2.setText("千米");
+            }
+
+            recordSet.close();
+            recordSet.dispose();
+            _reset.close();
+            _reset.dispose();
+        } catch (Exception e) {
+            LogUtills.e(e.toString());
         }
 
-        //显示
-        m_waitCheck.setText(_meaPointCount - _checkPoint + "");
-        m_tvAllPoint.setText(_checkPoint + "");
-        DecimalFormat df = new DecimalFormat("0.00");
-
-        if (checkLength < 1000) {
-            m_tvPipeSum2.setText(df.format(checkLength) + "");
-        } else {
-            m_tvPipeSum2.setText(df.format(checkLength / 1000) + "");
-            m_tvM2.setText("千米");
-        }
-
-        recordSet.close();
-        recordSet.dispose();
-        _reset.close();
-        _reset.dispose();
     }
 
     @Override
@@ -295,24 +312,35 @@ public class MeasuredPointFragment extends Fragment implements View.OnClickListe
                 m_customDatePicker.show(m_tvDate.getText().toString());
 //                initCountForDate();
                 break;
-                //显示未测点号列表
+            //显示未测点号列表
             case R.id.btnWaitCheck:
-                Recordset recordset = DataHandlerObserver.ins().queryRecordsetBySql("MeasuerPoint != '1'", false);
-                if (!recordset.isEmpty()){
+                Datasource _datasource = WorkSpaceUtils.getInstance().getWorkspace().getDatasources().get(0);
+                DatasetVector dsPoint = (DatasetVector) _datasource.getDatasets().get("P_" + SuperMapConfig.Layer_Total);
+                Recordset recordset = dsPoint.query("MeasuerPoint != '1'", CursorType.STATIC);
+                if (!recordset.isEmpty()) {
                     StringBuffer stringBuffer = new StringBuffer("未测点号:");
-                    while (!recordset.isEOF()){
+                    while (!recordset.isEOF()) {
                         String exp_num = recordset.getString("exp_Num");
-                        stringBuffer.append(exp_num+",");
+                        stringBuffer.append(exp_num + ",");
                         recordset.moveNext();
                     }
-                    ToastyUtil.showWarningLong(getActivity(),stringBuffer.substring(0,stringBuffer.length()-1).toString());
-                }else {
-                    ToastyUtil.showSuccessShort(getActivity(),"全部测量完成");
+                    ToastyUtil.showWarningLong(getActivity(), stringBuffer.substring(0, stringBuffer.length() - 1).toString());
+                } else {
+                    ToastyUtil.showSuccessShort(getActivity(), "全部测量完成");
                 }
 
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
         }
     }
 }

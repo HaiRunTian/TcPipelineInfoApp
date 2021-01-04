@@ -406,6 +406,17 @@
         <item name="android:background">@drawable/selector_btn_all</item>
         <item name="android:layout_margin">@dimen/dp_5</item>
     </style>
+    <style name="fragment_btn_style_3">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@drawable/selector_text_color_2</item>
+        <item name="android:background">@drawable/selector_btn_all</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
+    </style>
 
     <!--管点管线配置表左边图标-->
     <style name="activity_point_all_icon_left">
